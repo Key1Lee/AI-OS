@@ -1,0 +1,46 @@
+{
+  "name": "02_warm_lead",
+  "input": {
+    "event_type": "demo_request.submitted",
+    "source": "website_demo",
+    "occurred_at": "2026-09-22T14:03:11Z",
+    "lead": {
+      "first_name": "Maya",
+      "last_name": "Chen",
+      "email": "maya.chen@acmeops.example",
+      "phone": "+14165550184",
+      "company": "AcmeOps",
+      "job_title": "Director of Operations",
+      "employee_count": 140,
+      "message": "Need workflow consulting within 60 days; budget around $30k.",
+      "consent_to_contact": true
+    },
+    "utm": {
+      "source": "linkedin",
+      "campaign": "q4_ops_automation"
+    },
+    "event_id": "warm_001"
+  },
+  "mocks": {
+    "ai": {
+      "intent": "consulting",
+      "pain_points": [
+        "manual work"
+      ],
+      "budget_band": "25k_50k",
+      "urgency_band": "31_90_days",
+      "recommended_next_action": "request_more_info",
+      "confidence": 0.9,
+      "summary": "Consulting inquiry."
+    },
+    "hubspot": "not_found"
+  },
+  "expected": {
+    "http": 202,
+    "crm": "create",
+    "tier": "WARM",
+    "slack": "#revops-review",
+    "human_review": false,
+    "db": "completed"
+  }
+}

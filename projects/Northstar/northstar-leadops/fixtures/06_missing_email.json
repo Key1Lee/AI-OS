@@ -1,0 +1,32 @@
+{
+  "name": "06_missing_email",
+  "input": {
+    "event_type": "demo_request.submitted",
+    "source": "website_demo",
+    "occurred_at": "2026-09-22T14:03:11Z",
+    "lead": {
+      "first_name": "Maya",
+      "last_name": "Chen",
+      "phone": "+14165550184",
+      "company": "AcmeOps",
+      "job_title": "VP Operations",
+      "employee_count": 140,
+      "message": "We need to consolidate onboarding and support workflows before Q4. Budget is around $40k and we want to choose a vendor this month.",
+      "consent_to_contact": true
+    },
+    "utm": {
+      "source": "linkedin",
+      "campaign": "q4_ops_automation"
+    },
+    "event_id": "bad_email_001"
+  },
+  "mocks": {},
+  "expected": {
+    "http": 422,
+    "crm": "none",
+    "tier": null,
+    "slack": "none",
+    "human_review": false,
+    "db": "not_claimed"
+  }
+}

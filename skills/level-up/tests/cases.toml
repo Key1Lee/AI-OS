@@ -1,0 +1,5 @@
+direct = "$level-up my AI OS"
+indirect = "What should I improve next in my AI OS?"
+incomplete = "$level-up"
+edge = "Find one high-value AI OS improvement from repeated manual work"
+non_activation = "Level up the character in this game"

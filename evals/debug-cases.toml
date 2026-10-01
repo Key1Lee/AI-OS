@@ -1,0 +1,137 @@
+# Stipulated evidence cases for diagnostic reasoning. Only mirror_root is
+# backed by a live repository probe; the other cases are controlled examples.
+
+[[scenario]]
+id = "explicit_error"
+request = "/debug this 500 error. Expected a successful response; observed HTTP 500. No trace or reproduction is available yet."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Establish the failing request and trace before naming a cause."
+
+[[scenario]]
+id = "implicit_regression"
+request = "Why did this test suddenly start failing after yesterday's change? We have only the failing test name so far."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Inspect failure output and baseline; recent timing alone does not prove causality."
+
+[[scenario]]
+id = "failed_verify"
+request = "Verification found that duplicate requests create two records, but the cause is unknown. Diagnose the discrepancy."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Preserve expected one record versus observed two, then isolate retry or persistence behavior."
+
+[[scenario]]
+id = "mirror_root"
+request = "Debug the generated link script. From /tmp, canonical skills/link/scripts/register.py --help exits 0; .agents/skills/link/scripts/register.py --help raises ModuleNotFoundError for py_dev. Both scripts set ROOT = Path(__file__).resolve().parents[3]. The canonical value is the AI-OS root; the mirrored value is AI-OS/.agents. PYTHONPATH set to the AI-OS root makes the mirrored --help work."
+intent = "debug"
+diagnosis = "CONFIRMED ROOT CAUSE"
+handoff = "Implement"
+focus = "The mirrored path calculates the wrong import root; the path comparison and PYTHONPATH intervention support causality."
+
+[[scenario]]
+id = "competing_hypotheses"
+request = "Diagnose occasional HTTP 500 after login. Both token validation and the database query can raise, but the only current log is HTTP 500 with no request trace."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Keep auth and database hypotheses separate; add minimal request-scoped evidence to discriminate."
+
+[[scenario]]
+id = "intermittent_concurrency"
+request = "Reproduce and isolate an intermittent duplicate write. Failures happen under load, but no ordering trace or controlled single-worker versus two-worker comparison exists."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Do not claim a race from intermittence alone; propose controlled ordering or concurrency evidence."
+
+[[scenario]]
+id = "staging_configuration"
+request = "Diagnose why migration tests pass locally but fail in staging. Local SCHEMA_VERSION is 2; staging is 1. In an isolated staging copy, setting it to 2 makes the same test pass, and reverting to 1 makes it fail again."
+intent = "debug"
+diagnosis = "CONFIRMED ROOT CAUSE"
+handoff = "Implement"
+focus = "Controlled version change establishes configuration drift as the cause; do not assume application-code regression."
+
+[[scenario]]
+id = "third_party_503"
+request = "Investigate a provider API failure. The outbound request matches the integration contract and the provider returned HTTP 503 twice. No provider status or internal trace is available."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Identify the observed provider boundary failure without claiming its internal root cause."
+
+[[scenario]]
+id = "cannot_reproduce"
+request = "Find the cause of yesterday's one-off timeout. Three controlled retries today succeeded; yesterday's request trace and resource metrics were not retained."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Record failed reproduction and the missing historical evidence; do not invent a cause."
+
+[[scenario]]
+id = "false_plan_assumption"
+request = "Diagnose duplicate charges. The approved plan assumed the gateway treats repeated charge calls as idempotent; its current contract says each new key can create a charge. A controlled retry with a new key created a second charge."
+intent = "debug"
+diagnosis = "CONFIRMED ROOT CAUSE"
+handoff = "Plan"
+focus = "The plan's idempotency assumption is false; return the material design decision to Plan."
+
+[[scenario]]
+id = "missing_requirement"
+request = "Debug the absent CSV export. The current approved contract explicitly supports JSON only, and the system returns JSON as specified. The user now wants CSV."
+intent = "debug"
+diagnosis = "REQUIREMENT CHANGE"
+handoff = "Plan"
+focus = "Behavior matches the approved contract; classify new CSV behavior as a requirement."
+
+[[scenario]]
+id = "preexisting_data_failure"
+request = "Investigate a duplicate database row seen after this change. A dated baseline query before the change shows the same duplicate row, but the insertion history and cause are unknown."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Record that the row predates the change; inspect relevant safe state without attributing its cause."
+
+[[scenario]]
+id = "missing_observability"
+request = "Diagnose an ambiguous retry. The system records final status but no correlation ID links the first request and retry, and no safe staging reproduction is available."
+intent = "debug"
+diagnosis = "UNRESOLVED"
+focus = "Identify exactly which request-linking evidence is missing and the smallest safe instrumentation."
+
+[[scenario]]
+id = "plan_request"
+request = "Plan a new export feature and define acceptance criteria."
+intent = "other"
+
+[[scenario]]
+id = "implement_request"
+request = "Implement the approved export plan."
+intent = "other"
+
+[[scenario]]
+id = "test_request"
+request = "Run the parser tests and report their output."
+intent = "other"
+
+[[scenario]]
+id = "verify_request"
+request = "Prove that the completed implementation meets every approved criterion."
+intent = "other"
+
+[[scenario]]
+id = "review_request"
+request = "Review this verified diff for material architecture or security risks."
+intent = "other"
+
+[[scenario]]
+id = "audit_request"
+request = "Audit my AI OS runtime, Skill routing, and permissions."
+intent = "other"
+
+[[scenario]]
+id = "explain_request"
+request = "Explain how this working parser handles blank input."
+intent = "other"
+
+[[scenario]]
+id = "difficult_implementation"
+request = "This approved implementation is complex. Build it carefully; no unexpected failure has occurred."
+intent = "other"

@@ -1,0 +1,309 @@
+{
+  "id": "sql-settlement-days",
+  "version": 1,
+  "title": "Build the September settlement ledger",
+  "type": "sql",
+  "domain": "Payments",
+  "family": "payments-utc-ledger",
+  "competencies": [
+    "sql.temporal",
+    "sql.aggregation",
+    "sql.deduplication",
+    "sql.nulls",
+    "sql.execution"
+  ],
+  "difficulty": 4,
+  "estimated_duration": 30,
+  "prompt": "First choose the greatest ingest_seq per event_id (ingest_seq is unique for each logical event; exact copies can replay). Then retain status=settled and occurred_at in the UTC interval [2026-09-01 00:00:00, 2026-10-01 00:00:00). Return settlement_day as DATE in UTC, net_amount (sum signed amounts; NULL amount counts as zero), event_count (logical events). Emit days with qualifying events only. NULL timestamps are excluded.",
+  "context": "Finance closes the month in UTC. Refund amounts are negative, source status updates can replace settled events, and event timestamps include offsets.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "settlement_day",
+    "net_amount",
+    "event_count"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "transaction_events",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "ingest_seq",
+            "type": "INTEGER"
+          },
+          {
+            "name": "occurred_at",
+            "type": "TIMESTAMPTZ"
+          },
+          {
+            "name": "amount",
+            "type": "DECIMAL(18,2)"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            1,
+            "2026-09-03T10:00:00+00:00",
+            100,
+            "settled"
+          ],
+          [
+            2,
+            1,
+            "2026-09-03T12:00:00+00:00",
+            -20,
+            "settled"
+          ],
+          [
+            3,
+            1,
+            "2026-09-04T00:00:00+00:00",
+            10,
+            "pending"
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        "2026-09-03",
+        80,
+        2
+      ]
+    ],
+    "diagnostic": "Check replay precedence before status filtering, signed amounts, and UTC half-open month boundaries.",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "boundary",
+      "category": "UTC month boundaries",
+      "tables": [
+        {
+          "name": "transaction_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "ingest_seq",
+              "type": "INTEGER"
+            },
+            {
+              "name": "occurred_at",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "name": "amount",
+              "type": "DECIMAL(18,2)"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              1,
+              "2026-09-01T08:59:59+09:00",
+              9,
+              "settled"
+            ],
+            [
+              2,
+              1,
+              "2026-09-01T09:00:00+09:00",
+              10,
+              "settled"
+            ],
+            [
+              3,
+              1,
+              "2026-10-01T08:59:59+09:00",
+              12,
+              "settled"
+            ],
+            [
+              4,
+              1,
+              "2026-10-01T09:00:00+09:00",
+              99,
+              "settled"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "2026-09-01",
+          10,
+          1
+        ],
+        [
+          "2026-09-30",
+          12,
+          1
+        ]
+      ],
+      "diagnostic": "Check replay precedence before status filtering, signed amounts, and UTC half-open month boundaries.",
+      "competencies": [
+        "sql.temporal"
+      ]
+    },
+    {
+      "id": "replay",
+      "category": "Replays, status updates and unknowns",
+      "tables": [
+        {
+          "name": "transaction_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "ingest_seq",
+              "type": "INTEGER"
+            },
+            {
+              "name": "occurred_at",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "name": "amount",
+              "type": "DECIMAL(18,2)"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              8,
+              1,
+              "2026-09-10T00:00:00Z",
+              7,
+              "settled"
+            ],
+            [
+              8,
+              2,
+              "2026-09-10T00:00:00Z",
+              7,
+              "void"
+            ],
+            [
+              9,
+              1,
+              "2026-09-10T00:00:00Z",
+              null,
+              "settled"
+            ],
+            [
+              9,
+              1,
+              "2026-09-10T00:00:00Z",
+              null,
+              "settled"
+            ],
+            [
+              10,
+              1,
+              null,
+              100,
+              "settled"
+            ],
+            [
+              11,
+              1,
+              "2026-09-10T00:00:00Z",
+              -5,
+              "settled"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "2026-09-10",
+          -5,
+          2
+        ]
+      ],
+      "diagnostic": "Check replay precedence before status filtering, signed amounts, and UTC half-open month boundaries.",
+      "competencies": [
+        "sql.deduplication",
+        "sql.nulls",
+        "sql.aggregation"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "Empty close",
+      "tables": [
+        {
+          "name": "transaction_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "ingest_seq",
+              "type": "INTEGER"
+            },
+            {
+              "name": "occurred_at",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "name": "amount",
+              "type": "DECIMAL(18,2)"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Check replay precedence before status filtering, signed amounts, and UTC half-open month boundaries.",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "WITH latest AS (SELECT * FROM transaction_events QUALIFY ROW_NUMBER() OVER(PARTITION BY event_id ORDER BY ingest_seq DESC)=1) SELECT CAST(occurred_at AT TIME ZONE 'UTC' AS DATE) AS settlement_day,SUM(COALESCE(amount,0)) AS net_amount,COUNT(*) AS event_count FROM latest WHERE status='settled' AND occurred_at>=TIMESTAMPTZ '2026-09-01 00:00:00+00' AND occurred_at<TIMESTAMPTZ '2026-10-01 00:00:00+00' GROUP BY 1",
+  "solution_explanation": "Select final event state before filtering. Convert calendar grouping to UTC explicitly and use a half-open month. Refunds remain signed.",
+  "hints": [
+    "A status correction can remove an earlier settled version.",
+    "Deduplication and eligibility are separate stages.",
+    "Apply UTC bounds to the chosen versions, then aggregate by their UTC date."
+  ],
+  "senior_review": "Reconcile the close with signed ledger events and document the restatement policy. Ingestion time is not the financial event date.",
+  "tags": [
+    "sql.temporal",
+    "sql.aggregation",
+    "sql.deduplication",
+    "sql.nulls"
+  ],
+  "expected_types": [
+    "DATE",
+    "NUMERIC",
+    "NUMERIC"
+  ]
+}

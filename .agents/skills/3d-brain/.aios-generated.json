@@ -1,0 +1,9 @@
+{
+  "canonical": "skills/3d-brain",
+  "files": {
+    "SKILL.md": "abba06f7aec0c114d64f7d36b144e6a34b67b1cd2ab9281ef300a608f083c101",
+    "assets/viewer.html": "b83bb7c7a96b43aba03fa1d88a26483faaef9ab9423f47cbe918e5cace3e04e6",
+    "references/viewer.md": "e91a0c4c1ad0ac1069fd13b63e98526bba8d9276439886f3116ec552c044a3a6",
+    "scripts/build.py": "91a36709c712960d473c6e21adf6c6a9a3ec8467447221a980a748dc20238e16"
+  }
+}

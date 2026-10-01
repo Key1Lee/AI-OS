@@ -1,0 +1,8 @@
+{
+  "canonical": "skills/grill-me",
+  "files": {
+    "SKILL.md": "301450ac71b9b8d2476ad4cde89fe1f45574bd46410e008e0391f1b5fbd133c4",
+    "references/checkpoints.md": "613bd0e26da3957e57afd075252bd93d9e3659702238677153cd10b6ff226de5",
+    "scripts/checkpoint.py": "aebeeddbb1688845b57da98124e7d04987930bba0762e50baefbadeb2a53c8a2"
+  }
+}

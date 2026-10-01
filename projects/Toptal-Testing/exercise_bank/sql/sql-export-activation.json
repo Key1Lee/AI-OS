@@ -1,0 +1,352 @@
+{
+  "id": "sql-export-activation",
+  "version": 1,
+  "title": "Define account activation precisely",
+  "type": "sql",
+  "domain": "SaaS",
+  "family": "saas-denominator",
+  "competencies": [
+    "sql.aggregation",
+    "sql.joins",
+    "sql.nulls",
+    "metrics.contracts",
+    "sql.execution"
+  ],
+  "difficulty": 3,
+  "estimated_duration": 20,
+  "prompt": "Eligible accounts are exactly accounts with is_internal=FALSE (NULL is unknown and excluded). Activated means at least one export event in [2026-09-01, 2026-10-01), timestamps already UTC. Return one summary row: eligible_accounts, activated_accounts, activation_rate as a fraction (not percent). Rate is NULL when no accounts are eligible. Account IDs are unique; events can replay and non-export or orphan events do not count.",
+  "context": "Product and Finance disagree because one dashboard counts events while the other counts customer accounts. Implement the frozen account-level definition.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "eligible_accounts",
+    "activated_accounts",
+    "activation_rate"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "accounts",
+        "columns": [
+          {
+            "name": "account_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "is_internal",
+            "type": "BOOLEAN"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ],
+          [
+            3,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "events",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "account_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "event_type",
+            "type": "VARCHAR"
+          },
+          {
+            "name": "event_at",
+            "type": "TIMESTAMP"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            1,
+            "export",
+            "2026-09-03T00:00:00"
+          ],
+          [
+            2,
+            3,
+            "export",
+            "2026-09-03T00:00:00"
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        2,
+        1,
+        0.5
+      ]
+    ],
+    "diagnostic": "Which accounts belong in the denominator, and can repeated actions multiply active accounts? What is the zero-population rate?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "population",
+      "category": "Repeated and unrelated activity",
+      "tables": [
+        {
+          "name": "accounts",
+          "columns": [
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "is_internal",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              false
+            ],
+            [
+              2,
+              false
+            ],
+            [
+              3,
+              false
+            ],
+            [
+              4,
+              null
+            ],
+            [
+              5,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "event_type",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "event_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              1,
+              "export",
+              "2026-09-01T00:00:00"
+            ],
+            [
+              1,
+              1,
+              "export",
+              "2026-09-01T00:00:00"
+            ],
+            [
+              2,
+              1,
+              "export",
+              "2026-09-02T00:00:00"
+            ],
+            [
+              3,
+              2,
+              "view",
+              "2026-09-02T00:00:00"
+            ],
+            [
+              4,
+              2,
+              "export",
+              "2026-10-01T00:00:00"
+            ],
+            [
+              5,
+              99,
+              "export",
+              "2026-09-02T00:00:00"
+            ],
+            [
+              6,
+              4,
+              "export",
+              "2026-09-02T00:00:00"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          3,
+          1,
+          0.3333333333333333
+        ]
+      ],
+      "diagnostic": "Which accounts belong in the denominator, and can repeated actions multiply active accounts? What is the zero-population rate?",
+      "competencies": []
+    },
+    {
+      "id": "zero",
+      "category": "Empty eligible denominator",
+      "tables": [
+        {
+          "name": "accounts",
+          "columns": [
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "is_internal",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              true
+            ],
+            [
+              2,
+              null
+            ]
+          ]
+        },
+        {
+          "name": "events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "event_type",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "event_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [
+        [
+          0,
+          0,
+          null
+        ]
+      ],
+      "diagnostic": "Which accounts belong in the denominator, and can repeated actions multiply active accounts? What is the zero-population rate?",
+      "competencies": [
+        "sql.nulls",
+        "sql.aggregation"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "No accounts",
+      "tables": [
+        {
+          "name": "accounts",
+          "columns": [
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "is_internal",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": []
+        },
+        {
+          "name": "events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "event_type",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "event_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [
+        [
+          0,
+          0,
+          null
+        ]
+      ],
+      "diagnostic": "Which accounts belong in the denominator, and can repeated actions multiply active accounts? What is the zero-population rate?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "WITH active AS (SELECT DISTINCT account_id FROM events WHERE event_type='export' AND event_at>=TIMESTAMP '2026-09-01' AND event_at<TIMESTAMP '2026-10-01') SELECT COUNT(*) AS eligible_accounts,COUNT(active.account_id) AS activated_accounts,COUNT(active.account_id)*1.0/NULLIF(COUNT(*),0) AS activation_rate FROM accounts a LEFT JOIN active USING(account_id) WHERE a.is_internal IS FALSE",
+  "solution_explanation": "Drive the denominator from eligible accounts. Reduce activity to distinct accounts, preserve non-active accounts, and protect the zero denominator.",
+  "hints": [
+    "The unit of analysis is an account, not an event.",
+    "Calculate eligibility independently of observed activity.",
+    "Join distinct qualifying account IDs to the eligible population and use a safe fractional ratio."
+  ],
+  "senior_review": "The definition explicitly identifies population, action, time window, entity and zero behavior. A model cannot reward unstated alternate definitions.",
+  "tags": [
+    "sql.aggregation",
+    "sql.joins",
+    "sql.nulls",
+    "metrics.contracts"
+  ],
+  "expected_types": [
+    "NUMERIC",
+    "NUMERIC",
+    "NUMERIC"
+  ]
+}

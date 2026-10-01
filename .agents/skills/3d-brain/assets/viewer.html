@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__TITLE__</title>
+<style>
+  body { margin: 0; background: #0b1324; color: #eef3ff; font: 16px system-ui; }
+  header, #detail { padding: 1rem 1.5rem; }
+  h1 { font-size: 1.2rem; margin: 0; }
+  p { color: #abc0de; }
+  #scene { height: 70vh; position: relative; overflow: hidden; touch-action: none; }
+  #edges { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .node { position: absolute; transform: translate(-50%, -50%); border: 1px solid #7ca9ff; border-radius: 999px; padding: .55rem .8rem; background: #172b4f; color: white; text-decoration: none; white-space: nowrap; box-shadow: 0 0 20px #427ad066; }
+  .node:hover { background: #305790; }
+</style>
+<header>
+  <h1>__TITLE__</h1>
+  <p>Approved source routes and explicit relationships. Drag to rotate; open a node for its original source. This view is not a source of truth.</p>
+</header>
+<div id="scene" aria-label="Rotatable source graph"><canvas id="edges"></canvas></div>
+<div id="detail"></div>
+<script>
+  const nodes = __NODES__;
+  const scene = document.getElementById('scene');
+  const detail = document.getElementById('detail');
+  const canvas = document.getElementById('edges');
+  const context = canvas.getContext('2d');
+  const byId = new Map(nodes.map((node, index) => [node.id, index]));
+  let yaw = .4, pitch = .2, drag = false, lastX = 0, lastY = 0;
+  const elements = nodes.map(node => {
+    const anchor = document.createElement('a');
+    anchor.className = 'node';
+    anchor.textContent = node.id;
+    anchor.href = node.href;
+    anchor.title = node.label;
+    scene.appendChild(anchor);
+    anchor.addEventListener('mouseenter', () => {
+      detail.textContent = `${node.label} · authority: ${node.authority} · ${node.verified ? 'verified locally' : 'live access unverified'}`;
+    });
+    return anchor;
+  });
+  function draw() {
+    const width = scene.clientWidth, height = scene.clientHeight;
+    const pixelRatio = window.devicePixelRatio || 1;
+    canvas.width = width * pixelRatio;
+    canvas.height = height * pixelRatio;
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    context.clearRect(0, 0, width, height);
+    const scale = Math.min(width, height) * .32;
+    const positions = nodes.map((node, index) => {
+      const x = node.x * Math.cos(yaw) - node.z * Math.sin(yaw);
+      const z = node.x * Math.sin(yaw) + node.z * Math.cos(yaw);
+      const y = node.y * Math.cos(pitch) - z * Math.sin(pitch);
+      const depth = node.y * Math.sin(pitch) + z * Math.cos(pitch);
+      const factor = 1 / (1 - depth * .25);
+      const px = width / 2 + x * scale * factor;
+      const py = height / 2 - y * scale * factor;
+      const element = elements[index];
+      element.style.left = `${px}px`;
+      element.style.top = `${py}px`;
+      element.style.opacity = String(.55 + (depth + 1) * .22);
+      element.style.zIndex = String(Math.round((depth + 1) * 100));
+      return [px, py];
+    });
+    const drawn = new Set();
+    context.strokeStyle = '#4f78bc88';
+    context.lineWidth = 1.5;
+    nodes.forEach((node, index) => {
+      for (const related of node.related_ids) {
+        const other = byId.get(related);
+        if (other === undefined) continue;
+        const edge = [node.id, related].sort().join(':');
+        if (drawn.has(edge)) continue;
+        drawn.add(edge);
+        context.beginPath();
+        context.moveTo(...positions[index]);
+        context.lineTo(...positions[other]);
+        context.stroke();
+      }
+    });
+  }
+  scene.addEventListener('pointerdown', event => {
+    drag = true; lastX = event.clientX; lastY = event.clientY;
+    scene.setPointerCapture(event.pointerId);
+  });
+  scene.addEventListener('pointermove', event => {
+    if (!drag) return;
+    yaw += (event.clientX - lastX) * .008;
+    pitch = Math.max(-1.2, Math.min(1.2, pitch + (event.clientY - lastY) * .008));
+    lastX = event.clientX; lastY = event.clientY; draw();
+  });
+  scene.addEventListener('pointerup', () => { drag = false; });
+  window.addEventListener('resize', draw);
+  draw();
+</script>
+</html>

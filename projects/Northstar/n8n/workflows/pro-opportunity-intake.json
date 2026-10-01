@@ -1,0 +1,270 @@
+{
+  "id": "wb1M95PW26l9G6pX",
+  "name": "Pro Opportunity Intake - End-to-End POC",
+  "description": "Local-first teaching POC: intake, validation, normalization, duplicate check, structured AI mock, deterministic routing, human review, mock CRM, notification, and audit result.",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Pro Project Opportunity Intake",
+        "formDescription": "Tell us about your project and a Pro sales specialist will review it.",
+        "formFields": {
+          "values": [
+            { "fieldLabel": "First Name", "fieldName": "first_name", "requiredField": true },
+            { "fieldLabel": "Last Name", "fieldName": "last_name", "requiredField": true },
+            { "fieldLabel": "Email", "fieldName": "email", "fieldType": "email", "requiredField": true },
+            { "fieldLabel": "Company", "fieldName": "company" },
+            { "fieldLabel": "Phone", "fieldName": "phone" },
+            { "fieldLabel": "Estimated Budget", "fieldName": "estimated_budget", "fieldType": "number", "requiredField": true },
+            { "fieldLabel": "Desired Timeline", "fieldName": "desired_timeline" },
+            { "fieldLabel": "Products / Services", "fieldName": "products_services" },
+            { "fieldLabel": "Project Description", "fieldName": "project_description", "fieldType": "textarea", "requiredField": true }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "formSubmittedText": "Thank you. Your opportunity has been received."
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [-1000, -320],
+      "id": "a8fb3789-a8c3-4cde-8e10-a8018a2ec612",
+      "name": "Customer Intake Form",
+      "webhookId": "pro-opportunity-intake"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-1000, 80],
+      "id": "8773ee96-cf2d-435d-86ec-f63b999e1942",
+      "name": "Manual Test Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { first_name: 'Sarah', last_name: 'Kim', email: 'sarah@atlasrenovations.com', company: 'Atlas Renovations', phone: '(512) 555-0199', estimated_budget: 180000, desired_timeline: 'This fall', products_services: 'cabinets, countertops, delivery, installation', project_description: \"We're remodeling twelve kitchens this fall. We'll probably need cabinets, countertops, delivery, and possibly installation. Please have someone contact us next week.\" } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-760, 80],
+      "id": "ff967e24-4b63-4ed7-9309-acbf0db06d05",
+      "name": "Load Sarah Demo"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json; const errors = []; const email = String(raw.email ?? '').trim().toLowerCase(); const budget = Number(raw.estimated_budget); if (!String(raw.first_name ?? '').trim()) errors.push('first_name is required'); if (!String(raw.last_name ?? '').trim()) errors.push('last_name is required'); if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) errors.push('email is invalid'); if (!Number.isFinite(budget) || budget < 0) errors.push('estimated_budget must be a positive number'); if (!String(raw.project_description ?? '').trim()) errors.push('project_description is required'); const normalized = { first_name: String(raw.first_name ?? '').trim(), last_name: String(raw.last_name ?? '').trim(), email, company: String(raw.company ?? '').trim(), phone: String(raw.phone ?? '').replace(/\\D/g, ''), estimated_budget: Number.isFinite(budget) ? budget : null, desired_timeline: String(raw.desired_timeline ?? '').trim(), products_services: Array.isArray(raw.products_services) ? raw.products_services : String(raw.products_services ?? '').split(',').map(v => v.trim()).filter(Boolean), project_description: String(raw.project_description ?? '').trim() }; const key = `${email}|${normalized.company.toLowerCase()}|${normalized.project_description.toLowerCase().slice(0,80)}`; return [{ json: { submission_id: `sub-${Date.now()}`, received_at: new Date().toISOString(), source: 'pro_intake_form', validation_status: errors.length ? 'invalid' : 'valid', validation_errors: errors, idempotency_key: key, normalized } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-500, -120],
+      "id": "c6c16822-80d4-46fa-8252-cc8dcf670e1c",
+      "name": "Validate and Normalize [D]"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "conditions": [{ "id": "valid-condition", "leftValue": "={{$json.validation_status}}", "rightValue": "valid", "operator": { "type": "string", "operation": "equals" } }],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [-240, -120],
+      "id": "83c8d7f4-24d7-43d2-935f-21ffdd2aecc1",
+      "name": "Valid Submission? [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ...$json, workflow_status: 'rejected_validation', customer_message: 'Please correct the highlighted fields.', audit: { current_step: 'validation', errors: $json.validation_errors, retry_count: 0, human_review_required: false } } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [20, 100],
+      "id": "3b6a9038-7045-4452-adc1-acdeca582c23",
+      "name": "Return Validation Error [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "const existing = $json.normalized.email.startsWith('existing@'); return [{ json: { ...$json, duplicate: existing, existing_crm_record_id: existing ? 'CRM-EXISTING-1001' : null, duplicate_check: 'mock_by_email' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [20, -220],
+      "id": "59fcff54-80c1-48ad-b09c-041cecb59949",
+      "name": "Duplicate Check - Mock CRM [D]"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "conditions": [{ "id": "duplicate-condition", "leftValue": "={{$json.duplicate ? 1 : 0}}", "rightValue": 1, "operator": { "type": "number", "operation": "equals" } }],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [280, -220],
+      "id": "c20eb8b7-9bcd-4758-9034-6dc0ee972b0a",
+      "name": "Duplicate? [D]"
+    },
+    {
+      "parameters": { "jsCode": "return [{ json: { ...$json, crm_operation: 'update', crm_record_id: $json.existing_crm_record_id } }];" },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [540, -340],
+      "id": "bb695737-b086-4d49-bf7b-4db0cd4e4fb0",
+      "name": "Use Existing CRM Record [D]"
+    },
+    {
+      "parameters": { "jsCode": "return [{ json: { ...$json, crm_operation: 'create', crm_record_id: null } }];" },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [540, -100],
+      "id": "429a697e-02ab-486b-a5a4-b9c8ef3a12db",
+      "name": "Prepare New CRM Record [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json.normalized.project_description.toLowerCase(); const products = ['cabinets','countertops','delivery','installation'].filter(p => d.includes(p)); const quantityMatch = d.match(/\\b(\\d+)\\b/); const quantity = quantityMatch ? Number(quantityMatch[1]) : (d.includes('twelve') ? 12 : null); const confidence = d.length >= 40 && products.length >= 2 ? 0.92 : 0.55; const ai = { project_type: d.includes('kitchen') ? 'multi-unit kitchen remodel' : 'general project', quantity, products: products.filter(p => p !== 'installation'), possible_services: products.includes('installation') ? ['installation'] : [], timeline: d.includes('fall') ? 'fall' : $json.normalized.desired_timeline || 'unknown', intent: 'sales inquiry', summary: `${$json.normalized.company || 'Customer'} requests help with ${products.join(', ') || 'an unspecified project'}.`, confidence }; return [{ json: { ...$json, ai, ai_schema_valid: Array.isArray(ai.products) && typeof ai.confidence === 'number' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, -220],
+      "id": "eb4b8371-dd8e-491e-b56c-34c2f4cbbbdf",
+      "name": "AI Extraction - Local Mock [AI]"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "conditions": [
+            { "id": "schema-condition", "leftValue": "={{$json.ai_schema_valid ? 1 : 0}}", "rightValue": 1, "operator": { "type": "number", "operation": "equals" } },
+            { "id": "confidence-condition", "leftValue": "={{$json.ai.confidence}}", "rightValue": 0.75, "operator": { "type": "number", "operation": "gte" } }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [1060, -220],
+      "id": "42b670d6-4c04-439c-8e6e-d951b1488888",
+      "name": "AI Output Safe? [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ...$json, workflow_status: 'human_review', human_review_reason: 'AI output was missing, invalid, or below the 0.75 confidence threshold.', audit: { current_step: 'ai_validation', ai_confidence: $json.ai?.confidence ?? null, retry_count: 0, human_review_required: true } } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, 20],
+      "id": "101658ae-123d-460f-9bd9-a1b3fe564386",
+      "name": "Human Review - Low Confidence [H]"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.normalized.estimated_budget; const rules = { qualified: b >= 10000, high_value: b >= 150000, priority: b >= 150000 ? 'high' : b >= 50000 ? 'medium' : 'standard', sales_queue: b >= 150000 ? 'enterprise_pro_review' : b >= 50000 ? 'pro_sales' : 'standard_sales' }; return [{ json: { ...$json, rules } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, -320],
+      "id": "378e3179-bfc4-4468-a2c4-b1da2b436c36",
+      "name": "Apply Business Rules [D]"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "conditions": [{ "id": "high-value-condition", "leftValue": "={{$json.rules.high_value ? 1 : 0}}", "rightValue": 1, "operator": { "type": "number", "operation": "equals" } }],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [1580, -320],
+      "id": "e2a19aaa-1946-4396-b84d-f5444a33fa17",
+      "name": "High Value Review Required? [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ...$json, workflow_status: 'human_review', human_review_reason: 'Opportunity is at or above the $150,000 approval threshold.', proposed_queue: $json.rules.sales_queue, audit: { current_step: 'high_value_review', decision: 'awaiting_human_approval', ai_confidence: $json.ai.confidence, retry_count: 0, human_review_required: true } } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1840, -460],
+      "id": "e849c270-377f-43b2-a918-57ca0d1dc6c8",
+      "name": "Human Review - High Value [H]"
+    },
+    {
+      "parameters": {
+        "jsCode": "const crmId = $json.crm_record_id || `CRM-${$json.submission_id}`; const crm_payload = { operation: $json.crm_operation, record_id: crmId, contact: $json.normalized, opportunity: { summary: $json.ai.summary, products: $json.ai.products, services: $json.ai.possible_services, budget: $json.normalized.estimated_budget, priority: $json.rules.priority, queue: $json.rules.sales_queue } }; return [{ json: { ...$json, crm_record_id: crmId, crm_payload, crm_status: 'mock_success' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1840, -200],
+      "id": "c4629685-35c7-4c4c-8653-798378142c74",
+      "name": "CRM Create or Update - Mock [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rep = $json.rules.sales_queue === 'pro_sales' ? 'Pro Sales Queue' : 'Standard Sales Queue'; return [{ json: { ...$json, assigned_rep: rep, assignment_status: 'assigned' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2100, -200],
+      "id": "c5fe7692-f81c-483d-810c-c96d6b75dd21",
+      "name": "Assign Sales Queue [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "const notification = { channel: 'mock_email_or_slack', recipient: $json.assigned_rep, subject: `New ${$json.rules.priority} priority opportunity`, message: `${$json.normalized.first_name} ${$json.normalized.last_name} from ${$json.normalized.company}: ${$json.ai.summary}`, crm_record_id: $json.crm_record_id }; return [{ json: { ...$json, notification, notification_status: 'mock_sent' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2360, -200],
+      "id": "43fbd101-ee44-42a3-9899-21d9c084b97e",
+      "name": "Notify Sales - Mock [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { submission_id: $json.submission_id, workflow_status: 'completed', decision: 'routed_to_sales', assigned_rep: $json.assigned_rep, crm_record_id: $json.crm_record_id, ai_confidence: $json.ai.confidence, retry_count: 0, human_review_required: false, notification_status: $json.notification_status, completed_at: new Date().toISOString() } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2620, -200],
+      "id": "04abe970-791c-4f51-98c8-f81e191583f2",
+      "name": "Audit Success [D]"
+    }
+  ],
+  "connections": {
+    "Customer Intake Form": { "main": [[{ "node": "Validate and Normalize [D]", "type": "main", "index": 0 }]] },
+    "Manual Test Trigger": { "main": [[{ "node": "Load Sarah Demo", "type": "main", "index": 0 }]] },
+    "Load Sarah Demo": { "main": [[{ "node": "Validate and Normalize [D]", "type": "main", "index": 0 }]] },
+    "Validate and Normalize [D]": { "main": [[{ "node": "Valid Submission? [D]", "type": "main", "index": 0 }]] },
+    "Valid Submission? [D]": { "main": [[{ "node": "Duplicate Check - Mock CRM [D]", "type": "main", "index": 0 }], [{ "node": "Return Validation Error [D]", "type": "main", "index": 0 }]] },
+    "Duplicate Check - Mock CRM [D]": { "main": [[{ "node": "Duplicate? [D]", "type": "main", "index": 0 }]] },
+    "Duplicate? [D]": { "main": [[{ "node": "Use Existing CRM Record [D]", "type": "main", "index": 0 }], [{ "node": "Prepare New CRM Record [D]", "type": "main", "index": 0 }]] },
+    "Use Existing CRM Record [D]": { "main": [[{ "node": "AI Extraction - Local Mock [AI]", "type": "main", "index": 0 }]] },
+    "Prepare New CRM Record [D]": { "main": [[{ "node": "AI Extraction - Local Mock [AI]", "type": "main", "index": 0 }]] },
+    "AI Extraction - Local Mock [AI]": { "main": [[{ "node": "AI Output Safe? [D]", "type": "main", "index": 0 }]] },
+    "AI Output Safe? [D]": { "main": [[{ "node": "Apply Business Rules [D]", "type": "main", "index": 0 }], [{ "node": "Human Review - Low Confidence [H]", "type": "main", "index": 0 }]] },
+    "Apply Business Rules [D]": { "main": [[{ "node": "High Value Review Required? [D]", "type": "main", "index": 0 }]] },
+    "High Value Review Required? [D]": { "main": [[{ "node": "Human Review - High Value [H]", "type": "main", "index": 0 }], [{ "node": "CRM Create or Update - Mock [D]", "type": "main", "index": 0 }]] },
+    "CRM Create or Update - Mock [D]": { "main": [[{ "node": "Assign Sales Queue [D]", "type": "main", "index": 0 }]] },
+    "Assign Sales Queue [D]": { "main": [[{ "node": "Notify Sales - Mock [D]", "type": "main", "index": 0 }]] },
+    "Notify Sales - Mock [D]": { "main": [[{ "node": "Audit Success [D]", "type": "main", "index": 0 }]] }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "tags": []
+}

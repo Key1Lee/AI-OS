@@ -1,0 +1,220 @@
+{
+  "id": "NSErrorFlow0001",
+  "name": "Northstar LeadOps - Error Handler",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        0
+      ],
+      "id": "8692faff-4f80-42d8-b2b4-c395a1f14eda",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const e=$json.execution||{};const w=$json.workflow||{};const err=e.error||$json.error||{};const message=String(err.message||'Unknown workflow error').slice(0,1000);const status=Number(err.httpCode||err.statusCode||0);const retryable=status===429||status>=500||/timeout|ECONNRESET|temporar/i.test(message);return [{json:{idempotency_key:null,workflow_name:w.name||'unknown',execution_id:e.id||null,node_name:e.lastNodeExecuted||null,error_code:String(status||err.name||'WORKFLOW_ERROR').slice(0,100),error_message:message,retryable,created_at:new Date().toISOString()}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -360,
+        0
+      ],
+      "id": "7df1de25-b950-4038-ba72-11a3fc62f094",
+      "name": "Normalize Error [D]"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO workflow_errors (idempotency_key,workflow_name,execution_id,node_name,error_code,error_message,retryable) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id,retryable;",
+        "options": {
+          "queryReplacement": "={{ [$json.idempotency_key, $json.workflow_name, $json.execution_id, $json.node_name, $json.error_code, $json.error_message, $json.retryable] }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -120,
+        0
+      ],
+      "id": "63aafc13-bdcf-4216-ab0e-0137fb07bef7",
+      "name": "Postgres - Store Workflow Error",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6ccf81ed-9278-40c5-b0a8-85a36684a2e1",
+              "leftValue": "={{$node[\"Normalize Error [D]\"].json.retryable}}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        120,
+        0
+      ],
+      "id": "ee2da10a-4d37-4cd5-a465-8a6fed4b8d5c",
+      "name": "Retryable? [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json:{...$node[\"Normalize Error [D]\"].json,severity:'warning',action:'bounded node retry exhausted; inspect before replay'}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        360,
+        -100
+      ],
+      "id": "37677085-3910-440d-9c88-453440e317d4",
+      "name": "Format Retryable Alert [D]"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json:{...$node[\"Normalize Error [D]\"].json,severity:'critical',action:'repair configuration or data; do not auto-retry'}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        360,
+        100
+      ],
+      "id": "3272ce10-1185-4b2f-954c-4d2e2a9f92bd",
+      "name": "Format Permanent Alert [D]"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#revops-ops",
+          "mode": "name"
+        },
+        "text": "=NORTHSTAR WORKFLOW ERROR [{{$json.severity}}]\nWorkflow: {{$json.workflow_name}}\nExecution: {{$json.execution_id}}\nNode: {{$json.node_name}}\nCode: {{$json.error_code}}\n{{$json.error_message}}\nAction: {{$json.action}}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        600,
+        0
+      ],
+      "id": "83cd0fd1-afc7-4bee-91a3-d7ee691b062c",
+      "name": "Slack - Operations Alert",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Error [D]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Error [D]": {
+      "main": [
+        [
+          {
+            "node": "Postgres - Store Workflow Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres - Store Workflow Error": {
+      "main": [
+        [
+          {
+            "node": "Retryable? [D]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Retryable? [D]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retryable? [D]": {
+      "main": [
+        [
+          {
+            "node": "Format Retryable Alert [D]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Permanent Alert [D]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Retryable Alert [D]": {
+      "main": [
+        [
+          {
+            "node": "Slack - Operations Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Permanent Alert [D]": {
+      "main": [
+        [
+          {
+            "node": "Slack - Operations Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "tags": []
+}

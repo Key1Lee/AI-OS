@@ -1,0 +1,5 @@
+direct = "$onboard new project"
+indirect = "Initialize my AI OS workspace"
+incomplete = "$onboard"
+edge = "Refresh onboarding for my AI OS project without replacing current facts"
+non_activation = "Refactor the onboarding form in a customer web app"

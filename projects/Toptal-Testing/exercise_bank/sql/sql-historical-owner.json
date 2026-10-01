@@ -1,0 +1,354 @@
+{
+  "id": "sql-historical-owner",
+  "version": 1,
+  "title": "Attribute sales to historical owners",
+  "type": "sql",
+  "domain": "Sales",
+  "family": "sales-effective-dating",
+  "competencies": [
+    "sql.temporal",
+    "sql.joins",
+    "modeling.history",
+    "sql.execution"
+  ],
+  "difficulty": 4,
+  "estimated_duration": 30,
+  "prompt": "Return every sale as sale_id, owner_id. Match ownership by customer_id and sold_at within [valid_from, valid_to); NULL valid_to means open-ended. Intervals for a customer do not overlap, valid_from is known, and sale_id is unique. NULL sale timestamps or customer keys and gaps in ownership yield NULL owner_id. Never replace historical ownership with current ownership.",
+  "context": "Sales operations needs attribution as of the sale, after account ownership changed. The source contract guarantees nonoverlapping ownership intervals.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "sale_id",
+    "owner_id"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "sales",
+        "columns": [
+          {
+            "name": "sale_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "customer_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "sold_at",
+            "type": "TIMESTAMP"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            1,
+            "2026-09-01T00:00:00"
+          ],
+          [
+            2,
+            1,
+            "2026-09-10T00:00:00"
+          ]
+        ]
+      },
+      {
+        "name": "ownership",
+        "columns": [
+          {
+            "name": "customer_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "owner_id",
+            "type": "VARCHAR"
+          },
+          {
+            "name": "valid_from",
+            "type": "TIMESTAMP"
+          },
+          {
+            "name": "valid_to",
+            "type": "TIMESTAMP"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            "Alice",
+            "2026-08-01T00:00:00",
+            "2026-09-05T00:00:00"
+          ],
+          [
+            1,
+            "Bo",
+            "2026-09-05T00:00:00",
+            null
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        1,
+        "Alice"
+      ],
+      [
+        2,
+        "Bo"
+      ]
+    ],
+    "diagnostic": "Which owner applies exactly at a handoff boundary? Does a sale without matching ownership survive?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "boundary",
+      "category": "Half-open ownership handoff",
+      "tables": [
+        {
+          "name": "sales",
+          "columns": [
+            {
+              "name": "sale_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "sold_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              3,
+              1,
+              "2026-09-05T00:00:00"
+            ],
+            [
+              4,
+              1,
+              "2026-09-04T23:59:59"
+            ]
+          ]
+        },
+        {
+          "name": "ownership",
+          "columns": [
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "owner_id",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "valid_from",
+              "type": "TIMESTAMP"
+            },
+            {
+              "name": "valid_to",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "A",
+              "2026-08-01T00:00:00",
+              "2026-09-05T00:00:00"
+            ],
+            [
+              1,
+              "B",
+              "2026-09-05T00:00:00",
+              null
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          3,
+          "B"
+        ],
+        [
+          4,
+          "A"
+        ]
+      ],
+      "diagnostic": "Which owner applies exactly at a handoff boundary? Does a sale without matching ownership survive?",
+      "competencies": [
+        "sql.temporal",
+        "modeling.history"
+      ]
+    },
+    {
+      "id": "gaps",
+      "category": "Unmatched and unknown sales",
+      "tables": [
+        {
+          "name": "sales",
+          "columns": [
+            {
+              "name": "sale_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "sold_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              5,
+              2,
+              "2026-09-02T00:00:00"
+            ],
+            [
+              6,
+              99,
+              "2026-09-02T00:00:00"
+            ],
+            [
+              7,
+              2,
+              null
+            ],
+            [
+              8,
+              null,
+              "2026-09-02T00:00:00"
+            ]
+          ]
+        },
+        {
+          "name": "ownership",
+          "columns": [
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "owner_id",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "valid_from",
+              "type": "TIMESTAMP"
+            },
+            {
+              "name": "valid_to",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              2,
+              "C",
+              "2026-09-03T00:00:00",
+              null
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          5,
+          null
+        ],
+        [
+          6,
+          null
+        ],
+        [
+          7,
+          null
+        ],
+        [
+          8,
+          null
+        ]
+      ],
+      "diagnostic": "Which owner applies exactly at a handoff boundary? Does a sale without matching ownership survive?",
+      "competencies": [
+        "sql.joins"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "No sales",
+      "tables": [
+        {
+          "name": "sales",
+          "columns": [
+            {
+              "name": "sale_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "sold_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": []
+        },
+        {
+          "name": "ownership",
+          "columns": [
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "owner_id",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "valid_from",
+              "type": "TIMESTAMP"
+            },
+            {
+              "name": "valid_to",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Which owner applies exactly at a handoff boundary? Does a sale without matching ownership survive?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "SELECT s.sale_id,o.owner_id FROM sales s LEFT JOIN ownership o ON s.customer_id=o.customer_id AND s.sold_at>=o.valid_from AND (s.sold_at<o.valid_to OR o.valid_to IS NULL)",
+  "solution_explanation": "Use a left temporal join with a half-open interval. The nonoverlap contract guarantees at most one match without hiding duplicate intervals via arbitrary ranking.",
+  "hints": [
+    "Ownership is a function of sale time.",
+    "The shared handoff timestamp must belong to exactly one interval.",
+    "Keep interval predicates in the left join and handle open-ended validity explicitly."
+  ],
+  "senior_review": "Validate interval nonoverlap and missing matches in production. That is a source invariant, not a license to silently discard sales.",
+  "tags": [
+    "sql.temporal",
+    "sql.joins",
+    "modeling.history"
+  ],
+  "expected_types": [
+    "INTEGER",
+    "VARCHAR"
+  ]
+}

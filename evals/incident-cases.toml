@@ -1,0 +1,161 @@
+# Stipulated routing and incident decisions; no live system is inspected.
+
+[probe]
+model = "local Qwen3-4B-Q4_K_M"
+temperature = 0
+thinking = false
+max_tokens = 32
+base_route = "Classify the request into exactly one workflow: Incident, Debug, Implement, Release, Migrate, Verify, Review, Audit, Native. Return only the label."
+thin_route_suffix = " Incident coordinates impact assessment, stabilization, recovery, and factual updates for active or suspected material operational impact. Debug investigates unknown cause. A local failure, routine bug, planned migration, release preparation, acceptance verification, diff review, or AI-OS audit is not Incident without active impact. An alert with credible possible customer impact merits Incident assessment; a confirmed harmless local issue does not."
+base_decision = "Given the incident evidence, choose exactly one next action: ImpactFirst, Mitigate, PreserveEvidence, Debug, NoProduction, VerifyRecovery, FalseAlarm, Correlation, MigrationStop, Resolved, NoExternalMessage, AuditLater. Return only the label."
+thin_decision_suffix = " ImpactFirst for unassessed customer harm. Mitigate for safe authorized stabilization before deep cause work. PreserveEvidence for transient logs. Debug for causal uncertainty after impact is controlled. NoProduction when authority is missing. VerifyRecovery when an alert clears without behavior proof. FalseAlarm for confirmed no impact. Correlation for mere temporal association. MigrationStop for violated active migration invariant. Resolved only with stable checked recovery. NoExternalMessage without authorization. AuditLater for systemic gaps after stabilization."
+
+[[scenario]]
+id = "explicit_outage"
+request = "/incident: production API is unavailable to customers. Assess impact and coordinate recovery."
+workflow = "Incident"
+
+[[scenario]]
+id = "ambiguous_alert"
+request = "An alert reports a sharp error increase, but customer impact is not yet confirmed. Assess it now."
+workflow = "Incident"
+
+[[scenario]]
+id = "deployment_impact"
+request = "After today's deployment, customer requests are timing out. Stabilize the service and preserve deploy evidence."
+workflow = "Incident"
+
+[[scenario]]
+id = "migration_impact"
+request = "The live database migration is causing failed writes. Stop unsafe phases and coordinate recovery."
+workflow = "Incident"
+
+[[scenario]]
+id = "dependency_outage"
+request = "Our payment dependency is down and checkouts are failing for users. Coordinate response."
+workflow = "Incident"
+
+[[scenario]]
+id = "data_integrity"
+request = "Production records are being corrupted right now. Assess scope and contain the write path."
+workflow = "Incident"
+
+[[scenario]]
+id = "queue_saturation"
+request = "The production job queue is growing rapidly and customer SLAs are being missed."
+workflow = "Incident"
+
+[[scenario]]
+id = "auth_widespread"
+request = "Most users cannot log in to the live service. Coordinate mitigation."
+workflow = "Incident"
+
+[[scenario]]
+id = "production_resource"
+request = "A production worker is exhausting memory and requests are failing. Assess impact and stabilize."
+workflow = "Incident"
+
+[[scenario]]
+id = "local_test_failure"
+request = "A local unit test unexpectedly fails; find the unknown cause. No service is affected."
+workflow = "Debug"
+
+[[scenario]]
+id = "known_bug"
+request = "Fix the known off-by-one bug in the parser; no service is impacted."
+workflow = "Implement"
+
+[[scenario]]
+id = "release_prep"
+request = "Prepare the verified build for release according to project policy."
+workflow = "Release"
+
+[[scenario]]
+id = "planned_migration"
+request = "Plan and implement a schema migration next week; nothing is running yet."
+workflow = "Migrate"
+
+[[scenario]]
+id = "acceptance_proof"
+request = "Verify the completed change against approved acceptance criteria."
+workflow = "Verify"
+
+[[scenario]]
+id = "diff_review"
+request = "Review the completed PR diff for material risks."
+workflow = "Review"
+
+[[scenario]]
+id = "aios_audit"
+request = "Audit the AI-OS Skill and instruction architecture for drift."
+workflow = "Audit"
+
+[[scenario]]
+id = "harmless_local"
+request = "My local demo process stopped after I closed its terminal; restart it. No other users are affected."
+workflow = "Native"
+
+[[scenario]]
+id = "false_alarm_confirmed"
+request = "The alert was a synthetic probe; checks confirm no customer or service impact. Record the false alarm."
+workflow = "Native"
+
+[[boundary_case]]
+id = "impact_unknown"
+evidence = "A production error alert fired, but affected users, error rate, and duration have not been checked."
+action = "ImpactFirst"
+
+[[boundary_case]]
+id = "mitigation_first"
+evidence = "Customer traffic is failing; an authorized, reversible rollout pause can reduce harm now while root cause is still unknown."
+action = "Mitigate"
+
+[[boundary_case]]
+id = "transient_logs"
+evidence = "A short-retention error log containing representative failures will expire before the planned diagnosis."
+action = "PreserveEvidence"
+
+[[boundary_case]]
+id = "causal_question"
+evidence = "The service is stable after mitigation, but why the worker failed remains unknown and needs a discriminating test."
+action = "Debug"
+
+[[boundary_case]]
+id = "unauthorized_prod"
+evidence = "A production database write may mitigate the outage, but the user authorized only read-only inspection."
+action = "NoProduction"
+
+[[boundary_case]]
+id = "alert_clear"
+evidence = "The alert has cleared, but no representative request, error-rate trend, or data-integrity check has run."
+action = "VerifyRecovery"
+
+[[boundary_case]]
+id = "confirmed_probe"
+evidence = "The alert came from an isolated synthetic probe and measurements show no user or service impact."
+action = "FalseAlarm"
+
+[[boundary_case]]
+id = "recent_deploy"
+evidence = "The deployment and outage started near each other; no intervention or other evidence yet connects them causally."
+action = "Correlation"
+
+[[boundary_case]]
+id = "failed_migration_invariant"
+evidence = "A live migration phase shows diverging row counts and later phases have not started."
+action = "MigrationStop"
+
+[[boundary_case]]
+id = "checked_recovery"
+evidence = "User requests succeed, errors and latency are stable, backlog has drained, and required recovery checks passed."
+action = "Resolved"
+
+[[boundary_case]]
+id = "stakeholder_message"
+evidence = "The incident update is drafted, but the user has not authorized sending a message to external stakeholders."
+action = "NoExternalMessage"
+
+[[boundary_case]]
+id = "systemic_gap"
+evidence = "After service recovery, responders find the shared runbook had no health signal for this failure mode."
+action = "AuditLater"

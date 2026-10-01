@@ -1,0 +1,19 @@
+# Behavior-preserving refactoring
+
+Treat `/refactor` or a concrete structural-improvement request as native, tool-capable **Implementation** under `AGENTS.md`. It is an optional mode of work, not a Skill, CLI command, or required lifecycle stage. The objective is to improve internal structure while preserving every externally observable behavior and contract that the approved task has not changed. The shared `py_dev` model runner has no repository tool executor and cannot establish preservation from prose.
+
+## Scope and invariants
+
+Name the structural problem and smallest useful change before editing. Distinguish (1) behavior and contracts that must remain stable, (2) behavior explicitly approved to change, and (3) internal details free to change. Select only relevant invariants: public APIs, schemas and serialized data, error semantics, permissions, side effects, ordering, idempotency, compatibility, and contractually important performance. Preserve project ownership and follow affected `AGENTS.md` and architecture documents. Similar code is not automatically one concept; introduce an abstraction only when it clarifies current ownership, contracts, or dependency direction. Decline style churn, speculative frameworks, and unrelated cleanup without a concrete benefit.
+
+A new feature or known behavior correction is ordinary Implementation, even if it includes internal cleanup. Return material interface, schema, architecture-boundary, [migration](migration.md), or rollout decisions to Plan before restructuring. Small internal changes within approved scope need no ceremonial plan.
+
+## Evidence and execution
+
+Use the smallest credible pre-change baseline for the invariants at risk: affected tests, contract or schema checks, representative input/output and error cases, or runtime evidence. Add characterization coverage only when a meaningful, undercovered refactor cannot otherwise demonstrate preservation. For substantial work, make one coherent structural change at a time, run focused feedback, inspect callers and the resulting diff or changed-file set, then expand checks according to blast radius. A passing compile or type check alone does not prove behavior is preserved. Use existing deterministic tools for mechanical repeated edits; create a codemod only when the transformation is exact, recurrent or large enough to justify it, and test that codemod. No shared codemod is required for ordinary semantic restructuring.
+
+If behavior changes unexpectedly, stop expanding the refactor and retain the smallest failure evidence. Correct an obvious local defect within approved scope; send unclear causality to [Debug](debug.md). [Test](testing.md) produces development evidence; meaningful completed refactors go to independent [Verify](verification.md) for contract-preservation judgment, then [Review](review.md) for broader engineering risk when appropriate.
+
+Completion requires the stated structural objective to be achieved, required behavior and contracts supported by relevant evidence, focused changed scope, and code that is clearer rather than merely rearranged. Report the invariants, approved behavior changes if any, structural edits, checks and limits, and unresolved risks.
+
+`evals/refactor-cases.toml` contains 18 routing and six boundary cases. In local Qwen label-only prompt trials, a basic workflow prompt chose 13/18 routes correctly and a short preservation instruction 14/18; boundary-action labels improved from 3/6 to 4/6. Both still misrouted some feature work or speculative cleanup. These stipulated prompts do not execute a refactor, inspect a diff, or prove behavioral equivalence. Codex and Claude were not separately benchmarked; optional cloud adapters were not called. The modest gain does not justify a standalone Skill or tool-free model route.

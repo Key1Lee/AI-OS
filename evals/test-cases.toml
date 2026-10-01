@@ -1,0 +1,104 @@
+# Small routing and evidence cases. Observations are stipulated; these do not
+# execute project checks or certify provider behavior.
+
+[[scenario]]
+id = "explicit_test"
+request = "/test the completed parser change. Select and run the relevant checks, then report their evidence."
+workflow = "Test"
+focus = "Focused repository-native execution and evidence, not an acceptance verdict."
+
+[[scenario]]
+id = "implicit_test"
+request = "Run the relevant tests for this implementation and report what they cover."
+workflow = "Test"
+focus = "Use affected tests first and report coverage limits."
+
+[[scenario]]
+id = "regression_test"
+request = "The duplicate-row defect is confirmed and corrected. Add and run a regression test for the observable behavior."
+workflow = "Test"
+focus = "Create durable behavioral coverage without changing the contract or weakening an existing test."
+
+[[scenario]]
+id = "targeted_unit"
+request = "The parser function changed. Run its focused unit tests; no public contract or integration boundary changed."
+workflow = "Test"
+focus = "Start with directly affected tests, not the whole repository suite."
+
+[[scenario]]
+id = "integration_boundary"
+request = "The API response schema changed. Exercise the affected API contract and relevant integration tests."
+workflow = "Test"
+focus = "Escalate from unit checks to the changed boundary."
+
+[[scenario]]
+id = "preexisting_failure"
+request = "Run the changed module's tests. A dated baseline already shows one unrelated failing test before this change. Report it separately."
+workflow = "Test"
+focus = "Keep baseline-supported pre-existing failure separate from current results."
+
+[[scenario]]
+id = "environment_block"
+request = "Run the database integration test. The test database is unavailable, so the test cannot execute reliably."
+workflow = "Test"
+focus = "Report not executed/environment blocker rather than a product test failure."
+
+[[scenario]]
+id = "flaky_result"
+request = "Exercise the changed retry behavior. One of three identical test runs failed and there is no ordering trace yet."
+workflow = "Test"
+focus = "Report inconsistent evidence without declaring correctness or proven flakiness."
+
+[[scenario]]
+id = "obvious_defect"
+request = "Run the focused sum test. The code returns 3 for 1+1, and the assertion expects 2; report the failure to implementation."
+workflow = "Test"
+handoff = "Implement"
+focus = "Reproducible ordinary implementation defect needs no root-cause ceremony."
+
+[[scenario]]
+id = "test_unexplained_failure"
+request = "Run the changed module's focused tests. They fail unexpectedly and the reason is unknown; preserve the failure evidence for root-cause investigation."
+workflow = "Test"
+handoff = "Debug"
+focus = "Testing exposes the failure; Debug establishes causality."
+
+[[scenario]]
+id = "unexplained_failure"
+request = "Why is this test suddenly failing? The failure reason is unknown. Determine its cause."
+workflow = "Debug"
+
+[[scenario]]
+id = "plan_request"
+request = "Design the new export feature and its acceptance criteria."
+workflow = "Plan"
+
+[[scenario]]
+id = "implement_request"
+request = "Implement the approved export plan."
+workflow = "Implement"
+
+[[scenario]]
+id = "development_check"
+request = "While implementing the parser fix, run the quick unit check and keep working."
+workflow = "Implement"
+
+[[scenario]]
+id = "verify_request"
+request = "Independently prove the completed change satisfies every approved acceptance criterion."
+workflow = "Verify"
+
+[[scenario]]
+id = "review_request"
+request = "Review the verified diff for material correctness and architecture risks."
+workflow = "Review"
+
+[[scenario]]
+id = "audit_request"
+request = "Audit my AI OS runtime, Skill routing, and permissions."
+workflow = "Audit"
+
+[[scenario]]
+id = "explain_request"
+request = "Explain how this working parser handles blank input."
+workflow = "Explain"

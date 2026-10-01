@@ -1,0 +1,254 @@
+[
+  {
+    "id": "python-mutation-01",
+    "competency": "Python semantics",
+    "family": "mutable-defaults",
+    "difficulty": 2,
+    "prompt": "A production helper is defined as `def add_tag(tag, tags=[]): tags.append(tag); return tags`. Explain the defect, show a safe replacement, and name a test that exposes the original behavior.",
+    "criteria": [
+      {"id": "cause", "description": "Explains that the default list is created once and shared across calls", "any_of": ["created once", "shared across calls", "reused across calls", "mutable default"]},
+      {"id": "fix", "description": "Uses None as the default and initializes inside", "any_of": ["none", "tags is none", "tags = []"]},
+      {"id": "test", "description": "Tests independent sequential calls", "any_of": ["two calls", "second call", "separate calls", "independent"]}
+    ],
+    "hints": ["Think about when default argument expressions are evaluated.", "Call the function twice without passing `tags` and compare the results."],
+    "followups": {
+      "cause": "At exactly what point in Python's execution is that list object created?",
+      "fix": "Write the replacement signature and initialization line.",
+      "test": "State the two calls and the exact independent results you expect."
+    }
+  },
+  {
+    "id": "python-design-01",
+    "competency": "Python design",
+    "family": "boundary-design",
+    "difficulty": 3,
+    "prompt": "Design a Python boundary for importing partner records whose fields change over time. Explain validation, error handling, and how callers remain insulated from partner-specific formats.",
+    "criteria": [
+      {"id": "boundary", "description": "Introduces a partner adapter or anti-corruption boundary", "any_of": ["adapter", "boundary", "anti-corruption", "translator"]},
+      {"id": "validation", "description": "Validates into an internal typed model", "any_of": ["validate", "pydantic", "dataclass", "typed model", "schema"]},
+      {"id": "errors", "description": "Defines explicit error policy and observability", "any_of": ["error", "quarantine", "dead letter", "metric", "log"]}
+    ],
+    "hints": ["Separate the external representation from the domain model.", "Name the contract at the boundary and the failure policy."],
+    "followups": {
+      "boundary": "Where does partner-specific mapping live, and what is the stable interface?",
+      "validation": "What becomes the internal representation after validation?",
+      "errors": "What happens to a malformed record without losing diagnostic evidence?"
+    }
+  },
+  {
+    "id": "sql-correctness-01",
+    "competency": "SQL correctness",
+    "family": "outer-join-filter",
+    "difficulty": 3,
+    "prompt": "You need every customer plus the count of their paid orders in the last 30 days, including zero. Describe or write a correct SQL query and explain where the order filters belong.",
+    "criteria": [
+      {"id": "join", "description": "Uses LEFT JOIN to preserve customers", "any_of": ["left join", "left outer join"]},
+      {"id": "filter", "description": "Places paid/date predicates in the ON clause or conditional aggregation", "any_of": ["on clause", "in the on", "filter clause", "case when", "count(*) filter"]},
+      {"id": "count", "description": "Counts a nullable order key rather than customer rows", "any_of": ["count(o.", "count(order", "order_id", "coalesce"]}
+    ],
+    "hints": ["A WHERE predicate on the optional side can change join semantics.", "Ask which expression is NULL for customers with no matching order."],
+    "followups": {
+      "join": "Which join preserves a customer when no order matches?",
+      "filter": "Why would putting the order status in WHERE remove zero-order customers?",
+      "count": "What should COUNT receive so the unmatched row contributes zero?"
+    }
+  },
+  {
+    "id": "data-modeling-01",
+    "competency": "Data modeling",
+    "family": "temporal-status",
+    "difficulty": 3,
+    "prompt": "Model customer subscription status so the current state is fast to read while the full change history remains auditable. Identify keys, constraints, and the update transaction.",
+    "criteria": [
+      {"id": "history", "description": "Models append-only status history with effective time", "any_of": ["history", "append-only", "effective_at", "valid_from", "event"]},
+      {"id": "current", "description": "Defines an efficient current-state access path", "any_of": ["current", "latest", "materialized", "is_current", "view"]},
+      {"id": "integrity", "description": "Uses keys/constraints/transaction to preserve integrity", "any_of": ["foreign key", "unique", "constraint", "transaction", "primary key"]}
+    ],
+    "hints": ["Separate historical facts from a current-state projection.", "Consider how two concurrent status changes avoid producing two current rows."],
+    "followups": {
+      "history": "What columns make a status change an auditable temporal fact?",
+      "current": "How does a read avoid scanning the entire history?",
+      "integrity": "What prevents two simultaneous writers from corrupting the current state?"
+    }
+  },
+  {
+    "id": "distributed-systems-01",
+    "competency": "Distributed systems",
+    "family": "at-least-once-delivery",
+    "difficulty": 4,
+    "prompt": "A queue delivers payment events at least once and workers can crash after the external charge succeeds but before acknowledgement. Design the processing flow and explain its unavoidable tradeoffs.",
+    "criteria": [
+      {"id": "idempotency", "description": "Uses a stable idempotency key at the external side effect", "any_of": ["idempotency key", "idempotent", "deduplication key"]},
+      {"id": "state", "description": "Persists processing state atomically or uses an inbox/outbox pattern", "any_of": ["inbox", "outbox", "transaction", "processed event", "ledger"]},
+      {"id": "tradeoff", "description": "Acknowledges limits of exactly-once and failure windows", "any_of": ["exactly once", "failure window", "at least once", "cannot guarantee", "tradeoff"]}
+    ],
+    "hints": ["Separate message delivery guarantees from side-effect guarantees.", "What stable identifier can the payment provider enforce?"],
+    "followups": {
+      "idempotency": "Which identifier crosses the boundary to the payment provider?",
+      "state": "What durable record lets a retry decide what already happened?",
+      "tradeoff": "Name the crash window that your design still has to reconcile."
+    }
+  },
+  {
+    "id": "api-integration-01",
+    "competency": "API and integration design",
+    "family": "partner-webhook",
+    "difficulty": 3,
+    "prompt": "Design a webhook ingestion API for an unreliable partner that retries, reorders, and occasionally sends invalid payloads. Cover the contract, security, idempotency, and response behavior.",
+    "criteria": [
+      {"id": "contract", "description": "Defines versioned validation and stable response semantics", "any_of": ["version", "schema", "validate", "contract"]},
+      {"id": "security", "description": "Authenticates and verifies webhook integrity", "any_of": ["signature", "hmac", "authenticate", "timestamp"]},
+      {"id": "reliability", "description": "Handles duplicates and reordering durably", "any_of": ["idempot", "dedup", "event id", "sequence", "out of order"]}
+    ],
+    "hints": ["Assume transport success is not business-processing success.", "Give every delivery a stable identity and verify its origin."],
+    "followups": {
+      "contract": "How can the partner evolve payloads without silently breaking you?",
+      "security": "How do you prevent replay of a correctly signed old request?",
+      "reliability": "What durable state handles both a duplicate and an out-of-order event?"
+    }
+  },
+  {
+    "id": "reliability-01",
+    "competency": "Reliability",
+    "family": "retry-overload",
+    "difficulty": 4,
+    "prompt": "A downstream dependency becomes slow and your service's retries amplify the outage. Propose a recovery-safe client policy and the signals you would use to tune it.",
+    "criteria": [
+      {"id": "retry", "description": "Uses bounded exponential backoff with jitter", "any_of": ["exponential backoff", "jitter", "bounded retry", "retry budget"]},
+      {"id": "protection", "description": "Uses timeouts, circuit breaking, or load shedding", "any_of": ["timeout", "circuit breaker", "load shed", "bulkhead"]},
+      {"id": "signals", "description": "Names actionable latency/error/saturation telemetry", "any_of": ["latency", "error rate", "saturation", "metric", "p99"]}
+    ],
+    "hints": ["Uncoordinated retries are additional load.", "Bound both time and attempts, then protect the dependency."],
+    "followups": {
+      "retry": "How do you prevent synchronized retry storms?",
+      "protection": "When should requests fail fast rather than retry?",
+      "signals": "Which measurements tell you the policy is causing more harm than good?"
+    }
+  },
+  {
+    "id": "incident-reasoning-01",
+    "competency": "Incident reasoning",
+    "family": "latency-regression",
+    "difficulty": 4,
+    "prompt": "Five minutes after a deploy, p99 latency triples while error rate remains flat. Walk through your first 15 minutes: hypotheses, evidence, mitigation, and communication.",
+    "criteria": [
+      {"id": "stabilize", "description": "Prioritizes stabilization with a reversible mitigation", "any_of": ["rollback", "feature flag", "stabilize", "mitigate", "traffic"]},
+      {"id": "evidence", "description": "Compares deploy-correlated telemetry and traces", "any_of": ["trace", "diff", "deploy", "latency", "dashboard"]},
+      {"id": "communication", "description": "Defines ownership and incident updates", "any_of": ["incident commander", "update", "stakeholder", "communication", "owner"]}
+    ],
+    "hints": ["Separate stabilization from root-cause analysis.", "Use the deploy timestamp as a high-value correlation, not as proof."],
+    "followups": {
+      "stabilize": "What reversible action reduces user harm before you know the root cause?",
+      "evidence": "Which comparison would confirm whether the deploy changed the slow path?",
+      "communication": "What do you communicate, to whom, and on what cadence?"
+    }
+  },
+  {
+    "id": "testing-strategy-01",
+    "competency": "Testing strategy",
+    "family": "contract-boundary",
+    "difficulty": 3,
+    "prompt": "A service maps a third-party API into your domain and writes to a database. Propose a test portfolio that catches mapping drift without making the suite slow or brittle.",
+    "criteria": [
+      {"id": "unit", "description": "Uses focused unit tests for mapping and invariants", "any_of": ["unit", "mapping", "invariant"]},
+      {"id": "contract", "description": "Uses schema/contract tests against representative provider payloads", "any_of": ["contract test", "schema", "fixture", "provider"]},
+      {"id": "integration", "description": "Uses limited integration tests at real persistence/network boundaries", "any_of": ["integration", "database", "sandbox", "end-to-end"]}
+    ],
+    "hints": ["Put most cases at the cheapest boundary that can disprove the behavior.", "Capture the provider contract separately from your own mapping logic."],
+    "followups": {
+      "unit": "Which pure transformation deserves the densest edge-case coverage?",
+      "contract": "How will a newly missing provider field fail before production?",
+      "integration": "Which small number of real-boundary checks provide unique confidence?"
+    }
+  },
+  {
+    "id": "debugging-01",
+    "competency": "Debugging",
+    "family": "intermittent-duplicate",
+    "difficulty": 4,
+    "prompt": "Users report intermittent duplicate records, but logs contain no exceptions. Give a falsifiable debugging plan that narrows the cause before changing code.",
+    "criteria": [
+      {"id": "reproduce", "description": "Defines a minimal reproduction or correlation key", "any_of": ["reproduce", "correlation id", "request id", "event id"]},
+      {"id": "hypotheses", "description": "Ranks testable concurrency/retry/idempotency hypotheses", "any_of": ["hypothesis", "retry", "race", "concurrent", "idempot"]},
+      {"id": "evidence", "description": "Adds targeted instrumentation or database evidence", "any_of": ["instrument", "trace", "query", "audit", "timestamp"]}
+    ],
+    "hints": ["A duplicate without an exception often crosses a retry or concurrency boundary.", "Choose an identifier that can connect ingress, processing, and persistence."],
+    "followups": {
+      "reproduce": "What identifier lets you prove two writes came from one logical operation?",
+      "hypotheses": "Which hypothesis would you test first, and what observation would falsify it?",
+      "evidence": "What one piece of instrumentation most sharply separates retry from race?"
+    }
+  },
+  {
+    "id": "delivery-01",
+    "competency": "Delivery and operational readiness",
+    "family": "risky-migration",
+    "difficulty": 4,
+    "prompt": "Plan delivery of a database migration that backfills a large table while old and new application versions run concurrently. Cover sequencing, rollback, and verification.",
+    "criteria": [
+      {"id": "sequence", "description": "Uses expand/migrate/contract with compatibility", "any_of": ["expand", "contract", "backward compatible", "dual write", "sequence"]},
+      {"id": "rollback", "description": "Defines a reversible rollback or roll-forward boundary", "any_of": ["rollback", "roll forward", "reversible", "feature flag"]},
+      {"id": "verify", "description": "Verifies correctness and operational load", "any_of": ["verify", "checksum", "count", "monitor", "load", "latency"]}
+    ],
+    "hints": ["Assume a rolling deploy creates mixed-version traffic.", "Separate schema compatibility from the background data movement."],
+    "followups": {
+      "sequence": "Which change must land first so both application versions remain safe?",
+      "rollback": "After the backfill starts, what exactly is still reversible?",
+      "verify": "How do you prove both row correctness and acceptable production impact?"
+    }
+  },
+  {
+    "id": "communication-01",
+    "competency": "Communication under ambiguity",
+    "family": "ambiguous-request",
+    "difficulty": 3,
+    "prompt": "A customer asks, 'Make search real-time by Friday,' but gives no scale, latency target, or definition of freshness. Show how you would drive the next conversation and decision.",
+    "criteria": [
+      {"id": "questions", "description": "Clarifies outcome, scale, freshness, and constraints", "any_of": ["freshness", "latency", "scale", "volume", "success"]},
+      {"id": "options", "description": "Frames options with explicit tradeoffs", "any_of": ["option", "tradeoff", "cost", "risk"]},
+      {"id": "commitment", "description": "Produces an agreed, testable scope and next step", "any_of": ["acceptance criteria", "scope", "prototype", "decision", "next step"]}
+    ],
+    "hints": ["Translate 'real-time' into a measurable service objective.", "Offer bounded choices after discovering the business consequence."],
+    "followups": {
+      "questions": "What measurable definition would replace the phrase 'real-time'?",
+      "options": "Give two plausible approaches and the tradeoff between them.",
+      "commitment": "What written artifact proves that Friday's scope is mutually understood?"
+    }
+  },
+  {
+    "id": "decision-01",
+    "competency": "Decision quality",
+    "family": "build-vs-buy",
+    "difficulty": 4,
+    "prompt": "A team proposes building a workflow engine instead of buying one. Explain how you would reach and document a decision under incomplete cost and reliability data.",
+    "criteria": [
+      {"id": "criteria", "description": "Defines weighted decision criteria and constraints", "any_of": ["criteria", "constraint", "weight", "requirement"]},
+      {"id": "uncertainty", "description": "Reduces uncertainty with time-boxed evidence", "any_of": ["spike", "prototype", "time-box", "experiment", "reference"]},
+      {"id": "record", "description": "Records decision, assumptions, owner, and revisit trigger", "any_of": ["decision record", "adr", "assumption", "revisit", "owner"]}
+    ],
+    "hints": ["Avoid treating unknown numbers as known facts.", "Make the decision reversible or define when it will be revisited."],
+    "followups": {
+      "criteria": "Which three criteria would dominate this build-versus-buy decision?",
+      "uncertainty": "What short experiment would remove the most consequential unknown?",
+      "record": "What must the decision record preserve for a future reviewer?"
+    }
+  },
+  {
+    "id": "learning-01",
+    "competency": "Learning and correction",
+    "family": "failed-design-review",
+    "difficulty": 3,
+    "prompt": "Your design review reveals that a core assumption was wrong after two weeks of implementation. Explain how you correct course without hiding the error or creating blame.",
+    "criteria": [
+      {"id": "acknowledge", "description": "States the invalid assumption and impact plainly", "any_of": ["assumption", "wrong", "impact", "acknowledge"]},
+      {"id": "correct", "description": "Creates a bounded correction and validation plan", "any_of": ["correct", "plan", "validate", "rollback", "rework"]},
+      {"id": "learn", "description": "Changes the process to detect similar errors earlier", "any_of": ["learn", "retrospective", "earlier", "experiment", "review"]}
+    ],
+    "hints": ["Separate accountability from blame.", "Name both the immediate correction and the feedback-loop improvement."],
+    "followups": {
+      "acknowledge": "How would you communicate the mistake and its impact to stakeholders?",
+      "correct": "What is the smallest validated path back to a sound design?",
+      "learn": "Which earlier checkpoint would have exposed this assumption?"
+    }
+  }
+]

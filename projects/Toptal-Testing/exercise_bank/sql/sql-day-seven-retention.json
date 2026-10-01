@@ -1,0 +1,351 @@
+{
+  "id": "sql-day-seven-retention",
+  "version": 1,
+  "title": "Measure exact day-seven retention",
+  "type": "sql",
+  "domain": "Growth",
+  "family": "growth-cohort-retention",
+  "competencies": [
+    "sql.retention",
+    "sql.temporal",
+    "sql.aggregation",
+    "sql.nulls",
+    "sql.execution"
+  ],
+  "difficulty": 4,
+  "estimated_duration": 30,
+  "prompt": "Cohort users by UTC signup DATE for signups in [2026-09-01, 2026-10-01) UTC. A retained user has at least one session_start event on the UTC calendar date exactly 7 days after signup date (not within seven days). Return cohort_day as DATE, cohort_users, retained_users and retention_rate as a fraction. User IDs are unique, events can replay, and NULL timestamps do not qualify. Keep cohorts with no retained users; omit absent cohorts.",
+  "context": "Growth needs a reproducible cohort metric across timezone-offset event producers. Same-day activity and duplicate starts must not inflate retention.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "cohort_day",
+    "cohort_users",
+    "retained_users",
+    "retention_rate"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "users",
+        "columns": [
+          {
+            "name": "user_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "signed_up_at",
+            "type": "TIMESTAMPTZ"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            "2026-09-01T10:00:00Z"
+          ],
+          [
+            2,
+            "2026-09-01T12:00:00Z"
+          ]
+        ]
+      },
+      {
+        "name": "session_events",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "user_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "event_at",
+            "type": "TIMESTAMPTZ"
+          },
+          {
+            "name": "event_type",
+            "type": "VARCHAR"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            1,
+            "2026-09-08T00:00:00Z",
+            "session_start"
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        "2026-09-01",
+        2,
+        1,
+        0.5
+      ]
+    ],
+    "diagnostic": "Does the denominator retain users who never return? Are repeated events or local timestamp offsets affecting day-seven membership?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "exact",
+      "category": "Same-day, replay and never-returned users",
+      "tables": [
+        {
+          "name": "users",
+          "columns": [
+            {
+              "name": "user_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "signed_up_at",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "2026-09-02T00:00:00Z"
+            ],
+            [
+              2,
+              "2026-09-02T00:00:00Z"
+            ],
+            [
+              3,
+              "2026-09-03T00:00:00Z"
+            ]
+          ]
+        },
+        {
+          "name": "session_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "user_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "event_at",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "name": "event_type",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              1,
+              "2026-09-09T00:00:00Z",
+              "session_start"
+            ],
+            [
+              1,
+              1,
+              "2026-09-09T00:00:00Z",
+              "session_start"
+            ],
+            [
+              2,
+              2,
+              "2026-09-02T01:00:00Z",
+              "session_start"
+            ],
+            [
+              3,
+              2,
+              "2026-09-09T00:00:00Z",
+              "view"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "2026-09-02",
+          2,
+          1,
+          0.5
+        ],
+        [
+          "2026-09-03",
+          1,
+          0,
+          0
+        ]
+      ],
+      "diagnostic": "Does the denominator retain users who never return? Are repeated events or local timestamp offsets affecting day-seven membership?",
+      "competencies": [
+        "sql.retention",
+        "sql.aggregation"
+      ]
+    },
+    {
+      "id": "utc",
+      "category": "Offsets and signup boundary",
+      "tables": [
+        {
+          "name": "users",
+          "columns": [
+            {
+              "name": "user_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "signed_up_at",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "rows": [
+            [
+              4,
+              "2026-09-01T08:59:59+09:00"
+            ],
+            [
+              5,
+              "2026-09-01T09:00:00+09:00"
+            ],
+            [
+              6,
+              null
+            ],
+            [
+              7,
+              "2026-10-01T00:00:00Z"
+            ]
+          ]
+        },
+        {
+          "name": "session_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "user_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "event_at",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "name": "event_type",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              4,
+              5,
+              "2026-09-08T08:59:59+09:00",
+              "session_start"
+            ],
+            [
+              5,
+              5,
+              "2026-09-08T09:00:00+09:00",
+              "session_start"
+            ],
+            [
+              6,
+              5,
+              null,
+              "session_start"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "2026-09-01",
+          1,
+          1,
+          1
+        ]
+      ],
+      "diagnostic": "Does the denominator retain users who never return? Are repeated events or local timestamp offsets affecting day-seven membership?",
+      "competencies": [
+        "sql.temporal",
+        "sql.nulls"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "No eligible cohort",
+      "tables": [
+        {
+          "name": "users",
+          "columns": [
+            {
+              "name": "user_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "signed_up_at",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "rows": []
+        },
+        {
+          "name": "session_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "user_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "event_at",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "name": "event_type",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Does the denominator retain users who never return? Are repeated events or local timestamp offsets affecting day-seven membership?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "WITH cohort AS (SELECT user_id,CAST(signed_up_at AT TIME ZONE 'UTC' AS DATE) AS cohort_day FROM users WHERE signed_up_at>=TIMESTAMPTZ '2026-09-01 00:00:00+00' AND signed_up_at<TIMESTAMPTZ '2026-10-01 00:00:00+00'), retained AS (SELECT DISTINCT c.user_id FROM cohort c JOIN session_events e ON c.user_id=e.user_id AND e.event_type='session_start' AND CAST(e.event_at AT TIME ZONE 'UTC' AS DATE)=c.cohort_day+7) SELECT c.cohort_day,COUNT(*) AS cohort_users,COUNT(r.user_id) AS retained_users,COUNT(r.user_id)*1.0/COUNT(*) AS retention_rate FROM cohort c LEFT JOIN retained r USING(user_id) GROUP BY c.cohort_day",
+  "solution_explanation": "Freeze the cohort before joining return events. Match exact UTC calendar day seven, reduce to distinct users, and preserve non-returners in the denominator.",
+  "hints": [
+    "Cohort membership does not depend on return activity.",
+    "Day seven is one calendar date, not a rolling duration.",
+    "Join distinct qualifying users back to the complete UTC cohort."
+  ],
+  "senior_review": "State precise entity, qualifying action, timezone, calendar interval and observation completeness. No fabricated missing future data is added as a hidden requirement.",
+  "tags": [
+    "sql.retention",
+    "sql.temporal",
+    "sql.aggregation",
+    "sql.nulls"
+  ],
+  "expected_types": [
+    "DATE",
+    "NUMERIC",
+    "NUMERIC",
+    "NUMERIC"
+  ]
+}

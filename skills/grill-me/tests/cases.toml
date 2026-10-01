@@ -1,0 +1,5 @@
+direct = "$grill-me about a hiring plan"
+indirect = "Interview me about the product decision"
+incomplete = "$grill-me"
+edge = "Grill me on the plan and let me pause midway"
+non_activation = "Summarize the interview transcript I attached"

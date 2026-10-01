@@ -1,0 +1,290 @@
+{
+  "id": "sql-inventory-current",
+  "version": 1,
+  "title": "Recover current inventory",
+  "type": "sql",
+  "domain": "Logistics",
+  "family": "inventory-valid-state",
+  "competencies": [
+    "sql.windows",
+    "sql.deduplication",
+    "sql.nulls",
+    "sql.execution"
+  ],
+  "difficulty": 3,
+  "estimated_duration": 20,
+  "prompt": "Return sku, quantity, event_id for the latest valid dated observation per non-NULL SKU. valid must be TRUE and observed_at must not be NULL. Latest observed_at wins; ties use greatest event_id. quantity may be NULL (unknown) or zero and must be preserved. Exact events can replay; IDs have no conflicting payloads. Omit SKUs without any eligible observation.",
+  "context": "A device upgrade introduced invalid readings. The warehouse inventory view must select valid state rather than the most recently received noise.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "sku",
+    "quantity",
+    "event_id"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "inventory_events",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "sku",
+            "type": "VARCHAR"
+          },
+          {
+            "name": "quantity",
+            "type": "INTEGER"
+          },
+          {
+            "name": "observed_at",
+            "type": "TIMESTAMP"
+          },
+          {
+            "name": "valid",
+            "type": "BOOLEAN"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            "A",
+            12,
+            "2026-09-01T00:00:00",
+            true
+          ],
+          [
+            2,
+            "A",
+            8,
+            "2026-09-02T00:00:00",
+            true
+          ],
+          [
+            3,
+            "B",
+            0,
+            "2026-09-01T00:00:00",
+            true
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        "A",
+        8,
+        2
+      ],
+      [
+        "B",
+        0,
+        3
+      ]
+    ],
+    "diagnostic": "Did invalid or undated observations compete with valid records? Does the tie breaker select exactly one row?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "validity",
+      "category": "Invalid newest observations",
+      "tables": [
+        {
+          "name": "inventory_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "sku",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "quantity",
+              "type": "INTEGER"
+            },
+            {
+              "name": "observed_at",
+              "type": "TIMESTAMP"
+            },
+            {
+              "name": "valid",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "X",
+              4,
+              "2026-09-01T00:00:00",
+              true
+            ],
+            [
+              2,
+              "X",
+              999,
+              "2026-09-03T00:00:00",
+              false
+            ],
+            [
+              3,
+              "Y",
+              8,
+              null,
+              true
+            ],
+            [
+              4,
+              "Y",
+              7,
+              "2026-09-04T00:00:00",
+              null
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "X",
+          4,
+          1
+        ]
+      ],
+      "diagnostic": "Did invalid or undated observations compete with valid records? Does the tie breaker select exactly one row?",
+      "competencies": [
+        "sql.nulls",
+        "sql.deduplication"
+      ]
+    },
+    {
+      "id": "ties",
+      "category": "Replays and tied valid state",
+      "tables": [
+        {
+          "name": "inventory_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "sku",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "quantity",
+              "type": "INTEGER"
+            },
+            {
+              "name": "observed_at",
+              "type": "TIMESTAMP"
+            },
+            {
+              "name": "valid",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": [
+            [
+              8,
+              "Z",
+              0,
+              "2026-09-01T00:00:00",
+              true
+            ],
+            [
+              9,
+              "Z",
+              null,
+              "2026-09-01T00:00:00",
+              true
+            ],
+            [
+              9,
+              "Z",
+              null,
+              "2026-09-01T00:00:00",
+              true
+            ],
+            [
+              10,
+              null,
+              5,
+              "2026-09-01T00:00:00",
+              true
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "Z",
+          null,
+          9
+        ]
+      ],
+      "diagnostic": "Did invalid or undated observations compete with valid records? Does the tie breaker select exactly one row?",
+      "competencies": []
+    },
+    {
+      "id": "empty",
+      "category": "No eligible observations",
+      "tables": [
+        {
+          "name": "inventory_events",
+          "columns": [
+            {
+              "name": "event_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "sku",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "quantity",
+              "type": "INTEGER"
+            },
+            {
+              "name": "observed_at",
+              "type": "TIMESTAMP"
+            },
+            {
+              "name": "valid",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Did invalid or undated observations compete with valid records? Does the tie breaker select exactly one row?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "SELECT sku,quantity,event_id FROM inventory_events WHERE valid IS TRUE AND observed_at IS NOT NULL AND sku IS NOT NULL QUALIFY ROW_NUMBER() OVER(PARTITION BY sku ORDER BY observed_at DESC,event_id DESC)=1",
+  "solution_explanation": "Eligibility must be applied before ranking. Preserving unknown and zero quantities is different from filtering invalid observations.",
+  "hints": [
+    "Identify observations that are allowed to represent current state.",
+    "An invalid latest row must not suppress an older valid one.",
+    "Rank eligible observations with a stable event-ID tie breaker."
+  ],
+  "senior_review": "Defend source validity, ordering and unknown quantities. This is a transfer exercise for deduplication with a materially different eligibility rule.",
+  "tags": [
+    "sql.windows",
+    "sql.deduplication",
+    "sql.nulls"
+  ],
+  "expected_types": [
+    "VARCHAR",
+    "INTEGER",
+    "INTEGER"
+  ]
+}

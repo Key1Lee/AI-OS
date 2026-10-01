@@ -1,0 +1,8 @@
+{
+  "canonical": "skills/audit",
+  "files": {
+    "SKILL.md": "2a9c3cdf86f2af8aafa27b5b65837a2381209e85bd4e5defd2c7909bd842a359",
+    "references/checks.md": "b6400a42d61e4ddb3e8f8fd870445cb9dfc1aeb5be1800786d713628353685e4",
+    "scripts/check.py": "ef5a3142d08983bf0eaa8a1d5d9b0812ace267df20d1c668981ecae9257fd550"
+  }
+}

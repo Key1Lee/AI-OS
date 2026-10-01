@@ -1,0 +1,8 @@
+{
+  "canonical": "skills/link",
+  "files": {
+    "SKILL.md": "1d5b456f60ded126c2ddb9b112a4f73e3d11927d7285f3bffc39de4631b4e92e",
+    "references/registry.md": "18267685e57ff1c51ed5c24abf1cb8c202b65d6c1c53522d17f342ee37cb4dff",
+    "scripts/register.py": "5f238d7d551c84fecf465accc6ba543ac84374a4d3b078b3e3b5701ee97f6e2f"
+  }
+}

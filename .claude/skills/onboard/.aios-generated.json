@@ -1,0 +1,8 @@
+{
+  "canonical": "skills/onboard",
+  "files": {
+    "SKILL.md": "62ad9b437bdf36b573f3f02897ce6210da1776bc92b3a115025d8aad99d44597",
+    "references/context-storage.md": "91fb7e79374766814373fa2a0feb2592bc147effbf3499f3874b5c2fa72b87ba",
+    "scripts/save_context.py": "4964a4ba6dd59930c9037ace6c9a09ac42172eb732db53ad0806fdff0194da50"
+  }
+}

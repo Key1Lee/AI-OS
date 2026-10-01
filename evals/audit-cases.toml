@@ -1,0 +1,122 @@
+# Routing and evidence cases for AI-OS architecture audits. Evidence cases are
+# stipulated; only deterministic checker fixtures execute repository checks.
+
+[[scenario]]
+id = "full_audit"
+request = "$audit my AI OS architecture and report material drift."
+route = "audit"
+
+[[scenario]]
+id = "skill_overlap"
+request = "Find conflicting or overlapping Skills in my AI OS."
+route = "audit"
+
+[[scenario]]
+id = "instruction_bloat"
+request = "Audit AGENTS.md and Skills for instruction bloat."
+route = "audit"
+
+[[scenario]]
+id = "routing_ambiguity"
+request = "Check AI OS Skill routing for ambiguous triggers."
+route = "audit"
+
+[[scenario]]
+id = "mirror_drift"
+request = "Check whether canonical and generated AI OS Skills differ."
+route = "audit"
+
+[[scenario]]
+id = "workflow_drift"
+request = "Check whether the engineering workflow has drifted."
+route = "audit"
+
+[[scenario]]
+id = "model_scaffolding"
+request = "Evaluate whether a model upgrade makes older agent scaffolding unnecessary."
+route = "audit"
+
+[[scenario]]
+id = "stale_instructions"
+request = "Find stale agent instructions."
+route = "audit"
+
+[[scenario]]
+id = "clean_audit"
+request = "Audit the AI OS and report no material findings if the architecture still conforms."
+route = "audit"
+
+[[scenario]]
+id = "feature_plan"
+request = "Plan a new export feature and define acceptance criteria."
+route = "native"
+
+[[scenario]]
+id = "implementation"
+request = "Implement the approved export feature."
+route = "native"
+
+[[scenario]]
+id = "test_execution"
+request = "Run the changed module's focused tests and report results."
+route = "native"
+
+[[scenario]]
+id = "debugging"
+request = "Why is this test failing unexpectedly? Find the root cause."
+route = "native"
+
+[[scenario]]
+id = "acceptance_verification"
+request = "Prove this implementation satisfies all approved acceptance criteria."
+route = "native"
+
+[[scenario]]
+id = "diff_review"
+request = "Review this completed diff for material engineering risks."
+route = "native"
+
+[[scenario]]
+id = "code_explanation"
+request = "Explain how this working parser handles blank input."
+route = "native"
+
+[[scenario]]
+id = "onboarding"
+request = "Onboard this new project into the AI OS."
+route = "onboard"
+
+[[scenario]]
+id = "linking"
+request = "Link this source folder to my AI OS registry so it is discoverable later."
+route = "link"
+
+[[scenario]]
+id = "level_up"
+request = "What should I improve next in my AI OS?"
+route = "level-up"
+
+[[finding_case]]
+id = "clean_bounded"
+evidence = "The bounded checker has no findings and reports that project workflow execution and cloud providers were not verified."
+classification = "no_material_finding_with_limit"
+
+[[finding_case]]
+id = "divergent_mirror"
+evidence = "Canonical audit SKILL.md differs byte-for-byte from .agents/skills/audit/SKILL.md; the sync check fails."
+classification = "confirmed_problem"
+
+[[finding_case]]
+id = "instruction_conflict"
+evidence = "Root AGENTS.md requires project business logic inside projects/<name>; a provider-facing instruction requires the same logic in the shared AI-OS layer."
+classification = "confirmed_problem"
+
+[[finding_case]]
+id = "redundant_wording"
+evidence = "Two architecture documents repeat the same accurate test command. No conflicting behavior or observed failure is shown."
+classification = "optimization"
+
+[[finding_case]]
+id = "unsupported_concern"
+evidence = "Someone suspects a model upgrade made all Skill instructions obsolete, but no routing or behavior comparison was run."
+classification = "speculative_concern"

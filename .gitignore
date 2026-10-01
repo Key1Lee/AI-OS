@@ -1,0 +1,38 @@
+# Operating system and editor files
+.DS_Store
+*.swp
+*.swo
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# JavaScript dependencies and generated builds
+**/node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+
+# Local runtime state and caches
+.cache/
+*.log
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key

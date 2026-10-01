@@ -1,0 +1,196 @@
+version: 1
+competencies:
+- id: sql.foundations
+  category: SQL
+  name: Relational foundations
+  description: Filtering, grouping and explicit output contracts.
+  importance: 4
+  prerequisites: []
+  related:
+  - sql.nulls
+- id: sql.nulls
+  category: SQL
+  name: NULL semantics
+  description: Three-valued logic and unknown values.
+  importance: 5
+  prerequisites: []
+  related:
+  - sql.joins
+  - sql.aggregation
+- id: sql.joins
+  category: SQL
+  name: Join cardinality
+  description: Preserve intended grain across one-to-many and missing relationships.
+  importance: 5
+  prerequisites: []
+  related:
+  - modeling.grain
+- id: sql.aggregation
+  category: SQL
+  name: Aggregation and denominators
+  description: Conditional aggregates, ratios and correct populations.
+  importance: 5
+  prerequisites: []
+  related:
+  - metrics.contracts
+- id: sql.windows
+  category: SQL
+  name: Window functions
+  description: Partitions, ties, ordering and explicit frames.
+  importance: 5
+  prerequisites: []
+  related:
+  - sql.deduplication
+- id: sql.deduplication
+  category: SQL
+  name: Deterministic deduplication
+  description: Business keys, replay, ties and validity rules.
+  importance: 5
+  prerequisites:
+  - sql.windows
+  related:
+  - sql.temporal
+- id: sql.temporal
+  category: SQL
+  name: Temporal correctness
+  description: Half-open intervals, UTC dates and historical attribution.
+  importance: 5
+  prerequisites: []
+  related:
+  - modeling.history
+- id: sql.retention
+  category: SQL
+  name: Cohort retention
+  description: Fixed populations, distinct entities and calendar-day windows.
+  importance: 4
+  prerequisites:
+  - sql.aggregation
+  related:
+  - metrics.contracts
+- id: sql.sessionization
+  category: SQL
+  name: Event sequences and islands
+  description: Sessions and consecutive calendar-day islands with stable ordering.
+  importance: 4
+  prerequisites:
+  - sql.windows
+  related:
+  - sql.temporal
+- id: sql.performance
+  category: Performance
+  name: Query plans and scale
+  description: Cardinality, pruning, pre-aggregation and measured correctness.
+  importance: 4
+  prerequisites: []
+  related:
+  - sql.joins
+- id: modeling.grain
+  category: Modeling
+  name: Grain discipline
+  description: State and preserve exactly what each output row represents.
+  importance: 5
+  prerequisites: []
+  related:
+  - sql.joins
+  - metrics.contracts
+- id: modeling.history
+  category: Modeling
+  name: Historical modeling
+  description: Effective dating, SCDs, mutable sources and restatement.
+  importance: 5
+  prerequisites:
+  - modeling.grain
+  related:
+  - sql.temporal
+- id: dbt.models
+  category: dbt
+  name: Model layering and lineage
+  description: Sources, refs, staging, intermediate models and marts.
+  importance: 5
+  prerequisites: []
+  related:
+  - modeling.grain
+- id: dbt.incremental
+  category: dbt
+  name: Incremental correctness
+  description: Keys, late arrivals, replay, merge behavior and schema evolution.
+  importance: 5
+  prerequisites:
+  - dbt.models
+  related:
+  - quality.idempotency
+- id: dbt.testing
+  category: dbt
+  name: Tests, contracts and CI
+  description: Data tests, unit tests, freshness, contracts and state-aware CI.
+  importance: 5
+  prerequisites:
+  - dbt.models
+  related:
+  - quality.contracts
+- id: metrics.contracts
+  category: Metrics
+  name: Metric definitions
+  description: Entities, dimensions, grain, denominators and historical definitions.
+  importance: 5
+  prerequisites: []
+  related:
+  - stakeholder.discovery
+- id: quality.contracts
+  category: Data Quality
+  name: Data-quality contracts
+  description: Uniqueness, completeness, freshness, reconciliation and believable
+    wrong numbers.
+  importance: 5
+  prerequisites: []
+  related:
+  - debugging.method
+- id: quality.idempotency
+  category: Data Quality
+  name: Rerun and backfill safety
+  description: Retries, deduplication, corrections and repeatable processing.
+  importance: 5
+  prerequisites: []
+  related:
+  - dbt.incremental
+- id: debugging.method
+  category: Debugging
+  name: Evidence-led diagnosis
+  description: Blast radius, prioritized hypotheses, diagnostics and validation.
+  importance: 5
+  prerequisites: []
+  related:
+  - quality.contracts
+- id: design.analytics
+  category: System Design
+  name: Analytics architecture
+  description: Ingestion, transformation, semantic layer, access, lineage and cost
+    tradeoffs.
+  importance: 4
+  prerequisites: []
+  related:
+  - dbt.models
+- id: stakeholder.discovery
+  category: Stakeholder
+  name: Clarification and decisions
+  description: Business purpose, audience, definitions, freshness and acceptance.
+  importance: 5
+  prerequisites: []
+  related:
+  - communication.precision
+- id: communication.precision
+  category: Communication
+  name: Precise technical communication
+  description: Observable explanations, assumptions and concise tradeoffs.
+  importance: 4
+  prerequisites: []
+  related: []
+- id: sql.execution
+  category: SQL
+  name: SQL execution and verification
+  description: Write a runnable, bounded read-only query and inspect execution errors
+    before drawing conclusions.
+  importance: 4
+  prerequisites: []
+  related:
+  - sql.foundations

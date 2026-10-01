@@ -1,0 +1,151 @@
+# Stipulated routing and gate decisions. No artifact is built or deployed here.
+
+[probe]
+model = "local Qwen3-4B-Q4_K_M"
+temperature = 0
+thinking = false
+max_tokens = 32
+base_route = "Classify the request into exactly one workflow: Release, Plan, Implement, Test, Debug, Verify, Review, Migrate, Audit, Native. Return only the label."
+thin_route_suffix = " Release decides readiness and prepares or coordinates delivery of an implemented change, including candidates, notes, rollout, and approval gates. Implement changes product code or handles trivial local packaging. Test runs checks. Debug investigates unexplained failures. Verify proves acceptance. Review assesses completed diffs. Migrate transitions system state. Audit checks AI-OS architecture. Plan resolves undecided material target or rollout policy."
+base_gate = "For this release situation, choose exactly one next action: Ready, EvidenceGap, ReviewBlocker, BuildFail, NoProduction, ConsumeMigration, ProjectTooling, NoRollback, PostCheck, Scope. Return only the label."
+thin_gate_suffix = " Ready only with required evidence and authorization for the specified action. EvidenceGap for missing required verification. ReviewBlocker for unresolved blocking review finding. BuildFail for a failed required build. NoProduction without deployment authorization. ConsumeMigration for migration phase/recovery dependence. ProjectTooling for existing project artifact tools. NoRollback for irreversible data changes. PostCheck for bounded validation after authorized deployment. Scope for unrelated files in the candidate."
+
+[[scenario]]
+id = "explicit_release"
+request = "/release: prepare this verified and reviewed change for its documented release target."
+workflow = "Release"
+
+[[scenario]]
+id = "implicit_readiness"
+request = "Is this completed change ready to ship under the project's release rules?"
+workflow = "Release"
+
+[[scenario]]
+id = "candidate"
+request = "Create a release candidate from the reviewed build using the existing project tooling."
+workflow = "Release"
+
+[[scenario]]
+id = "notes_and_artifact"
+request = "Prepare release notes and the package artifact for this verified version."
+workflow = "Release"
+
+[[scenario]]
+id = "low_risk"
+request = "Release this reviewed documentation-only update according to its normal lightweight process."
+workflow = "Release"
+
+[[scenario]]
+id = "staged_rollout"
+request = "Coordinate the staged rollout and recovery checks for this reviewed service version."
+workflow = "Release"
+
+[[scenario]]
+id = "migration_dependent"
+request = "Prepare release of the reviewed version after its required database migration phases."
+workflow = "Release"
+
+[[scenario]]
+id = "production_gate"
+request = "/release this reviewed build to production; first determine required approvals and prepare a reviewable candidate."
+workflow = "Release"
+
+[[scenario]]
+id = "feature_work"
+request = "Implement the approved CSV export feature."
+workflow = "Implement"
+
+[[scenario]]
+id = "run_tests"
+request = "Run the existing package tests and report failures."
+workflow = "Test"
+
+[[scenario]]
+id = "unknown_build_failure"
+request = "The release build suddenly fails for an unknown reason. Diagnose the cause."
+workflow = "Debug"
+
+[[scenario]]
+id = "acceptance_proof"
+request = "Independently verify this implementation against the approved requirements."
+workflow = "Verify"
+
+[[scenario]]
+id = "code_review"
+request = "Review the completed diff for material security and correctness risks."
+workflow = "Review"
+
+[[scenario]]
+id = "schema_transition"
+request = "Migrate the database schema and backfill existing rows before any release."
+workflow = "Migrate"
+
+[[scenario]]
+id = "aios_audit"
+request = "Audit the AI-OS Skill architecture for drift."
+workflow = "Audit"
+
+[[scenario]]
+id = "trivial_archive"
+request = "Make a local zip of these three files for my own backup; there is no release target."
+workflow = "Native"
+
+[[scenario]]
+id = "undecided_policy"
+request = "Decide which environment and rollout policy this new service should use before preparing a release."
+workflow = "Plan"
+
+[[scenario]]
+id = "known_build_defect"
+request = "Fix the known missing-file error in the packaging script."
+workflow = "Implement"
+
+[[boundary_case]]
+id = "ready_target"
+evidence = "The specified staging target is authorized; required verification, review, build, and project checks passed."
+action = "Ready"
+
+[[boundary_case]]
+id = "missing_verify"
+evidence = "The project requires independent verification before release, but no verification result exists."
+action = "EvidenceGap"
+
+[[boundary_case]]
+id = "blocking_finding"
+evidence = "Review found an unresolved blocking authorization defect in the candidate."
+action = "ReviewBlocker"
+
+[[boundary_case]]
+id = "required_build_failed"
+evidence = "The repository's required packaging command fails on the current candidate."
+action = "BuildFail"
+
+[[boundary_case]]
+id = "missing_production_approval"
+evidence = "A release candidate and checks are complete, but production deployment has not been authorized."
+action = "NoProduction"
+
+[[boundary_case]]
+id = "migration_prerequisite"
+evidence = "The release requires phase two of an approved schema migration and must retain old-client compatibility."
+action = "ConsumeMigration"
+
+[[boundary_case]]
+id = "existing_builder"
+evidence = "A project build command already creates the required release artifact reliably."
+action = "ProjectTooling"
+
+[[boundary_case]]
+id = "irreversible_schema"
+evidence = "The release includes an irreversible data conversion, so redeploying the previous binary cannot restore original data."
+action = "NoRollback"
+
+[[boundary_case]]
+id = "deployed_health"
+evidence = "An authorized staging deployment completed; its documented health endpoint and smoke check have not yet run."
+action = "PostCheck"
+
+[[boundary_case]]
+id = "unrelated_files"
+evidence = "The proposed candidate includes unrelated local files outside the approved component."
+action = "Scope"

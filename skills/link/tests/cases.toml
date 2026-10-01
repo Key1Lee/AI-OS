@@ -1,0 +1,5 @@
+direct = "$link this folder"
+indirect = "Register this dataset in the AI OS registry so I can find it later"
+incomplete = "$link"
+edge = "Make this project discoverable in the AI OS without copying it"
+non_activation = "Generate a hyperlink for the README"

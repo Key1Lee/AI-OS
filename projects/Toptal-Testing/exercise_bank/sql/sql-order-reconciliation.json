@@ -1,0 +1,471 @@
+{
+  "id": "sql-order-reconciliation",
+  "version": 1,
+  "title": "Reconcile the order mart",
+  "type": "sql",
+  "domain": "Commerce",
+  "family": "commerce-grain",
+  "competencies": [
+    "sql.joins",
+    "sql.aggregation",
+    "sql.nulls",
+    "modeling.grain",
+    "sql.execution"
+  ],
+  "difficulty": 3,
+  "estimated_duration": 20,
+  "prompt": "Finance wants one row per completed order, including orders without payments or items. Return order_id, paid_total and unit_total. Sum each payment and item exactly once. Treat NULL amounts/units and missing child rows as zero. Other order statuses must be excluded. Child IDs are unique; unrelated child rows may exist. Output order does not matter.",
+  "context": "A dashboard total changed after item-level enrichment. Repair the order-level data contract using the available source tables.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "order_id",
+    "paid_total",
+    "unit_total"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "orders",
+        "columns": [
+          {
+            "name": "order_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "account_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR"
+          }
+        ],
+        "rows": [
+          [
+            10,
+            1,
+            "completed"
+          ],
+          [
+            11,
+            2,
+            "completed"
+          ],
+          [
+            12,
+            3,
+            "cancelled"
+          ]
+        ]
+      },
+      {
+        "name": "payments",
+        "columns": [
+          {
+            "name": "payment_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "order_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "amount",
+            "type": "DECIMAL(18,2)"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            10,
+            20
+          ],
+          [
+            2,
+            10,
+            30
+          ],
+          [
+            3,
+            12,
+            80
+          ]
+        ]
+      },
+      {
+        "name": "items",
+        "columns": [
+          {
+            "name": "item_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "order_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "units",
+            "type": "INTEGER"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            10,
+            1
+          ],
+          [
+            2,
+            10,
+            2
+          ],
+          [
+            3,
+            11,
+            4
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        10,
+        50,
+        3
+      ],
+      [
+        11,
+        0,
+        4
+      ]
+    ],
+    "diagnostic": "What happens to each measure when an order has multiple payments and multiple items? Check the output grain and missing child rows.",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "fanout",
+      "category": "Many-to-many fanout",
+      "tables": [
+        {
+          "name": "orders",
+          "columns": [
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              20,
+              1,
+              "completed"
+            ]
+          ]
+        },
+        {
+          "name": "payments",
+          "columns": [
+            {
+              "name": "payment_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "amount",
+              "type": "DECIMAL(18,2)"
+            }
+          ],
+          "rows": [
+            [
+              4,
+              20,
+              15
+            ],
+            [
+              5,
+              20,
+              25
+            ]
+          ]
+        },
+        {
+          "name": "items",
+          "columns": [
+            {
+              "name": "item_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "units",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              4,
+              20,
+              2
+            ],
+            [
+              5,
+              20,
+              3
+            ],
+            [
+              6,
+              20,
+              7
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          20,
+          40,
+          12
+        ]
+      ],
+      "diagnostic": "What happens to each measure when an order has multiple payments and multiple items? Check the output grain and missing child rows.",
+      "competencies": [
+        "sql.joins",
+        "modeling.grain"
+      ]
+    },
+    {
+      "id": "missing",
+      "category": "Missing and NULL children",
+      "tables": [
+        {
+          "name": "orders",
+          "columns": [
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              30,
+              1,
+              "completed"
+            ],
+            [
+              31,
+              2,
+              "completed"
+            ],
+            [
+              32,
+              3,
+              "pending"
+            ]
+          ]
+        },
+        {
+          "name": "payments",
+          "columns": [
+            {
+              "name": "payment_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "amount",
+              "type": "DECIMAL(18,2)"
+            }
+          ],
+          "rows": [
+            [
+              9,
+              30,
+              null
+            ],
+            [
+              10,
+              99,
+              90
+            ]
+          ]
+        },
+        {
+          "name": "items",
+          "columns": [
+            {
+              "name": "item_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "units",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              9,
+              30,
+              null
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          30,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          0
+        ]
+      ],
+      "diagnostic": "Which completed orders survive the joins, and what does SUM return for missing or NULL values?",
+      "competencies": [
+        "sql.nulls",
+        "sql.joins"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "Empty population",
+      "tables": [
+        {
+          "name": "orders",
+          "columns": [
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": []
+        },
+        {
+          "name": "payments",
+          "columns": [
+            {
+              "name": "payment_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "amount",
+              "type": "DECIMAL(18,2)"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              99,
+              50
+            ]
+          ]
+        },
+        {
+          "name": "items",
+          "columns": [
+            {
+              "name": "item_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "order_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "units",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Is the result driven by the requested parent population?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "WITH p AS (SELECT order_id, SUM(COALESCE(amount,0)) AS paid_total FROM payments GROUP BY order_id), i AS (SELECT order_id, SUM(COALESCE(units,0)) AS unit_total FROM items GROUP BY order_id) SELECT o.order_id, COALESCE(p.paid_total,0) AS paid_total, COALESCE(i.unit_total,0) AS unit_total FROM orders o LEFT JOIN p USING(order_id) LEFT JOIN i USING(order_id) WHERE o.status='completed'",
+  "solution_explanation": "Aggregate each child to order grain before joining. A direct payment-to-item join multiplies both measures. Drive the result from completed orders and normalize missing aggregates to zero.",
+  "hints": [
+    "State the output grain before considering joins.",
+    "Count how many joined rows one payment can become.",
+    "Reduce each child independently to the parent key before enrichment."
+  ],
+  "senior_review": "A strong review states one row per completed order, validates child uniqueness and reconciles measures before and after enrichment. Result correctness alone does not evaluate that explanation.",
+  "tags": [
+    "sql.joins",
+    "sql.aggregation",
+    "sql.nulls",
+    "modeling.grain"
+  ],
+  "clarification_rules": [
+    {
+      "topic": "Source grain",
+      "keywords": [
+        "grain",
+        "unique",
+        "duplicate"
+      ],
+      "response": "order_id is unique in orders; payment_id and item_id are unique within their tables. An order can have many rows in each child."
+    },
+    {
+      "topic": "Missing data",
+      "keywords": [
+        "null",
+        "missing"
+      ],
+      "response": "Keep completed orders even without child rows. NULL measures and missing child totals count as zero."
+    }
+  ],
+  "expected_types": [
+    "INTEGER",
+    "NUMERIC",
+    "NUMERIC"
+  ]
+}

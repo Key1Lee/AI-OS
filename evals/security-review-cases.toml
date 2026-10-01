@@ -1,0 +1,151 @@
+# Stipulated intent and evidence cases. These do not scan or prove this repository secure.
+
+[probe]
+model = "local Qwen3-4B-Q4_K_M"
+temperature = 0
+thinking = false
+max_tokens = 32
+base_route = "Classify the request into exactly one workflow: SecurityReview, Review, Debug, Test, Implement, Verify, Incident, Audit, Refactor, Native. Return only the label."
+thin_route_suffix = " SecurityReview assesses a concrete change or scoped surface for realistic attacker paths when a security-sensitive trust boundary or explicit vulnerability-review request is present. Review assesses general engineering risk. Debug investigates unknown failures. Test runs raw scanners or checks. Implement applies a known fix. Verify proves a completed remediation. Incident handles active production exploitation. Audit checks broad AI-OS architecture and policy. Refactor preserves behavior; harmless formatting is Native."
+base_finding = "Classify the stipulated security evidence as exactly one label: Validated, Plausible, Defense, NoMaterial, Incident. Return only the label."
+thin_finding_suffix = " Validated requires a reachable attack path and demonstrated security-property violation. Plausible means reachability or exploitability remains uncertain. Defense is useful hardening without a demonstrated violation. NoMaterial means the reported path is blocked or not applicable, including scanner false positives and clean changes. Incident means ongoing production exploitation or exposure needs operational response now."
+
+[[scenario]]
+id = "explicit_review"
+request = "/security-review the changed webhook handler for realistic vulnerabilities."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "auth_change"
+request = "Assess the new login and session logic for security vulnerabilities."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "authorization_change"
+request = "Check whether this new admin API allows a lower-privilege caller to change accounts."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "tenant_boundary"
+request = "Review this tenant-scoped query change for cross-tenant data access."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "public_input"
+request = "Trace attacker-controlled request fields through the public API to sensitive operations."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "file_upload"
+request = "Security-review the new file-upload flow before it ships."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "plugin_permission"
+request = "Assess whether this agent plugin permission change could let untrusted tool output trigger privileged actions."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "suspected_vulnerability"
+request = "Validate the reported authorization bypass in this scoped endpoint."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "supply_chain_change"
+request = "Assess the security impact of this new package source and install script."
+workflow = "SecurityReview"
+
+[[scenario]]
+id = "general_review"
+request = "Review the completed parser diff for correctness and maintainability."
+workflow = "Review"
+
+[[scenario]]
+id = "unknown_failure"
+request = "A local test unexpectedly fails; find its unknown cause."
+workflow = "Debug"
+
+[[scenario]]
+id = "raw_scanner"
+request = "Run the configured dependency scanner and report its raw output."
+workflow = "Test"
+
+[[scenario]]
+id = "known_fix"
+request = "Implement the approved fix for the confirmed authorization defect."
+workflow = "Implement"
+
+[[scenario]]
+id = "verify_remediation"
+request = "Independently verify that the completed security fix blocks the demonstrated bypass."
+workflow = "Verify"
+
+[[scenario]]
+id = "active_exposure"
+request = "Production customer records are being exposed right now; contain impact and coordinate response."
+workflow = "Incident"
+
+[[scenario]]
+id = "global_audit"
+request = "Audit AI-OS-wide agent permissions and security governance."
+workflow = "Audit"
+
+[[scenario]]
+id = "internal_refactor"
+request = "Refactor these internal pure helpers without changing behavior or trust boundaries."
+workflow = "Refactor"
+
+[[scenario]]
+id = "formatting"
+request = "Reformat this comment and rename one local variable; no behavior changes."
+workflow = "Native"
+
+[[finding_case]]
+id = "validated_object_access"
+evidence = "A signed-in user supplies another user's record ID. The handler fetches by ID without an ownership check; an isolated authorization test returns the other user's private record."
+finding = "Validated"
+
+[[finding_case]]
+id = "validated_injection"
+evidence = "A public request field reaches a SQL statement by string concatenation. An isolated test demonstrates that crafted input reads a row outside the caller's permitted scope."
+finding = "Validated"
+
+[[finding_case]]
+id = "validated_tenant_crossing"
+evidence = "The new query omits tenant scoping. A test with two tenants shows tenant A can retrieve tenant B's confidential object."
+finding = "Validated"
+
+[[finding_case]]
+id = "plausible_log_exposure"
+evidence = "The handler may log sensitive request fields, but the actual logging configuration and access to those logs have not been inspected."
+finding = "Plausible"
+
+[[finding_case]]
+id = "defense_rate_limit"
+evidence = "An authenticated internal admin endpoint has no rate limit. No reachable availability abuse or violated requirement is demonstrated, but a limit could reduce future misuse."
+finding = "Defense"
+
+[[finding_case]]
+id = "scanner_false_positive"
+evidence = "A scanner flags SQL injection at a query call, but the value is passed as a bound parameter and the query structure is fixed. No other untrusted path is shown."
+finding = "NoMaterial"
+
+[[finding_case]]
+id = "unreachable_dependency"
+evidence = "A scanner flags a vulnerable package, but it is only in a test-only environment and not installed or executed in the deployed application; no relevant path is shown."
+finding = "NoMaterial"
+
+[[finding_case]]
+id = "clean_authorization"
+evidence = "The scoped endpoint derives tenant identity from the authenticated server session, checks object ownership before access, and cross-tenant tests fail as intended. No bypass path is found."
+finding = "NoMaterial"
+
+[[finding_case]]
+id = "prompt_text_no_tool_path"
+evidence = "Untrusted text includes instructions to disclose secrets, but it is parsed as data by a model with no tools, and application code validates output before any side effect. No secret-access path is shown."
+finding = "NoMaterial"
+
+[[finding_case]]
+id = "ongoing_exploitation"
+evidence = "Live production telemetry shows ongoing unauthorized reads of customer records. Containment and impact assessment are needed now."
+finding = "Incident"

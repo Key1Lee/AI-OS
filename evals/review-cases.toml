@@ -1,0 +1,112 @@
+# Stipulated diff and observation cases for review reasoning. These cases do not
+# execute tools or replace a review of the current repository.
+
+[[scenario]]
+id = "explicit_review"
+request = "/review this completed implementation. Objective: reject blank IDs. Diff in parser.py: the parser now checks if id.strip() == '' before saving; targeted blank and valid ID tests passed. Inspect for material engineering risks."
+intent = "review"
+finding = "none"
+focus = "No supported material finding in the supplied diff."
+
+[[scenario]]
+id = "contextual_review"
+request = "Before this verified change is complete, inspect the diff for regressions. The parser now uses a set for duplicate detection; the API contract and callers are unchanged, and targeted duplicate tests passed."
+intent = "review"
+finding = "none"
+focus = "Review the completed diff without repeating acceptance verification."
+
+[[scenario]]
+id = "clean_change"
+request = "Review this completed implementation for material issues. A local helper was renamed, all call sites in the changed module were updated, and the diff contains no behavior change."
+intent = "review"
+finding = "none"
+focus = "A clean result is valid; do not invent a finding."
+
+[[scenario]]
+id = "correctness_defect"
+request = "Review this completed implementation. Contract: only active accounts can submit jobs. Diff in jobs.py line 40 changes `if account.active: submit()` to `if account: submit()`. Verification covered valid active accounts only."
+intent = "review"
+finding = "blocking"
+focus = "Inactive accounts can now submit jobs; cite jobs.py line 40 and route the fix to implementation."
+
+[[scenario]]
+id = "architecture_violation"
+request = "Review this completed AI-OS change. Diff in py_dev/router.py line 12 imports `projects.Northstar.lead_rules` to decide shared routing. Root AGENTS.md keeps project business logic inside each project."
+intent = "review"
+finding = "blocking"
+focus = "The shared layer now depends on project-specific business logic; cite the import and the repository boundary."
+
+[[scenario]]
+id = "security_defect"
+request = "Review this completed API change. Diff in api.py line 88 authorizes deletion with `if request.json['role'] == 'admin'`; the authenticated session role is available but ignored. Targeted happy-path tests passed."
+intent = "review"
+finding = "blocking"
+focus = "Caller-controlled input grants deletion permission; cite api.py line 88 and the trust boundary."
+
+[[scenario]]
+id = "reliability_defect"
+request = "Review this completed payment adapter. Diff in payments.py line 55 retries a timed-out charge by calling charge() again with a new key. The gateway may have processed the first request."
+intent = "review"
+finding = "blocking"
+focus = "Retry with a new key can double-charge; cite the retry and ambiguous outcome."
+
+[[scenario]]
+id = "style_noise"
+request = "Review this completed implementation. Diff only changes a private local variable from `result` to `parsed_result` in one function; no behavior or public interface changes."
+intent = "review"
+finding = "none"
+focus = "Do not report a material finding for naming preference."
+
+[[scenario]]
+id = "unknown_failure"
+request = "Review this verified implementation. A new targeted test unexpectedly creates two records for one event ID; the cause is unknown and the diff does not reveal it. Preserve expected versus actual behavior."
+intent = "review"
+finding = "risk"
+focus = "Do not guess a root cause; route the observed failure to Debug."
+
+[[scenario]]
+id = "invalid_assumption"
+request = "Review this completed implementation. The approved design assumes a single writer, but current deployment documentation shows three workers updating the same record. The diff relies on that single-writer assumption."
+intent = "review"
+finding = "important"
+focus = "The architecture assumption is invalid; cite deployment evidence and return to Plan."
+
+[[scenario]]
+id = "verify_request"
+request = "Prove this implementation meets every approved acceptance criterion and run the required checks."
+intent = "other"
+
+[[scenario]]
+id = "corrected_change_verify"
+request = "The reviewer found an authorization defect. Implementation corrected it; re-verify the corrected change against the approved contract before final review."
+intent = "other"
+
+[[scenario]]
+id = "debug_request"
+request = "Why is this test failing? Investigate its root cause."
+intent = "other"
+
+[[scenario]]
+id = "plan_request"
+request = "Design and plan this feature before coding."
+intent = "other"
+
+[[scenario]]
+id = "implement_request"
+request = "Implement the approved plan now."
+intent = "other"
+
+[[scenario]]
+id = "audit_request"
+request = "Audit my AI OS runtime, Skill routing, and permissions."
+intent = "other"
+
+[[scenario]]
+id = "test_request"
+request = "Run the parser unit tests and report the output."
+intent = "other"
+
+[[scenario]]
+id = "explain_request"
+request = "Explain what this small helper function does."
+intent = "other"

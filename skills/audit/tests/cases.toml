@@ -1,0 +1,5 @@
+direct = "$audit my AI OS"
+indirect = "Check my AI OS architecture and routing"
+incomplete = "$audit"
+edge = "Audit AI OS Skill routing while the local model is offline"
+non_activation = "Audit this invoice for duplicate charges"

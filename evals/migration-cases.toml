@@ -1,0 +1,140 @@
+# Stipulated routing and decision cases. These do not execute a migration.
+
+[probe]
+model = "local Qwen3-4B-Q4_K_M"
+temperature = 0
+thinking = false
+base_route = "Classify the request into exactly one workflow: Migrate, Plan, Implement, Refactor, Debug, Test, Verify, Review, Audit. Return only the workflow label."
+thin_route_suffix = " Migrate is a transition from an existing source to a target version, schema, API, dependency, provider, data state, or architecture where compatibility, sequencing, or recovery matters. Trivial patch upgrades are Implement. Refactor preserves external behavior. An undecided material target is Plan. Failed migration root cause is Debug; running checks is Test; acceptance proof is Verify; diff risk review is Review."
+base_boundary = "Given the migration evidence, choose exactly one next action: Plan, Compatibility, Recovery, Codemod, Debug, NoProduction, Implement, RetainAdapter. Return only the label."
+thin_boundary_suffix = " Plan when a material target is undecided. Compatibility for concurrent versions. Recovery for irreversible data loss. Codemod for exact repeated rewrites. Debug for unknown invariant failure. NoProduction without production authorization. Implement for trivial updates. RetainAdapter while an old consumer still uses it."
+
+[[scenario]]
+id = "explicit_migrate"
+request = "/migrate this project from framework X to Y with a safe rollout."
+workflow = "Migrate"
+
+[[scenario]]
+id = "implicit_migrate"
+request = "Move the existing worker from the old queue library to the new one while jobs continue to run."
+workflow = "Migrate"
+
+[[scenario]]
+id = "dependency_transition"
+request = "Replace the deprecated auth dependency throughout the repository and preserve existing login behavior during the transition."
+workflow = "Migrate"
+
+[[scenario]]
+id = "api_transition"
+request = "Migrate this API from v1 to v2 while old clients remain deployed."
+workflow = "Migrate"
+
+[[scenario]]
+id = "schema_data"
+request = "Move customer records to the new schema and backfill existing rows before cutover."
+workflow = "Migrate"
+
+[[scenario]]
+id = "multi_service"
+request = "Move all consumers to the replacement service in phases."
+workflow = "Migrate"
+
+[[scenario]]
+id = "provider_transition"
+request = "Switch the application from provider A to provider B without breaking existing requests."
+workflow = "Migrate"
+
+[[scenario]]
+id = "rollback_sensitive"
+request = "Migrate stored data to the new engine with a safe rollout and recovery path."
+workflow = "Migrate"
+
+[[scenario]]
+id = "trivial_upgrade"
+request = "Bump this patch dependency version and run its existing tests; there are no API or data changes."
+workflow = "Implement"
+
+[[scenario]]
+id = "structural_cleanup"
+request = "Reorganize this internal parser without changing its public behavior."
+workflow = "Refactor"
+
+[[scenario]]
+id = "feature"
+request = "Add the approved CSV export feature."
+workflow = "Implement"
+
+[[scenario]]
+id = "target_ambiguous"
+request = "Decide which database to replace our current one with and design the rollout before editing code."
+workflow = "Plan"
+
+[[scenario]]
+id = "failed_migration"
+request = "The migration failed in staging and the cause is unknown. Diagnose it."
+workflow = "Debug"
+
+[[scenario]]
+id = "test_migration"
+request = "Run the existing migration tests and report their output."
+workflow = "Test"
+
+[[scenario]]
+id = "verify_migration"
+request = "Independently verify that the completed migration met its approved invariants."
+workflow = "Verify"
+
+[[scenario]]
+id = "review_migration"
+request = "Review the completed migration diff for engineering risks."
+workflow = "Review"
+
+[[scenario]]
+id = "audit_aios"
+request = "Audit the AI-OS instruction and Skill architecture for drift."
+workflow = "Audit"
+
+[[scenario]]
+id = "known_bug"
+request = "Fix the known off-by-one bug in the current parser."
+workflow = "Implement"
+
+[[boundary_case]]
+id = "unapproved_target"
+evidence = "A database replacement is requested, but the target engine and required contracts are undecided."
+action = "Plan"
+
+[[boundary_case]]
+id = "concurrent_clients"
+evidence = "Version 1 and version 2 API clients will run at the same time during the approved transition."
+action = "Compatibility"
+
+[[boundary_case]]
+id = "irreversible_data"
+evidence = "The approved schema conversion discards source values, and the original values cannot be reconstructed."
+action = "Recovery"
+
+[[boundary_case]]
+id = "mechanical_rewrite"
+evidence = "Three hundred imports need the same exact symbol rename, and the syntax can be identified mechanically."
+action = "Codemod"
+
+[[boundary_case]]
+id = "invariant_failure"
+evidence = "After phase one, record counts diverge for an unknown reason. Phase two has not started."
+action = "Debug"
+
+[[boundary_case]]
+id = "production_execution"
+evidence = "The user authorized writing and locally testing a migration script, but did not authorize running it on production data."
+action = "NoProduction"
+
+[[boundary_case]]
+id = "trivial_patch"
+evidence = "A patch dependency update has no API, data, or rollout concerns, and the targeted tests are available."
+action = "Implement"
+
+[[boundary_case]]
+id = "adapter_cleanup"
+evidence = "A compatibility adapter still serves an old client in production, even though the target path works for newer clients."
+action = "RetainAdapter"

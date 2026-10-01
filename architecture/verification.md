@@ -1,0 +1,20 @@
+# Completed-change verification
+
+Treat `/verify` or a request to verify a completed implementation as a native agent task under `AGENTS.md`. There is no separate Verify Skill, command runner, or test framework. The repository has no shared executable `/plan`, `/implement`, `/debug`, or `/review` artifact contract; Debug and Review have native agent guidance. Use the approved plan in the conversation or an identified file; do not infer approval from an implementation report.
+
+The implementation handoff should identify the objective, approved scope and non-goals, acceptance criteria, affected components and contracts, changed files or diff, checks run, expected verification, and material deviations. For a [refactor](refactoring.md), identify the behavior and contracts claimed to remain unchanged. For a [migration](migration.md), identify source and target states, transition invariants, phase status, compatibility state, recovery path, and completion evidence. The verifier inspects the current repository and uses implementation claims only to locate evidence. For each required criterion and applicable contract, state what must be proven, choose the smallest sufficient check or inspection, record observed evidence, and mark it supported, contradicted, or unproven. Scale checks to the changed behavior and risk. [Test](testing.md) produces reproducible check evidence; Verify decides whether the total evidence establishes acceptance. Project `AGENTS.md` files identify required project checks. A passing suite supports only the criteria it actually covers.
+
+Report the contract source, changed scope, criterion-to-evidence map, gaps, overall outcome, and handoff:
+
+| Outcome | Meaning |
+|---|---|
+| **VERIFIED** | Independent evidence supports every required criterion and applicable contract. |
+| **FAILED** | Evidence contradicts a required criterion, approved scope boundary, or contract. |
+| **BLOCKED** | An essential approved contract or required verification environment is unavailable, preventing a conclusion. |
+| **PARTIALLY VERIFIED** | Some criteria are supported, while others remain unproven without a demonstrated failure or infrastructure block. |
+
+Seek a small additional check before returning an evidence gap. Preserve a dated or otherwise credible baseline for a claimed pre-existing failure; an unrelated, baseline-proven failure need not invalidate sufficient targeted evidence. Distinguish an unavailable test service from failed product behavior. Report material plan drift and return proposed contract changes to planning; ordinary implementation defects return to implementation. Preserve expected versus actual behavior and route failures with unknown cause to [Debug](debug.md). Broader design, maintainability, complexity, and style assessment belongs to [Review](review.md). AI-OS-wide conformance belongs to Audit. Verification may inspect and run checks or create permitted temporary fixtures; it does not silently edit product code, tests, or contracts.
+
+The shared `py_dev` `[verification]` setting validates model responses, not completed repository changes. Its Qwen Skill runner has no repository tool executor, so it cannot independently certify an implementation. A local classification comparison on a precursor of the eight stipulated-evidence fixtures found the native Qwen baseline correct on 6/8 outcomes and 2/8 strict handoffs; one trial thin Skill reached 6/8 and 4/8. A small wording revision changed that trial to 4/8 outcomes and 5/8 handoffs. A thinking-enabled three-case probe produced one truncated response. This is insufficient to qualify that route for a final verification verdict. Use a tool-capable agent for independent verification. Codex and Claude behavior on these fixtures has not been separately measured; optional cloud adapters were not called.
+
+`evals/verification-cases.toml` contains twelve small cases: eight outcome and handoff cases plus Review, raw test, Plan, and Implement requests that should not start full verification. The cases stipulate observations for classification; they do not execute project checks or prove provider quality.

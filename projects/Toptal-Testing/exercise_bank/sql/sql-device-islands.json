@@ -1,0 +1,268 @@
+{
+  "id": "sql-device-islands",
+  "version": 1,
+  "title": "Find uninterrupted online runs",
+  "type": "sql",
+  "domain": "IoT",
+  "family": "iot-date-islands",
+  "competencies": [
+    "sql.sessionization",
+    "sql.windows",
+    "sql.temporal",
+    "sql.execution"
+  ],
+  "difficulty": 4,
+  "estimated_duration": 30,
+  "prompt": "For each device return each maximal run of consecutive calendar dates with online=TRUE: device_id, start_day, end_day, day_count. Device/date is unique. FALSE, NULL and missing dates break a run. Include single-day runs. Results are unordered.",
+  "context": "Operations pays service credits based on continuous device availability. A missing telemetry date cannot be assumed online.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "device_id",
+    "start_day",
+    "end_day",
+    "day_count"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "device_days",
+        "columns": [
+          {
+            "name": "device_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "day",
+            "type": "DATE"
+          },
+          {
+            "name": "online",
+            "type": "BOOLEAN"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            "2026-09-01",
+            true
+          ],
+          [
+            1,
+            "2026-09-02",
+            true
+          ],
+          [
+            1,
+            "2026-09-04",
+            true
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        1,
+        "2026-09-01",
+        "2026-09-02",
+        2
+      ],
+      [
+        1,
+        "2026-09-04",
+        "2026-09-04",
+        1
+      ]
+    ],
+    "diagnostic": "Does a missing date break a run? Are runs partitioned by device and limited to confirmed online dates?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "breaks",
+      "category": "False and unknown dates",
+      "tables": [
+        {
+          "name": "device_days",
+          "columns": [
+            {
+              "name": "device_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "day",
+              "type": "DATE"
+            },
+            {
+              "name": "online",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "2026-09-01",
+              true
+            ],
+            [
+              1,
+              "2026-09-02",
+              false
+            ],
+            [
+              1,
+              "2026-09-03",
+              true
+            ],
+            [
+              1,
+              "2026-09-04",
+              null
+            ],
+            [
+              1,
+              "2026-09-05",
+              true
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          1,
+          "2026-09-01",
+          "2026-09-01",
+          1
+        ],
+        [
+          1,
+          "2026-09-03",
+          "2026-09-03",
+          1
+        ],
+        [
+          1,
+          "2026-09-05",
+          "2026-09-05",
+          1
+        ]
+      ],
+      "diagnostic": "Does a missing date break a run? Are runs partitioned by device and limited to confirmed online dates?",
+      "competencies": []
+    },
+    {
+      "id": "partition",
+      "category": "Device and month boundaries",
+      "tables": [
+        {
+          "name": "device_days",
+          "columns": [
+            {
+              "name": "device_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "day",
+              "type": "DATE"
+            },
+            {
+              "name": "online",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": [
+            [
+              2,
+              "2026-10-01",
+              true
+            ],
+            [
+              1,
+              "2026-09-30",
+              true
+            ],
+            [
+              2,
+              "2026-09-29",
+              true
+            ],
+            [
+              1,
+              "2026-10-01",
+              true
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          1,
+          "2026-09-30",
+          "2026-10-01",
+          2
+        ],
+        [
+          2,
+          "2026-09-29",
+          "2026-09-29",
+          1
+        ],
+        [
+          2,
+          "2026-10-01",
+          "2026-10-01",
+          1
+        ]
+      ],
+      "diagnostic": "Does a missing date break a run? Are runs partitioned by device and limited to confirmed online dates?",
+      "competencies": []
+    },
+    {
+      "id": "empty",
+      "category": "No telemetry",
+      "tables": [
+        {
+          "name": "device_days",
+          "columns": [
+            {
+              "name": "device_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "day",
+              "type": "DATE"
+            },
+            {
+              "name": "online",
+              "type": "BOOLEAN"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Does a missing date break a run? Are runs partitioned by device and limited to confirmed online dates?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "WITH eligible AS (SELECT device_id,day,day-CAST(ROW_NUMBER() OVER(PARTITION BY device_id ORDER BY day) AS INTEGER) AS island FROM device_days WHERE online IS TRUE) SELECT device_id,MIN(day) AS start_day,MAX(day) AS end_day,COUNT(*) AS day_count FROM eligible GROUP BY device_id,island",
+  "solution_explanation": "After retaining online dates, the difference between calendar date and row number is constant within a consecutive run. Partition independently per device.",
+  "hints": [
+    "An island requires both a device key and calendar adjacency.",
+    "After filtering, gaps in dates must remain detectable.",
+    "Derive an island key from ordered dates and a per-device sequence, then aggregate."
+  ],
+  "senior_review": "Distinguish missing telemetry from known uptime; document the inference and the uniqueness contract.",
+  "tags": [
+    "sql.sessionization",
+    "sql.windows",
+    "sql.temporal"
+  ],
+  "expected_types": [
+    "INTEGER",
+    "DATE",
+    "DATE",
+    "NUMERIC"
+  ]
+}

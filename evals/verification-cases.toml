@@ -1,0 +1,86 @@
+# Verification intent fixtures. Verifier observations are stipulated independent evidence
+# for these small reasoning cases; they do not exercise real tools or projects.
+
+[[scenario]]
+id = "fully_satisfied"
+request = "Verify this implementation against the approved plan. Approved criteria: parser accepts valid IDs and rejects blanks. Verifier observations: the current diff only changes the parser; I ran the targeted tests for valid and blank IDs and both passed; inspection found no affected contract outside the parser."
+intent = "verify"
+outcome = "VERIFIED"
+handoff = "Review"
+evidence_focus = "Parser diff and the two targeted test observations; no unrelated checks."
+
+[[scenario]]
+id = "passing_but_insufficient"
+request = "Verify this implementation against the approved plan. Approved criteria: valid IDs parse and duplicate IDs are rejected. Verifier observations: the valid-ID test passed; no duplicate-ID test or behavior observation exists, and the implementation report merely claims duplicates work."
+intent = "verify"
+outcome = "PARTIALLY VERIFIED"
+handoff = "Implementation"
+evidence_focus = "Duplicate-ID behavior remains unproven; request or run one targeted check."
+
+[[scenario]]
+id = "material_plan_drift"
+request = "Verify this implementation against the approved plan. Approved scope explicitly forbids database schema changes. Verifier observation: the current diff adds a database column even though the targeted tests pass. The implementer proposes accepting the new column as a change to the approved contract."
+intent = "verify"
+outcome = "FAILED"
+handoff = "Plan"
+evidence_focus = "The forbidden schema change in the current diff establishes scope drift."
+
+[[scenario]]
+id = "unrelated_preexisting_failure"
+request = "Verify this implementation against the approved plan. Approved criterion: parser rejects blank IDs. Verifier observation: targeted rejection test passes and the current diff touches only the parser. The full suite fails in an unchanged image module; a dated baseline from before this change shows the identical failure, and that module is unrelated to the criterion."
+intent = "verify"
+outcome = "VERIFIED"
+handoff = "Review"
+evidence_focus = "Targeted parser result plus a dated identical baseline failure in the unrelated module."
+
+[[scenario]]
+id = "environment_unavailable"
+request = "Verify this implementation against the approved plan. Required criterion: migration works against the project's PostgreSQL test service. Verifier observation: the test service is unavailable, so the required migration check could not run; local unit tests pass."
+intent = "verify"
+outcome = "BLOCKED"
+handoff = "Infrastructure"
+evidence_focus = "Required PostgreSQL service and migration check cannot run; local tests do not substitute."
+
+[[scenario]]
+id = "missing_evidence"
+request = "Verify this implementation against the approved plan. Approved criteria: valid IDs parse and blanks fail. Verifier observation: the valid-ID test passed; no check has been run for blanks, tools are available, and the implementation report says only that all tests passed."
+intent = "verify"
+outcome = "PARTIALLY VERIFIED"
+handoff = "Implementation"
+evidence_focus = "Existing valid-ID result and one missing blank-ID behavior check; implementation claim is not proof."
+
+[[scenario]]
+id = "contract_violation"
+request = "Verify this implementation against the approved plan. Approved API contract requires HTTP 409 on duplicate submission. Verifier observation: the current response is HTTP 200 on a duplicate, although the unit suite passes."
+intent = "verify"
+outcome = "FAILED"
+handoff = "Implementation"
+evidence_focus = "Observed HTTP 200 versus required HTTP 409; passing unit suite does not override contract evidence."
+
+[[scenario]]
+id = "unknown_failure_cause"
+request = "Verify this implementation against the approved plan. Approved criterion: duplicate submissions create one record. Verifier observation: two records were created for one ID in the targeted test; the cause is unknown. Preserve expected versus actual behavior."
+intent = "verify"
+outcome = "FAILED"
+handoff = "Debug"
+evidence_focus = "Preserve one-record expected versus two-record actual result; cause remains unknown."
+
+[[scenario]]
+id = "review_request"
+request = "Review this pull request for maintainability and unnecessary complexity."
+intent = "other"
+
+[[scenario]]
+id = "raw_test_request"
+request = "Run pytest for the parser package and report its output."
+intent = "other"
+
+[[scenario]]
+id = "planning_request"
+request = "Plan a new parser feature with acceptance criteria."
+intent = "other"
+
+[[scenario]]
+id = "implementation_request"
+request = "Implement the approved parser plan."
+intent = "other"

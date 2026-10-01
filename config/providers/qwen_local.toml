@@ -1,0 +1,13 @@
+[provider]
+name = "qwen_local"
+local = true
+format = "GGUF"
+runtime = "llama.cpp"
+
+[runtime]
+endpoint = "http://127.0.0.1:8080/v1"
+model_dir = "~/.local/share/ai-os/models"
+gpu_layers = "auto"
+
+[reasoning]
+local_method = "detect"

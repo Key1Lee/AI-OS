@@ -1,0 +1,301 @@
+{
+  "id": "sql-missing-invoices",
+  "version": 1,
+  "title": "Find accounts missing a settled invoice",
+  "type": "sql",
+  "domain": "Finance",
+  "family": "finance-anti-join",
+  "competencies": [
+    "sql.joins",
+    "sql.nulls",
+    "sql.execution"
+  ],
+  "difficulty": 2,
+  "estimated_duration": 20,
+  "prompt": "Return account_id once for every billing account with no settled invoice for period DATE 2026-09-01. Billing account IDs are unique and non-NULL. Invoice keys can be NULL, invoice rows can replay, and other periods or statuses do not satisfy the requirement.",
+  "context": "Finance needs an exception queue. The absence of a matching settled invoice is different from the absence of any invoice.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "account_id"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "billing_accounts",
+        "columns": [
+          {
+            "name": "account_id",
+            "type": "INTEGER"
+          }
+        ],
+        "rows": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      {
+        "name": "invoices",
+        "columns": [
+          {
+            "name": "invoice_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "account_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "period",
+            "type": "DATE"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            1,
+            "2026-09-01",
+            "settled"
+          ],
+          [
+            2,
+            2,
+            "2026-09-01",
+            "pending"
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ],
+    "diagnostic": "Can a NULL in the child key change the meaning of your anti join? Do irrelevant invoice statuses or periods exclude an account?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "nullkey",
+      "category": "NULL child keys",
+      "tables": [
+        {
+          "name": "billing_accounts",
+          "columns": [
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ]
+        },
+        {
+          "name": "invoices",
+          "columns": [
+            {
+              "name": "invoice_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "period",
+              "type": "DATE"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              null,
+              "2026-09-01",
+              "settled"
+            ],
+            [
+              2,
+              1,
+              "2026-09-01",
+              "settled"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          2
+        ]
+      ],
+      "diagnostic": "Can a NULL in the child key change the meaning of your anti join? Do irrelevant invoice statuses or periods exclude an account?",
+      "competencies": [
+        "sql.nulls",
+        "sql.joins"
+      ]
+    },
+    {
+      "id": "criteria",
+      "category": "Repeated and irrelevant invoices",
+      "tables": [
+        {
+          "name": "billing_accounts",
+          "columns": [
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "name": "invoices",
+          "columns": [
+            {
+              "name": "invoice_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "period",
+              "type": "DATE"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              1,
+              "2026-08-01",
+              "settled"
+            ],
+            [
+              2,
+              2,
+              "2026-09-01",
+              "void"
+            ],
+            [
+              3,
+              3,
+              "2026-09-01",
+              "settled"
+            ],
+            [
+              3,
+              3,
+              "2026-09-01",
+              "settled"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "diagnostic": "Can a NULL in the child key change the meaning of your anti join? Do irrelevant invoice statuses or periods exclude an account?",
+      "competencies": []
+    },
+    {
+      "id": "empty",
+      "category": "Empty account population",
+      "tables": [
+        {
+          "name": "billing_accounts",
+          "columns": [
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": []
+        },
+        {
+          "name": "invoices",
+          "columns": [
+            {
+              "name": "invoice_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "account_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "period",
+              "type": "DATE"
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Can a NULL in the child key change the meaning of your anti join? Do irrelevant invoice statuses or periods exclude an account?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "SELECT a.account_id FROM billing_accounts a WHERE NOT EXISTS(SELECT 1 FROM invoices i WHERE i.account_id=a.account_id AND i.period=DATE '2026-09-01' AND i.status='settled')",
+  "solution_explanation": "Use existence of the complete matching predicate. NOT IN is vulnerable to NULL child keys, while an anti-existence test preserves unmatched accounts.",
+  "hints": [
+    "Define exactly which invoice is considered a match.",
+    "Unknown child keys must not suppress all unmatched parents.",
+    "Express absence using a correlated existence predicate or equivalent anti join."
+  ],
+  "senior_review": "Test NULL child keys and mismatched status/time predicates. The exception queue must preserve parent identity.",
+  "tags": [
+    "sql.joins",
+    "sql.nulls"
+  ],
+  "expected_types": [
+    "INTEGER"
+  ]
+}

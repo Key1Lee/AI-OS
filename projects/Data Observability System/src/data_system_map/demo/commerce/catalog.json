@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "dbt_schema_version": "https://schemas.getdbt.com/dbt/catalog/v1.json",
+    "generated_at": "2026-10-02T00:00:00+00:00",
+    "invocation_id": "commerce-duckdb-demo-v1",
+    "producer": "Original trusted DuckDB fixture generator; no dbt command was run.",
+    "sample": true
+  },
+  "nodes": {
+    "model.commerce.fct_orders": {
+      "columns": {
+        "order_id": {
+          "name": "order_id",
+          "type": "INTEGER"
+        },
+        "revenue": {
+          "name": "revenue",
+          "type": "DECIMAL(18,2)"
+        }
+      },
+      "unique_id": "model.commerce.fct_orders"
+    },
+    "model.commerce.int_order_items": {
+      "columns": {
+        "item_id": {
+          "name": "item_id",
+          "type": "INTEGER"
+        },
+        "order_id": {
+          "name": "order_id",
+          "type": "INTEGER"
+        },
+        "order_total": {
+          "name": "order_total",
+          "type": "DECIMAL(18,2)"
+        }
+      },
+      "unique_id": "model.commerce.int_order_items"
+    },
+    "model.commerce.mart_revenue": {
+      "columns": {
+        "report_date": {
+          "name": "report_date",
+          "type": "DATE"
+        },
+        "total_revenue": {
+          "name": "total_revenue",
+          "type": "DECIMAL(38,2)"
+        }
+      },
+      "unique_id": "model.commerce.mart_revenue"
+    },
+    "model.commerce.stg_order_items": {
+      "columns": {
+        "item_id": {
+          "name": "item_id",
+          "type": "INTEGER"
+        },
+        "order_id": {
+          "name": "order_id",
+          "type": "INTEGER"
+        },
+        "units": {
+          "name": "units",
+          "type": "INTEGER"
+        }
+      },
+      "unique_id": "model.commerce.stg_order_items"
+    },
+    "model.commerce.stg_orders": {
+      "columns": {
+        "order_id": {
+          "name": "order_id",
+          "type": "INTEGER"
+        },
+        "order_total": {
+          "name": "order_total",
+          "type": "DECIMAL(18,2)"
+        }
+      },
+      "unique_id": "model.commerce.stg_orders"
+    }
+  },
+  "sources": {
+    "source.commerce.shopify.raw_order_items": {
+      "columns": {
+        "item_id": {
+          "name": "item_id",
+          "type": "INTEGER"
+        },
+        "order_id": {
+          "name": "order_id",
+          "type": "INTEGER"
+        },
+        "units": {
+          "name": "units",
+          "type": "INTEGER"
+        }
+      },
+      "unique_id": "source.commerce.shopify.raw_order_items"
+    },
+    "source.commerce.shopify.raw_orders": {
+      "columns": {
+        "order_id": {
+          "name": "order_id",
+          "type": "INTEGER"
+        },
+        "order_total": {
+          "name": "order_total",
+          "type": "DECIMAL(18,2)"
+        }
+      },
+      "unique_id": "source.commerce.shopify.raw_orders"
+    }
+  }
+}

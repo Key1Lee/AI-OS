@@ -1,0 +1,23 @@
+inherits = ["global"]
+
+[project]
+name = "Toptal-Testing"
+
+[generation]
+max_output_tokens = 4096
+
+[task_profiles.rapid_recall]
+reasoning = "low"
+context = "small"
+
+[task_profiles.interview]
+reasoning = "medium"
+context = "standard"
+
+[task_profiles.system_design]
+reasoning = "high"
+context = "large"
+
+[task_profiles.deep_audit]
+reasoning = "xhigh"
+context = "very_large"

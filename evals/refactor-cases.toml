@@ -1,0 +1,122 @@
+# Stipulated routing and boundary cases. They do not perform code changes or
+# prove behavioral equivalence in a project.
+
+[[scenario]]
+id = "explicit_refactor"
+request = "/refactor this module without changing externally observable behavior."
+workflow = "Refactor"
+
+[[scenario]]
+id = "implicit_structure"
+request = "Improve the internal structure of this parser while keeping its input, output, and errors the same."
+workflow = "Refactor"
+
+[[scenario]]
+id = "real_duplication"
+request = "Remove duplicated internal normalization logic in this service; preserve its public API and side effects."
+workflow = "Refactor"
+
+[[scenario]]
+id = "oversized_module"
+request = "Split this oversized internal class into clearer components without changing its contract."
+workflow = "Refactor"
+
+[[scenario]]
+id = "testability"
+request = "Improve this module's testability by isolating the internal dependency; behavior must remain unchanged."
+workflow = "Refactor"
+
+[[scenario]]
+id = "legacy_cleanup"
+request = "Simplify the legacy control flow but retain the same outputs, errors, and ordering."
+workflow = "Refactor"
+
+[[scenario]]
+id = "existing_architecture"
+request = "Reorganize these internal helpers to match the documented module ownership without altering public behavior."
+workflow = "Refactor"
+
+[[scenario]]
+id = "architecture_change"
+request = "Refactor the public API and persistent schema across services; decide a migration and rollout plan first."
+workflow = "Plan"
+
+[[scenario]]
+id = "feature_disguised"
+request = "Refactor the export code so it also supports a new CSV format."
+workflow = "Implement"
+
+[[scenario]]
+id = "new_feature"
+request = "Add the approved CSV export feature."
+workflow = "Implement"
+
+[[scenario]]
+id = "obvious_bug"
+request = "Fix the known off-by-one bug that returns an extra record."
+workflow = "Implement"
+
+[[scenario]]
+id = "unknown_failure"
+request = "Why did this working test suddenly fail after restructuring? The cause is unknown."
+workflow = "Debug"
+
+[[scenario]]
+id = "run_tests"
+request = "Run the parser tests and report their output."
+workflow = "Test"
+
+[[scenario]]
+id = "verify_preservation"
+request = "Independently prove that this completed structural change preserved the approved contracts."
+workflow = "Verify"
+
+[[scenario]]
+id = "review_diff"
+request = "Review the completed refactor diff for material design risks."
+workflow = "Review"
+
+[[scenario]]
+id = "audit_system"
+request = "Audit the AI OS Skill and instruction architecture for drift."
+workflow = "Audit"
+
+[[scenario]]
+id = "trivial_cleanup"
+request = "While implementing the feature, rename one local variable for clarity and keep working."
+workflow = "Implement"
+
+[[scenario]]
+id = "no_justification"
+request = "The module is small and clear. Rewrite it with a generic framework just in case we reuse it later."
+workflow = "Native"
+
+[[boundary_case]]
+id = "public_contract"
+evidence = "The proposed restructuring requires changing a public API and persistent schema used by two services; no migration decision is approved."
+action = "Plan"
+
+[[boundary_case]]
+id = "approved_behavior_change"
+evidence = "The approved task adds CSV output. Internal cleanup may help, but the externally observable output intentionally changes."
+action = "Implement"
+
+[[boundary_case]]
+id = "unexpected_regression"
+evidence = "After a structural edit, an existing test fails unexpectedly. The changed condition and cause are not yet known."
+action = "Debug"
+
+[[boundary_case]]
+id = "thin_baseline"
+evidence = "A risky serializer refactor must preserve undocumented error and ordering behavior; current tests exercise only the success path."
+action = "Characterize"
+
+[[boundary_case]]
+id = "mechanical_imports"
+evidence = "Two hundred imports must be updated by the same exact syntax transformation after an approved internal module move."
+action = "Codemod"
+
+[[boundary_case]]
+id = "speculative_framework"
+evidence = "The module is small and clear; a generic abstraction is proposed only for hypothetical reuse, with no current structural problem."
+action = "NoRefactor"

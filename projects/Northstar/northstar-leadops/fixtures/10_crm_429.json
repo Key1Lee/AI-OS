@@ -1,0 +1,39 @@
+{
+  "name": "10_crm_429",
+  "input": {
+    "event_type": "demo_request.submitted",
+    "source": "website_demo",
+    "occurred_at": "2026-09-22T14:03:11Z",
+    "lead": {
+      "first_name": "Maya",
+      "last_name": "Chen",
+      "email": "maya.chen@acmeops.example",
+      "phone": "+14165550184",
+      "company": "AcmeOps",
+      "job_title": "VP Operations",
+      "employee_count": 140,
+      "message": "We need to consolidate onboarding and support workflows before Q4. Budget is around $40k and we want to choose a vendor this month.",
+      "consent_to_contact": true
+    },
+    "utm": {
+      "source": "linkedin",
+      "campaign": "q4_ops_automation"
+    },
+    "event_id": "crm429_001"
+  },
+  "mocks": {
+    "hubspot_search_sequence": [
+      429,
+      429,
+      200
+    ]
+  },
+  "expected": {
+    "http": 202,
+    "crm": "create_after_bounded_search_retry",
+    "tier": "HOT",
+    "slack": "#sales-hot-leads",
+    "human_review": false,
+    "db": "completed"
+  }
+}

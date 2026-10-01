@@ -1,0 +1,271 @@
+{
+  "id": "sql-customer-latest",
+  "version": 1,
+  "title": "Choose the current contact record",
+  "type": "sql",
+  "domain": "CRM",
+  "family": "crm-current-record",
+  "competencies": [
+    "sql.windows",
+    "sql.deduplication",
+    "sql.nulls",
+    "sql.execution"
+  ],
+  "difficulty": 3,
+  "estimated_duration": 20,
+  "prompt": "Return one row per non-NULL customer_id: customer_id, email, updated_at. The greatest non-NULL updated_at wins. A NULL timestamp is older than any known timestamp. Break timestamp ties, including all-NULL timestamps, using greatest record_id. Exact replay rows may be duplicated; a record_id never has conflicting payloads. Preserve a NULL email.",
+  "context": "The CRM emits full-record updates and occasional replays. Downstream messaging needs a reproducible current record.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "customer_id",
+    "email",
+    "updated_at"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "customer_updates",
+        "columns": [
+          {
+            "name": "record_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "customer_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "email",
+            "type": "VARCHAR"
+          },
+          {
+            "name": "updated_at",
+            "type": "TIMESTAMP"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            1,
+            "a@sample.test",
+            "2026-09-01T10:00:00"
+          ],
+          [
+            2,
+            1,
+            "b@sample.test",
+            "2026-09-03T10:00:00"
+          ],
+          [
+            3,
+            2,
+            "c@sample.test",
+            "2026-09-02T10:00:00"
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        1,
+        "b@sample.test",
+        "2026-09-03T10:00:00"
+      ],
+      [
+        2,
+        "c@sample.test",
+        "2026-09-02T10:00:00"
+      ]
+    ],
+    "diagnostic": "Which row wins when timestamps tie or are NULL? Is the business key valid?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "ties",
+      "category": "Timestamp collisions",
+      "tables": [
+        {
+          "name": "customer_updates",
+          "columns": [
+            {
+              "name": "record_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "email",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              6,
+              9,
+              "new@sample.test",
+              "2026-09-01T00:00:00"
+            ],
+            [
+              5,
+              9,
+              "old@sample.test",
+              "2026-09-01T00:00:00"
+            ],
+            [
+              6,
+              9,
+              "new@sample.test",
+              "2026-09-01T00:00:00"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          9,
+          "new@sample.test",
+          "2026-09-01T00:00:00"
+        ]
+      ],
+      "diagnostic": "Which row wins when timestamps tie or are NULL? Is the business key valid?",
+      "competencies": [
+        "sql.windows",
+        "sql.deduplication"
+      ]
+    },
+    {
+      "id": "nulls",
+      "category": "Unknown timestamps and keys",
+      "tables": [
+        {
+          "name": "customer_updates",
+          "columns": [
+            {
+              "name": "record_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "email",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": [
+            [
+              10,
+              2,
+              "unknown@sample.test",
+              null
+            ],
+            [
+              9,
+              2,
+              null,
+              "2026-08-01T00:00:00"
+            ],
+            [
+              13,
+              3,
+              "v2@sample.test",
+              null
+            ],
+            [
+              12,
+              3,
+              "v1@sample.test",
+              null
+            ],
+            [
+              99,
+              null,
+              "invalid@sample.test",
+              "2026-10-01T00:00:00"
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          2,
+          null,
+          "2026-08-01T00:00:00"
+        ],
+        [
+          3,
+          "v2@sample.test",
+          null
+        ]
+      ],
+      "diagnostic": "Which row wins when timestamps tie or are NULL? Is the business key valid?",
+      "competencies": [
+        "sql.nulls",
+        "sql.deduplication"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "Empty source",
+      "tables": [
+        {
+          "name": "customer_updates",
+          "columns": [
+            {
+              "name": "record_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "customer_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "email",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Which row wins when timestamps tie or are NULL? Is the business key valid?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "SELECT customer_id,email,updated_at FROM customer_updates WHERE customer_id IS NOT NULL QUALIFY ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY updated_at DESC NULLS LAST, record_id DESC)=1",
+  "solution_explanation": "Filter invalid business keys, partition by the key, and encode the complete precedence rule. Ranking a timestamp alone leaves tie behavior undefined.",
+  "hints": [
+    "Separate business key validity from precedence.",
+    "Timestamp order is incomplete without a tie breaker.",
+    "Use an explicit NULL order and stable secondary ordering per key."
+  ],
+  "senior_review": "Check deterministic precedence, NULL email preservation and replay stability; do not silently invent source uniqueness.",
+  "tags": [
+    "sql.windows",
+    "sql.deduplication",
+    "sql.nulls"
+  ],
+  "expected_types": [
+    "INTEGER",
+    "VARCHAR",
+    "TIMESTAMP"
+  ]
+}

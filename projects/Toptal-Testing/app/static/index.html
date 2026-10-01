@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Senior FDE Assessment</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">LOCAL ASSESSMENT ENVIRONMENT</p>
+          <h1>Senior Forward Deployed Engineer Assessment</h1>
+        </div>
+        <nav aria-label="Primary navigation">
+          <button class="nav-button active" data-view="exam">Exam</button>
+          <button class="nav-button" data-view="dashboard">Progress</button>
+        </nav>
+      </header>
+
+      <div id="configBanner" class="banner hidden" role="alert"></div>
+      <div id="toast" class="toast hidden" role="status"></div>
+
+      <main id="examView" class="view">
+        <section id="welcome" class="welcome-card">
+          <div>
+            <p class="eyebrow">ASSESSMENT MODE</p>
+            <h2>Work through an adaptive customer-delivery interview.</h2>
+            <p class="lede">One decision point at a time. Detailed evaluation stays hidden until the module ends.</p>
+          </div>
+          <button id="startButton" class="primary large">Start Assessment</button>
+          <div id="sessionList" class="session-list" aria-live="polite"></div>
+        </section>
+
+        <section id="exam" class="exam-layout hidden" aria-live="polite">
+          <article class="exam-main">
+            <div class="question-meta">
+              <span id="scenarioId" class="tag"></span>
+              <span id="modeTag" class="tag accent"></span>
+            </div>
+            <h2 id="scenarioTitle"></h2>
+            <p id="scenarioText" class="scenario"></p>
+            <div id="constraintsBlock" class="constraints hidden">
+              <h3>New constraints</h3>
+              <ul id="constraintsList"></ul>
+            </div>
+            <div class="question-card">
+              <p class="eyebrow">CURRENT INTERVIEWER QUESTION</p>
+              <p id="questionText" class="question"></p>
+            </div>
+
+            <div id="reviewPanel" class="review-panel hidden"></div>
+
+            <div id="answerPanel" class="answer-panel">
+              <label for="answerInput">Your response</label>
+              <textarea id="answerInput" spellcheck="true" placeholder="Explain your decisions, assumptions, tradeoffs, SQL, Python, or debugging analysis here…"></textarea>
+              <div id="savedFailure" class="saved-failure hidden"></div>
+              <div class="controls">
+                <button id="submitButton" class="primary">Submit Answer</button>
+                <button id="clarifyButton" class="secondary">Ask Clarifying Question</button>
+                <button id="hintButton" class="secondary caution">Request Hint</button>
+                <button id="endModuleButton" class="secondary">End Module</button>
+                <button id="pauseButton" class="ghost">Pause Session</button>
+              </div>
+              <p class="keyboard-help">Submit with <kbd>⌘</kbd> + <kbd>Enter</kbd>. Whitespace is preserved.</p>
+            </div>
+          </article>
+
+          <aside class="status-panel">
+            <p class="eyebrow">SESSION STATUS</p>
+            <dl>
+              <div><dt>Session</dt><dd id="sessionId"></dd></div>
+              <div><dt>Module</dt><dd id="module"></dd></div>
+              <div><dt>Difficulty</dt><dd id="difficulty"></dd></div>
+              <div><dt>Question</dt><dd id="turnNumber"></dd></div>
+              <div><dt>Elapsed</dt><dd id="elapsed"></dd></div>
+              <div><dt>Hints used</dt><dd id="hintsUsed"></dd></div>
+            </dl>
+            <div>
+              <h3>Competencies in scope</h3>
+              <ul id="competencies" class="competency-list"></ul>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <main id="dashboardView" class="view hidden">
+        <section class="dashboard-header">
+          <div>
+            <p class="eyebrow">EVIDENCE-BASED PROGRESS</p>
+            <h2>Assessment record</h2>
+          </div>
+          <button id="refreshDashboard" class="secondary">Refresh</button>
+        </section>
+        <div class="dashboard-grid">
+          <section class="panel"><h3>Competencies</h3><div id="competencyDashboard"></div></section>
+          <section class="panel"><h3>Open weaknesses</h3><div id="weaknessDashboard"></div></section>
+          <section class="panel full"><h3>Sessions</h3><div id="historyDashboard"></div></section>
+        </div>
+      </main>
+    </div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
+

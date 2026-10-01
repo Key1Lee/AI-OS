@@ -1,0 +1,17 @@
+{
+  "name": "07_malformed_payload",
+  "input": {
+    "event_id": "malformed_001",
+    "source": "website_demo",
+    "lead": "not-an-object"
+  },
+  "mocks": {},
+  "expected": {
+    "http": 422,
+    "crm": "none",
+    "tier": null,
+    "slack": "none",
+    "human_review": false,
+    "db": "not_claimed"
+  }
+}

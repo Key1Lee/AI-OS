@@ -1,0 +1,47 @@
+{
+  "name": "01_hot_lead",
+  "input": {
+    "event_type": "demo_request.submitted",
+    "source": "website_demo",
+    "occurred_at": "2026-09-22T14:03:11Z",
+    "lead": {
+      "first_name": "Maya",
+      "last_name": "Chen",
+      "email": "maya.chen@acmeops.example",
+      "phone": "+14165550184",
+      "company": "AcmeOps",
+      "job_title": "VP Operations",
+      "employee_count": 140,
+      "message": "We need to consolidate onboarding and support workflows before Q4. Budget is around $40k and we want to choose a vendor this month.",
+      "consent_to_contact": true
+    },
+    "utm": {
+      "source": "linkedin",
+      "campaign": "q4_ops_automation"
+    },
+    "event_id": "hot_001"
+  },
+  "mocks": {
+    "ai": {
+      "intent": "automation_project",
+      "pain_points": [
+        "onboarding",
+        "support workflows"
+      ],
+      "budget_band": "25k_50k",
+      "urgency_band": "8_30_days",
+      "recommended_next_action": "sales_call",
+      "confidence": 0.94,
+      "summary": "Mid-market automation project."
+    },
+    "hubspot": "not_found"
+  },
+  "expected": {
+    "http": 202,
+    "crm": "create",
+    "tier": "HOT",
+    "slack": "#sales-hot-leads",
+    "human_review": false,
+    "db": "completed"
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "id": "sql-price-levels",
+  "version": 1,
+  "title": "Select premium price tiers",
+  "type": "sql",
+  "domain": "Catalog",
+  "family": "catalog-dense-rank",
+  "competencies": [
+    "sql.windows",
+    "sql.nulls",
+    "sql.execution"
+  ],
+  "difficulty": 2,
+  "estimated_duration": 20,
+  "prompt": "For every non-NULL category, return product_id, category, price for all products in its two highest DISTINCT non-NULL price levels. Include every tie. Categories with only one known price level return that level. Product IDs are unique; zero and negative prices are valid. Output order does not matter.",
+  "context": "Merchandising wants complete price tiers, so an arbitrary two products per category would produce an unstable campaign.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "product_id",
+    "category",
+    "price"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "products",
+        "columns": [
+          {
+            "name": "product_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "category",
+            "type": "VARCHAR"
+          },
+          {
+            "name": "price",
+            "type": "DECIMAL(18,2)"
+          }
+        ],
+        "rows": [
+          [
+            1,
+            "A",
+            30
+          ],
+          [
+            2,
+            "A",
+            20
+          ],
+          [
+            3,
+            "A",
+            10
+          ],
+          [
+            4,
+            "B",
+            8
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        1,
+        "A",
+        30
+      ],
+      [
+        2,
+        "A",
+        20
+      ],
+      [
+        4,
+        "B",
+        8
+      ]
+    ],
+    "diagnostic": "Does a tie consume a price level or an individual row? Were unknown prices excluded?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "ties",
+      "category": "Tied price levels",
+      "tables": [
+        {
+          "name": "products",
+          "columns": [
+            {
+              "name": "product_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "category",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "price",
+              "type": "DECIMAL(18,2)"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "A",
+              40
+            ],
+            [
+              2,
+              "A",
+              40
+            ],
+            [
+              3,
+              "A",
+              30
+            ],
+            [
+              4,
+              "A",
+              30
+            ],
+            [
+              5,
+              "A",
+              20
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          1,
+          "A",
+          40
+        ],
+        [
+          2,
+          "A",
+          40
+        ],
+        [
+          3,
+          "A",
+          30
+        ],
+        [
+          4,
+          "A",
+          30
+        ]
+      ],
+      "diagnostic": "Does a tie consume a price level or an individual row? Were unknown prices excluded?",
+      "competencies": [
+        "sql.windows"
+      ]
+    },
+    {
+      "id": "unknown",
+      "category": "NULL and zero prices",
+      "tables": [
+        {
+          "name": "products",
+          "columns": [
+            {
+              "name": "product_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "category",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "price",
+              "type": "DECIMAL(18,2)"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "B",
+              null
+            ],
+            [
+              2,
+              "B",
+              0
+            ],
+            [
+              3,
+              "B",
+              -2
+            ],
+            [
+              4,
+              "B",
+              -5
+            ],
+            [
+              5,
+              null,
+              100
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          2,
+          "B",
+          0
+        ],
+        [
+          3,
+          "B",
+          -2
+        ]
+      ],
+      "diagnostic": "Does a tie consume a price level or an individual row? Were unknown prices excluded?",
+      "competencies": [
+        "sql.nulls"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "Empty catalog",
+      "tables": [
+        {
+          "name": "products",
+          "columns": [
+            {
+              "name": "product_id",
+              "type": "INTEGER"
+            },
+            {
+              "name": "category",
+              "type": "VARCHAR"
+            },
+            {
+              "name": "price",
+              "type": "DECIMAL(18,2)"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Does a tie consume a price level or an individual row? Were unknown prices excluded?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "SELECT product_id,category,price FROM products WHERE category IS NOT NULL AND price IS NOT NULL QUALIFY DENSE_RANK() OVER(PARTITION BY category ORDER BY price DESC)<=2",
+  "solution_explanation": "DENSE_RANK orders distinct value levels without leaving rank gaps for ties. Filter unknown categories and prices before ranking.",
+  "hints": [
+    "Distinguish row count from distinct price-level count.",
+    "Ties at the highest price must leave room for the next distinct price.",
+    "Rank distinct ordered values within each category and keep two levels."
+  ],
+  "senior_review": "Tie semantics belong in the output contract. Test ties at both included levels and signed or unknown prices.",
+  "tags": [
+    "sql.windows",
+    "sql.nulls"
+  ],
+  "expected_types": [
+    "INTEGER",
+    "VARCHAR",
+    "NUMERIC"
+  ]
+}

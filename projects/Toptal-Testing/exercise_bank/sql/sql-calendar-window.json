@@ -1,0 +1,338 @@
+{
+  "id": "sql-calendar-window",
+  "version": 1,
+  "title": "Repair the seven-day activity chart",
+  "type": "sql",
+  "domain": "Product",
+  "family": "product-calendar-window",
+  "competencies": [
+    "sql.windows",
+    "sql.temporal",
+    "sql.aggregation",
+    "sql.execution"
+  ],
+  "difficulty": 3,
+  "estimated_duration": 20,
+  "prompt": "calendar contains one row per date and is contiguous. For every date in calendar return day, daily_amount and rolling_7d_amount. Sum activity rows for that day; NULL amounts and missing days are zero. The rolling sum covers that date and the previous six calendar dates within the supplied calendar only. Activity outside calendar is ignored. Preserve every calendar date.",
+  "context": "Sparse daily activity made the existing rolling chart cover inconsistent periods. The date spine is the authoritative reporting population.",
+  "starter_code": "-- DuckDB SQL \u00b7 return exactly the requested columns\n",
+  "expected_columns": [
+    "day",
+    "daily_amount",
+    "rolling_7d_amount"
+  ],
+  "visible_case": {
+    "id": "visible",
+    "category": "Public fixture",
+    "tables": [
+      {
+        "name": "calendar",
+        "columns": [
+          {
+            "name": "day",
+            "type": "DATE"
+          }
+        ],
+        "rows": [
+          [
+            "2026-09-01"
+          ],
+          [
+            "2026-09-02"
+          ],
+          [
+            "2026-09-03"
+          ]
+        ]
+      },
+      {
+        "name": "daily_activity",
+        "columns": [
+          {
+            "name": "day",
+            "type": "DATE"
+          },
+          {
+            "name": "amount",
+            "type": "INTEGER"
+          }
+        ],
+        "rows": [
+          [
+            "2026-09-01",
+            4
+          ],
+          [
+            "2026-09-03",
+            2
+          ]
+        ]
+      }
+    ],
+    "expected_rows": [
+      [
+        "2026-09-01",
+        4,
+        4
+      ],
+      [
+        "2026-09-02",
+        0,
+        4
+      ],
+      [
+        "2026-09-03",
+        2,
+        6
+      ]
+    ],
+    "diagnostic": "Is the frame seven calendar days or seven observed rows? Are repeated daily rows aggregated before the window?",
+    "competencies": []
+  },
+  "hidden_cases": [
+    {
+      "id": "frame",
+      "category": "Seven-day boundary",
+      "tables": [
+        {
+          "name": "calendar",
+          "columns": [
+            {
+              "name": "day",
+              "type": "DATE"
+            }
+          ],
+          "rows": [
+            [
+              "2026-09-01"
+            ],
+            [
+              "2026-09-02"
+            ],
+            [
+              "2026-09-03"
+            ],
+            [
+              "2026-09-04"
+            ],
+            [
+              "2026-09-05"
+            ],
+            [
+              "2026-09-06"
+            ],
+            [
+              "2026-09-07"
+            ],
+            [
+              "2026-09-08"
+            ],
+            [
+              "2026-09-09"
+            ]
+          ]
+        },
+        {
+          "name": "daily_activity",
+          "columns": [
+            {
+              "name": "day",
+              "type": "DATE"
+            },
+            {
+              "name": "amount",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              "2026-09-01",
+              10
+            ],
+            [
+              "2026-09-02",
+              5
+            ],
+            [
+              "2026-09-08",
+              2
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "2026-09-01",
+          10,
+          10
+        ],
+        [
+          "2026-09-02",
+          5,
+          15
+        ],
+        [
+          "2026-09-03",
+          0,
+          15
+        ],
+        [
+          "2026-09-04",
+          0,
+          15
+        ],
+        [
+          "2026-09-05",
+          0,
+          15
+        ],
+        [
+          "2026-09-06",
+          0,
+          15
+        ],
+        [
+          "2026-09-07",
+          0,
+          15
+        ],
+        [
+          "2026-09-08",
+          2,
+          7
+        ],
+        [
+          "2026-09-09",
+          0,
+          2
+        ]
+      ],
+      "diagnostic": "Is the frame seven calendar days or seven observed rows? Are repeated daily rows aggregated before the window?",
+      "competencies": [
+        "sql.windows",
+        "sql.temporal"
+      ]
+    },
+    {
+      "id": "grain",
+      "category": "Repeated dates and NULL amounts",
+      "tables": [
+        {
+          "name": "calendar",
+          "columns": [
+            {
+              "name": "day",
+              "type": "DATE"
+            }
+          ],
+          "rows": [
+            [
+              "2026-09-01"
+            ],
+            [
+              "2026-09-02"
+            ]
+          ]
+        },
+        {
+          "name": "daily_activity",
+          "columns": [
+            {
+              "name": "day",
+              "type": "DATE"
+            },
+            {
+              "name": "amount",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              "2026-09-01",
+              3
+            ],
+            [
+              "2026-09-01",
+              7
+            ],
+            [
+              "2026-09-02",
+              null
+            ],
+            [
+              "2026-08-31",
+              100
+            ]
+          ]
+        }
+      ],
+      "expected_rows": [
+        [
+          "2026-09-01",
+          10,
+          10
+        ],
+        [
+          "2026-09-02",
+          0,
+          10
+        ]
+      ],
+      "diagnostic": "Is the frame seven calendar days or seven observed rows? Are repeated daily rows aggregated before the window?",
+      "competencies": [
+        "sql.aggregation"
+      ]
+    },
+    {
+      "id": "empty",
+      "category": "Empty reporting calendar",
+      "tables": [
+        {
+          "name": "calendar",
+          "columns": [
+            {
+              "name": "day",
+              "type": "DATE"
+            }
+          ],
+          "rows": []
+        },
+        {
+          "name": "daily_activity",
+          "columns": [
+            {
+              "name": "day",
+              "type": "DATE"
+            },
+            {
+              "name": "amount",
+              "type": "INTEGER"
+            }
+          ],
+          "rows": []
+        }
+      ],
+      "expected_rows": [],
+      "diagnostic": "Is the frame seven calendar days or seven observed rows? Are repeated daily rows aggregated before the window?",
+      "competencies": []
+    }
+  ],
+  "reference_solution": "WITH daily AS (SELECT day,SUM(COALESCE(amount,0)) AS amount FROM daily_activity GROUP BY day), spine AS (SELECT c.day,COALESCE(d.amount,0) AS daily_amount FROM calendar c LEFT JOIN daily d USING(day)) SELECT day,daily_amount,SUM(daily_amount) OVER(ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_7d_amount FROM spine",
+  "solution_explanation": "Aggregate to daily grain and join to the contiguous date spine before the window. A seven-row frame then equals seven reporting calendar days.",
+  "hints": [
+    "The calendar defines output population and elapsed dates.",
+    "Multiple rows for a date must become one before a row-based frame.",
+    "Fill missing days on the spine, then specify the frame explicitly."
+  ],
+  "senior_review": "A seven-row frame is only a seven-day frame after validating a contiguous unique calendar. Clarify reporting-history limits.",
+  "tags": [
+    "sql.windows",
+    "sql.temporal",
+    "sql.aggregation"
+  ],
+  "expected_types": [
+    "DATE",
+    "NUMERIC",
+    "NUMERIC"
+  ]
+}

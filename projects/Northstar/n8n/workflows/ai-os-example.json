@@ -1,0 +1,54 @@
+{
+  "id": "ai-os-local-smoke",
+  "name": "AI OS Local Smoke Test",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5804dcbb-502d-44ac-8ea3-ef6eb137ba84",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first()?.json ?? {}; return [{ json: { requestId: 'local-smoke', input, processedAt: new Date(0).toISOString() } }];"
+      },
+      "id": "d90ee89f-d4f8-4e22-b333-53465f62c403",
+      "name": "Process Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const request = $input.first().json; return [{ json: { ...request, service: { name: 'mock-ai-service', status: 'ok', result: 'workflow-executed' } } }];"
+      },
+      "id": "49a5e565-9011-4c30-a0f7-f6b32bd679f1",
+      "name": "Call Mock Service",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.first().json; console.log(JSON.stringify(result)); return [{ json: { success: true, result } }];"
+      },
+      "id": "af9d138e-dd74-4b21-b9ac-bb6886b19ed0",
+      "name": "Return and Log Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 0]
+    }
+  ],
+  "connections": {
+    "Trigger": { "main": [[{ "node": "Process Input", "type": "main", "index": 0 }]] },
+    "Process Input": { "main": [[{ "node": "Call Mock Service", "type": "main", "index": 0 }]] },
+    "Call Mock Service": { "main": [[{ "node": "Return and Log Result", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "versionId": "95a07a63-4491-4668-b1e1-201512fa5998",
+  "meta": { "templateCredsSetupCompleted": true },
+  "tags": []
+}

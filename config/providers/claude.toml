@@ -1,0 +1,6 @@
+[provider]
+name = "claude"
+local = false
+
+[runtime]
+model = ""

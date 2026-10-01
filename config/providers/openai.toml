@@ -1,0 +1,6 @@
+[provider]
+name = "openai"
+local = false
+
+[runtime]
+model = ""

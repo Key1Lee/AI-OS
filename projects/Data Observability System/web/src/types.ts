@@ -1,0 +1,17 @@
+export type Status='HEALTHY'|'WARNING'|'FAILED'|'UNKNOWN';
+export type Provenance={source:string;pointer:string;classification:'FACT'|'INFERENCE'|'AI_HYPOTHESIS';timestamp:string|null;note:string|null};
+export type Summary={id:string;name:string;node_type:string};
+export type MapNode=Summary&{layer:string;status:Status;grain?:string|null;layer_classification?:string};
+export type Edge={id:string;from_node:string;to_node:string;relationship_type:string;inference_type:string;evidence_source:Provenance};
+export type Stage={id:string;name:string;count:number;failed:number;classification?:string};
+export type MapGraph={system_id:string;name:string;snapshot_id:string;sample:boolean;level:string;stages:Stage[];stage_edges:{from:string;to:string}[];nodes:MapNode[];edges:Edge[];total_nodes:number;visible_count:number;truncated:boolean;audience:string;issues:{code:string;message:string;provenance:Provenance}[]};
+export type MapSystem={id:string;name:string;current_snapshot:string};
+export type Column={name:string;data_type:string|null;nullable:boolean|null;description:string|null;tests:string[];provenance:Provenance[]};
+export type TestResult={test_id:string;test_name:string;status:Status;reported_status:string;failures:number|null;association:string;evidence:string|null;provenance:Provenance};
+export type Observation={evidence_type:string;expected:number|string|null;actual:number|string|null;comparison_key:string|null;observation_id:string;provenance:Provenance};
+export type NodeDetail=MapNode&{description:string|null;primary_keys:string[]|null;columns:Column[];owner:string|null;source_system:string|null;sql_available:boolean;inputs:Summary[];outputs:Summary[];tests:TestResult[];executions:{status:Status;reported_status:string;operation:string|null;completed_at:string|null;error:string|null;provenance:Provenance}[];observations:Observation[];provenance:Provenance[];unknowns:string[];recent_changes:{available:boolean;message:string;nodes:string[]};impact:{direct:string[];transitive:string[];affected_outputs:string[]};metadata:Record<string,unknown>};
+export type Impact={direct:Summary[];transitive:Summary[];affected_outputs:Summary[]};
+export type Relation={direct:Summary[];transitive:Summary[]};
+export type Incident={id:string;name:string;summary:string};
+export type Failure={observed_failure:string;why:string;message?:string;evidence:TestResult[];execution_evidence:NodeDetail['executions'];impact:Impact;failure_path:{nodes:MapNode[];edges:Edge[];truncated?:boolean};first_suspicious_node?:string|null;first_bad_node?:null;last_known_good?:string[];inference?:{classification:string;message:string};observations?:Observation[];uncertainty?:string[];next_step?:string};
+export type SqlView={sql:string|null;compiled_sql:string|null;provenance:Provenance[]};

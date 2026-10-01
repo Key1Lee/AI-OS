@@ -1,0 +1,31 @@
+[skills.onboard]
+task_profile = "skill_onboard"
+implicit_patterns = ['\b(onboard|onboarding)\b.*\b(AI[ -]?OS|workspace|project)\b', '\b(set up|initialize)\b.*\b(my|this|new)\b.*\b(AI[ -]?OS|workspace)\b']
+
+[skills.grill-me]
+task_profile = "skill_grill_me"
+implicit_patterns = ['\bgrill me\b', '\binterview me (about|on)\b', '\bhelp me unpack\b.*\b(plan|idea|decision)\b']
+
+[skills.link]
+task_profile = "skill_link"
+implicit_patterns = ['\b(link|register)\b.*\b(source|folder|file|dataset|connection|project)\b.*\b(AI[ -]?OS|registry|find later)\b', '\bmake\b.*\b(source|folder|file|dataset|project)\b.*\bdiscoverable\b']
+
+[skills.audit]
+task_profile = "skill_audit"
+implicit_patterns = [
+  '\baudit\b.*\b(AI[ -]?OS|skill architecture|runtime)\b',
+  '\b(verify|check)\b.*\b(my|the)\b.*\bAI[ -]?OS\b.*\b(architecture|configuration|routing)\b',
+  '\b(find|check|audit|evaluate)\b.*\b(conflicting|overlapping|stale|bloated|bloat|ambiguous|drifted?)\b.*\b(skills?|skill descriptions?|agent instructions?|AGENTS\.md|engineering workflow)\b',
+  '\b(find|check|audit|evaluate)\b.*\b(skills?|skill descriptions?|agent instructions?|AGENTS\.md|engineering workflow)\b.*\b(conflict|overlap|stale|bloat|ambiguous|drift|routing)\b',
+  '\b(check|audit|evaluate)\b.*\b(AI[ -]?OS|engineering workflow)\b.*\b(drift(?:ed)?|routing|workflow|scaffolding|model upgrade|generated|canonical)\b',
+  '\b(check|audit|evaluate)\b.*\b(canonical|generated)\b.*\bAI[ -]?OS\b.*\bskills?\b',
+  '\b(model upgrade|new model)\b.*\b(scaffolding|agent instructions?|skills?)\b',
+]
+
+[skills.level-up]
+task_profile = "skill_level_up"
+implicit_patterns = ['\blevel up\b.*\bAI[ -]?OS\b', '\bfind one\b.*\b(high.value|valuable)\b.*\bAI[ -]?OS improvement\b', '\bwhat should I improve next\b.*\bAI[ -]?OS\b']
+
+[skills.3d-brain]
+task_profile = "skill_3d_brain"
+implicit_patterns = ['\b3d brain\b', '\bvisualiz(e|ation)\b.*\b(AI[ -]?OS|knowledge)\b.*\b3d\b', '\bexplore\b.*\bknowledge graph\b.*\b3d\b']

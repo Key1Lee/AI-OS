@@ -1,0 +1,436 @@
+{
+  "exposures": {
+    "exposure.commerce.executive_dashboard": {
+      "columns": {},
+      "depends_on": {
+        "nodes": [
+          "model.commerce.mart_revenue"
+        ]
+      },
+      "description": "Executives use this report to review daily revenue.",
+      "meta": {
+        "layer": "output",
+        "owner": "Finance"
+      },
+      "name": "Executive Dashboard",
+      "resource_type": "exposure",
+      "unique_id": "exposure.commerce.executive_dashboard"
+    }
+  },
+  "metadata": {
+    "dbt_schema_version": "https://schemas.getdbt.com/dbt/manifest/v12.json",
+    "generated_at": "2026-10-02T00:00:00+00:00",
+    "invocation_id": "commerce-duckdb-demo-v1",
+    "producer": "Original trusted DuckDB fixture generator; no dbt command was run.",
+    "sample": true
+  },
+  "metrics": {
+    "metric.commerce.daily_revenue": {
+      "columns": {},
+      "depends_on": {
+        "nodes": [
+          "model.commerce.mart_revenue"
+        ]
+      },
+      "description": "Reported sum of order revenue for the reporting date.",
+      "meta": {
+        "grain": "1 value per reporting day",
+        "layer": "output"
+      },
+      "name": "Daily Revenue",
+      "resource_type": "metric",
+      "unique_id": "metric.commerce.daily_revenue"
+    }
+  },
+  "nodes": {
+    "model.commerce.fct_orders": {
+      "columns": {
+        "order_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "order_id"
+        },
+        "revenue": {
+          "data_type": "DECIMAL(18,2)",
+          "description": null,
+          "name": "revenue"
+        }
+      },
+      "compiled_code": "SELECT order_id,order_total AS revenue FROM int_order_items",
+      "config": {
+        "materialized": "table"
+      },
+      "depends_on": {
+        "nodes": [
+          "model.commerce.int_order_items"
+        ]
+      },
+      "description": "Publishes the order-level fact used by finance.",
+      "meta": {
+        "data_system_map": {
+          "observations": [
+            {
+              "actual": 2,
+              "comparison_key": "order_id",
+              "evidence_type": "duplicate_key_groups",
+              "expected": 0,
+              "observation_id": "commerce-duckdb-demo-v1"
+            }
+          ]
+        },
+        "grain": "1 row per order",
+        "layer": "transformation",
+        "owner": "Analytics engineering",
+        "primary_keys": [
+          "order_id"
+        ]
+      },
+      "name": "fct_orders",
+      "raw_code": "SELECT order_id,order_total AS revenue FROM {{ ref('int_order_items') }}",
+      "resource_type": "model",
+      "schema": "analytics",
+      "unique_id": "model.commerce.fct_orders"
+    },
+    "model.commerce.int_order_items": {
+      "columns": {
+        "item_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "item_id"
+        },
+        "order_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "order_id"
+        },
+        "order_total": {
+          "data_type": "DECIMAL(18,2)",
+          "description": null,
+          "name": "order_total"
+        }
+      },
+      "compiled_code": "SELECT o.order_id,i.item_id,o.order_total FROM stg_orders o LEFT JOIN stg_order_items i ON o.order_id=i.order_id",
+      "config": {
+        "materialized": "table"
+      },
+      "depends_on": {
+        "nodes": [
+          "model.commerce.stg_orders",
+          "model.commerce.stg_order_items"
+        ]
+      },
+      "description": "Combines order and item inputs for the order pipeline.",
+      "meta": {
+        "data_system_map": {
+          "observations": [
+            {
+              "actual": 2,
+              "comparison_key": "order_id",
+              "evidence_type": "duplicate_key_groups",
+              "expected": 0,
+              "observation_id": "commerce-duckdb-demo-v1"
+            }
+          ]
+        },
+        "grain": "1 row per order",
+        "layer": "transformation",
+        "owner": "Analytics engineering",
+        "primary_keys": [
+          "order_id"
+        ]
+      },
+      "name": "int_order_items",
+      "raw_code": "SELECT o.order_id,i.item_id,o.order_total FROM {{ ref('stg_orders') }} o LEFT JOIN {{ ref('stg_order_items') }} i ON o.order_id=i.order_id",
+      "resource_type": "model",
+      "schema": "analytics",
+      "unique_id": "model.commerce.int_order_items"
+    },
+    "model.commerce.mart_revenue": {
+      "columns": {
+        "report_date": {
+          "data_type": "DATE",
+          "description": null,
+          "name": "report_date"
+        },
+        "total_revenue": {
+          "data_type": "DECIMAL(38,2)",
+          "description": null,
+          "name": "total_revenue"
+        }
+      },
+      "compiled_code": "SELECT DATE '2026-10-01' AS report_date,SUM(revenue) AS total_revenue FROM fct_orders",
+      "config": {
+        "materialized": "table"
+      },
+      "depends_on": {
+        "nodes": [
+          "model.commerce.fct_orders"
+        ]
+      },
+      "description": "Summarizes daily revenue for business reporting.",
+      "meta": {
+        "data_system_map": {
+          "observations": [
+            {
+              "actual": 270.0,
+              "comparison_key": "2026-10-01",
+              "evidence_type": "reconciled_revenue",
+              "expected": 160.0,
+              "observation_id": "commerce-duckdb-demo-v1"
+            }
+          ]
+        },
+        "grain": "1 row per reporting day",
+        "layer": "mart",
+        "owner": "Analytics engineering",
+        "primary_keys": [
+          "report_date"
+        ]
+      },
+      "name": "mart_revenue",
+      "raw_code": "SELECT DATE '2026-10-01' AS report_date,SUM(revenue) AS total_revenue FROM {{ ref('fct_orders') }}",
+      "resource_type": "model",
+      "schema": "analytics",
+      "unique_id": "model.commerce.mart_revenue"
+    },
+    "model.commerce.stg_order_items": {
+      "columns": {
+        "item_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "item_id"
+        },
+        "order_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "order_id"
+        },
+        "units": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "units"
+        }
+      },
+      "compiled_code": "SELECT item_id,order_id,units FROM raw_order_items",
+      "config": {
+        "materialized": "table"
+      },
+      "depends_on": {
+        "nodes": [
+          "source.commerce.shopify.raw_order_items"
+        ]
+      },
+      "description": "Keeps line items at their declared item grain.",
+      "meta": {
+        "grain": "1 row per item",
+        "layer": "staging",
+        "owner": "Analytics engineering",
+        "primary_keys": [
+          "item_id"
+        ]
+      },
+      "name": "stg_order_items",
+      "raw_code": "SELECT item_id, order_id, units FROM {{ source('shopify','raw_order_items') }}",
+      "resource_type": "model",
+      "schema": "analytics",
+      "unique_id": "model.commerce.stg_order_items"
+    },
+    "model.commerce.stg_orders": {
+      "columns": {
+        "order_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "order_id"
+        },
+        "order_total": {
+          "data_type": "DECIMAL(18,2)",
+          "description": null,
+          "name": "order_total"
+        }
+      },
+      "compiled_code": "SELECT order_id,order_total FROM raw_orders",
+      "config": {
+        "materialized": "table"
+      },
+      "depends_on": {
+        "nodes": [
+          "source.commerce.shopify.raw_orders"
+        ]
+      },
+      "description": "Standardizes order identifiers and preserves each order once.",
+      "meta": {
+        "data_system_map": {
+          "observations": [
+            {
+              "actual": 0,
+              "comparison_key": "order_id",
+              "evidence_type": "duplicate_key_groups",
+              "expected": 0,
+              "observation_id": "commerce-duckdb-demo-v1"
+            }
+          ]
+        },
+        "grain": "1 row per order",
+        "layer": "staging",
+        "owner": "Analytics engineering",
+        "primary_keys": [
+          "order_id"
+        ]
+      },
+      "name": "stg_orders",
+      "raw_code": "SELECT order_id, order_total FROM {{ source('shopify','raw_orders') }}",
+      "resource_type": "model",
+      "schema": "analytics",
+      "unique_id": "model.commerce.stg_orders"
+    },
+    "test.commerce.unique_fct_orders_order_id": {
+      "attached_node": "model.commerce.fct_orders",
+      "columns": {},
+      "config": {
+        "severity": "ERROR"
+      },
+      "depends_on": {
+        "nodes": [
+          "model.commerce.fct_orders"
+        ]
+      },
+      "name": "unique(fct_orders.order_id)",
+      "raw_code": "SELECT order_id,COUNT(*) FROM fct_orders GROUP BY order_id HAVING COUNT(*)>1",
+      "resource_type": "test",
+      "test_metadata": {
+        "kwargs": {
+          "column_name": "order_id"
+        },
+        "name": "unique"
+      },
+      "unique_id": "test.commerce.unique_fct_orders_order_id"
+    },
+    "test.commerce.unique_stg_orders_order_id": {
+      "attached_node": "model.commerce.stg_orders",
+      "columns": {},
+      "config": {
+        "severity": "ERROR"
+      },
+      "depends_on": {
+        "nodes": [
+          "model.commerce.stg_orders"
+        ]
+      },
+      "name": "unique(stg_orders.order_id)",
+      "raw_code": "SELECT order_id,COUNT(*) FROM stg_orders GROUP BY order_id HAVING COUNT(*)>1",
+      "resource_type": "test",
+      "test_metadata": {
+        "kwargs": {
+          "column_name": "order_id"
+        },
+        "name": "unique"
+      },
+      "unique_id": "test.commerce.unique_stg_orders_order_id"
+    }
+  },
+  "parent_map": {
+    "exposure.commerce.executive_dashboard": [
+      "model.commerce.mart_revenue"
+    ],
+    "metric.commerce.daily_revenue": [
+      "model.commerce.mart_revenue"
+    ],
+    "model.commerce.fct_orders": [
+      "model.commerce.int_order_items"
+    ],
+    "model.commerce.int_order_items": [
+      "model.commerce.stg_orders",
+      "model.commerce.stg_order_items"
+    ],
+    "model.commerce.mart_revenue": [
+      "model.commerce.fct_orders"
+    ],
+    "model.commerce.stg_order_items": [
+      "source.commerce.shopify.raw_order_items"
+    ],
+    "model.commerce.stg_orders": [
+      "source.commerce.shopify.raw_orders"
+    ],
+    "source.commerce.shopify.raw_order_items": [],
+    "source.commerce.shopify.raw_orders": [],
+    "test.commerce.unique_fct_orders_order_id": [
+      "model.commerce.fct_orders"
+    ],
+    "test.commerce.unique_stg_orders_order_id": [
+      "model.commerce.stg_orders"
+    ]
+  },
+  "sources": {
+    "source.commerce.shopify.raw_order_items": {
+      "columns": {
+        "item_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "item_id"
+        },
+        "order_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "order_id"
+        },
+        "units": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "units"
+        }
+      },
+      "depends_on": {
+        "nodes": []
+      },
+      "description": "Synthetic Shopify commerce input.",
+      "identifier": "raw_order_items",
+      "meta": {
+        "grain": "1 row per item",
+        "layer": "source",
+        "owner": "Commerce data team",
+        "primary_keys": [
+          "item_id"
+        ],
+        "source_system": "Shopify"
+      },
+      "name": "raw_order_items",
+      "resource_type": "source",
+      "schema": "raw",
+      "source_name": "shopify",
+      "unique_id": "source.commerce.shopify.raw_order_items"
+    },
+    "source.commerce.shopify.raw_orders": {
+      "columns": {
+        "order_id": {
+          "data_type": "INTEGER",
+          "description": null,
+          "name": "order_id"
+        },
+        "order_total": {
+          "data_type": "DECIMAL(18,2)",
+          "description": null,
+          "name": "order_total"
+        }
+      },
+      "depends_on": {
+        "nodes": []
+      },
+      "description": "Synthetic Shopify commerce input.",
+      "identifier": "raw_orders",
+      "meta": {
+        "grain": "1 row per order",
+        "layer": "source",
+        "owner": "Commerce data team",
+        "primary_keys": [
+          "order_id"
+        ],
+        "source_system": "Shopify"
+      },
+      "name": "raw_orders",
+      "resource_type": "source",
+      "schema": "raw",
+      "source_name": "shopify",
+      "unique_id": "source.commerce.shopify.raw_orders"
+    }
+  }
+}

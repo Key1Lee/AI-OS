@@ -1,0 +1,44 @@
+{
+  "name": "03_cold_student",
+  "input": {
+    "event_type": "demo_request.submitted",
+    "source": "website_demo",
+    "occurred_at": "2026-09-22T14:03:11Z",
+    "lead": {
+      "first_name": "Maya",
+      "last_name": "Chen",
+      "email": "student@gmail.com",
+      "phone": "+14165550184",
+      "company": "",
+      "job_title": "Student",
+      "employee_count": 0,
+      "message": "Learning about automation with no budget or timeline.",
+      "consent_to_contact": true
+    },
+    "utm": {
+      "source": "linkedin",
+      "campaign": "q4_ops_automation"
+    },
+    "event_id": "cold_001"
+  },
+  "mocks": {
+    "ai": {
+      "intent": "job_seeker",
+      "pain_points": [],
+      "budget_band": "unknown",
+      "urgency_band": "unknown",
+      "recommended_next_action": "nurture",
+      "confidence": 0.92,
+      "summary": "Educational inquiry."
+    },
+    "hubspot": "not_found"
+  },
+  "expected": {
+    "http": 202,
+    "crm": "create",
+    "tier": "COLD",
+    "slack": "none",
+    "human_review": false,
+    "db": "completed"
+  }
+}

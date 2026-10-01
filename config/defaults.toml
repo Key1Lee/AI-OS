@@ -1,0 +1,87 @@
+[runtime]
+provider = "qwen_local"
+model = ""
+
+[context]
+policy = "dynamic"
+default_tokens = 32768
+maximum_tokens = 131072
+safety_margin_tokens = 512
+
+[context.tiers]
+small = 16384
+standard = 32768
+large = 65536
+very_large = 131072
+
+[reasoning]
+default = "medium"
+allow_task_override = true
+
+[reasoning.profiles.none]
+thinking = false
+budget_tokens = 0
+
+[reasoning.profiles.low]
+thinking = true
+budget_tokens = 1024
+
+[reasoning.profiles.medium]
+thinking = true
+budget_tokens = 4096
+
+[reasoning.profiles.high]
+thinking = true
+budget_tokens = 8192
+
+[reasoning.profiles.xhigh]
+thinking = true
+budget_tokens = 16384
+
+[generation]
+max_output_tokens = 8192
+
+[memory]
+session_history = true
+persistent_project_state = true
+
+[retrieval]
+enabled = true
+prefer_relevant_context_over_full_context = true
+
+[verification]
+enabled = true
+
+[tracing]
+enabled = true
+
+[tools]
+least_privilege = true
+requested = []
+
+[external_escalation]
+enabled = false
+
+[task_profiles.skill_onboard]
+reasoning = "medium"
+context = "small"
+
+[task_profiles.skill_grill_me]
+reasoning = "medium"
+context = "small"
+
+[task_profiles.skill_link]
+reasoning = "low"
+context = "small"
+
+[task_profiles.skill_audit]
+reasoning = "high"
+context = "standard"
+
+[task_profiles.skill_level_up]
+reasoning = "medium"
+context = "standard"
+
+[task_profiles.skill_3d_brain]
+reasoning = "low"
+context = "small"
