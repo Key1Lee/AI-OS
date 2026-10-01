@@ -3,6 +3,8 @@
 setup:
 	python3 -m venv .venv
 	.venv/bin/python -m pip install -r requirements-ae.txt -r requirements-dev.txt
+	.venv/bin/python -m pip install -e "../Data Observability System"
+	npm --prefix "../Data Observability System/web" ci --no-audit --no-fund
 	npm --prefix apps/web ci --no-audit --no-fund
 	npm --prefix apps/web run build
 
@@ -10,10 +12,10 @@ dev:
 	.venv/bin/python -m uvicorn apps.api.main:create_app --factory --host 127.0.0.1 --port 8001
 
 test:
-	.venv/bin/python -m pytest -q
+	.venv/bin/python -m pytest -q tests "../Data Observability System/tests"
 
 lint:
-	.venv/bin/python -m compileall -q trainer data_system_map apps/api
+	.venv/bin/python -m compileall -q trainer apps/api "../Data Observability System/src/data_system_map"
 	npm --prefix apps/web run typecheck
 	zsh -n Start-AE-Trainer.command
 
@@ -24,4 +26,4 @@ test-e2e:
 	npm --prefix apps/web run test:e2e
 
 check-map-demo:
-	.venv/bin/python scripts/generate_commerce_map.py --check
+	.venv/bin/python -m data_system_map.demo.generate --check

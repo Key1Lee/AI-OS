@@ -3,15 +3,12 @@ from __future__ import annotations
 import logging
 import secrets
 from pathlib import Path
-from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.exceptions import RequestValidationError
-from fastapi.exception_handlers import request_validation_exception_handler
 from sqlalchemy.exc import OperationalError
-from starlette.middleware.trustedhost import TrustedHostMiddleware
+from data_system_map.api.boundary import install_local_boundary
 
 from trainer.config import ROOT, Settings
 from trainer.execution.sql import ExecutionUnavailable, SqlRunner
@@ -32,40 +29,7 @@ def create_app(settings: Settings | None = None, *, runner=None, clock=None) -> 
     token = secrets.token_urlsafe(32)
     application = FastAPI(title="Senior AE Trainer",version="0.1.0",docs_url=None,redoc_url=None,openapi_url="/api/openapi.json")
     application.state.service, application.state.store = service, store
-    application.add_middleware(TrustedHostMiddleware,allowed_hosts=["127.0.0.1","localhost","testserver"])
-
-    @application.middleware("http")
-    async def local_boundary(request: Request, call_next):
-        if request.method in {"POST","PUT","PATCH","DELETE"}:
-            origin = request.headers.get("origin")
-            if origin and (urlsplit(origin).netloc != request.url.netloc or urlsplit(origin).scheme != request.url.scheme):
-                return JSONResponse(status_code=403,content={"detail":"Mutation requests must come from this local application."})
-            if not secrets.compare_digest(request.headers.get("x-trainer-token", ""),token):
-                return JSONResponse(status_code=403,content={"detail":"Refresh the application to obtain the current local request token."})
-        if request.url.path.startswith('/api/map') and request.method in {'POST','PUT','PATCH'}:
-            limit = 8 * 1024 * 1024
-            too_large = JSONResponse(status_code=413,content={'detail':'Map artifact uploads are limited to 8 MiB.'})
-            length = request.headers.get('content-length')
-            if length and length.isdigit() and int(length) > limit:
-                return too_large
-            body = bytearray()
-            async for chunk in request.stream():
-                if len(body) + len(chunk) > limit:
-                    return too_large
-                body.extend(chunk)
-            # Starlette's Request.body() cache is replayed by BaseHTTPMiddleware
-            # to downstream JSON parsing. Populate it only after bounded reading.
-            request._body = bytes(body)
-        response = await call_next(request)
-        response.headers.update({"X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"no-referrer","Cache-Control":"no-store",
-            "Content-Security-Policy":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"})
-        return response
-
-    @application.exception_handler(RequestValidationError)
-    async def validation(request, exc):
-        if request.url.path.startswith('/api/map'):
-            return JSONResponse(status_code=422,content={'detail':'The request does not match the Data System Map contract. Check required fields and types.'})
-        return await request_validation_exception_handler(request,exc)
+    install_local_boundary(application,token,token_header='X-Trainer-Token')
 
     @application.exception_handler(Conflict)
     async def conflict(_, exc):

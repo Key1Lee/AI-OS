@@ -92,8 +92,10 @@ source changes, run `npm --prefix apps/web run build` and restart the trainer.
 ## Data System Map — first vertical slice
 
 Added 2026-10-02 to the same local application. Open **Data System Map** in trainer
-navigation or visit `http://127.0.0.1:8001/map` for the reusable standalone view.
-Use the existing launcher or `make dev`; no new dependency or API key is required.
+navigation or visit `http://127.0.0.1:8001/map` for the full trainer investigation view.
+Use the existing launcher or `make dev`. `make setup` installs the sibling
+[Data Observability System](<../Data Observability System/README.md>) package and UI
+dependencies; no API key is required. The independent generic app runs on port 8002.
 
 The default five-stage overview expands into focused model lineage. Select a
 node for schema, declared grain, direct neighbors, recorded tests, execution
@@ -110,7 +112,8 @@ persist. Eight objective answer/action checks do not prove a repair or broad
 mastery; inspecting recorded tests is not executing dbt. These sessions do not
 update the canonical assessment registers or existing SQL competency records.
 
-Metadata snapshots use `data/data-system-map.db`; investigation evidence uses
+Generic metadata snapshots now use `../Data Observability System/data/observability.db`
+(or the generic `OBSERVABILITY_DB` override); investigation evidence uses
 `data/data-map-training.db`. An `AE_TRAINER_DB` override gives both separate sibling
 profiles. Browser tests use disposable profiles. Stop the process before copying
 SQLite profiles for backup, retaining associated WAL files if present.
@@ -120,9 +123,11 @@ live AI reasoning, further adapters and warehouse/runtime connections remain
 later slices. The UI reports unavailable lineage without fabricating edges.
 
 Checks: `make test`, `make lint`, `npm --prefix apps/web run build`,
-`make test-e2e`, `make check-map-demo`. See [architecture](docs/data-system-map/architecture.md),
-[API and policy](docs/data-system-map/api.md), [artifact research](docs/data-system-map/research.md),
-and [verification](docs/data-system-map/verification.md).
+`make test-e2e`, `make check-map-demo`. See [migration and trainer policy](docs/data-observability-migration.md),
+[Observability boundary](<../Data Observability System/README.md>),
+[shared APIs](<../Data Observability System/docs/api.md>),
+[artifact research](<../Data Observability System/docs/initial-implementation/research.md>)
+and [migration verification](<../Data Observability System/docs/verification.md>).
 
 ## Project state
 

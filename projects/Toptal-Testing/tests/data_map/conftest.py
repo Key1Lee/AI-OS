@@ -1,5 +1,3 @@
-import json
-from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
@@ -10,8 +8,8 @@ from trainer.config import ROOT, Settings
 
 @pytest.fixture
 def artifacts():
-    directory = ROOT/'fixtures/data-map/commerce'
-    return {name:json.loads((directory/name).read_text()) for name in ['manifest.json','run_results.json','catalog.json','sources.json']}
+    from data_system_map.demo import load_artifacts
+    return load_artifacts()
 
 
 @pytest.fixture

@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-02",
+  "source": "/Users/key/_AI-OS/projects/Toptal-Testing/data/data-system-map.db",
+  "target": "/Users/key/_AI-OS/projects/Data Observability System/data/observability.db",
+  "file_sha256": {
+    "": "cc8cec959c590daafb3266f4f625e8759673310aff9154115f86086a4c5de357",
+    "-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+  },
+  "metadata_before_after": {
+    "application_id": 1145913680,
+    "schema_version": 1,
+    "integrity": "ok",
+    "tables": {
+      "edges": {
+        "count": 10,
+        "content_sha256": "cb9906827cefabb8e85d8e57dedfe72f0ed7cf025f95818ebbf1b5f5282439af"
+      },
+      "nodes": {
+        "count": 11,
+        "content_sha256": "c393ee65017dba27115dfb869edd3ff2dca0743c6c51a22a3d542b376a3b3ff8"
+      },
+      "snapshots": {
+        "count": 1,
+        "content_sha256": "933ab30bf17825bf676ebebc23f081039de32795bfca67762de8efa9d1262145"
+      },
+      "systems": {
+        "count": 1,
+        "content_sha256": "1089ffec7df358693eec1993c722e1940e5c26e1028ed201cfe3b505b17b868e"
+      }
+    }
+  },
+  "systems": [
+    {
+      "system_id": "commerce-demo",
+      "current_snapshot": "0332c7dcab4c4c5e5294139f3f397acddf114bc23eda5903a911b6a7192ba778"
+    }
+  ],
+  "snapshot_ids": [
+    "0332c7dcab4c4c5e5294139f3f397acddf114bc23eda5903a911b6a7192ba778"
+  ],
+  "learner_files_unchanged": {
+    "data/ae-trainer.db": "d405fbc2df562fce249630e4ce77beebfb8bfd930b23db6660d919028115b515",
+    "data/data-map-training.db": "1cef7bfceedc14c282832721ca268e0139a0aa9c3fc88bc674b09ed2889eb718",
+    "assessment/competency-map.md": "c82b5938c1a44d4b08d1abc9e0ee25c7c9e7dcf1389d9f40516e55fb3c9bb140",
+    "assessment/history.md": "37642b65086679d29bebc1f928437bb02b743cff96cea9511a3c3b25fbfa4737",
+    "assessment/mastery-evidence.md": "67f8f99a6e18a105044cd0b5e2670c4f8987f2e8758600ef1f42cfa64ff7fc8c",
+    "assessment/weaknesses.md": "e4584aabd9cc857190382ed34296601dbf6b871ea3c1860e1adf0ee13520e3bd"
+  },
+  "source_removed": true,
+  "schema_migrated": false
+}

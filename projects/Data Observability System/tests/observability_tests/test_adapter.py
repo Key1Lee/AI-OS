@@ -10,7 +10,7 @@ def ingest(artifacts):
 
 
 def test_real_generated_demo_contract_and_provenance(artifacts):
-    from scripts.generate_commerce_map import generate
+    from data_system_map.demo.generate import generate
     assert generate()==artifacts
     graph=ingest(artifacts)
     nodes={n.id:n for n in graph.nodes}

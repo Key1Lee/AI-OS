@@ -138,7 +138,8 @@ def test_profiles_reject_other_application_database_without_changes(tmp_path,sto
 
 def test_engine_and_trainer_adapter_boundaries():
     from pathlib import Path
-    engine='\n'.join(p.read_text() for p in Path('data_system_map').rglob('*.py'))
+    import data_system_map
+    engine='\n'.join(p.read_text() for p in Path(data_system_map.__file__).parent.rglob('*.py'))
     consumer='\n'.join(p.read_text() for p in Path('trainer/data_map').glob('*.py'))
     assert 'from trainer' not in engine and 'import trainer' not in engine
     assert 'data_system_map.adapters' not in consumer and 'sqlglot' not in consumer.lower()

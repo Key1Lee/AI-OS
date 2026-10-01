@@ -1,9 +1,10 @@
 import {useState} from 'react';
-import {request} from '../api';
-import {Badge,DateText} from '../components';
+import type {MapClient} from './client';
+import {Badge,DateText} from './widgets';
 import type {Impact,NodeDetail,Relation,SqlView} from './types';
 
-export function NodePanel({node,systemId,advanced,onSelect,onAction,onError}:{node:NodeDetail;systemId:string;advanced:boolean;onSelect:(key:string)=>void;onAction:()=>Promise<void>;onError:(message:string)=>void}){
+export function NodePanel({client,node,systemId,advanced,onSelect,onAction,onError}:{client:MapClient;node:NodeDetail;systemId:string;advanced:boolean;onSelect:(key:string)=>void;onAction:()=>Promise<void>;onError:(message:string)=>void}){
+ const request=client.request;
  const [tab,setTab]=useState('about');const [sql,setSql]=useState<SqlView|null>(null);const [relation,setRelation]=useState<Relation|null>(null);const [impact,setImpact]=useState<Impact|null>(null);const [lineage,setLineage]=useState('');const [busy,setBusy]=useState(false);
  const base='/map/systems/'+encodeURIComponent(systemId)+'/nodes/'+encodeURIComponent(node.id);
  async function open(next:string){setBusy(true);setTab(next);try{

@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from data_system_map.security import redact
+from data_system_map import redact
 from trainer.data_map.contracts import COMMERCE_SCENARIO, EnginePort
 from trainer.data_map.store import InvestigationStore, MapConflict
 

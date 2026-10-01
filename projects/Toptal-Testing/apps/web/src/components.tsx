@@ -1,8 +1,8 @@
 import type {Recommendation} from './types';
 
-export function Badge({children,tone='neutral'}:{children:React.ReactNode;tone?:string}){return <span className={'badge '+tone}>{children}</span>;}
+import {Badge} from '@data-observability/ui';
+export {Badge,DateText} from '@data-observability/ui';
 export function Empty({title,body}:{title:string;body:string}){return <div className="empty"><div className="empty-mark">↗</div><h3>{title}</h3><p>{body}</p></div>;}
-export function DateText({value}:{value:string|null}){return <>{value?new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value)):'—'}</>;}
 export function Selection({value}:{value:Recommendation|null}){if(!value)return <p className="muted">No eligible exercise. Explore the library to continue practicing.</p>;return <><div className="eyebrow">YOUR NEXT EXERCISE</div><h3>{value.title}</h3><div className="tag-row"><Badge tone="green">SQL</Badge><Badge>L{value.difficulty}</Badge><Badge>Original scenario</Badge></div><p>{value.reasons.join(' ')}</p><details><summary>Why this recommendation?</summary><div className="factor-list">{Object.entries(value.factors).map(([key,factor])=><div key={key}><span>{key.replaceAll('_',' ')}</span><span>{factor>0?'+':''}{factor.toFixed(1)}</span></div>)}</div><p className="fine">These are selection weights, not a competence score.</p>{value.practice_only&&<p className="fine">Previously attempted. Repetition does not earn new independent credit.</p>}</details></>;}
 export function Icon({name}:{name:string}) {
  const paths:Record<string,string>={overview:'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',practice:'M8 5 3 12l5 7 M16 5l5 7-5 7 M14 3l-4 18',interview:'M4 4h16v12H9l-5 4z M8 8h8 M8 12h5',competencies:'M4 19V9 M10 19V4 M16 19v-7 M22 19V7',mistakes:'M12 3 2 21h20z M12 9v5 M12 17v1',library:'M4 3h5v18H4z M11 3h5v18h-5z M18 5l3-1 3 16-3 1z',history:'M3 11a9 9 0 1 1 2 7 M3 4v7h7 M12 7v5l3 2',roadmap:'M5 3v18 M5 5h12l-3 4 3 4H5',review:'M4 6h16 M4 12h11 M4 18h7 M17 16l3 3 3-5'};

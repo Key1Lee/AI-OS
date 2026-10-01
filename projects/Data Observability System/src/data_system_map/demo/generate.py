@@ -11,7 +11,7 @@ from pathlib import Path
 
 import duckdb
 
-ROOT = Path(__file__).resolve().parents[1]
+DEMO_DIRECTORY = Path(__file__).resolve().parent / "commerce"
 STAMP = '2026-10-02T00:00:00+00:00'
 RUN = 'commerce-duckdb-demo-v1'
 
@@ -73,7 +73,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check',action='store_true',help='Compare trusted execution with checked-in fixtures without changing files.')
     args = parser.parse_args()
-    destination = ROOT/'fixtures/data-map/commerce'
+    destination = DEMO_DIRECTORY
     if not args.check:
         destination.mkdir(parents=True,exist_ok=True)
     for name,body in generate().items():

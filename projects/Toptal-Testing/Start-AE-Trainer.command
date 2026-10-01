@@ -8,11 +8,15 @@ fi
 if ! .venv/bin/python -c 'import duckdb, sqlalchemy, alembic, yaml, fastapi' >/dev/null 2>&1; then
   .venv/bin/python -m pip install -r requirements-ae.txt
 fi
+if ! .venv/bin/python -c 'import data_system_map.api.router' >/dev/null 2>&1; then
+  .venv/bin/python -m pip install -e "../Data Observability System"
+fi
 if [[ ! -f apps/web/dist/index.html ]]; then
   if ! command -v npm >/dev/null 2>&1; then
     print "Node.js 22.12+ and npm are needed for the initial UI build. Run make setup after installing Node."
     exit 1
   fi
+  npm --prefix "../Data Observability System/web" ci --no-audit --no-fund
   npm --prefix apps/web ci --no-audit --no-fund
   npm --prefix apps/web run build
 fi

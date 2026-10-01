@@ -12,6 +12,22 @@ class DataSystemService:
     def __init__(self, store: MetadataStore):
         self.store = store
 
+    def systems(self):
+        return self.store.systems()
+
+    def query(self, system_id, operation, *, snapshot_id=None, node_id=None, start=None, end=None, column=None):
+        """Bounded graph operations without exposing graph implementation to consumers."""
+        graph = Graph(self.snapshot(system_id, snapshot_id))
+        if operation == 'shortest_path':
+            return {'path': graph.shortest_path(start,end)}
+        if operation == 'all_paths':
+            return graph.all_paths(start,end)
+        if operation == 'column_lineage':
+            return graph.column_lineage(node_id,column)
+        if operation in {'direct_parents','direct_children'}:
+            return {'node_ids': getattr(graph,operation)(node_id)}
+        raise ValueError('Unsupported graph operation.')
+
     def import_dbt(self, system_id, name, manifest, **artifacts) -> GraphSnapshot:
         # Normalize fully before the write transaction. Adapter errors leave the
         # previous system pointer and every historic snapshot unchanged.
@@ -71,7 +87,7 @@ class DataSystemService:
         result['tests'] = [t.model_dump() for t in snapshot.tests if t.node_id == key]
         result['executions'] = [e.model_dump() for e in snapshot.executions if e.node_id == key]
         # Explicit node inspection legitimately retrieves that node's recorded
-        # measurements in either audience, without a root-cause designation.
+        # measurements without deriving a cause, without a root-cause designation.
         result['observations'] = [o.model_dump() for o in snapshot.observations if o.node_id == key]
         result['impact'] = graph.impact(key)
         result['recent_changes'] = self.changed_nodes(system_id, snapshot_id=snapshot_id, key=key)
@@ -129,7 +145,7 @@ class DataSystemService:
                   "execution_evidence": [e.model_dump() for e in snapshot.executions if e.node_id == key and e.status == 'FAILED'],
                   "impact": self.impact(system_id,key,snapshot_id=snapshot_id)}
         if not reveal_diagnostics:
-            result['message'] = "Assessment-safe failure view. Inspect nodes and recorded tests to gather evidence. No automatic cause or investigation hint is supplied."
+            result['message'] = "Failure evidence view. Inspect nodes and recorded tests to gather evidence."
             return result
         relevant = {key, *graph.upstream(key)}
         bad = [o for o in snapshot.observations if o.node_id in relevant and o.expected is not None and o.actual is not None and o.actual != o.expected]
