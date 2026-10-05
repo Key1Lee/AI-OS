@@ -1,0 +1,46 @@
+{
+  "evidence": [
+    {
+      "name": "N:N UI",
+      "data": "O1\n2 left rows\n2 matches\nO1\nO1\nO1\nO1\nO2\n1 left row\n1 match\nO2\nO3\n1 left row\n2 matches\nO3\nO3\nO4\n1 left row\n0 matches\nO4"
+    },
+    {
+      "name": "N:N repair",
+      "data": "LEFT ROWS\n5\n1 row / order item (scenario contract)\nRIGHT ROWS\n3 / 5 before\n1 row / join key after aggregation (declared operation)\nACTUAL CARDINALITY\nN:1\nExpected N:1 · matched keys\nJOINED ROWS\n5\n5 expected · 5 independently calculated"
+    },
+    {
+      "name": "unverified source draft",
+      "data": "Staging disabled"
+    },
+    {
+      "name": "prepared view arrow",
+      "data": "SHOW ME WHY\nFilter\nBEFORE\nstg_orders\norder\n4 rows\nAFTER\ncompleted_orders\norder\n3 rows\n\nWhy this step exists\nPrepared teaching input: filter staged orders to completed status, preserving one row per order.\n\nFILTERS\n\nstatus = 'completed'\n\nPrimary key is not null\nPass\nPrimary key is unique\nPass"
+    },
+    {
+      "name": "prepared view fact arrow",
+      "data": "SHOW ME WHY\nModel\nBEFORE\ncompleted_orders\norder\n3 rows\nAFTER\nfct_orders\n1 row / order\n3 rows\n\nWhy this step exists\nRepresent each completed order once, making its amount safely additive at order grain.\n\nModel schema satisfies contract\nPass\nOutput matches golden rows\nPass\nCompleted-order row count\nPass\nPrimary key is not null\nPass\nPrimary key is unique\nPass\nDeclared grain is supported\nPass\nRequired fields are not null\nPass\nOnly completed orders\nPass\nAmounts are non-negative\nPass\nOne declared currency: USD\nPass\nCustomer keys reference customers\nPass"
+    },
+    {
+      "name": "prepared materialization",
+      "data": "MODEL INSPECTOR\nintermediate\ncompleted_orders\n\nPrepared teaching input: filter staged orders to completed status, preserving one row per order.\n\n01 Grain\n1 row / order\n\nPrepared view's declared order grain is supported by key assertions.\n\n02 Key\norder_id\n03 Relationships\nstg_orders\n04 Transformation\nPrepared teaching input: filter staged orders to completed status, preserving one row per order.\n05 Proof\n2 / 2 assertions pass\nInspect model assertions\n\nMaterialization: view\nA local fixture choice. Production choices depend on build cost, query cost, storage, and freshness.\n\nExecuted SQL\nDuckDB SQL\nSELECT * FROM stg_orders WHERE status = 'completed'"
+    },
+    {
+      "name": "SQL execution error",
+      "data": "Failed fact; metric calculation disabled"
+    },
+    {
+      "name": "source invalidation",
+      "data": "Prior fact and calculated metric cleared"
+    },
+    {
+      "name": "external requests",
+      "data": []
+    },
+    {
+      "name": "extra UI acceptance",
+      "data": "PASS"
+    }
+  ],
+  "errors": [],
+  "external": []
+}

@@ -2,6 +2,21 @@
 
 AI-OS is the top-level engineering system and shared architectural layer.
 
+## Task navigation
+
+For a normal task:
+
+1. Identify the system that owns the requested capability using `SYSTEMS.md`.
+2. Read only that system's YAML in `systems-registry/registry/`.
+3. Read its local `AGENTS.md`, relevant contracts, and source files.
+4. Expand into dependent systems only when the change crosses a boundary.
+5. Run targeted checks listed in the registry and the owning project's guidance.
+6. After a registry change, run `systems-registry/.venv/bin/python systems-registry/scripts/validate_registry.py`.
+
+Do not read the entire workspace for a small change. Perform a whole-system
+architecture audit only when explicitly requested. Keep architecture knowledge
+in `ARCHITECTURE.md` and the existing `architecture/` documents.
+
 ## Boundaries
 
 - Treat each directory under `projects/` as an independent business project.

@@ -1,0 +1,29 @@
+{
+  "verification_date": "2026-10-02",
+  "timezone": "Asia/Seoul",
+  "source": "Independent tsx executions before correction; outputs observed directly and immediately sent to the implementation agent",
+  "cases": [
+    {
+      "case": "healthy workflow with skipped stg_customers and one_success int_orders",
+      "calculated_path": ["extract_orders", "stg_orders", "quality_check", "fct_orders", "mart_revenue", "dashboard"],
+      "calculated_minutes": 13,
+      "actual_minutes": 14,
+      "int_orders_start": "2026-10-02T06:06:00+09:00",
+      "run_status": "SUCCESS"
+    },
+    {
+      "case": "disabled A -> blocked B(1); independent C(3); one_success D(5) on B/C",
+      "calculated_path": ["B", "D"],
+      "calculated_minutes": 6,
+      "actual_minutes": 8,
+      "states": { "A": "SKIPPED", "B": "BLOCKED", "C": "SUCCESS", "D": "SUCCESS" }
+    },
+    {
+      "case": "A(10) -> disabled B; all_done C(1) on B",
+      "calculated_path": ["A", "B", "C"],
+      "calculated_minutes": 11,
+      "actual_minutes": 10,
+      "states": { "A": "SUCCESS", "B": "SKIPPED", "C": "SUCCESS" }
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "contract_version": "semantic-catalog-v1",
+  "scope": "synthetic_scenario",
+  "entities": {
+    "Order": {
+      "name": "Order",
+      "description": "Canonical order entity in synthetic commerce",
+      "identifier": "order_id",
+      "identifier_type": "canonical_string",
+      "source": "fct_orders",
+      "grain": "order",
+      "owner": "Commerce Operations (synthetic)",
+      "relationships": {
+        "Customer": "N:1",
+        "Product": "N:1"
+      },
+      "identity_policy": "A canonical source order_id identifies one logical order; versions must be resolved by Modeling."
+    },
+    "Customer": {
+      "name": "Customer",
+      "description": "Canonical customer entity in synthetic commerce",
+      "identifier": "customer_id",
+      "identifier_type": "canonical_string",
+      "source": "dim_customers",
+      "grain": "customer",
+      "owner": "Commerce Operations (synthetic)",
+      "relationships": {
+        "Order": "1:N"
+      },
+      "identity_policy": "Use canonical customer_id. Guest email and CRM account_id require explicit upstream identity mapping; ambiguity is not resolved by this metric."
+    },
+    "Product": {
+      "name": "Product",
+      "description": "Canonical product entity in synthetic commerce",
+      "identifier": "product_id",
+      "identifier_type": "canonical_string",
+      "source": "dim_products",
+      "grain": "product",
+      "owner": "Commerce Operations (synthetic)",
+      "relationships": {
+        "Order": "1:N"
+      },
+      "identity_policy": "One canonical product_id; this bounded fixture assigns one product to an order. Multi-product attribution requires a separately approved allocation contract."
+    }
+  },
+  "dimensions": {
+    "date": {
+      "name": "date",
+      "entity": "Order",
+      "type": "date",
+      "description": "Reporting date from the metric event time and timezone, not processing time",
+      "allowed_values": null,
+      "source": "fct_orders",
+      "time_behavior": "event_time_in_metric_timezone",
+      "owner": "Finance (synthetic)",
+      "relationship": "Order 1:1 reporting date"
+    },
+    "channel": {
+      "name": "channel",
+      "entity": "Order",
+      "type": "string",
+      "description": "Sales channel recorded on the order",
+      "allowed_values": [
+        "web",
+        "store",
+        "marketplace"
+      ],
+      "source": "fct_orders",
+      "time_behavior": "at_order_event",
+      "owner": "Commerce Operations (synthetic)",
+      "relationship": "Order 1:1 channel"
+    },
+    "region": {
+      "name": "region",
+      "entity": "Customer",
+      "type": "string",
+      "description": "Customer region at this modeled snapshot, not historical SCD reconstruction",
+      "allowed_values": [
+        "north",
+        "south"
+      ],
+      "source": "dim_customers",
+      "time_behavior": "current_snapshot",
+      "owner": "Customer Operations (synthetic)",
+      "relationship": "Order N:1 Customer"
+    },
+    "product_category": {
+      "name": "product_category",
+      "entity": "Product",
+      "type": "string",
+      "description": "Category of the single product per order in this bounded domain; no item joins",
+      "allowed_values": [
+        "electronics",
+        "home"
+      ],
+      "source": "dim_products",
+      "time_behavior": "current_snapshot",
+      "owner": "Merchandising (synthetic)",
+      "relationship": "Order N:1 Product; multi-product orders unsupported"
+    }
+  },
+  "measures": {
+    "gross_order_value": {
+      "name": "gross_order_value",
+      "source": "fct_orders",
+      "field": "gross_order_value_cents",
+      "grain": "order",
+      "aggregation": "SUM",
+      "description": "Order amount before refunded amounts in exact integer USD cents",
+      "owner": "Finance (synthetic)"
+    },
+    "refund_amount": {
+      "name": "refund_amount",
+      "source": "fct_order_refunds",
+      "field": "refund_amount_cents",
+      "grain": "order",
+      "aggregation": "SUM",
+      "description": "Already-modeled sum of refunded amounts through snapshot as_of, one row per order",
+      "owner": "Finance (synthetic)"
+    },
+    "order_count": {
+      "name": "order_count",
+      "source": "fct_orders",
+      "field": "order_id",
+      "grain": "order",
+      "aggregation": "COUNT",
+      "description": "One eligible logical order contributes one; never count item rows",
+      "owner": "Commerce Operations (synthetic)"
+    }
+  },
+  "assets": {
+    "orders_raw": {
+      "parents": [],
+      "owner": "Source systems"
+    },
+    "refunds_raw": {
+      "parents": [],
+      "owner": "Source systems"
+    },
+    "customers_raw": {
+      "parents": [],
+      "owner": "Source systems"
+    },
+    "products_raw": {
+      "parents": [],
+      "owner": "Source systems"
+    },
+    "stg_orders": {
+      "parents": [
+        "orders_raw"
+      ],
+      "owner": "Modeling"
+    },
+    "stg_refunds": {
+      "parents": [
+        "refunds_raw"
+      ],
+      "owner": "Modeling"
+    },
+    "fct_orders": {
+      "parents": [
+        "stg_orders"
+      ],
+      "owner": "Modeling"
+    },
+    "fct_order_refunds": {
+      "parents": [
+        "stg_refunds",
+        "fct_orders"
+      ],
+      "owner": "Modeling"
+    },
+    "dim_customers": {
+      "parents": [
+        "customers_raw"
+      ],
+      "owner": "Modeling"
+    },
+    "dim_products": {
+      "parents": [
+        "products_raw"
+      ],
+      "owner": "Modeling"
+    }
+  },
+  "metrics": [
+    {
+      "contract_version": "semantic-metric-v1",
+      "metric_id": "gross_revenue",
+      "name": "gross_revenue",
+      "description": "Fulfilled USD order value before refunds, attributed to fulfillment reporting date.",
+      "business_definition": "Fulfilled USD order value before refunds, attributed to fulfillment reporting date.",
+      "purpose": "Compare recognized commerce value before refund deductions.",
+      "owner": "Finance (synthetic)",
+      "technical_owner": "Semantic Platform (synthetic)",
+      "entity": "Order",
+      "grain": "order",
+      "measure": [
+        "gross_order_value"
+      ],
+      "aggregation": "SUM",
+      "formula": "gross_order_value",
+      "time_dimension": "fulfilled_at",
+      "timezone": "America/Chicago",
+      "calendar": "gregorian",
+      "refund_attribution": "order_reporting_date_as_of_snapshot",
+      "filters": {
+        "status": [
+          "fulfilled"
+        ],
+        "currency": "USD"
+      },
+      "dimensions": [
+        "date",
+        "channel",
+        "region",
+        "product_category"
+      ],
+      "currency": "USD",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "upstream_assets": [
+        "dim_customers",
+        "dim_products",
+        "fct_orders"
+      ],
+      "consumers": [
+        "dashboard_a",
+        "dashboard_b",
+        "api",
+        "ai",
+        "sql"
+      ],
+      "dependencies": [],
+      "tests": [
+        "known_fixture",
+        "grain_and_identity",
+        "reporting_time_boundary",
+        "consumer_consistency"
+      ],
+      "effective_from": "2026-09-01T00:00:00Z",
+      "approval": {
+        "owner": "Finance (synthetic)",
+        "evidence": "SEM-REVENUE-001/finance-owner (authored training artifact)",
+        "scope": "synthetic_scenario",
+        "approved_at": "2026-09-01T00:00:00Z",
+        "meaning_fingerprint": "e9bfb701243be1500a3f06d5f2689420a809d354489eb428b3f59ef418235664"
+      },
+      "previous_version": null,
+      "change_note": "Initial authored training definition; not real business approval.",
+      "compatibility": "initial",
+      "consumer_migration": []
+    },
+    {
+      "contract_version": "semantic-metric-v1",
+      "metric_id": "net_revenue",
+      "name": "net_revenue",
+      "description": "Fulfilled USD order value minus refunds through the supplied snapshot; attribute refunds back to order fulfillment date. Exclude canceled and unfulfilled orders.",
+      "business_definition": "Fulfilled USD order value minus refunds through the supplied snapshot; attribute refunds back to order fulfillment date. Exclude canceled and unfulfilled orders.",
+      "purpose": "Reconcile this scenario executive and Finance review of recognized commerce value after refunds.",
+      "owner": "Finance (synthetic)",
+      "technical_owner": "Semantic Platform (synthetic)",
+      "entity": "Order",
+      "grain": "order",
+      "measure": [
+        "gross_order_value",
+        "refund_amount"
+      ],
+      "aggregation": "SUM",
+      "formula": "gross_order_value - refund_amount",
+      "time_dimension": "fulfilled_at",
+      "timezone": "America/Chicago",
+      "calendar": "gregorian",
+      "refund_attribution": "order_reporting_date_as_of_snapshot",
+      "filters": {
+        "status": [
+          "fulfilled"
+        ],
+        "currency": "USD"
+      },
+      "dimensions": [
+        "date",
+        "channel",
+        "region",
+        "product_category"
+      ],
+      "currency": "USD",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "upstream_assets": [
+        "dim_customers",
+        "dim_products",
+        "fct_order_refunds",
+        "fct_orders"
+      ],
+      "consumers": [
+        "dashboard_a",
+        "dashboard_b",
+        "api",
+        "ai",
+        "sql"
+      ],
+      "dependencies": [
+        "gross_revenue@1.0.0"
+      ],
+      "tests": [
+        "known_fixture",
+        "grain_and_identity",
+        "reporting_time_boundary",
+        "consumer_consistency"
+      ],
+      "effective_from": "2026-09-01T00:00:00Z",
+      "approval": {
+        "owner": "Finance (synthetic)",
+        "evidence": "SEM-REVENUE-001/finance-owner (authored training artifact)",
+        "scope": "synthetic_scenario",
+        "approved_at": "2026-09-01T00:00:00Z",
+        "meaning_fingerprint": "2bd107f63a9369be972a82a292ad1c05e11239a05c4627a4907739db1b273181"
+      },
+      "previous_version": null,
+      "change_note": "Initial authored training definition; not real business approval.",
+      "compatibility": "initial",
+      "consumer_migration": []
+    },
+    {
+      "contract_version": "semantic-metric-v1",
+      "metric_id": "orders",
+      "name": "orders",
+      "description": "Number of fulfilled USD logical orders in the requested fulfillment-date window.",
+      "business_definition": "Number of fulfilled USD logical orders in the requested fulfillment-date window.",
+      "purpose": "Measure eligible order volume on the same population as revenue.",
+      "owner": "Finance (synthetic)",
+      "technical_owner": "Semantic Platform (synthetic)",
+      "entity": "Order",
+      "grain": "order",
+      "measure": [
+        "order_count"
+      ],
+      "aggregation": "SUM",
+      "formula": "order_count",
+      "time_dimension": "fulfilled_at",
+      "timezone": "America/Chicago",
+      "calendar": "gregorian",
+      "refund_attribution": "order_reporting_date_as_of_snapshot",
+      "filters": {
+        "status": [
+          "fulfilled"
+        ],
+        "currency": "USD"
+      },
+      "dimensions": [
+        "date",
+        "channel",
+        "region",
+        "product_category"
+      ],
+      "currency": null,
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "upstream_assets": [
+        "dim_customers",
+        "dim_products",
+        "fct_orders"
+      ],
+      "consumers": [
+        "dashboard_a",
+        "dashboard_b",
+        "api",
+        "ai",
+        "sql"
+      ],
+      "dependencies": [],
+      "tests": [
+        "known_fixture",
+        "grain_and_identity",
+        "reporting_time_boundary",
+        "consumer_consistency"
+      ],
+      "effective_from": "2026-09-01T00:00:00Z",
+      "approval": {
+        "owner": "Finance (synthetic)",
+        "evidence": "SEM-REVENUE-001/finance-owner (authored training artifact)",
+        "scope": "synthetic_scenario",
+        "approved_at": "2026-09-01T00:00:00Z",
+        "meaning_fingerprint": "b6cfd20925c6aa4e6275862a9116be398103dc43e3c6dfdbf65e5eeef86b1d9d"
+      },
+      "previous_version": null,
+      "change_note": "Initial authored training definition; not real business approval.",
+      "compatibility": "initial",
+      "consumer_migration": []
+    },
+    {
+      "contract_version": "semantic-metric-v1",
+      "metric_id": "active_customers",
+      "name": "active_customers",
+      "description": "Distinct canonical customer_id with at least one fulfilled USD order in the requested fulfillment-date window. No login-based, 90-day, email, or account-id equivalence is implied.",
+      "business_definition": "Distinct canonical customer_id with at least one fulfilled USD order in the requested fulfillment-date window. No login-based, 90-day, email, or account-id equivalence is implied.",
+      "purpose": "Count purchasing customers for this explicitly requested period; the term active has no universal definition.",
+      "owner": "Finance (synthetic)",
+      "technical_owner": "Semantic Platform (synthetic)",
+      "entity": "Order",
+      "grain": "order",
+      "measure": [
+        "order_count"
+      ],
+      "aggregation": "COUNT_DISTINCT",
+      "formula": "distinct_customer_id",
+      "time_dimension": "fulfilled_at",
+      "timezone": "America/Chicago",
+      "calendar": "gregorian",
+      "refund_attribution": "order_reporting_date_as_of_snapshot",
+      "filters": {
+        "status": [
+          "fulfilled"
+        ],
+        "currency": "USD"
+      },
+      "dimensions": [
+        "date",
+        "channel",
+        "region"
+      ],
+      "currency": null,
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "upstream_assets": [
+        "dim_customers",
+        "fct_orders"
+      ],
+      "consumers": [
+        "dashboard_a",
+        "dashboard_b",
+        "api",
+        "ai",
+        "sql"
+      ],
+      "dependencies": [],
+      "tests": [
+        "known_fixture",
+        "grain_and_identity",
+        "reporting_time_boundary",
+        "consumer_consistency"
+      ],
+      "effective_from": "2026-09-01T00:00:00Z",
+      "approval": {
+        "owner": "Finance (synthetic)",
+        "evidence": "SEM-REVENUE-001/finance-owner (authored training artifact)",
+        "scope": "synthetic_scenario",
+        "approved_at": "2026-09-01T00:00:00Z",
+        "meaning_fingerprint": "184dcf5a72b8ab4babd884b74a9bee494e2cfdc1d0df14bd8c6901c88a925ddf"
+      },
+      "previous_version": null,
+      "change_note": "Initial authored training definition; not real business approval.",
+      "compatibility": "initial",
+      "consumer_migration": []
+    }
+  ]
+}

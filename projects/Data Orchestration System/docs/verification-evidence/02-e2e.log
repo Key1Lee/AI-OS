@@ -1,0 +1,18 @@
+
+> data-orchestration-lab@0.1.0 test:e2e
+> playwright test
+
+
+Running 9 tests using 1 worker
+
+  ✓  1 e2e/learning.spec.ts:19:1 › stage-first success journey, task/asset inspection, timeline and valid evidence exports (5.0s)
+  ✓  2 e2e/learning.spec.ts:48:1 › failure is different from downstream blocking and configuration repair produces success (6.8s)
+  ✓  3 e2e/learning.spec.ts:64:1 › transient retry explains failed attempt, exact wait and later success (5.3s)
+  ✓  4 e2e/learning.spec.ts:75:1 › same-input rerun compares safe replacement with duplicate accumulation (15.9s)
+  ✓  5 e2e/learning.spec.ts:84:1 › manual/data triggers are immediate and single worker reveals ready capacity waits (505ms)
+  ✓  6 e2e/learning.spec.ts:97:1 › backfill range, isolation, replay of failed date and explicit successful reprocessing (737ms)
+  ✓  7 e2e/learning.spec.ts:125:1 › historical dates show their real month and year and export the displayed backfill (384ms)
+  ✓  8 e2e/learning.spec.ts:136:1 › a long branch lengthens the critical path while evidence remains visible on narrow screens (4.5s)
+  ✓  9 e2e/learning.spec.ts:153:1 › loaded simulator executes offline and needs no external network resources (4.7s)
+
+  9 passed (44.5s)

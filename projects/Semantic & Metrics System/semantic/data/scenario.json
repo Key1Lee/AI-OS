@@ -1,0 +1,73 @@
+{
+  "contract_version": "semantic-scenario-v1",
+  "id": "SEM-REVENUE-001",
+  "scope": "synthetic_scenario",
+  "opening": "Dashboard A reports Revenue = $8.7M. Dashboard B reports Revenue = $8.2M. Pipeline, freshness, schema, uniqueness and null checks report PASS in the authored incident evidence. What do you want to inspect, and what would it establish?",
+  "architecture": "Already-modeled commerce -> semantic contracts -> dashboard A / dashboard B / API / AI\nModeling: structure | Quality: validity | Observability: recorded system state\nSemantics: business meaning | FDE: business problem and discovery",
+  "window": {
+    "start": "2026-09-30",
+    "end": "2026-10-02"
+  },
+  "artifacts": {
+    "health": {
+      "title": "Recorded technical status",
+      "content": "Pipeline PASS; freshness PASS; schema PASS; uniqueness PASS; null tests PASS. These are authored upstream status reports for this training incident. They do not independently validate a business definition.",
+      "prerequisites": []
+    },
+    "models": {
+      "title": "Modeled assets and grain",
+      "content": "fct_orders: one row per canonical order_id. fct_order_refunds: one row per order, refunds aggregated through snapshot as_of. dim_customers one customer_id; dim_products one product_id. Each fixture order has one product. Item-level joins are unsupported.",
+      "prerequisites": []
+    },
+    "data": {
+      "title": "Modeled commerce snapshot",
+      "content": "Snapshot contains canceled, unfulfilled and EUR orders as well as USD fulfilled orders, plus UTC events around local midnight. Ask for time, formula and owner evidence before selecting a meaning.",
+      "prerequisites": [
+        "models"
+      ]
+    },
+    "dashboard-a": {
+      "title": "Dashboard A query",
+      "content": "SUM(gross_order_value_cents) on fulfilled USD orders; reporting dates 2026-09-30 <= Chicago fulfillment date < 2026-10-02. This is $8,700,000.00. Label: Revenue. Business purpose and owner expectation are not in this query.",
+      "prerequisites": [
+        "models"
+      ]
+    },
+    "dashboard-b": {
+      "title": "Dashboard B query",
+      "content": "SUM(gross_order_value_cents - COALESCE(refund_amount_cents, 0)) after N:1 order-level refund join; same fulfilled USD population and Chicago fulfillment window. This is $8,200,000.00. Label: Revenue. Business purpose and owner expectation are not in this query.",
+      "prerequisites": [
+        "models"
+      ]
+    },
+    "finance-owner": {
+      "title": "Authored Finance interview",
+      "content": "Synthetic Finance owns this incident executive revenue review. For that decision, the approved training expectation is fulfilled USD order value minus refunds through the snapshot, attributed to the original fulfillment date in America/Chicago. Exclude canceled/unfulfilled orders. Gregorian calendar; canonical order_id and customer_id. Approval applies only to this synthetic scenario. Gross revenue remains useful and must retain its own explicit name.",
+      "prerequisites": [
+        "dashboard-a",
+        "dashboard-b"
+      ]
+    },
+    "time-policy": {
+      "title": "Recognition, refund and reporting-date policy",
+      "content": "Created, paid, fulfilled, shipped and refund timestamps answer different questions. This authored Finance decision chooses fulfilled_at, America/Chicago, Gregorian date and an end-exclusive window. Refund aggregates reflect all refunded amounts through snapshot as_of and restate the fulfillment cohort. This does not replace FDE Northstar UTC event-date semantics. Fiscal calendars and refund-date cash reporting need separate contracts.",
+      "prerequisites": [
+        "models"
+      ]
+    },
+    "identity-policy": {
+      "title": "Identity and dimension policy",
+      "content": "A customer means canonical customer_id with a fulfilled USD purchase in the requested window. Email, guest checkout and CRM account_id need an upstream mapping; guessing equivalence is forbidden. Region/category are current snapshot dimensions. Every order in this fixture has exactly one product; multi-product allocation is unapproved.",
+      "prerequisites": [
+        "models"
+      ]
+    }
+  },
+  "diagnosis_question": "Which number serves the business decision, who can approve that choice, and what do the healthy technical checks actually prove?",
+  "recall_questions": [
+    "Why can every technical check pass while two dashboards still disagree?",
+    "What does one row represent before computing this metric, and which joins can change that?",
+    "Which owner, time field, timezone, refund policy and metric version must an AI tool result carry?"
+  ],
+  "next_concept": "TRANSFER is deferred: SEM-TIME-001 will reuse the same investigation pattern with a different decision and recognition date."
+}

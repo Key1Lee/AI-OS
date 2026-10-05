@@ -16,9 +16,9 @@ AI-OS shared defaults
 The runtime owns configuration resolution, local startup checks, context
 planning, model invocation, and non-secret traces. Project applications own
 business rules, durable project state, authorization, and their own workflow
-steps. Existing Toptal-Testing and Northstar applications keep their current
-interfaces and tests. `py_dev` is available for new or explicitly migrated
-project workflows.
+steps. Toptal's provider consumers now delegate transport, credentials, budgets
+and metadata to AI-OS while retaining domain interfaces. Other projects can adopt
+[the shared intelligence contracts](../docs/ai-os/intelligence-plane.md).
 
 ## Configuration inheritance
 
@@ -35,7 +35,7 @@ resolver merges nested settings in this exact order:
 
 The final provider is determined before its provider profile is applied. A
 project without `aios.toml` inherits defaults. Toptal-Testing's small
-[`aios.toml`](../projects/Toptal-Testing/aios.toml) changes only its output
+[`aios.toml`](<../projects/Toptal-Testing System/aios.toml>) changes only its output
 preference and defines four task profiles. Northstar has no project runtime
 file and inherits the global configuration unchanged.
 
@@ -54,7 +54,8 @@ Do not copy the complete defaults file. Invalid providers, reasoning names,
 tiers, output limits, project names, and weakened least-privilege policy fail
 before invocation. A run may request tools, but only a workflow can authorize
 them; the shared runtime currently has no tool executor and rejects nonempty
-tool requests.
+tool requests. `IntelligenceService` separately coordinates bounded native
+OpenAI/Claude proposals through explicitly authorized workflow-owned handlers.
 
 ## Local Qwen startup
 
@@ -153,10 +154,11 @@ also records per-attempt audit metadata as described in
 
 ## Current limits
 
-- Existing project applications do not yet call the shared runtime. Their
-  own persistent stores and workflows remain authoritative.
-- Retrieval indexing, conversation summarization, and tool execution are
-  integration points, not implemented services. Context overflow fails
+- Toptal uses shared provider transport; the other listed applications have not
+  all adopted intelligence calls. Project persistent stores remain authoritative.
+- Retrieval indexing and conversation summarization remain integration points.
+  Bounded tools exist through `IntelligenceService`; the legacy runtime CLI
+  grants no repository/shell authority. Context overflow fails
   explicitly.
 - The local reasoning budget is used only when a live capability probe
   verifies it. Otherwise the on/off thinking control is used, and the budget

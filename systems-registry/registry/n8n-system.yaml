@@ -1,0 +1,36 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# Docs mention contracts/ but that directory is absent. External service setup is not verified.
+name: n8n-system
+purpose: Existing local n8n runner and deterministic Northstar lead-intake workflow.
+owns:
+- lead-intake workflow exports and deterministic routing policy
+- lead event/effect schema and offline synthetic checks
+does_not_own:
+- the data orchestration learning simulator
+- other systems' engines and credentials
+path: projects/n8n System
+entrypoints:
+- projects/n8n System/compose.yaml
+public_interfaces:
+- projects/n8n System/northstar-leadops/workflows/northstar-leadops.json
+- projects/n8n System/northstar-leadops/db/001_schema.sql
+depends_on: []
+consumed_by: []
+contracts: []
+state_owned:
+- project-owned lead event, error, and side-effect claim definitions
+- local n8n runner state
+tests:
+  unit:
+  - node northstar-leadops/scripts/test-behavior.mjs
+  smoke: []
+  contract:
+  - node northstar-leadops/scripts/validate.mjs
+  integration: []
+health_check: null
+documentation:
+- projects/n8n System/README.md
+- projects/n8n System/AGENTS.md
+- projects/n8n System/northstar-leadops/docs/architecture.md
+- projects/n8n System/northstar-leadops/docs/process.md
+lifecycle: UNKNOWN

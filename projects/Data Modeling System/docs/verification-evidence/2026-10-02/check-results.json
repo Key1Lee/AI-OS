@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-02",
+  "timezone": "Asia/Seoul",
+  "status": "PASS",
+  "scope": "First vertical slice, explicit contracts, alternate learner SQL",
+  "checks": [
+    {
+      "command": "uv run pytest",
+      "exit_code": 0,
+      "result": "47 passed",
+      "elapsed_seconds": 2.39
+    },
+    {
+      "command": "npm --prefix apps/web run build",
+      "exit_code": 0,
+      "result": "TypeScript and Vite production build passed; 2046 modules"
+    },
+    {
+      "command": "npm --prefix apps/web run test:e2e",
+      "exit_code": 0,
+      "result": "7 passed",
+      "elapsed_seconds": 8.2
+    },
+    {
+      "command": "node /tmp/modeling-verifier-browser-20261002.mjs http://127.0.0.1:8077",
+      "exit_code": 0,
+      "result": "PASS",
+      "elapsed_seconds": 5.7447
+    },
+    {
+      "command": "node /tmp/modeling-verifier-extra-20261002.mjs http://127.0.0.1:8077",
+      "exit_code": 0,
+      "result": "PASS",
+      "elapsed_seconds": 3.0154
+    }
+  ],
+  "production_assets": [
+    "index-DBQd8rq_.css",
+    "index-CUVt04JB.js"
+  ],
+  "wheel_probe": {
+    "execution_cwd": "New temporary directory outside the repository",
+    "data_modeling_lab_module": "/Users/key/_AI-OS/projects/Data Modeling Lab System/dist/data_modeling_lab-0.1.0-py3-none-any.whl/data_modeling_lab/__init__.py",
+    "fixture_module": "/Users/key/_AI-OS/projects/Data Modeling Lab System/dist/data_modeling_lab-0.1.0-py3-none-any.whl/modeling_fixtures/ecommerce/__init__.py",
+    "status": "pass",
+    "fact_rows": 3,
+    "revenue": "225.00"
+  },
+  "note": "Recorded observations of independently executed commands; this summary is not a raw console transcript."
+}

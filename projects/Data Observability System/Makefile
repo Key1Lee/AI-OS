@@ -1,4 +1,4 @@
-.PHONY: setup dev test lint build check-demo
+.PHONY: setup dev test lint build check-demo test-e2e
 setup:
 	python3 -m venv .venv
 	.venv/bin/python -m pip install -e ".[dev]"
@@ -20,3 +20,6 @@ build:
 
 check-demo:
 	.venv/bin/python -m data_system_map.demo.generate --check
+
+test-e2e:
+	npm --prefix web run test:e2e

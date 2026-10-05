@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semantic-metrics-system"
+version = "0.1.0"
+description = "Bounded governed commerce metrics and a semantic investigation lab"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+sem = "semantic.cli:main"
+
+[tool.setuptools]
+packages = ["semantic", "adapters"]
+
+[tool.setuptools.package-data]
+semantic = ["data/*.json"]

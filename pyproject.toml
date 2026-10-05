@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-os-intelligence"
+version = "0.1.0"
+description = "Shared AI-OS provider and bounded decision boundary"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+openai = ["openai>=2,<3"]
+claude = ["anthropic>=0.40,<1"]
+jev = ["typesafe-sdk>=0.7.2,<1"]
+
+[tool.setuptools]
+packages = ["py_dev", "py_dev.providers"]

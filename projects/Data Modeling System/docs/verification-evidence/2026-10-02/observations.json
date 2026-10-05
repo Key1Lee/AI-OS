@@ -1,0 +1,131 @@
+{
+  "observations": [
+    {
+      "name": "initial sources",
+      "data": [
+        "orders5 rows8 columnsGRAIN UNKNOWN",
+        "customers2 rows3 columnsGRAIN UNKNOWN",
+        "order_items5 rows5 columnsGRAIN UNKNOWN",
+        "payments5 rows5 columnsGRAIN UNKNOWN",
+        "products5 rows3 columnsGRAIN UNKNOWN",
+        "returns1 rows4 columnsGRAIN UNKNOWN"
+      ]
+    },
+    {
+      "name": "wrong raw declaration",
+      "data": [
+        "Primary key is not nullPass0 rows have a NULL in orderId.EXPECTED0ACTUAL0",
+        "Primary key is uniqueFail1 extra rows repeat orderId.EXPECTED0ACTUAL1",
+        "Grain matches source meaningFailThe scenario's producer contract says 1 row / source order version. A unique key alone does not prove row meaning.EXPECTED\"1 row / source order version\"ACTUAL\"order\"",
+        "Key matches producer contractFailThe source contract identifies this row using orderId, sourceVersion.EXPECTED[\n  \"orderId\",\n  \"sourceVersion\"\n]ACTUAL[\n  \"orderId\"\n]"
+      ]
+    },
+    {
+      "name": "staging arrow",
+      "data": "SHOW ME WHY\nClean & Deduplicate\nBEFORE\nraw_orders\nsource order version (scenario contract)\n5 rows\nAFTER\nstg_orders\norder (declared model contract)\n4 rows\n\nWhy this step exists\nKeep one current record per order before applying business rules. Cancelled orders remain in source-conformed staging.\n\nCOLUMNS RENAMED\n\norderId\norder_id\n\ncustomerId\ncustomer_id\n\ntotalPriceCents\norder_amount\n\ncreatedAt\nordered_at\n\nCOLUMNS REMOVED\n\nupdatedAt, sourceVersion\n\nFILTERS\n\nversion_rank = 1\n\nWINDOWS\n\nROW_NUMBER by orderId; newest updatedAt, then highest sourceVersion\n\nPrimary key is not null\nPass\nPrimary key is unique\nPass"
+    },
+    {
+      "name": "fanout trace",
+      "data": "O1\n1 left row · $100.00\n2 matches\nO1 · $100.00\nO1 · $100.00\nSUM CONTRIBUTION\n$200.00\nfull amount repeated\nO2\n1 left row · $50.00\n1 match\nO2 · $50.00\nSUM CONTRIBUTION\n$50.00\nO3\n1 left row · $75.00\n1 match\nO3 · $75.00\nSUM CONTRIBUTION\n$75.00"
+    },
+    {
+      "name": "customer-group trace",
+      "data": "C1\n2 left rows · $150.00 total\n1 match\nC1\nC1\nAmounts vary across these left rows; total is shown at right.\nSUM CONTRIBUTION\n$150.00"
+    },
+    {
+      "name": "INNER null trace",
+      "data": "C1\n2 left rows · $150.00 total\n1 match\nC1\nC1\nAmounts vary across these left rows; total is shown at right.\nSUM CONTRIBUTION\n$150.00\nC2\n1 left row · $75.00\n1 match\nC2 · $75.00\nSUM CONTRIBUTION\n$75.00\nNULL\n1 left row · $200.00\n0 matches\nremoved by INNER\nSUM CONTRIBUTION\n$0.00"
+    },
+    {
+      "name": "equivalent SQL output",
+      "data": "Executed fact output\norder_id\nVARCHAR\n\tcustomer_id\nVARCHAR\n\tstatus\nVARCHAR\n\torder_amount\nDECIMAL(18,2)\n\tcurrency\nVARCHAR\n\tordered_at\nTIMESTAMPTZ\n\tcustomer_name\nVARCHAR\n\nO1\tC1\tcompleted\t100.00\tUSD\t2026-09-28T09:00:00+00:00\tMaya Chen\nO2\tC1\tcompleted\t50.00\tUSD\t2026-09-29T10:00:00+00:00\tMaya Chen\nO3\tC2\tcompleted\t75.00\tUSD\t2026-09-30T14:00:00+00:00\tNoah Park"
+    },
+    {
+      "name": "graph edge attributes",
+      "data": [
+        {
+          "id": "raw_orders→stg_orders",
+          "testid": "rf__edge-raw_orders→stg_orders",
+          "label": "Edge from raw_orders to stg_orders"
+        },
+        {
+          "id": "customers→fct_orders",
+          "testid": "rf__edge-customers→fct_orders",
+          "label": "Edge from customers to fct_orders"
+        },
+        {
+          "id": "stg_orders→fct_orders",
+          "testid": "rf__edge-stg_orders→fct_orders",
+          "label": "Edge from stg_orders to fct_orders"
+        },
+        {
+          "id": "fct_orders→revenue",
+          "testid": "rf__edge-fct_orders→revenue",
+          "label": "Edge from fct_orders to revenue"
+        }
+      ]
+    },
+    {
+      "name": "clicked staging-fact arrow",
+      "data": "SHOW ME WHY\nModel\nBEFORE\nstg_orders\norder\n4 rows\nAFTER\nfct_orders\n1 row / order\n3 rows\n\nWhy this step exists\nRepresent each completed order once, making its amount safely additive at order grain.\n\nCOLUMNS ADDED\n\ncustomer_name\n\nFILTERS\n\nWHERE status IN ('completed')\n\nJOINS\n\nLEFT JOIN customers AS c ON o.customer_id = c.customer_id\n\nModel schema satisfies contract\nPass\nOutput matches golden rows\nPass\nCompleted-order row count\nPass\nPrimary key is not null\nPass\nPrimary key is unique\nPass\nDeclared grain is supported\nPass\nRequired fields are not null\nPass\nOnly completed orders\nPass\nAmounts are non-negative\nPass\nOne declared currency: USD\nPass\nCustomer keys reference customers\nPass"
+    },
+    {
+      "name": "export",
+      "data": {
+        "keys": [
+          "definitions",
+          "declared_sources",
+          "staging",
+          "build",
+          "metric"
+        ],
+        "schemas": [
+          "ScenarioDefinition",
+          "ModelDefinition",
+          "EvaluationResult",
+          "BuildResult",
+          "JoinResult",
+          "MetricDefinition"
+        ],
+        "metric": "225.00"
+      }
+    },
+    {
+      "name": "mobile /Transformation story/",
+      "data": {
+        "viewport": 390,
+        "document": 390
+      }
+    },
+    {
+      "name": "mobile /Join lab/",
+      "data": {
+        "viewport": 390,
+        "document": 390
+      }
+    },
+    {
+      "name": "mobile /Build & verify/",
+      "data": {
+        "viewport": 390,
+        "document": 390
+      }
+    },
+    {
+      "name": "mobile /Semantic metric/",
+      "data": {
+        "viewport": 390,
+        "document": 390
+      }
+    },
+    {
+      "name": "wrong-key summary",
+      "data": "3\nfact rows\nUnique\nordered_at\n$225.00\ngross revenue"
+    },
+    {
+      "name": "browser acceptance",
+      "data": "PASS"
+    }
+  ],
+  "pageErrors": []
+}

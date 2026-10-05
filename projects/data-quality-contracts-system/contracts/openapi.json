@@ -1,0 +1,2080 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Data Quality & Contracts System",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contracts": {
+      "get": {
+        "summary": "Contracts",
+        "operationId": "contracts_api_contracts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scenarios": {
+      "get": {
+        "summary": "Scenarios",
+        "operationId": "scenarios_api_scenarios_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scenarios/{scenario_id}": {
+      "get": {
+        "summary": "Scenario",
+        "operationId": "scenario_api_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scenarios/{scenario_id}/validate": {
+      "post": {
+        "summary": "Scenario Validate",
+        "operationId": "scenario_validate_api_scenarios__scenario_id__validate_post",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationBundle"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scenarios/{scenario_id}/preview": {
+      "post": {
+        "summary": "Preview",
+        "operationId": "preview_api_scenarios__scenario_id__preview_post",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/validate": {
+      "post": {
+        "summary": "External Validate",
+        "operationId": "external_validate_api_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationBundle"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/compatibility": {
+      "post": {
+        "summary": "Compatibility",
+        "operationId": "compatibility_api_compatibility_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompatibilityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/adapters/modeling": {
+      "post": {
+        "summary": "Modeling",
+        "operationId": "modeling_api_adapters_modeling_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/adapters/dbt": {
+      "get": {
+        "summary": "Dbt",
+        "operationId": "dbt_api_adapters_dbt_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/adapters/gx": {
+      "get": {
+        "summary": "Gx",
+        "operationId": "gx_api_adapters_gx_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/adapters/observability": {
+      "post": {
+        "summary": "Observability",
+        "operationId": "observability_api_adapters_observability_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QualityEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AcceptedValues": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "accepted_values",
+            "title": "Kind",
+            "default": "accepted_values"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 40,
+            "minItems": 1,
+            "title": "Values"
+          },
+          "allow_null": {
+            "type": "boolean",
+            "title": "Allow Null",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "column",
+          "values"
+        ],
+        "title": "AcceptedValues"
+      },
+      "Business": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "business_rule",
+            "title": "Kind",
+            "default": "business_rule"
+          },
+          "invariant": {
+            "type": "string",
+            "enum": [
+              "completed_is_paid",
+              "non_negative_revenue",
+              "shipment_after_order"
+            ],
+            "title": "Invariant"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "invariant"
+        ],
+        "title": "Business"
+      },
+      "Column": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Name"
+          },
+          "data_type": {
+            "type": "string",
+            "enum": [
+              "STRING",
+              "INTEGER",
+              "DECIMAL",
+              "TIMESTAMP",
+              "BOOLEAN"
+            ],
+            "title": "Data Type"
+          },
+          "nullable": {
+            "type": "boolean",
+            "title": "Nullable"
+          },
+          "required": {
+            "type": "boolean",
+            "title": "Required",
+            "default": true
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "default": ""
+          },
+          "precision": {
+            "type": "integer",
+            "maximum": 38.0,
+            "minimum": 1.0,
+            "title": "Precision",
+            "default": 18
+          },
+          "scale": {
+            "type": "integer",
+            "maximum": 18.0,
+            "minimum": 0.0,
+            "title": "Scale",
+            "default": 2
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "data_type",
+          "nullable"
+        ],
+        "title": "Column"
+      },
+      "CompatibilityPolicy": {
+        "properties": {
+          "allow_optional_additions": {
+            "type": "boolean",
+            "title": "Allow Optional Additions",
+            "default": true
+          },
+          "allow_type_widening": {
+            "type": "boolean",
+            "title": "Allow Type Widening",
+            "default": false
+          },
+          "require_data_for_null_tightening": {
+            "type": "boolean",
+            "title": "Require Data For Null Tightening",
+            "default": true
+          },
+          "allow_nullable_relaxation": {
+            "type": "boolean",
+            "title": "Allow Nullable Relaxation",
+            "default": false
+          },
+          "semantic_change": {
+            "type": "string",
+            "enum": [
+              "breaking",
+              "review"
+            ],
+            "title": "Semantic Change",
+            "default": "breaking"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CompatibilityPolicy"
+      },
+      "CompatibilityRequest": {
+        "properties": {
+          "before": {
+            "$ref": "#/components/schemas/DataContract-Input"
+          },
+          "after": {
+            "$ref": "#/components/schemas/DataContract-Input"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/CompatibilityPolicy"
+          },
+          "compatible_data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Dataset"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "before",
+          "after"
+        ],
+        "title": "CompatibilityRequest"
+      },
+      "DataContract-Input": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "const": "data-contract-v1",
+            "title": "Contract Version",
+            "default": "data-contract-v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Id"
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Version",
+            "default": "1.0"
+          },
+          "dataset_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Dataset Id"
+          },
+          "grain": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Grain"
+          },
+          "primary_key": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 1,
+            "title": "Primary Key"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/Column"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Columns"
+          },
+          "relationships": {
+            "items": {
+              "$ref": "#/components/schemas/Relationship-Input"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Relationships"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/QualityRule-Input"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Rules"
+          },
+          "owner": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Owner"
+          },
+          "semantic_meaning": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Semantic Meaning"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "dataset_id",
+          "grain",
+          "primary_key",
+          "columns",
+          "owner",
+          "semantic_meaning"
+        ],
+        "title": "DataContract"
+      },
+      "DataContract-Output": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "const": "data-contract-v1",
+            "title": "Contract Version",
+            "default": "data-contract-v1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Id"
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Version",
+            "default": "1.0"
+          },
+          "dataset_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Dataset Id"
+          },
+          "grain": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Grain"
+          },
+          "primary_key": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 1,
+            "title": "Primary Key"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/Column"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Columns"
+          },
+          "relationships": {
+            "items": {
+              "$ref": "#/components/schemas/Relationship-Output"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Relationships"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/QualityRule-Output"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Rules"
+          },
+          "owner": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Owner"
+          },
+          "semantic_meaning": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Semantic Meaning"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "dataset_id",
+          "grain",
+          "primary_key",
+          "columns",
+          "owner",
+          "semantic_meaning"
+        ],
+        "title": "DataContract"
+      },
+      "Dataset": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Id"
+          },
+          "columns": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Column"
+                },
+                "type": "array",
+                "maxItems": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Columns"
+          },
+          "rows": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array",
+                "maxItems": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rows"
+          },
+          "loaded_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loaded At"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "Dataset"
+      },
+      "Evidence": {
+        "properties": {
+          "classification": {
+            "type": "string",
+            "const": "FACT",
+            "title": "Classification",
+            "default": "FACT"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": "deterministic_quality_engine"
+          },
+          "method": {
+            "type": "string",
+            "title": "Method"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "sample_rows": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Sample Rows"
+          },
+          "metrics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "method",
+          "message"
+        ],
+        "title": "Evidence"
+      },
+      "Freshness": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "freshness",
+            "title": "Kind",
+            "default": "freshness"
+          },
+          "maximum_age_minutes": {
+            "type": "integer",
+            "maximum": 525600.0,
+            "minimum": 0.0,
+            "title": "Maximum Age Minutes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "maximum_age_minutes"
+        ],
+        "title": "Freshness"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "NotNull-Input": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "not_null",
+            "title": "Kind",
+            "default": "not_null"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column"
+          },
+          "minimum_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,2}|(?=[\\d.]{1,41}0*$)\\d{0,2}\\.\\d{0,38}0*$)"
+              }
+            ],
+            "title": "Minimum Rate",
+            "default": "1"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "column"
+        ],
+        "title": "NotNull"
+      },
+      "NotNull-Output": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "not_null",
+            "title": "Kind",
+            "default": "not_null"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column"
+          },
+          "minimum_rate": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,2}|(?=[\\d.]{1,41}0*$)\\d{0,2}\\.\\d{0,38}0*$)",
+            "title": "Minimum Rate",
+            "default": "1"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "column"
+        ],
+        "title": "NotNull"
+      },
+      "QualityEvent": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "const": "quality-event-v1",
+            "title": "Contract Version",
+            "default": "quality-event-v1"
+          },
+          "dataset_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Dataset Id"
+          },
+          "rule_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Rule Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "WARN",
+              "FAIL",
+              "UNKNOWN"
+            ],
+            "title": "Status"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ],
+            "title": "Severity"
+          },
+          "expected": {
+            "title": "Expected"
+          },
+          "actual": {
+            "title": "Actual"
+          },
+          "failure_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Count"
+          },
+          "total_rows": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Rows"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "input_fingerprint": {
+            "type": "string",
+            "title": "Input Fingerprint"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dataset_id",
+          "rule_id",
+          "status",
+          "severity",
+          "expected",
+          "actual",
+          "failure_count",
+          "total_rows",
+          "timestamp",
+          "run_id",
+          "input_fingerprint",
+          "evidence"
+        ],
+        "title": "QualityEvent"
+      },
+      "QualityGate": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "const": "quality-gate-v1",
+            "title": "Contract Version",
+            "default": "quality-gate-v1"
+          },
+          "dataset_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Dataset Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "BLOCKED"
+            ],
+            "title": "Status"
+          },
+          "publication": {
+            "type": "string",
+            "enum": [
+              "ELIGIBLE",
+              "WITHHELD"
+            ],
+            "title": "Publication"
+          },
+          "blocking_rule_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Blocking Rule Ids"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "input_fingerprint": {
+            "type": "string",
+            "title": "Input Fingerprint"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dataset_id",
+          "status",
+          "publication",
+          "blocking_rule_ids",
+          "reasons",
+          "run_id",
+          "input_fingerprint"
+        ],
+        "title": "QualityGate"
+      },
+      "QualityRule-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Description"
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Target"
+          },
+          "target_type": {
+            "type": "string",
+            "enum": [
+              "dataset",
+              "column"
+            ],
+            "title": "Target Type",
+            "default": "dataset"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "schema",
+              "completeness",
+              "uniqueness",
+              "validity",
+              "consistency",
+              "referential_integrity",
+              "freshness",
+              "volume",
+              "business_rule",
+              "reconciliation"
+            ],
+            "title": "Dimension"
+          },
+          "expectation": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Unique"
+              },
+              {
+                "$ref": "#/components/schemas/NotNull-Input"
+              },
+              {
+                "$ref": "#/components/schemas/AcceptedValues"
+              },
+              {
+                "$ref": "#/components/schemas/Relationship-Input"
+              },
+              {
+                "$ref": "#/components/schemas/Schema"
+              },
+              {
+                "$ref": "#/components/schemas/Business"
+              },
+              {
+                "$ref": "#/components/schemas/Freshness"
+              },
+              {
+                "$ref": "#/components/schemas/Volume"
+              },
+              {
+                "$ref": "#/components/schemas/Reconciliation-Input"
+              }
+            ],
+            "title": "Expectation",
+            "discriminator": {
+              "propertyName": "kind",
+              "mapping": {
+                "accepted_values": "#/components/schemas/AcceptedValues",
+                "business_rule": "#/components/schemas/Business",
+                "freshness": "#/components/schemas/Freshness",
+                "not_null": "#/components/schemas/NotNull-Input",
+                "reconciliation": "#/components/schemas/Reconciliation-Input",
+                "relationship": "#/components/schemas/Relationship-Input",
+                "schema": "#/components/schemas/Schema",
+                "unique": "#/components/schemas/Unique",
+                "volume": "#/components/schemas/Volume"
+              }
+            }
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ],
+            "title": "Severity",
+            "default": "CRITICAL"
+          },
+          "blocking": {
+            "type": "boolean",
+            "title": "Blocking",
+            "default": true
+          },
+          "owner": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Owner",
+            "default": "Commerce Analytics"
+          },
+          "evidence_source": {
+            "type": "string",
+            "title": "Evidence Source",
+            "default": "deterministic_dataset"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "target",
+          "dimension",
+          "expectation"
+        ],
+        "title": "QualityRule"
+      },
+      "QualityRule-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Description"
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Target"
+          },
+          "target_type": {
+            "type": "string",
+            "enum": [
+              "dataset",
+              "column"
+            ],
+            "title": "Target Type",
+            "default": "dataset"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "schema",
+              "completeness",
+              "uniqueness",
+              "validity",
+              "consistency",
+              "referential_integrity",
+              "freshness",
+              "volume",
+              "business_rule",
+              "reconciliation"
+            ],
+            "title": "Dimension"
+          },
+          "expectation": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Unique"
+              },
+              {
+                "$ref": "#/components/schemas/NotNull-Output"
+              },
+              {
+                "$ref": "#/components/schemas/AcceptedValues"
+              },
+              {
+                "$ref": "#/components/schemas/Relationship-Output"
+              },
+              {
+                "$ref": "#/components/schemas/Schema"
+              },
+              {
+                "$ref": "#/components/schemas/Business"
+              },
+              {
+                "$ref": "#/components/schemas/Freshness"
+              },
+              {
+                "$ref": "#/components/schemas/Volume"
+              },
+              {
+                "$ref": "#/components/schemas/Reconciliation-Output"
+              }
+            ],
+            "title": "Expectation",
+            "discriminator": {
+              "propertyName": "kind",
+              "mapping": {
+                "accepted_values": "#/components/schemas/AcceptedValues",
+                "business_rule": "#/components/schemas/Business",
+                "freshness": "#/components/schemas/Freshness",
+                "not_null": "#/components/schemas/NotNull-Output",
+                "reconciliation": "#/components/schemas/Reconciliation-Output",
+                "relationship": "#/components/schemas/Relationship-Output",
+                "schema": "#/components/schemas/Schema",
+                "unique": "#/components/schemas/Unique",
+                "volume": "#/components/schemas/Volume"
+              }
+            }
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ],
+            "title": "Severity",
+            "default": "CRITICAL"
+          },
+          "blocking": {
+            "type": "boolean",
+            "title": "Blocking",
+            "default": true
+          },
+          "owner": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Owner",
+            "default": "Commerce Analytics"
+          },
+          "evidence_source": {
+            "type": "string",
+            "title": "Evidence Source",
+            "default": "deterministic_dataset"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "target",
+          "dimension",
+          "expectation"
+        ],
+        "title": "QualityRule"
+      },
+      "Reconciliation-Input": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "reconciliation",
+            "title": "Kind",
+            "default": "reconciliation"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column",
+            "default": "net_revenue"
+          },
+          "source_dataset": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Source Dataset",
+            "default": "payments"
+          },
+          "source_column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Source Column",
+            "default": "amount"
+          },
+          "adjustment_dataset": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Adjustment Dataset",
+            "default": "returns"
+          },
+          "adjustment_column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Adjustment Column",
+            "default": "refund_amount"
+          },
+          "absolute_tolerance": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Absolute Tolerance",
+            "default": "0.01"
+          },
+          "relative_tolerance": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,2}|(?=[\\d.]{1,41}0*$)\\d{0,2}\\.\\d{0,38}0*$)"
+              }
+            ],
+            "title": "Relative Tolerance",
+            "default": "0"
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currency",
+            "default": "USD"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Reconciliation"
+      },
+      "Reconciliation-Output": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "reconciliation",
+            "title": "Kind",
+            "default": "reconciliation"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column",
+            "default": "net_revenue"
+          },
+          "source_dataset": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Source Dataset",
+            "default": "payments"
+          },
+          "source_column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Source Column",
+            "default": "amount"
+          },
+          "adjustment_dataset": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Adjustment Dataset",
+            "default": "returns"
+          },
+          "adjustment_column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Adjustment Column",
+            "default": "refund_amount"
+          },
+          "absolute_tolerance": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Absolute Tolerance",
+            "default": "0.01"
+          },
+          "relative_tolerance": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,2}|(?=[\\d.]{1,41}0*$)\\d{0,2}\\.\\d{0,38}0*$)",
+            "title": "Relative Tolerance",
+            "default": "0"
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currency",
+            "default": "USD"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Reconciliation"
+      },
+      "Relationship-Input": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "relationship",
+            "title": "Kind",
+            "default": "relationship"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column"
+          },
+          "parent_dataset": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Parent Dataset"
+          },
+          "parent_column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Parent Column"
+          },
+          "allow_null": {
+            "type": "boolean",
+            "title": "Allow Null",
+            "default": false
+          },
+          "require_unique_parent": {
+            "type": "boolean",
+            "title": "Require Unique Parent",
+            "default": true
+          },
+          "maximum_orphan_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,2}|(?=[\\d.]{1,41}0*$)\\d{0,2}\\.\\d{0,38}0*$)"
+              }
+            ],
+            "title": "Maximum Orphan Rate",
+            "default": "0"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "column",
+          "parent_dataset",
+          "parent_column"
+        ],
+        "title": "Relationship"
+      },
+      "Relationship-Output": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "relationship",
+            "title": "Kind",
+            "default": "relationship"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Column"
+          },
+          "parent_dataset": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Parent Dataset"
+          },
+          "parent_column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Parent Column"
+          },
+          "allow_null": {
+            "type": "boolean",
+            "title": "Allow Null",
+            "default": false
+          },
+          "require_unique_parent": {
+            "type": "boolean",
+            "title": "Require Unique Parent",
+            "default": true
+          },
+          "maximum_orphan_rate": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,2}|(?=[\\d.]{1,41}0*$)\\d{0,2}\\.\\d{0,38}0*$)",
+            "title": "Maximum Orphan Rate",
+            "default": "0"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "column",
+          "parent_dataset",
+          "parent_column"
+        ],
+        "title": "Relationship"
+      },
+      "ScenarioRequest": {
+        "properties": {
+          "corruptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 12,
+            "title": "Corruptions"
+          },
+          "executed_at": {
+            "type": "string",
+            "title": "Executed At",
+            "default": "2026-10-02T00:00:00Z"
+          },
+          "run_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id",
+            "default": "commerce-run-1"
+          },
+          "additional_rules": {
+            "items": {
+              "$ref": "#/components/schemas/QualityRule-Input"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Additional Rules"
+          },
+          "rule_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ScenarioRequest"
+      },
+      "Schema": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "schema",
+            "title": "Kind",
+            "default": "schema"
+          },
+          "allow_extra_columns": {
+            "type": "boolean",
+            "title": "Allow Extra Columns",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Schema"
+      },
+      "Unique": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "unique",
+            "title": "Kind",
+            "default": "unique"
+          },
+          "columns": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 1,
+            "title": "Columns"
+          },
+          "null_policy": {
+            "type": "string",
+            "enum": [
+              "ignore",
+              "fail"
+            ],
+            "title": "Null Policy",
+            "default": "fail"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "columns"
+        ],
+        "title": "Unique"
+      },
+      "ValidateRequest": {
+        "properties": {
+          "contract": {
+            "$ref": "#/components/schemas/DataContract-Input"
+          },
+          "datasets": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Dataset"
+            },
+            "type": "object",
+            "maxProperties": 20,
+            "title": "Datasets"
+          },
+          "executed_at": {
+            "type": "string",
+            "title": "Executed At"
+          },
+          "run_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "additional_rules": {
+            "items": {
+              "$ref": "#/components/schemas/QualityRule-Input"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Additional Rules"
+          },
+          "rule_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$"
+                },
+                "type": "array",
+                "maxItems": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "contract",
+          "datasets",
+          "executed_at",
+          "run_id"
+        ],
+        "title": "ValidateRequest"
+      },
+      "ValidationBundle": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "const": "quality-bundle-v1",
+            "title": "Contract Version",
+            "default": "quality-bundle-v1"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/DataContract-Output"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/QualityRule-Output"
+            },
+            "type": "array",
+            "title": "Rules"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "gate": {
+            "$ref": "#/components/schemas/QualityGate"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/QualityEvent"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "summary": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Summary"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "input_fingerprint": {
+            "type": "string",
+            "title": "Input Fingerprint"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "contract",
+          "rules",
+          "results",
+          "gate",
+          "events",
+          "summary",
+          "run_id",
+          "input_fingerprint"
+        ],
+        "title": "ValidationBundle"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ValidationResult": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "const": "validation-result-v1",
+            "title": "Contract Version",
+            "default": "validation-result-v1"
+          },
+          "rule_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Rule Id"
+          },
+          "target_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,79}$",
+            "title": "Target Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "WARN",
+              "FAIL",
+              "UNKNOWN"
+            ],
+            "title": "Status"
+          },
+          "expected": {
+            "title": "Expected"
+          },
+          "actual": {
+            "title": "Actual"
+          },
+          "failed_rows": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failed Rows"
+          },
+          "total_rows": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Rows"
+          },
+          "failure_rate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Rate"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ],
+            "title": "Severity"
+          },
+          "blocking": {
+            "type": "boolean",
+            "title": "Blocking"
+          },
+          "executed_at": {
+            "type": "string",
+            "title": "Executed At"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "input_fingerprint": {
+            "type": "string",
+            "title": "Input Fingerprint"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "rule_id",
+          "target_id",
+          "status",
+          "expected",
+          "actual",
+          "failed_rows",
+          "total_rows",
+          "failure_rate",
+          "severity",
+          "blocking",
+          "executed_at",
+          "run_id",
+          "input_fingerprint",
+          "evidence"
+        ],
+        "title": "ValidationResult"
+      },
+      "Volume": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "volume",
+            "title": "Kind",
+            "default": "volume"
+          },
+          "minimum": {
+            "type": "integer",
+            "maximum": 1000000000.0,
+            "minimum": 0.0,
+            "title": "Minimum"
+          },
+          "maximum": {
+            "type": "integer",
+            "maximum": 1000000000.0,
+            "minimum": 0.0,
+            "title": "Maximum"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "minimum",
+          "maximum"
+        ],
+        "title": "Volume"
+      }
+    }
+  }
+}

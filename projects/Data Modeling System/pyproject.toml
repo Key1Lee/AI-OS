@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-modeling-lab"
+version = "0.1.0"
+description = "An independent visual data modeling and deterministic transformation lab"
+requires-python = ">=3.11"
+dependencies = [
+  "duckdb>=1.4,<2",
+  "fastapi>=0.115,<1",
+  "pydantic>=2.10,<3",
+  "pytz>=2025.1",
+  "sqlglot>=28,<40",
+  "uvicorn>=0.34,<1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "httpx>=0.28,<1"]
+
+[tool.setuptools]
+packages = ["data_modeling_lab", "modeling_fixtures", "modeling_fixtures.ecommerce"]
+
+[tool.setuptools.package-dir]
+data_modeling_lab = "services/modeling-engine/src/data_modeling_lab"
+modeling_fixtures = "scenarios"
+
+[tool.setuptools.package-data]
+"modeling_fixtures.ecommerce" = ["*.json", "*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

@@ -1,0 +1,45 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# Toptal provider consumers use py_dev; generic guidance alone is not a dependency.
+name: ai-os
+purpose: Shared engineering guidance, generative intelligence, bounded decisions, and verification coordination.
+owns:
+- shared configuration and model routing
+- provider transports, generic provider credentials, budgets, and call metadata
+- reusable Skills and engineering guidance
+- systems registry metadata
+does_not_own:
+- project business logic, credentials, databases, and tests
+- production scheduling and project authorization
+path: .
+entrypoints:
+- py_dev/__main__.py
+- scripts/sync_skills.py
+public_interfaces:
+- py_dev/models.py
+- py_dev/runtime.py
+- py_dev/router.py
+- py_dev/intelligence.py
+- py_dev/decisions.py
+- py_dev/providers/parsed.py
+depends_on: []
+consumed_by:
+- toptal-testing-system
+contracts: []
+state_owned:
+- shared Skill context/source routes
+- provider budget, audit metadata, and run traces
+tests:
+  unit:
+  - python3 -m unittest discover -s tests -q
+  smoke: []
+  contract: []
+  integration: []
+health_check: python3 -m py_dev ai providers --probe
+documentation:
+- README.md
+- architecture/runtime.md
+- architecture/model-router.md
+- architecture/skills.md
+- docs/ai-os/intelligence-plane.md
+- docs/ai-os/phase1-report.md
+lifecycle: UNKNOWN

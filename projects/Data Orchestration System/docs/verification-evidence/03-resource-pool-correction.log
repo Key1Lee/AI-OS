@@ -1,0 +1,27 @@
+✖ array-valued resource pools cannot exploit key coercion to exceed one shared pool slot (2.281417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 219.393916
+
+✖ failing tests:
+
+test at docs/verification-evidence/independent-probes.test.ts:212:1
+✖ array-valued resource pools cannot exploit key coercion to exceed one shared pool slot (2.281417ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (/Users/key/_AI-OS/projects/Data Orchestration System/docs/verification-evidence/independent-probes.test.ts:216:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }

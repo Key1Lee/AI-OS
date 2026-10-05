@@ -1,0 +1,377 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:data-orchestration-lab:scenario:v1",
+  "title": "OrchestrationScenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "id",
+    "title",
+    "brief",
+    "workflow",
+    "default_partition",
+    "evidence_task_ids",
+    "learner_questions"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "orchestration-scenario-v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "brief": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "purpose",
+        "tasks",
+        "assets",
+        "schedule",
+        "asset_triggers",
+        "pools",
+        "expected_ready_time"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "purpose",
+              "stage",
+              "dependencies",
+              "trigger",
+              "trigger_rule",
+              "duration_minutes",
+              "timeout_minutes",
+              "retry_policy",
+              "inputs",
+              "outputs",
+              "idempotent",
+              "outcomes",
+              "enabled",
+              "resource_pool",
+              "write_mode",
+              "output_rows"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              },
+              "stage": {
+                "enum": [
+                  "ingest",
+                  "staging",
+                  "transform",
+                  "mart",
+                  "dashboard"
+                ]
+              },
+              "dependencies": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                }
+              },
+              "trigger": {
+                "const": "workflow"
+              },
+              "trigger_rule": {
+                "enum": [
+                  "all_success",
+                  "all_done",
+                  "one_success"
+                ]
+              },
+              "duration_minutes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "timeout_minutes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "retry_policy": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "max_attempts",
+                  "delay_minutes",
+                  "retryable_errors"
+                ],
+                "properties": {
+                  "max_attempts": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  },
+                  "delay_minutes": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000
+                  },
+                  "retryable_errors": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "enum": [
+                        "transient",
+                        "timeout"
+                      ]
+                    }
+                  }
+                }
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                }
+              },
+              "outputs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                }
+              },
+              "idempotent": {
+                "enum": [
+                  true,
+                  false,
+                  "unknown"
+                ]
+              },
+              "outcomes": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 10,
+                "items": {
+                  "anyOf": [
+                    {
+                      "const": "success"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "type",
+                        "message"
+                      ],
+                      "properties": {
+                        "type": {
+                          "enum": [
+                            "transient",
+                            "deterministic",
+                            "timeout"
+                          ]
+                        },
+                        "message": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "resource_pool": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "write_mode": {
+                "enum": [
+                  "replace",
+                  "append"
+                ]
+              },
+              "output_rows": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              }
+            }
+          }
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "producer_task_id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "producer_task_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "model_reference": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "grain",
+                  "materialization"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "grain": {},
+                  "materialization": {}
+                }
+              }
+            }
+          }
+        },
+        "schedule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "frequency",
+            "time",
+            "timezone"
+          ],
+          "properties": {
+            "frequency": {
+              "const": "daily"
+            },
+            "time": {
+              "type": "string",
+              "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+            },
+            "timezone": {
+              "enum": [
+                "Asia/Seoul",
+                "UTC"
+              ]
+            }
+          }
+        },
+        "asset_triggers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "pools": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          }
+        },
+        "expected_ready_time": {
+          "type": "string",
+          "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+        }
+      }
+    },
+    "default_partition": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "evidence_task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    },
+    "learner_questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

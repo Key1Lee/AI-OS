@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+web/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+dbt_lab/target/
+dbt_lab/logs/
+dbt_lab/*.duckdb*
+data/
+.DS_Store

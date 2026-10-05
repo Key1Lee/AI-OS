@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 
-_PROJECT_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
+_PROJECT_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9 _&()-]*$")
 _PROVIDERS = {"qwen_local", "openai", "claude"}
 _TIERS = ("small", "standard", "large", "very_large")
 _REASONING = ("none", "low", "medium", "high", "xhigh")
@@ -112,17 +112,47 @@ class RuntimeConfigResolver:
             return {}
         if not _PROJECT_NAME.fullmatch(project):
             raise RuntimeConfigError("Invalid project name")
-        project_dir = self.root / "projects" / project
-        if not project_dir.is_dir():
+        projects_root = (self.root / "projects").resolve()
+        alias_file = self.root / "config" / "project-aliases.toml"
+        aliases = _load(alias_file).get("aliases", {}) if alias_file.exists() else {}
+        if not isinstance(aliases, dict) or any(not _PROJECT_NAME.fullmatch(k) or not isinstance(v, str) or not _PROJECT_NAME.fullmatch(v) for k, v in aliases.items()):
+            raise RuntimeConfigError("Invalid project alias registry")
+        candidates = set()
+        for child in projects_root.iterdir():
+            if not child.is_dir():
+                continue
+            if child.resolve().parent != projects_root:
+                if child.name == project or aliases.get(project) == child.name:
+                    raise RuntimeConfigError("Project path escapes projects boundary")
+                continue
+            path = child / "aios.toml"
+            try:
+                metadata = _load(path).get("project", {}) if path.exists() else {}
+                if not isinstance(metadata, dict):
+                    raise RuntimeConfigError("Project metadata must be a table")
+                declared = metadata.get("name", child.name)
+                if not isinstance(declared, str) or not _PROJECT_NAME.fullmatch(declared):
+                    raise RuntimeConfigError("Invalid declared project identity")
+            except RuntimeConfigError:
+                if child.name == project or aliases.get(project) == child.name:
+                    raise
+                continue  # Broken unrelated project metadata cannot break this caller.
+            if project in {child.name, declared} or aliases.get(project) == child.name:
+                candidates.add(child)
+        if not candidates:
             raise RuntimeConfigError(f"Unknown project: {project}")
+        if len(candidates) != 1:
+            raise RuntimeConfigError(f"Ambiguous project identity: {project}")
+        project_dir = candidates.pop()
         path = project_dir / "aios.toml"
         if not path.exists():
             return {}
         data = _load(path)
         if data.get("inherits", ["global"]) != ["global"]:
             raise RuntimeConfigError("Project must inherit global defaults")
-        if data.get("project", {}).get("name", project) != project:
-            raise RuntimeConfigError("Project configuration name does not match directory")
+        declared = data.get("project", {}).get("name", project_dir.name)
+        if not isinstance(declared, str) or not _PROJECT_NAME.fullmatch(declared):
+            raise RuntimeConfigError("Invalid declared project identity")
         return data
 
     def resolve(self, *, project: str | None = None, task: str | None = None, run: Mapping[str, Any] | None = None) -> ResolvedConfig:

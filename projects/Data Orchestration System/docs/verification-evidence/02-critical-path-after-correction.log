@@ -1,0 +1,11 @@
+✔ critical path excludes a skipped parent from nominal one-success candidates (4.8165ms)
+✔ critical path excludes a transitively blocked parent from one-success candidates (0.9975ms)
+✔ critical path skips inherited latency when all-done follows an immediately disabled task (0.328917ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.823042

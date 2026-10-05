@@ -5,6 +5,20 @@ from typing import Any, Mapping
 
 
 @dataclass(frozen=True)
+class ToolCall:
+    call_id: str
+    name: str
+    arguments: Mapping[str, Any]
+
+
+@dataclass(frozen=True)
+class ToolOutput:
+    call_id: str
+    name: str
+    output: Any
+
+
+@dataclass(frozen=True)
 class ModelRequest:
     messages: tuple[Mapping[str, str], ...]
     system_instructions: str = ""
@@ -31,6 +45,16 @@ class ModelRequest:
     cost_preference: str = "low"
     tool_requirement: bool = False
     image_requirement: bool = False
+    tools: tuple[Mapping[str, Any], ...] = ()
+    tool_outputs: tuple[ToolOutput, ...] = ()
+    # Adapter-owned continuation. Never part of public IntelligenceResult or telemetry.
+    provider_state: Any = None
+    pinned_model: str | None = None
+    allowed_providers: frozenset[str] = frozenset()
+    residency: str = "any"
+    allow_fallback: bool = True
+    max_cloud_calls: int | None = None
+    max_provider_attempts: int | None = None
 
 
 @dataclass(frozen=True)
@@ -58,6 +82,9 @@ class ModelResponse:
     fallback_occurred: bool = False
     degraded: bool = False
     review: ModelResponse | None = None
+    tool_calls: tuple[ToolCall, ...] = ()
+    provider_state: Any = None
+    provider_attempts: int = 0
 
 
 @dataclass(frozen=True)
@@ -67,3 +94,5 @@ class ProviderResult:
     finish_status: str
     latency_ms: int
     usage: Mapping[str, Any] = field(default_factory=dict)
+    tool_calls: tuple[ToolCall, ...] = ()
+    provider_state: Any = None

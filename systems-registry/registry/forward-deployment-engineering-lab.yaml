@@ -1,0 +1,39 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# integrations/registry.json is a descriptive local inventory; no sibling runtime imports were found.
+name: forward-deployment-engineering-lab
+purpose: Evidence-gated synthetic customer engagement and local SQL practice.
+owns:
+- discovery, disclosure, learner decisions, and tutor reviews
+- bounded local SQL exercise and engagement progress
+does_not_own:
+- sibling engines, canonical mastery, and shared databases
+- real customer deployment and production incident operations
+path: projects/FDE Lab
+entrypoints:
+- projects/FDE Lab/fde
+- projects/FDE Lab/lab/cli.py
+- projects/FDE Lab/Start-FDE-Lab.command
+public_interfaces:
+- projects/FDE Lab/lab/contracts.py
+depends_on: []
+consumed_by: []
+contracts:
+- projects/FDE Lab/lab/contracts.py
+state_owned:
+- isolated progress state.json and learner SQL workspace
+- archived reset history and local locking
+tests:
+  unit:
+  - python3 -m unittest discover -s tests -v
+  smoke: []
+  contract: []
+  integration:
+  - python3 scripts/verify_phase1.py
+health_check: null
+documentation:
+- projects/FDE Lab/README.md
+- projects/FDE Lab/docs/architecture.md
+- projects/FDE Lab/docs/integrations.md
+- projects/FDE Lab/integrations/registry.json
+- projects/FDE Lab/AGENTS.md
+lifecycle: UNKNOWN

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:semantic-metrics:query:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "metric_id",
+    "version",
+    "consumer",
+    "start",
+    "end",
+    "dimensions"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "semantic-query-v1"
+    },
+    "metric_id": {
+      "enum": [
+        "gross_revenue",
+        "net_revenue",
+        "orders",
+        "active_customers"
+      ]
+    },
+    "version": {
+      "type": "string"
+    },
+    "consumer": {
+      "enum": [
+        "dashboard_a",
+        "dashboard_b",
+        "api",
+        "ai",
+        "sql"
+      ]
+    },
+    "start": {
+      "type": "string",
+      "format": "date"
+    },
+    "end": {
+      "type": "string",
+      "format": "date",
+      "description": "Exclusive reporting date"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "date",
+          "channel",
+          "region",
+          "product_category"
+        ]
+      },
+      "uniqueItems": true
+    }
+  }
+}

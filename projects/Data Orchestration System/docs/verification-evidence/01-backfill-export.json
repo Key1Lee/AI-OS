@@ -1,0 +1,551 @@
+{
+  "contract_version": "orchestration-session-v1",
+  "scenario": {
+    "contract_version": "orchestration-scenario-v1",
+    "id": "ecommerce-healthy-v1",
+    "title": "01 · A successful day",
+    "brief": "Two source feeds meet before the fact, mart, and dashboard can run.",
+    "workflow": {
+      "id": "daily-ecommerce",
+      "name": "Daily e-commerce pipeline",
+      "purpose": "Make a revenue dashboard ready from two independent source feeds.",
+      "tasks": [
+        {
+          "id": "extract_orders",
+          "name": "extract_orders",
+          "stage": "ingest",
+          "dependencies": [],
+          "purpose": "Bring today’s order data into the pipeline.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 4,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "source.orders"
+          ],
+          "outputs": [
+            "raw_orders"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "api",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "extract_customers",
+          "name": "extract_customers",
+          "stage": "ingest",
+          "dependencies": [],
+          "purpose": "Bring customer data into the pipeline independently of orders.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 3,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "source.customers"
+          ],
+          "outputs": [
+            "raw_customers"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "api",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "stg_orders",
+          "name": "stg_orders",
+          "stage": "staging",
+          "dependencies": [
+            "extract_orders"
+          ],
+          "purpose": "Run the declared orders staging model.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 2,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "raw_orders"
+          ],
+          "outputs": [
+            "stg_orders"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "warehouse",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "stg_customers",
+          "name": "stg_customers",
+          "stage": "staging",
+          "dependencies": [
+            "extract_customers"
+          ],
+          "purpose": "Run the declared customer staging model.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 2,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "raw_customers"
+          ],
+          "outputs": [
+            "stg_customers"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "warehouse",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "int_orders",
+          "name": "int_orders",
+          "stage": "transform",
+          "dependencies": [
+            "stg_orders",
+            "stg_customers"
+          ],
+          "purpose": "Wait for both staging models, then run the declared intermediate model.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 3,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "stg_orders",
+            "stg_customers"
+          ],
+          "outputs": [
+            "int_orders"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "warehouse",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "quality_check",
+          "name": "quality_check",
+          "stage": "transform",
+          "dependencies": [
+            "stg_orders"
+          ],
+          "purpose": "Execute the supplied order quality check before the fact is published.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 2,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "stg_orders"
+          ],
+          "outputs": [
+            "quality_result"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "warehouse",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "fct_orders",
+          "name": "fct_orders",
+          "stage": "transform",
+          "dependencies": [
+            "int_orders",
+            "quality_check"
+          ],
+          "purpose": "Publish the declared order fact only after the model and quality check finish.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 2,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "int_orders",
+            "quality_result"
+          ],
+          "outputs": [
+            "fct_orders"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "warehouse",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "mart_revenue",
+          "name": "mart_revenue",
+          "stage": "mart",
+          "dependencies": [
+            "fct_orders"
+          ],
+          "purpose": "Publish the declared revenue mart for this partition.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 2,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "fct_orders"
+          ],
+          "outputs": [
+            "mart_revenue"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "warehouse",
+          "write_mode": "replace",
+          "output_rows": 100
+        },
+        {
+          "id": "dashboard",
+          "name": "dashboard",
+          "stage": "dashboard",
+          "dependencies": [
+            "mart_revenue"
+          ],
+          "purpose": "Refresh the executive dashboard from the published mart.",
+          "trigger": "workflow",
+          "trigger_rule": "all_success",
+          "duration_minutes": 1,
+          "timeout_minutes": 10,
+          "retry_policy": {
+            "max_attempts": 3,
+            "delay_minutes": 5,
+            "retryable_errors": [
+              "transient",
+              "timeout"
+            ]
+          },
+          "inputs": [
+            "mart_revenue"
+          ],
+          "outputs": [
+            "revenue_dashboard"
+          ],
+          "idempotent": true,
+          "outcomes": [
+            "success"
+          ],
+          "enabled": true,
+          "resource_pool": "reporting",
+          "write_mode": "replace",
+          "output_rows": 100
+        }
+      ],
+      "assets": [
+        {
+          "id": "source.orders",
+          "name": "Orders source",
+          "producer_task_id": null
+        },
+        {
+          "id": "source.customers",
+          "name": "Customers source",
+          "producer_task_id": null
+        },
+        {
+          "id": "raw_orders",
+          "name": "raw_orders",
+          "producer_task_id": "extract_orders"
+        },
+        {
+          "id": "raw_customers",
+          "name": "raw_customers",
+          "producer_task_id": "extract_customers"
+        },
+        {
+          "id": "stg_orders",
+          "name": "stg_orders",
+          "producer_task_id": "stg_orders"
+        },
+        {
+          "id": "stg_customers",
+          "name": "stg_customers",
+          "producer_task_id": "stg_customers"
+        },
+        {
+          "id": "int_orders",
+          "name": "int_orders",
+          "producer_task_id": "int_orders"
+        },
+        {
+          "id": "quality_result",
+          "name": "quality_result",
+          "producer_task_id": "quality_check"
+        },
+        {
+          "id": "fct_orders",
+          "name": "fct_orders",
+          "producer_task_id": "fct_orders"
+        },
+        {
+          "id": "mart_revenue",
+          "name": "mart_revenue",
+          "producer_task_id": "mart_revenue"
+        },
+        {
+          "id": "revenue_dashboard",
+          "name": "revenue_dashboard",
+          "producer_task_id": "dashboard"
+        }
+      ],
+      "schedule": {
+        "frequency": "daily",
+        "time": "06:00",
+        "timezone": "Asia/Seoul"
+      },
+      "asset_triggers": [
+        "source.orders"
+      ],
+      "pools": {
+        "api": 2,
+        "warehouse": 2,
+        "reporting": 1
+      },
+      "expected_ready_time": "07:00"
+    },
+    "default_partition": "2026-10-02",
+    "evidence_task_ids": [
+      "dashboard",
+      "mart_revenue",
+      "fct_orders",
+      "int_orders",
+      "extract_customers",
+      "extract_orders"
+    ],
+    "learner_questions": [
+      "What runs?",
+      "When does it run?",
+      "What must finish first?",
+      "What happens if it fails?",
+      "Can it be retried?",
+      "Can it safely run twice?",
+      "How do I reprocess history?",
+      "What gets blocked downstream?"
+    ]
+  },
+  "run": {
+    "run_id": "daily-ecommerce:2026-10-02:run-1",
+    "workflow_id": "daily-ecommerce",
+    "partition": "2026-10-02",
+    "clock_date": "2026-10-02",
+    "now": 355,
+    "timezone": "Asia/Seoul",
+    "trigger": {
+      "kind": "daily"
+    },
+    "max_concurrency": 2,
+    "status": "WAITING",
+    "activated": false,
+    "complete": false,
+    "start_time": null,
+    "end_time": null,
+    "tasks": {
+      "extract_orders": {
+        "task_id": "extract_orders",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "extract_customers": {
+        "task_id": "extract_customers",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "stg_orders": {
+        "task_id": "stg_orders",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "stg_customers": {
+        "task_id": "stg_customers",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "int_orders": {
+        "task_id": "int_orders",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "quality_check": {
+        "task_id": "quality_check",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "fct_orders": {
+        "task_id": "fct_orders",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "mart_revenue": {
+        "task_id": "mart_revenue",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      },
+      "dashboard": {
+        "task_id": "dashboard",
+        "status": "WAITING",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "execution_attempt": 0,
+        "error": null,
+        "next_retry_minute": null,
+        "attempts": [],
+        "blocked_by": []
+      }
+    },
+    "events": [],
+    "outputs": {}
+  },
+  "history": []
+}

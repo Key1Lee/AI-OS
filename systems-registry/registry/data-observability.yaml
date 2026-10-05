@@ -1,0 +1,39 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+name: data-observability-system
+purpose: Reusable metadata graph, lineage, incident, and impact investigation engine.
+owns:
+- artifact ingestion and immutable graph snapshots
+- generic lineage traversal, incidents, API, and map UI
+does_not_own:
+- learner scenarios, scoring, and disclosure policy
+- warehouse SQL execution and live production integrations
+path: projects/Data Observability System
+entrypoints:
+- projects/Data Observability System/src/data_system_map/api/main.py
+public_interfaces:
+- projects/Data Observability System/src/data_system_map/__init__.py
+- projects/Data Observability System/web/src/index.ts
+depends_on: []
+consumed_by:
+- analytics-engineering-lab
+- toptal-testing-system
+contracts:
+- projects/Data Observability System/src/data_system_map/contracts.py
+- projects/Data Observability System/src/data_system_map/api/contracts.py
+state_owned:
+- generic metadata SQLite database and graph snapshots
+tests:
+  unit:
+  - make test
+  smoke:
+  - make check-demo
+  contract: []
+  integration:
+  - make test-e2e
+health_check: null
+documentation:
+- projects/Data Observability System/README.md
+- projects/Data Observability System/docs/api.md
+- projects/Data Observability System/docs/migration.md
+- projects/Data Observability System/AGENTS.md
+lifecycle: UNKNOWN

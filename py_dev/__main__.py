@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 from urllib.parse import urlsplit
@@ -21,6 +22,11 @@ from .skill_state import SkillStateError
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m py_dev")
     sub = parser.add_subparsers(dest="command", required=True)
+    health = sub.add_parser("providers", help="Inspect provider readiness without assuming credentials prove availability")
+    health.add_argument("--probe", action="store_true", help="Read cloud model metadata and probe the local runtime")
+    ai = sub.add_parser("ai", help="Shared intelligence commands")
+    ai.add_argument("ai_command", choices=("providers", "request", "decision"))
+    ai.add_argument("--probe", action="store_true")
     for command in ("status", "check", "run", "serve"):
         item = sub.add_parser(command)
         item.add_argument("--project")
@@ -71,6 +77,46 @@ def _overrides(args: argparse.Namespace) -> dict:
 def main() -> int:
     args = _parser().parse_args()
     try:
+        if args.command == "ai" and args.ai_command == "request":
+            from dataclasses import asdict
+            from .intelligence import IntelligenceRequest, IntelligenceService
+            payload = json.loads(sys.stdin.read())
+            allowed = {"task", "calling_system", "run_id", "request_id", "context", "required_capabilities", "constraints",
+                       "privacy", "latency_class", "cost_class", "structured_output_schema", "system_instructions", "provider",
+                       "max_provider_calls", "max_tool_calls"}
+            if not isinstance(payload, dict) or set(payload) - allowed:
+                raise ValueError("Invalid neutral request fields; tool authority belongs to a Python workflow")
+            if "required_capabilities" in payload:
+                if not isinstance(payload["required_capabilities"], list) or any(not isinstance(x, str) for x in payload["required_capabilities"]):
+                    raise ValueError("Capabilities must be a list of names")
+                payload["required_capabilities"] = frozenset(payload["required_capabilities"])
+            if isinstance(payload.get("constraints"), dict) and payload["constraints"].get("high_cost_approved") is True:
+                raise ValueError("High-cost approval belongs to a trusted Python workflow")
+            result = IntelligenceService().run(IntelligenceRequest(**payload))
+            print(json.dumps(asdict(result), allow_nan=False))
+            return 0 if result.status in {"verified", "proposed"} else 3
+        if args.command == "ai" and args.ai_command == "decision":
+            from dataclasses import asdict
+            from .decisions import DecisionQuestion, DecisionRequest, DecisionService
+            payload = json.loads(sys.stdin.read())
+            allowed = {"calling_system", "run_id", "request_id", "state", "questions", "private", "offline"}
+            if not isinstance(payload, dict) or set(payload) - allowed or not isinstance(payload.get("questions"), dict):
+                raise ValueError("Invalid bounded decision request")
+            questions = {}
+            for name, raw in payload["questions"].items():
+                if not isinstance(raw, dict) or set(raw) - {"kind", "instructions", "criteria", "version", "threshold"}:
+                    raise ValueError("Invalid bounded question")
+                if "criteria" in raw:
+                    raw["criteria"] = tuple(raw["criteria"])
+                questions[name] = DecisionQuestion(**raw)
+            payload["questions"] = questions
+            result = DecisionService.from_env().decide(DecisionRequest(**payload))
+            print(json.dumps(asdict(result), allow_nan=False))
+            return 0 if result.status == "JUDGED" else 3
+        if args.command in {"providers", "ai"}:
+            from .provider_health import provider_health
+            print(json.dumps(provider_health(probe=args.probe), indent=2))
+            return 0
         if args.command == "skill":
             catalog = SkillCatalog()
             if args.skill_command == "list":
@@ -175,7 +221,7 @@ def main() -> int:
         if result.response.review:
             print(f"\nReview ({result.response.review.provider or 'unavailable'}):\n{result.response.review.content or result.response.review.error}")
         return 0
-    except (RuntimeConfigError, LocalRuntimeError, ContextLimitError, SkillError, SkillStateError, ValueError) as exc:
+    except (RuntimeConfigError, LocalRuntimeError, ContextLimitError, SkillError, SkillStateError, ValueError, TypeError) as exc:
         print(f"AI-OS runtime: {exc}", file=sys.stderr)
         return 2
 

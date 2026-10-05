@@ -1,0 +1,40 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# Artifact adapters are implemented; installed sibling connections and application execution remain unverified.
+name: semantic-metrics-system
+purpose: Business meaning, governed metric definitions, and bounded synthetic snapshot evaluation.
+owns:
+- metric, entity, dimension, and measure definitions
+- metric governance, query results, explanations, and lineage
+does_not_own:
+- ingestion, warehouse execution, and scheduling
+- general quality, operational monitoring, and AI orchestration
+path: projects/Semantic & Metrics System
+entrypoints:
+- projects/Semantic & Metrics System/semantic/__main__.py
+- projects/Semantic & Metrics System/semantic/cli.py
+public_interfaces:
+- projects/Semantic & Metrics System/semantic/__init__.py
+- projects/Semantic & Metrics System/semantic/core.py
+- projects/Semantic & Metrics System/adapters/artifacts.py
+depends_on: []
+consumed_by: []
+contracts:
+- projects/Semantic & Metrics System/semantic/core.py
+- projects/Semantic & Metrics System/contracts/semantic-query.schema.json
+- projects/Semantic & Metrics System/contracts/semantic-metric.schema.json
+state_owned:
+- catalog and synthetic snapshot fixtures
+- in-memory catalog lifecycle changes
+- project-local semantic scenario learning state
+tests:
+  unit:
+  - python3 -m unittest discover -s tests -v
+  smoke: []
+  contract:
+  - python3 -m semantic validate
+  integration: []
+health_check: null
+documentation:
+- projects/Semantic & Metrics System/AGENTS.md
+- projects/Semantic & Metrics System/docs/semantic-inventory.md
+lifecycle: UNKNOWN

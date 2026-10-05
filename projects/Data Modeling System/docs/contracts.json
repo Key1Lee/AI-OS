@@ -1,0 +1,2858 @@
+{
+  "contract_version": "modeling-lab-v1",
+  "purpose": "Designed modeling state; consumer-owned adapters can compare it with observed state.",
+  "scenario": {
+    "contract_version": "modeling-lab-v1",
+    "id": "ecommerce-revenue-v1",
+    "title": "From raw orders to trusted revenue",
+    "business_question": "How much gross revenue did completed orders generate?",
+    "business_definition": "Gross completed-order revenue before returns, in USD. Use the latest source order version, include only completed orders, and count each order amount once. This is neither net revenue after refunds nor the sum of payment attempts.",
+    "sources": [
+      {
+        "id": "raw_orders",
+        "name": "raw.orders",
+        "layer": "source",
+        "why": "Operational order versions. An order may be delivered more than once; the latest source version wins.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [
+          {
+            "name": "orderId",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "customerId",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "status",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "totalPriceCents",
+            "data_type": "BIGINT",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "currency",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "createdAt",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "updatedAt",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "sourceVersion",
+            "data_type": "INTEGER",
+            "nullable": true,
+            "description": ""
+          }
+        ],
+        "row_count": 5,
+        "rows": [
+          {
+            "orderId": "O1",
+            "customerId": "C1",
+            "status": " COMPLETED ",
+            "totalPriceCents": 9000,
+            "currency": "USD",
+            "createdAt": "2026-09-28T09:00:00+00:00",
+            "updatedAt": "2026-09-28T09:01:00+00:00",
+            "sourceVersion": 1
+          },
+          {
+            "orderId": "O1",
+            "customerId": "C1",
+            "status": "completed",
+            "totalPriceCents": 10000,
+            "currency": "USD",
+            "createdAt": "2026-09-28T09:00:00+00:00",
+            "updatedAt": "2026-09-28T09:05:00+00:00",
+            "sourceVersion": 2
+          },
+          {
+            "orderId": "O2",
+            "customerId": "C1",
+            "status": "completed",
+            "totalPriceCents": 5000,
+            "currency": "USD",
+            "createdAt": "2026-09-29T10:00:00+00:00",
+            "updatedAt": "2026-09-29T10:01:00+00:00",
+            "sourceVersion": 1
+          },
+          {
+            "orderId": "O3",
+            "customerId": "C2",
+            "status": "completed",
+            "totalPriceCents": 7500,
+            "currency": "USD",
+            "createdAt": "2026-09-30T14:00:00+00:00",
+            "updatedAt": "2026-09-30T14:01:00+00:00",
+            "sourceVersion": 1
+          },
+          {
+            "orderId": "O4",
+            "customerId": null,
+            "status": "cancelled",
+            "totalPriceCents": 20000,
+            "currency": "USD",
+            "createdAt": "2026-09-30T16:00:00+00:00",
+            "updatedAt": "2026-09-30T16:01:00+00:00",
+            "sourceVersion": 1
+          }
+        ],
+        "parents": [],
+        "materialization": "source table",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "customers",
+        "name": "raw.customers",
+        "layer": "source",
+        "why": "Two customer records. Customer C1 placed two completed orders.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [
+          {
+            "name": "customer_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "name",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "region",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          }
+        ],
+        "row_count": 2,
+        "rows": [
+          {
+            "customer_id": "C1",
+            "name": "Maya Chen",
+            "region": "West"
+          },
+          {
+            "customer_id": "C2",
+            "name": "Noah Park",
+            "region": "East"
+          }
+        ],
+        "parents": [],
+        "materialization": "source table",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "order_items",
+        "name": "raw.order_items",
+        "layer": "source",
+        "why": "Line items. O1 contains two different items; O4's item belongs to a cancelled order.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [
+          {
+            "name": "item_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "order_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "product_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "quantity",
+            "data_type": "INTEGER",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "line_amount",
+            "data_type": "DECIMAL(18,2)",
+            "nullable": true,
+            "description": ""
+          }
+        ],
+        "row_count": 5,
+        "rows": [
+          {
+            "item_id": "I1",
+            "order_id": "O1",
+            "product_id": "P1",
+            "quantity": 1,
+            "line_amount": "60.00"
+          },
+          {
+            "item_id": "I2",
+            "order_id": "O1",
+            "product_id": "P2",
+            "quantity": 1,
+            "line_amount": "40.00"
+          },
+          {
+            "item_id": "I3",
+            "order_id": "O2",
+            "product_id": "P3",
+            "quantity": 1,
+            "line_amount": "50.00"
+          },
+          {
+            "item_id": "I4",
+            "order_id": "O3",
+            "product_id": "P4",
+            "quantity": 1,
+            "line_amount": "75.00"
+          },
+          {
+            "item_id": "I5",
+            "order_id": "O4",
+            "product_id": "P5",
+            "quantity": 1,
+            "line_amount": "200.00"
+          }
+        ],
+        "parents": [],
+        "materialization": "source table",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "payments",
+        "name": "raw.payments",
+        "layer": "source",
+        "why": "Payment attempts. O1 has two successful split payments. A failed attempt is not paid revenue.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [
+          {
+            "name": "payment_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "order_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "amount",
+            "data_type": "DECIMAL(18,2)",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "status",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "currency",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          }
+        ],
+        "row_count": 5,
+        "rows": [
+          {
+            "payment_id": "PAY1",
+            "order_id": "O1",
+            "amount": "60.00",
+            "status": "succeeded",
+            "currency": "USD"
+          },
+          {
+            "payment_id": "PAY2",
+            "order_id": "O1",
+            "amount": "40.00",
+            "status": "succeeded",
+            "currency": "USD"
+          },
+          {
+            "payment_id": "PAY3",
+            "order_id": "O2",
+            "amount": "50.00",
+            "status": "succeeded",
+            "currency": "USD"
+          },
+          {
+            "payment_id": "PAY4",
+            "order_id": "O3",
+            "amount": "75.00",
+            "status": "succeeded",
+            "currency": "USD"
+          },
+          {
+            "payment_id": "PAY5",
+            "order_id": "O3",
+            "amount": "75.00",
+            "status": "failed",
+            "currency": "USD"
+          }
+        ],
+        "parents": [],
+        "materialization": "source table",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "products",
+        "name": "raw.products",
+        "layer": "source",
+        "why": "Product descriptions. A reusable descriptive entity, rather than a transaction fact.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [
+          {
+            "name": "product_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "name",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "category",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          }
+        ],
+        "row_count": 5,
+        "rows": [
+          {
+            "product_id": "P1",
+            "name": "Field notebook",
+            "category": "Stationery"
+          },
+          {
+            "product_id": "P2",
+            "name": "Desk lamp",
+            "category": "Home"
+          },
+          {
+            "product_id": "P3",
+            "name": "Canvas tote",
+            "category": "Accessories"
+          },
+          {
+            "product_id": "P4",
+            "name": "Ceramic set",
+            "category": "Home"
+          },
+          {
+            "product_id": "P5",
+            "name": "Studio chair",
+            "category": "Home"
+          }
+        ],
+        "parents": [],
+        "materialization": "source table",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "returns",
+        "name": "raw.returns",
+        "layer": "source",
+        "why": "O3 has a USD 25.00 return. This slice defines gross order revenue before returns; net revenue would require refund logic.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [
+          {
+            "name": "return_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "order_id",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "refund_amount",
+            "data_type": "DECIMAL(18,2)",
+            "nullable": true,
+            "description": ""
+          },
+          {
+            "name": "currency",
+            "data_type": "VARCHAR",
+            "nullable": true,
+            "description": ""
+          }
+        ],
+        "row_count": 1,
+        "rows": [
+          {
+            "return_id": "R1",
+            "order_id": "O3",
+            "refund_amount": "25.00",
+            "currency": "USD"
+          }
+        ],
+        "parents": [],
+        "materialization": "source table",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      }
+    ],
+    "relationships": [
+      {
+        "id": "orders-items",
+        "left_model": "stg_orders",
+        "right_model": "order_items",
+        "left_key": "order_id",
+        "right_key": "order_id",
+        "expected": "1:N",
+        "description": "After order-version deduplication, one order can have many items."
+      },
+      {
+        "id": "orders-customers",
+        "left_model": "raw_orders",
+        "right_model": "customers",
+        "left_key": "customerId",
+        "right_key": "customer_id",
+        "expected": "N:1",
+        "description": "Many orders can belong to one customer. NULL customer keys remain possible."
+      },
+      {
+        "id": "orders-payments",
+        "left_model": "stg_orders",
+        "right_model": "payments",
+        "left_key": "order_id",
+        "right_key": "order_id",
+        "expected": "1:N",
+        "description": "A deduplicated order can have multiple payment attempts."
+      },
+      {
+        "id": "items-products",
+        "left_model": "order_items",
+        "right_model": "products",
+        "left_key": "product_id",
+        "right_key": "product_id",
+        "expected": "N:1",
+        "description": "Each item references a product."
+      },
+      {
+        "id": "orders-returns",
+        "left_model": "stg_orders",
+        "right_model": "returns",
+        "left_key": "order_id",
+        "right_key": "order_id",
+        "expected": "1:N",
+        "description": "An order may have returns; this metric is before returns."
+      }
+    ],
+    "planned_models": [
+      {
+        "id": "stg_orders",
+        "name": "stg_orders",
+        "layer": "staging",
+        "why": "Normalize source names, amounts, and UTC timestamps; keep the latest version of each order.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [],
+        "row_count": null,
+        "rows": [],
+        "parents": [
+          "raw_orders"
+        ],
+        "materialization": "view",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "fct_orders",
+        "name": "fct_orders",
+        "layer": "fact",
+        "why": "Represent each completed order once, so revenue can be added without duplication.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [],
+        "row_count": null,
+        "rows": [],
+        "parents": [
+          "stg_orders"
+        ],
+        "materialization": "view",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      },
+      {
+        "id": "revenue",
+        "name": "Revenue",
+        "layer": "metric",
+        "why": "Gross completed-order revenue before returns, in USD. Use the latest source order version, include only completed orders, and count each order amount once. This is neither net revenue after refunds nor the sum of payment attempts.",
+        "grain": {
+          "declared": null,
+          "label": "GRAIN UNKNOWN",
+          "evidence": "No learner declaration has been made.",
+          "status": "unknown",
+          "classification": "unknown"
+        },
+        "primary_key": [],
+        "columns": [],
+        "row_count": null,
+        "rows": [],
+        "parents": [
+          "fct_orders"
+        ],
+        "materialization": "semantic definition",
+        "sql": null,
+        "status": "unknown",
+        "tests": []
+      }
+    ],
+    "transformations": [
+      {
+        "id": "clean-orders",
+        "input_model": "raw_orders",
+        "output_model": "stg_orders",
+        "operation": "CLEAN & DEDUPLICATE",
+        "why": "Keep one current record per order before applying business rules. Cancelled orders remain in source-conformed staging.",
+        "input_grain": "source order version (scenario contract)",
+        "output_grain": "order (declared model contract)",
+        "input_rows": null,
+        "output_rows": null,
+        "columns_added": [],
+        "columns_removed": [
+          "updatedAt",
+          "sourceVersion"
+        ],
+        "columns_renamed": {
+          "orderId": "order_id",
+          "customerId": "customer_id",
+          "totalPriceCents": "order_amount",
+          "createdAt": "ordered_at"
+        },
+        "filters": [
+          "version_rank = 1"
+        ],
+        "joins": [],
+        "aggregations": [],
+        "windows": [
+          "ROW_NUMBER by orderId; newest updatedAt, then highest sourceVersion"
+        ],
+        "tests": []
+      },
+      {
+        "id": "model-orders",
+        "input_model": "stg_orders",
+        "output_model": "fct_orders",
+        "operation": "MODEL",
+        "why": "Business logic belongs after staging: include completed orders exactly once.",
+        "input_grain": "order (planned)",
+        "output_grain": "order (planned)",
+        "input_rows": null,
+        "output_rows": null,
+        "columns_added": [],
+        "columns_removed": [],
+        "columns_renamed": {},
+        "filters": [
+          "status = 'completed'"
+        ],
+        "joins": [],
+        "aggregations": [],
+        "windows": [],
+        "tests": []
+      },
+      {
+        "id": "define-revenue",
+        "input_model": "fct_orders",
+        "output_model": "revenue",
+        "operation": "MEASURE",
+        "why": "Gross completed-order revenue before returns, in USD. Use the latest source order version, include only completed orders, and count each order amount once. This is neither net revenue after refunds nor the sum of payment attempts.",
+        "input_grain": "order (planned)",
+        "output_grain": "one metric value",
+        "input_rows": null,
+        "output_rows": null,
+        "columns_added": [],
+        "columns_removed": [],
+        "columns_renamed": {},
+        "filters": [],
+        "joins": [],
+        "aggregations": [
+          "SUM(order_amount)"
+        ],
+        "windows": [],
+        "tests": []
+      }
+    ],
+    "reference_sql": {
+      "staging": "WITH normalized AS (\n    SELECT\n        orderId AS order_id,\n        customerId AS customer_id,\n        lower(trim(status)) AS status,\n        CAST(CAST(totalPriceCents AS DECIMAL(18,2)) / 100 AS DECIMAL(18,2)) AS order_amount,\n        upper(trim(currency)) AS currency,\n        CAST(createdAt AS TIMESTAMPTZ) AS ordered_at,\n        ROW_NUMBER() OVER (\n            PARTITION BY orderId\n            ORDER BY CAST(updatedAt AS TIMESTAMPTZ) DESC, sourceVersion DESC\n        ) AS version_rank\n    FROM raw_orders\n)\nSELECT order_id, customer_id, status, order_amount, currency, ordered_at\nFROM normalized\nWHERE version_rank = 1",
+      "safe": "SELECT order_id, customer_id, status, order_amount, currency, ordered_at\nFROM stg_orders\nWHERE status = 'completed'",
+      "fanout": "SELECT o.order_id, o.customer_id, o.status, o.order_amount, o.currency, o.ordered_at\nFROM stg_orders AS o\nLEFT JOIN order_items AS i ON o.order_id = i.order_id\nWHERE o.status = 'completed'"
+    },
+    "fact_contract": {
+      "grain": "order",
+      "primary_key": [
+        "order_id"
+      ],
+      "columns": [
+        {
+          "name": "order_id",
+          "data_type": "VARCHAR",
+          "nullable": false,
+          "description": ""
+        },
+        {
+          "name": "customer_id",
+          "data_type": "VARCHAR",
+          "nullable": true,
+          "description": ""
+        },
+        {
+          "name": "status",
+          "data_type": "VARCHAR",
+          "nullable": false,
+          "description": ""
+        },
+        {
+          "name": "order_amount",
+          "data_type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": ""
+        },
+        {
+          "name": "currency",
+          "data_type": "VARCHAR",
+          "nullable": false,
+          "description": ""
+        },
+        {
+          "name": "ordered_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": false,
+          "description": ""
+        }
+      ],
+      "owner": "Analytics engineering",
+      "semantic_meaning": "Gross completed-order revenue before returns, in USD. Use the latest source order version, include only completed orders, and count each order amount once. This is neither net revenue after refunds nor the sum of payment attempts."
+    },
+    "expected_revenue": "225.00",
+    "planned_metric": {
+      "name": "Revenue",
+      "description": "Gross completed-order revenue before returns, in USD. Use the latest source order version, include only completed orders, and count each order amount once. This is neither net revenue after refunds nor the sum of payment attempts.",
+      "measure": "order_amount",
+      "aggregation": "SUM",
+      "time_dimension": "ordered_at",
+      "filters": [
+        "status = 'completed'"
+      ],
+      "dimensions": [
+        "customer_id",
+        "currency"
+      ],
+      "grain": "order",
+      "owner": "Finance",
+      "currency": "USD",
+      "value": null,
+      "expected_value": "225.00",
+      "status": "unknown",
+      "evidence": "Not calculated."
+    }
+  },
+  "schemas": {
+    "ScenarioDefinition": {
+      "$defs": {
+        "ColumnDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "data_type": {
+              "title": "Data Type",
+              "type": "string"
+            },
+            "nullable": {
+              "default": true,
+              "title": "Nullable",
+              "type": "boolean"
+            },
+            "description": {
+              "default": "",
+              "title": "Description",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "data_type"
+          ],
+          "title": "ColumnDefinition",
+          "type": "object"
+        },
+        "ContractDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "grain": {
+              "title": "Grain",
+              "type": "string"
+            },
+            "primary_key": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Primary Key",
+              "type": "array"
+            },
+            "columns": {
+              "items": {
+                "$ref": "#/$defs/ColumnDefinition"
+              },
+              "title": "Columns",
+              "type": "array"
+            },
+            "owner": {
+              "default": "Analytics engineering",
+              "title": "Owner",
+              "type": "string"
+            },
+            "semantic_meaning": {
+              "title": "Semantic Meaning",
+              "type": "string"
+            }
+          },
+          "required": [
+            "grain",
+            "primary_key",
+            "columns",
+            "semantic_meaning"
+          ],
+          "title": "ContractDefinition",
+          "type": "object"
+        },
+        "GrainDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "declared": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Declared"
+            },
+            "label": {
+              "default": "GRAIN UNKNOWN",
+              "title": "Label",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "No learner declaration has been made.",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "classification": {
+              "default": "unknown",
+              "enum": [
+                "declared",
+                "inference",
+                "unknown"
+              ],
+              "title": "Classification",
+              "type": "string"
+            }
+          },
+          "title": "GrainDefinition",
+          "type": "object"
+        },
+        "MetricDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "measure": {
+              "title": "Measure",
+              "type": "string"
+            },
+            "aggregation": {
+              "enum": [
+                "SUM",
+                "AVG",
+                "COUNT"
+              ],
+              "title": "Aggregation",
+              "type": "string"
+            },
+            "time_dimension": {
+              "title": "Time Dimension",
+              "type": "string"
+            },
+            "filters": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Filters",
+              "type": "array"
+            },
+            "dimensions": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Dimensions",
+              "type": "array"
+            },
+            "grain": {
+              "title": "Grain",
+              "type": "string"
+            },
+            "owner": {
+              "title": "Owner",
+              "type": "string"
+            },
+            "currency": {
+              "title": "Currency",
+              "type": "string"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Value"
+            },
+            "expected_value": {
+              "default": "225.00",
+              "title": "Expected Value",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "Not calculated.",
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "measure",
+            "aggregation",
+            "time_dimension",
+            "filters",
+            "dimensions",
+            "grain",
+            "owner",
+            "currency"
+          ],
+          "title": "MetricDefinition",
+          "type": "object"
+        },
+        "ModelDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "layer": {
+              "enum": [
+                "source",
+                "staging",
+                "intermediate",
+                "fact",
+                "dimension",
+                "mart",
+                "metric",
+                "output"
+              ],
+              "title": "Layer",
+              "type": "string"
+            },
+            "why": {
+              "title": "Why",
+              "type": "string"
+            },
+            "grain": {
+              "$ref": "#/$defs/GrainDefinition"
+            },
+            "primary_key": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Primary Key",
+              "type": "array"
+            },
+            "columns": {
+              "items": {
+                "$ref": "#/$defs/ColumnDefinition"
+              },
+              "title": "Columns",
+              "type": "array"
+            },
+            "row_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Row Count"
+            },
+            "rows": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Rows",
+              "type": "array"
+            },
+            "parents": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Parents",
+              "type": "array"
+            },
+            "materialization": {
+              "default": "view",
+              "title": "Materialization",
+              "type": "string"
+            },
+            "sql": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Sql"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "tests": {
+              "items": {
+                "$ref": "#/$defs/TestResult"
+              },
+              "title": "Tests",
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "layer",
+            "why",
+            "grain"
+          ],
+          "title": "ModelDefinition",
+          "type": "object"
+        },
+        "RelationshipDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "left_model": {
+              "title": "Left Model",
+              "type": "string"
+            },
+            "right_model": {
+              "title": "Right Model",
+              "type": "string"
+            },
+            "left_key": {
+              "title": "Left Key",
+              "type": "string"
+            },
+            "right_key": {
+              "title": "Right Key",
+              "type": "string"
+            },
+            "expected": {
+              "enum": [
+                "1:1",
+                "1:N",
+                "N:1",
+                "N:N",
+                "unknown"
+              ],
+              "title": "Expected",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "left_model",
+            "right_model",
+            "left_key",
+            "right_key",
+            "expected",
+            "description"
+          ],
+          "title": "RelationshipDefinition",
+          "type": "object"
+        },
+        "TestResult": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "expected": {
+              "default": null,
+              "title": "Expected"
+            },
+            "actual": {
+              "default": null,
+              "title": "Actual"
+            },
+            "evidence": {
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "status",
+            "evidence"
+          ],
+          "title": "TestResult",
+          "type": "object"
+        },
+        "TransformationStep": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "input_model": {
+              "title": "Input Model",
+              "type": "string"
+            },
+            "output_model": {
+              "title": "Output Model",
+              "type": "string"
+            },
+            "operation": {
+              "title": "Operation",
+              "type": "string"
+            },
+            "why": {
+              "title": "Why",
+              "type": "string"
+            },
+            "input_grain": {
+              "title": "Input Grain",
+              "type": "string"
+            },
+            "output_grain": {
+              "title": "Output Grain",
+              "type": "string"
+            },
+            "input_rows": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Input Rows"
+            },
+            "output_rows": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Output Rows"
+            },
+            "columns_added": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Columns Added",
+              "type": "array"
+            },
+            "columns_removed": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Columns Removed",
+              "type": "array"
+            },
+            "columns_renamed": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Columns Renamed",
+              "type": "object"
+            },
+            "filters": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Filters",
+              "type": "array"
+            },
+            "joins": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Joins",
+              "type": "array"
+            },
+            "aggregations": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Aggregations",
+              "type": "array"
+            },
+            "windows": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Windows",
+              "type": "array"
+            },
+            "tests": {
+              "items": {
+                "$ref": "#/$defs/TestResult"
+              },
+              "title": "Tests",
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "input_model",
+            "output_model",
+            "operation",
+            "why",
+            "input_grain",
+            "output_grain"
+          ],
+          "title": "TransformationStep",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "default": "modeling-lab-v1",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "business_question": {
+          "title": "Business Question",
+          "type": "string"
+        },
+        "business_definition": {
+          "title": "Business Definition",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/ModelDefinition"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "relationships": {
+          "items": {
+            "$ref": "#/$defs/RelationshipDefinition"
+          },
+          "title": "Relationships",
+          "type": "array"
+        },
+        "planned_models": {
+          "items": {
+            "$ref": "#/$defs/ModelDefinition"
+          },
+          "title": "Planned Models",
+          "type": "array"
+        },
+        "transformations": {
+          "items": {
+            "$ref": "#/$defs/TransformationStep"
+          },
+          "title": "Transformations",
+          "type": "array"
+        },
+        "reference_sql": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Reference Sql",
+          "type": "object"
+        },
+        "fact_contract": {
+          "$ref": "#/$defs/ContractDefinition"
+        },
+        "expected_revenue": {
+          "title": "Expected Revenue",
+          "type": "string"
+        },
+        "planned_metric": {
+          "$ref": "#/$defs/MetricDefinition"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "business_question",
+        "business_definition",
+        "sources",
+        "relationships",
+        "planned_models",
+        "transformations",
+        "reference_sql",
+        "fact_contract",
+        "expected_revenue",
+        "planned_metric"
+      ],
+      "title": "ScenarioDefinition",
+      "type": "object"
+    },
+    "ModelDefinition": {
+      "$defs": {
+        "ColumnDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "data_type": {
+              "title": "Data Type",
+              "type": "string"
+            },
+            "nullable": {
+              "default": true,
+              "title": "Nullable",
+              "type": "boolean"
+            },
+            "description": {
+              "default": "",
+              "title": "Description",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "data_type"
+          ],
+          "title": "ColumnDefinition",
+          "type": "object"
+        },
+        "GrainDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "declared": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Declared"
+            },
+            "label": {
+              "default": "GRAIN UNKNOWN",
+              "title": "Label",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "No learner declaration has been made.",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "classification": {
+              "default": "unknown",
+              "enum": [
+                "declared",
+                "inference",
+                "unknown"
+              ],
+              "title": "Classification",
+              "type": "string"
+            }
+          },
+          "title": "GrainDefinition",
+          "type": "object"
+        },
+        "TestResult": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "expected": {
+              "default": null,
+              "title": "Expected"
+            },
+            "actual": {
+              "default": null,
+              "title": "Actual"
+            },
+            "evidence": {
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "status",
+            "evidence"
+          ],
+          "title": "TestResult",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "layer": {
+          "enum": [
+            "source",
+            "staging",
+            "intermediate",
+            "fact",
+            "dimension",
+            "mart",
+            "metric",
+            "output"
+          ],
+          "title": "Layer",
+          "type": "string"
+        },
+        "why": {
+          "title": "Why",
+          "type": "string"
+        },
+        "grain": {
+          "$ref": "#/$defs/GrainDefinition"
+        },
+        "primary_key": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Primary Key",
+          "type": "array"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/ColumnDefinition"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "row_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Row Count"
+        },
+        "rows": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "parents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Parents",
+          "type": "array"
+        },
+        "materialization": {
+          "default": "view",
+          "title": "Materialization",
+          "type": "string"
+        },
+        "sql": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sql"
+        },
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "pass",
+            "warning",
+            "fail",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "tests": {
+          "items": {
+            "$ref": "#/$defs/TestResult"
+          },
+          "title": "Tests",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "layer",
+        "why",
+        "grain"
+      ],
+      "title": "ModelDefinition",
+      "type": "object"
+    },
+    "EvaluationResult": {
+      "$defs": {
+        "GrainDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "declared": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Declared"
+            },
+            "label": {
+              "default": "GRAIN UNKNOWN",
+              "title": "Label",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "No learner declaration has been made.",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "classification": {
+              "default": "unknown",
+              "enum": [
+                "declared",
+                "inference",
+                "unknown"
+              ],
+              "title": "Classification",
+              "type": "string"
+            }
+          },
+          "title": "GrainDefinition",
+          "type": "object"
+        },
+        "TestResult": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "expected": {
+              "default": null,
+              "title": "Expected"
+            },
+            "actual": {
+              "default": null,
+              "title": "Actual"
+            },
+            "evidence": {
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "status",
+            "evidence"
+          ],
+          "title": "TestResult",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "default": "modeling-lab-v1",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "sql_valid": {
+          "title": "Sql Valid",
+          "type": "boolean"
+        },
+        "output_matches_expected": {
+          "title": "Output Matches Expected",
+          "type": "boolean"
+        },
+        "grain": {
+          "$ref": "#/$defs/GrainDefinition"
+        },
+        "primary_key": {
+          "additionalProperties": true,
+          "title": "Primary Key",
+          "type": "object"
+        },
+        "tests": {
+          "items": {
+            "$ref": "#/$defs/TestResult"
+          },
+          "title": "Tests",
+          "type": "array"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        },
+        "performance_notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Performance Notes",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "warning",
+            "fail",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "explanation_source": {
+          "const": "deterministic_evidence",
+          "default": "deterministic_evidence",
+          "title": "Explanation Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sql_valid",
+        "output_matches_expected",
+        "grain",
+        "primary_key",
+        "tests",
+        "status",
+        "explanation"
+      ],
+      "title": "EvaluationResult",
+      "type": "object"
+    },
+    "BuildResult": {
+      "$defs": {
+        "ColumnDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "data_type": {
+              "title": "Data Type",
+              "type": "string"
+            },
+            "nullable": {
+              "default": true,
+              "title": "Nullable",
+              "type": "boolean"
+            },
+            "description": {
+              "default": "",
+              "title": "Description",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "data_type"
+          ],
+          "title": "ColumnDefinition",
+          "type": "object"
+        },
+        "EvaluationResult": {
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "default": "modeling-lab-v1",
+              "title": "Contract Version",
+              "type": "string"
+            },
+            "sql_valid": {
+              "title": "Sql Valid",
+              "type": "boolean"
+            },
+            "output_matches_expected": {
+              "title": "Output Matches Expected",
+              "type": "boolean"
+            },
+            "grain": {
+              "$ref": "#/$defs/GrainDefinition"
+            },
+            "primary_key": {
+              "additionalProperties": true,
+              "title": "Primary Key",
+              "type": "object"
+            },
+            "tests": {
+              "items": {
+                "$ref": "#/$defs/TestResult"
+              },
+              "title": "Tests",
+              "type": "array"
+            },
+            "warnings": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Warnings",
+              "type": "array"
+            },
+            "performance_notes": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Performance Notes",
+              "type": "array"
+            },
+            "status": {
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "explanation": {
+              "title": "Explanation",
+              "type": "string"
+            },
+            "explanation_source": {
+              "const": "deterministic_evidence",
+              "default": "deterministic_evidence",
+              "title": "Explanation Source",
+              "type": "string"
+            }
+          },
+          "required": [
+            "sql_valid",
+            "output_matches_expected",
+            "grain",
+            "primary_key",
+            "tests",
+            "status",
+            "explanation"
+          ],
+          "title": "EvaluationResult",
+          "type": "object"
+        },
+        "GrainDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "declared": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Declared"
+            },
+            "label": {
+              "default": "GRAIN UNKNOWN",
+              "title": "Label",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "No learner declaration has been made.",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "classification": {
+              "default": "unknown",
+              "enum": [
+                "declared",
+                "inference",
+                "unknown"
+              ],
+              "title": "Classification",
+              "type": "string"
+            }
+          },
+          "title": "GrainDefinition",
+          "type": "object"
+        },
+        "MetricDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "measure": {
+              "title": "Measure",
+              "type": "string"
+            },
+            "aggregation": {
+              "enum": [
+                "SUM",
+                "AVG",
+                "COUNT"
+              ],
+              "title": "Aggregation",
+              "type": "string"
+            },
+            "time_dimension": {
+              "title": "Time Dimension",
+              "type": "string"
+            },
+            "filters": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Filters",
+              "type": "array"
+            },
+            "dimensions": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Dimensions",
+              "type": "array"
+            },
+            "grain": {
+              "title": "Grain",
+              "type": "string"
+            },
+            "owner": {
+              "title": "Owner",
+              "type": "string"
+            },
+            "currency": {
+              "title": "Currency",
+              "type": "string"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Value"
+            },
+            "expected_value": {
+              "default": "225.00",
+              "title": "Expected Value",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "Not calculated.",
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "measure",
+            "aggregation",
+            "time_dimension",
+            "filters",
+            "dimensions",
+            "grain",
+            "owner",
+            "currency"
+          ],
+          "title": "MetricDefinition",
+          "type": "object"
+        },
+        "ModelDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "layer": {
+              "enum": [
+                "source",
+                "staging",
+                "intermediate",
+                "fact",
+                "dimension",
+                "mart",
+                "metric",
+                "output"
+              ],
+              "title": "Layer",
+              "type": "string"
+            },
+            "why": {
+              "title": "Why",
+              "type": "string"
+            },
+            "grain": {
+              "$ref": "#/$defs/GrainDefinition"
+            },
+            "primary_key": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Primary Key",
+              "type": "array"
+            },
+            "columns": {
+              "items": {
+                "$ref": "#/$defs/ColumnDefinition"
+              },
+              "title": "Columns",
+              "type": "array"
+            },
+            "row_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Row Count"
+            },
+            "rows": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Rows",
+              "type": "array"
+            },
+            "parents": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Parents",
+              "type": "array"
+            },
+            "materialization": {
+              "default": "view",
+              "title": "Materialization",
+              "type": "string"
+            },
+            "sql": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Sql"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "tests": {
+              "items": {
+                "$ref": "#/$defs/TestResult"
+              },
+              "title": "Tests",
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "layer",
+            "why",
+            "grain"
+          ],
+          "title": "ModelDefinition",
+          "type": "object"
+        },
+        "TestResult": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "expected": {
+              "default": null,
+              "title": "Expected"
+            },
+            "actual": {
+              "default": null,
+              "title": "Actual"
+            },
+            "evidence": {
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "status",
+            "evidence"
+          ],
+          "title": "TestResult",
+          "type": "object"
+        },
+        "TransformationStep": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "input_model": {
+              "title": "Input Model",
+              "type": "string"
+            },
+            "output_model": {
+              "title": "Output Model",
+              "type": "string"
+            },
+            "operation": {
+              "title": "Operation",
+              "type": "string"
+            },
+            "why": {
+              "title": "Why",
+              "type": "string"
+            },
+            "input_grain": {
+              "title": "Input Grain",
+              "type": "string"
+            },
+            "output_grain": {
+              "title": "Output Grain",
+              "type": "string"
+            },
+            "input_rows": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Input Rows"
+            },
+            "output_rows": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Output Rows"
+            },
+            "columns_added": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Columns Added",
+              "type": "array"
+            },
+            "columns_removed": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Columns Removed",
+              "type": "array"
+            },
+            "columns_renamed": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Columns Renamed",
+              "type": "object"
+            },
+            "filters": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Filters",
+              "type": "array"
+            },
+            "joins": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Joins",
+              "type": "array"
+            },
+            "aggregations": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Aggregations",
+              "type": "array"
+            },
+            "windows": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Windows",
+              "type": "array"
+            },
+            "tests": {
+              "items": {
+                "$ref": "#/$defs/TestResult"
+              },
+              "title": "Tests",
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "input_model",
+            "output_model",
+            "operation",
+            "why",
+            "input_grain",
+            "output_grain"
+          ],
+          "title": "TransformationStep",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "default": "modeling-lab-v1",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "staging": {
+          "$ref": "#/$defs/ModelDefinition"
+        },
+        "fact": {
+          "$ref": "#/$defs/ModelDefinition"
+        },
+        "metric": {
+          "$ref": "#/$defs/MetricDefinition"
+        },
+        "evaluation": {
+          "$ref": "#/$defs/EvaluationResult"
+        },
+        "transformations": {
+          "items": {
+            "$ref": "#/$defs/TransformationStep"
+          },
+          "title": "Transformations",
+          "type": "array"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/$defs/ModelDefinition"
+          },
+          "title": "Inputs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "staging",
+        "fact",
+        "metric",
+        "evaluation",
+        "transformations"
+      ],
+      "title": "BuildResult",
+      "type": "object"
+    },
+    "JoinResult": {
+      "$defs": {
+        "GrainDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "declared": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Declared"
+            },
+            "label": {
+              "default": "GRAIN UNKNOWN",
+              "title": "Label",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "No learner declaration has been made.",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "status": {
+              "default": "unknown",
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "classification": {
+              "default": "unknown",
+              "enum": [
+                "declared",
+                "inference",
+                "unknown"
+              ],
+              "title": "Classification",
+              "type": "string"
+            }
+          },
+          "title": "GrainDefinition",
+          "type": "object"
+        },
+        "JoinTrace": {
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "title": "Key"
+            },
+            "left_rows": {
+              "title": "Left Rows",
+              "type": "integer"
+            },
+            "right_rows": {
+              "title": "Right Rows",
+              "type": "integer"
+            },
+            "output_rows": {
+              "title": "Output Rows",
+              "type": "integer"
+            },
+            "repeated": {
+              "title": "Repeated",
+              "type": "boolean"
+            },
+            "order_amount": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Order Amount"
+            },
+            "contribution": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Contribution"
+            }
+          },
+          "required": [
+            "key",
+            "left_rows",
+            "right_rows",
+            "output_rows",
+            "repeated"
+          ],
+          "title": "JoinTrace",
+          "type": "object"
+        },
+        "TestResult": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "pass",
+                "warning",
+                "fail",
+                "unknown"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "expected": {
+              "default": null,
+              "title": "Expected"
+            },
+            "actual": {
+              "default": null,
+              "title": "Actual"
+            },
+            "evidence": {
+              "title": "Evidence",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "status",
+            "evidence"
+          ],
+          "title": "TestResult",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "default": "modeling-lab-v1",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "left_table": {
+          "title": "Left Table",
+          "type": "string"
+        },
+        "right_table": {
+          "title": "Right Table",
+          "type": "string"
+        },
+        "left_rows": {
+          "title": "Left Rows",
+          "type": "integer"
+        },
+        "right_rows": {
+          "title": "Right Rows",
+          "type": "integer"
+        },
+        "right_rows_after": {
+          "title": "Right Rows After",
+          "type": "integer"
+        },
+        "expected_cardinality": {
+          "enum": [
+            "1:1",
+            "1:N",
+            "N:1",
+            "N:N",
+            "unknown"
+          ],
+          "title": "Expected Cardinality",
+          "type": "string"
+        },
+        "actual_cardinality": {
+          "enum": [
+            "1:1",
+            "1:N",
+            "N:1",
+            "N:N",
+            "unknown"
+          ],
+          "title": "Actual Cardinality",
+          "type": "string"
+        },
+        "expected_rows": {
+          "title": "Expected Rows",
+          "type": "integer"
+        },
+        "calculated_rows": {
+          "title": "Calculated Rows",
+          "type": "integer"
+        },
+        "actual_rows": {
+          "title": "Actual Rows",
+          "type": "integer"
+        },
+        "unmatched_left_rows": {
+          "title": "Unmatched Left Rows",
+          "type": "integer"
+        },
+        "null_left_keys": {
+          "title": "Null Left Keys",
+          "type": "integer"
+        },
+        "null_right_keys": {
+          "title": "Null Right Keys",
+          "type": "integer"
+        },
+        "left_grain": {
+          "title": "Left Grain",
+          "type": "string"
+        },
+        "right_grain": {
+          "title": "Right Grain",
+          "type": "string"
+        },
+        "resulting_grain": {
+          "$ref": "#/$defs/GrainDefinition"
+        },
+        "fanout": {
+          "title": "Fanout",
+          "type": "boolean"
+        },
+        "baseline_amount": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Baseline Amount"
+        },
+        "joined_amount": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Joined Amount"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Currency"
+        },
+        "trace": {
+          "items": {
+            "$ref": "#/$defs/JoinTrace"
+          },
+          "title": "Trace",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "sql": {
+          "title": "Sql",
+          "type": "string"
+        },
+        "tests": {
+          "items": {
+            "$ref": "#/$defs/TestResult"
+          },
+          "title": "Tests",
+          "type": "array"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "explanation_source": {
+          "const": "deterministic_evidence",
+          "default": "deterministic_evidence",
+          "title": "Explanation Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "left_table",
+        "right_table",
+        "left_rows",
+        "right_rows",
+        "right_rows_after",
+        "expected_cardinality",
+        "actual_cardinality",
+        "expected_rows",
+        "calculated_rows",
+        "actual_rows",
+        "unmatched_left_rows",
+        "null_left_keys",
+        "null_right_keys",
+        "left_grain",
+        "right_grain",
+        "resulting_grain",
+        "fanout",
+        "baseline_amount",
+        "joined_amount",
+        "currency",
+        "trace",
+        "rows",
+        "sql",
+        "tests",
+        "explanation"
+      ],
+      "title": "JoinResult",
+      "type": "object"
+    },
+    "MetricDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "measure": {
+          "title": "Measure",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "SUM",
+            "AVG",
+            "COUNT"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "time_dimension": {
+          "title": "Time Dimension",
+          "type": "string"
+        },
+        "filters": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "grain": {
+          "title": "Grain",
+          "type": "string"
+        },
+        "owner": {
+          "title": "Owner",
+          "type": "string"
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expected_value": {
+          "default": "225.00",
+          "title": "Expected Value",
+          "type": "string"
+        },
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "pass",
+            "warning",
+            "fail",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "evidence": {
+          "default": "Not calculated.",
+          "title": "Evidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "measure",
+        "aggregation",
+        "time_dimension",
+        "filters",
+        "dimensions",
+        "grain",
+        "owner",
+        "currency"
+      ],
+      "title": "MetricDefinition",
+      "type": "object"
+    }
+  }
+}

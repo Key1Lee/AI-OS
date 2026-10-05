@@ -1,0 +1,16 @@
+{
+  "data_system_map/graph.py": true,
+  "data_system_map/contracts.py": true,
+  "data_system_map/security.py": true,
+  "data_system_map/repository.py": true,
+  "data_system_map/adapters/dbt.py": true,
+  "data_system_map/adapters/__init__.py": true,
+  "fixtures/data-map/commerce/sources.json": true,
+  "fixtures/data-map/commerce/run_results.json": true,
+  "fixtures/data-map/commerce/manifest.json": true,
+  "fixtures/data-map/commerce/catalog.json": true,
+  "assessment/history.md": true,
+  "assessment/competency-map.md": true,
+  "assessment/weaknesses.md": true,
+  "assessment/mastery-evidence.md": true
+}

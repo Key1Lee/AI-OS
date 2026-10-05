@@ -1,0 +1,44 @@
+{
+  "profile": "/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/aios-architecture-audit-75ve3jjp/security-profile",
+  "hostile_host_create_status": 201,
+  "cross_origin_form_pause_status": 200,
+  "pause_response": {
+    "id": "s_65caac955daf4bc2b544152395cd8c8e",
+    "assessment_id": "A-001",
+    "target_role": "Principal FDE",
+    "module": "Module 1 \u2014 Customer discovery and problem decomposition",
+    "scenario_id": "FDE-DISCOVERY-001-v1",
+    "scenario_title": "Emergency service SLA recovery",
+    "scenario": "A commercial refrigeration services company\u2019s COO tells you: \u201cEmergency jobs are missing their four-hour SLA, and we\u2019re losing renewals. Build us an AI dispatch system that predicts breaches and automatically reassigns technicians. I need a pilot in eight weeks.\u201d",
+    "current_question": "You are leading the first 45-minute customer meeting. What do you do first?",
+    "newly_introduced_constraints": [],
+    "turn_number": 1,
+    "difficulty": 3,
+    "status": "PAUSED",
+    "mode": "ASSESSMENT",
+    "hints_used": 0,
+    "assistance_level": "none",
+    "elapsed_seconds": 0,
+    "started_at": "2026-10-04T02:30:38+00:00",
+    "updated_at": "2026-10-04T02:30:38+00:00",
+    "last_error": null,
+    "competencies_in_scope": [
+      "Requirements clarification, discovery, ambiguous problem decomposition",
+      "Stakeholder communication, prioritization and measurable business outcomes",
+      "System design, architectural defense, scalability and cost",
+      "SQL, relational reasoning, data modeling, query performance"
+    ],
+    "module_review": null
+  },
+  "hostile_host_list_status": 200,
+  "hostile_host_resume_status": 200,
+  "provider_calls": 0,
+  "middleware": [
+    "Middleware(BaseHTTPMiddleware, dispatch=<function create_app.<locals>.security_headers at 0x10a62d080>)"
+  ],
+  "authorization_headers_sent": false,
+  "cookies_sent": false,
+  "host": "rebinding.example",
+  "origin_pause": "https://untrusted.example",
+  "source_unchanged": true
+}

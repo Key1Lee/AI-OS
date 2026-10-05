@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:semantic-metrics:metric:v1",
+  "title": "Semantic metric contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "aggregation",
+    "approval",
+    "business_definition",
+    "calendar",
+    "change_note",
+    "compatibility",
+    "consumer_migration",
+    "consumers",
+    "contract_version",
+    "currency",
+    "dependencies",
+    "description",
+    "dimensions",
+    "effective_from",
+    "entity",
+    "filters",
+    "formula",
+    "grain",
+    "measure",
+    "metric_id",
+    "name",
+    "owner",
+    "previous_version",
+    "purpose",
+    "refund_attribution",
+    "status",
+    "technical_owner",
+    "tests",
+    "time_dimension",
+    "timezone",
+    "upstream_assets",
+    "version"
+  ],
+  "properties": {
+    "aggregation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approval": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "evidence",
+            "scope",
+            "approved_at",
+            "meaning_fingerprint"
+          ],
+          "properties": {
+            "owner": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scope": {
+              "const": "synthetic_scenario"
+            },
+            "approved_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "meaning_fingerprint": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "business_definition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "calendar": {
+      "const": "gregorian"
+    },
+    "change_note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibility": {
+      "type": "string",
+      "minLength": 1
+    },
+    "consumer_migration": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "consumers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "contract_version": {
+      "const": "semantic-metric-v1"
+    },
+    "currency": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "effective_from": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "currency"
+      ],
+      "properties": {
+        "status": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "fulfilled",
+              "completed",
+              "paid",
+              "created",
+              "canceled"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "currency": {
+          "const": "USD"
+        }
+      }
+    },
+    "formula": {
+      "type": "string",
+      "minLength": 1
+    },
+    "grain": {
+      "const": "order"
+    },
+    "measure": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "metric_id": {
+      "enum": [
+        "gross_revenue",
+        "net_revenue",
+        "orders",
+        "active_customers"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "previous_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "refund_attribution": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "PROPOSED",
+        "REVIEWED",
+        "APPROVED",
+        "ACTIVE",
+        "DEPRECATED"
+      ]
+    },
+    "technical_owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "time_dimension": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "upstream_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  },
+  "description": "Structural schema; Registry additionally validates formulas, bindings, ownership approval, versions, lifecycle, dependency cycles and compatibility."
+}

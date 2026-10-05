@@ -1,0 +1,31 @@
+✔ independent reversed diamond has stable ready-node definition priority and waits for slow parent (4.061208ms)
+✔ independent self-cycle, distant cycle, duplicate edge, unknown edge and duplicate task reject (0.401708ms)
+✔ all_success stays WAITING during retry, becomes BLOCKED only after exhausted failure (1.208417ms)
+✔ all_done joins wait for a retrying and failed parent to both become terminal (0.535125ms)
+✔ one_success starts at first success despite long running other parent (0.664291ms)
+✔ skipped/failed parents block one_success but all_done runs; no ninth state appears (0.483458ms)
+✔ retry release lets another task run; delay is an eligibility boundary under contention (0.618667ms)
+✔ timeline names policy delay and capacity waiting truthfully for occupied retry worker (6.271708ms)
+✔ timeout retry never magically succeeds when authored duration still exceeds timeout (0.512417ms)
+✔ UTC midnight crossing and historical partition preserve logical date and timestamp offset (0.315417ms)
+✔ source asset event does not erase task dependencies or daily gate semantics (1.440292ms)
+✔ reruns preserve other partitions, input stores and earlier traces for both write modes (8.36525ms)
+✔ calendar backfills handle month/year/leap boundaries and exact 31-day range bound (0.593416ms)
+✔ append behavior cannot silently turn explicit successful replacement into 200 rows (0.533917ms)
+✔ 31 backfill dates with retries obey independent interval sweep global budgets (181.728917ms)
+✔ backfill result contains exact replay definition/options including partition-specific failure (6.837084ms)
+✔ runtime boundary rejects primitive and nested non-record output stores before execution (0.575375ms)
+✔ runtime boundary rejects string-valued dependencies even with matching one-letter ID (0.150083ms)
+✔ accepted custom engine events satisfy the exported consumer schema (23.2055ms)
+✔ model adapter preserves metadata objects without shared references and infers no SQL semantics (0.455958ms)
+✔ critical path excludes a skipped parent from nominal one-success candidates (0.97875ms)
+✔ critical path excludes a transitively blocked parent from one-success candidates (0.243292ms)
+✔ critical path skips inherited latency when all-done follows an immediately disabled task (0.191333ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 422.94925

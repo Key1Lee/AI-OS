@@ -26,9 +26,9 @@ class ModelCapabilities:
 def registry(settings: ModelSettings) -> dict[str, ModelCapabilities]:
     """Conservative adapter capabilities. Context windows remain unknown until configured."""
     return {
-        "qwen_local": ModelCapabilities("qwen_local", settings.qwen_model, True, False, True, False, None, False, True, "local", "local", "llama.cpp", settings.qwen_quantization),
-        "openai": ModelCapabilities("openai", settings.openai_model, False, False, True, True, None, False, True, "cloud", "cloud"),
-        "claude": ModelCapabilities("claude", settings.claude_model, False, False, True, False, None, False, True, "cloud", "cloud"),
+        "qwen_local": ModelCapabilities("qwen_local", settings.qwen_model, True, False, True, False, settings.qwen_context_window, False, True, "local", "local", "llama.cpp", settings.qwen_quantization),
+        "openai": ModelCapabilities("openai", settings.openai_model, False, True, True, True, settings.openai_context_window, False, True, "cloud", "cloud"),
+        "claude": ModelCapabilities("claude", settings.claude_model, False, True, True, False, settings.claude_context_window, False, True, "cloud", "cloud"),
     }
 
 

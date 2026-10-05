@@ -5,10 +5,10 @@
 Before this implementation, the shared AI-OS layer had no executable Py.Dev
 harness, model router, or provider contract. It now has a shared model boundary
 and a thin runtime for inherited configuration and validated local runs.
-Toptal-Testing owns an independent Qwen/OpenAI evaluator,
-OpenAI interviewer, deterministic rubric, evidence store, and tests. Northstar
-owns n8n workflows, schemas, and offline validation. These project contracts
-remain unchanged. Existing project applications have not been migrated.
+Toptal owns evaluator/interviewer prompts, deterministic rubrics, evidence and
+tests; its provider transport now delegates to AI-OS. Northstar retains its n8n
+workflow runtime. [The intelligence plane](../docs/ai-os/intelligence-plane.md)
+documents new neutral capability and separate bounded Jev decision contracts.
 
 ## Runtime path
 
@@ -30,8 +30,9 @@ adapters cannot call tools or grant filesystem authority. The caller supplies
 deterministic validation and controls all side effects.
 
 The conservative capability registry is in `py_dev/capabilities.py`. It marks
-tool calling and images unsupported until a workflow-owned tool loop and
-adapter contract exist. Context window sizes are unknown rather than guessed.
+native OpenAI/Claude tool proposals supported through a bounded workflow-owned
+loop. Local Qwen tools and images remain unsupported. Context capacities are
+unknown unless configured or independently measured rather than guessed.
 The router rejects a request that *requires* an unsupported capability.
 
 ## Configuration
@@ -172,12 +173,14 @@ belong in the supplied validator.
 
 ## Current limits
 
-- The shared runtime resolves configuration and invokes models, but a full
-  workflow engine, durable memory implementation, and tool router do not exist
-  in this repository. Toptal-Testing and Northstar retain their own runtimes.
-- No tool calls, image inputs, provider-managed conversation state, or
-  capability discovery are implemented. Context limits and exact model
-  capabilities need configuration or measurement before hard enforcement.
+- No universal workflow engine or durable memory service exists. Bounded
+  allowlisted native tool proposals use `IntelligenceService`; projects retain
+  scheduler, business state and authorization.
+- Images, provider-managed agent runtimes, MCP and RAG indexing are not
+  implemented. Toptal interviewer continuation explicitly retains stored
+  response references through a central compatibility transport; default
+  neutral generation remains no-store. Context limits require configured or
+  independently measured capacity.
 - The daily call cap is not a monetary spend ceiling. Provider billing and
   token prices are not queried. A workflow needing a financial ceiling must
   add a separate billing-aware policy.

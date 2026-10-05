@@ -76,28 +76,36 @@ class ModelSettings:
     cloud_budget_file: Path | None = None
     audit_file: Path | None = None
     policy: RoutingPolicy = field(default_factory=RoutingPolicy)
+    qwen_context_window: int | None = None
+    openai_context_window: int | None = None
+    claude_context_window: int | None = None
 
     @classmethod
     def from_env(cls) -> ModelSettings:
         policy_path = os.getenv("PY_DEV_POLICY_FILE")
         settings = cls(
             default_brain=os.getenv("DEFAULT_BRAIN", "qwen").strip().lower(),
-            qwen_enabled=_enabled("QWEN_ENABLED", True),
+            qwen_enabled=_enabled("AI_OS_PROVIDER_QWEN_ENABLED", _enabled("QWEN_ENABLED", True)),
             qwen_base_url=os.getenv("QWEN_BASE_URL", "http://127.0.0.1:8080/v1").rstrip("/"),
             qwen_model=os.getenv("QWEN_MODEL", "").strip(),
             qwen_quantization=os.getenv("QWEN_QUANTIZATION", "Q4_K_S").strip(),
-            openai_enabled=_enabled("OPENAI_ENABLED") and _enabled("ALLOW_OPENAI"),
+            openai_enabled=_enabled("AI_OS_PROVIDER_OPENAI_ENABLED", _enabled("OPENAI_ENABLED")) and _enabled("ALLOW_OPENAI"),
             openai_model=os.getenv("OPENAI_MODEL", "").strip(),
-            claude_enabled=_enabled("CLAUDE_ENABLED") and _enabled("ALLOW_CLAUDE"),
+            claude_enabled=_enabled("AI_OS_PROVIDER_CLAUDE_ENABLED", _enabled("CLAUDE_ENABLED")) and _enabled("ALLOW_CLAUDE"),
             claude_model=os.getenv("CLAUDE_MODEL", "").strip(),
             allow_cloud_escalation=_enabled("ALLOW_CLOUD_ESCALATION"),
             cloud_call_budget=int(os.getenv("CLOUD_CALL_BUDGET", "0")),
             cloud_budget_file=Path(os.getenv("CLOUD_BUDGET_FILE", str(Path.home() / ".config" / "py-dev" / "cloud-budget.json"))).expanduser(),
             audit_file=Path(os.getenv("MODEL_AUDIT_FILE", str(Path.home() / ".config" / "py-dev" / "model-audit.jsonl"))).expanduser(),
             policy=RoutingPolicy.from_file(Path(policy_path)) if policy_path else RoutingPolicy(),
+            qwen_context_window=int(os.environ["QWEN_CONTEXT_WINDOW"]) if os.getenv("QWEN_CONTEXT_WINDOW") else None,
+            openai_context_window=int(os.environ["OPENAI_CONTEXT_WINDOW"]) if os.getenv("OPENAI_CONTEXT_WINDOW") else None,
+            claude_context_window=int(os.environ["CLAUDE_CONTEXT_WINDOW"]) if os.getenv("CLAUDE_CONTEXT_WINDOW") else None,
         )
         if settings.cloud_call_budget < 0:
             raise ValueError("CLOUD_CALL_BUDGET must be nonnegative")
+        if any(value is not None and value <= 0 for value in (settings.qwen_context_window, settings.openai_context_window, settings.claude_context_window)):
+            raise ValueError("Provider context windows must be positive when declared")
         if settings.default_brain not in {"qwen", "qwen_local", "openai", "claude"}:
             raise ValueError("DEFAULT_BRAIN must be qwen, openai, or claude")
         return settings

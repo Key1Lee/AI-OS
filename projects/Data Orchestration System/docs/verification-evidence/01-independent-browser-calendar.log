@@ -1,0 +1,35 @@
+{
+  "errors": [],
+  "externalRequests": [],
+  "checks": [
+    {
+      "name": "stage-first view hides full task graph",
+      "status": "SUPPORTED"
+    },
+    {
+      "name": "all eight questions remain available in Backfill and Guide",
+      "status": "CONTRADICTED",
+      "error": "What runs?"
+    },
+    {
+      "name": "Export run evidence on Backfill includes the displayed historical runs",
+      "status": "CONTRADICTED",
+      "error": "Export lacks completed displayed run for 2026-09-27; found 2026-10-02:WAITING"
+    },
+    {
+      "name": "accepted August partition is labeled with its actual calendar month",
+      "status": "CONTRADICTED",
+      "error": "The input did not match the regular expression /AUG/. Input:\n\n'OCT\\n01\\n✓ SUCCESS\\nKeep existing\\n100 published rows'\n"
+    },
+    {
+      "name": "narrow backfill controls and partition evidence fit without page overflow",
+      "status": "CONTRADICTED",
+      "error": "Expected values to be strictly equal:\n\nfalse !== true\n"
+    },
+    {
+      "name": "page runs without JS errors or external network resources",
+      "status": "SUPPORTED"
+    }
+  ],
+  "augustPartitionLabel": "OCT\n01\n✓ SUCCESS\nKeep existing\n100 published rows"
+}

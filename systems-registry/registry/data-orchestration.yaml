@@ -1,0 +1,39 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# The optional serialized Modeling adapter is an interface, not a required sibling runtime.
+name: data-orchestration-system
+purpose: Deterministic task execution and backfill learning simulator.
+owns:
+- task dependency states, retries, and execution events
+- partition backfills and simulated worker/pool budgets
+does_not_own:
+- SQL transformation logic
+- production scheduling, incidents, and learner scoring
+path: projects/Data Orchestration System
+entrypoints:
+- projects/Data Orchestration System/scripts/serve.mjs
+- projects/Data Orchestration System/src/main.tsx
+public_interfaces:
+- projects/Data Orchestration System/src/engine/index.ts
+- projects/Data Orchestration System/src/engine/modeling.ts
+depends_on: []
+consumed_by:
+- analytics-engineering-lab
+contracts:
+- projects/Data Orchestration System/contracts/execution-event.schema.json
+- projects/Data Orchestration System/contracts/scenario.schema.json
+state_owned:
+- browser-memory runs, outputs, history, and backfill state
+- explicit exported execution evidence
+tests:
+  unit:
+  - npm test
+  smoke: []
+  contract: []
+  integration:
+  - npm run test:e2e
+health_check: null
+documentation:
+- projects/Data Orchestration System/README.md
+- projects/Data Orchestration System/docs/architecture.md
+- projects/Data Orchestration System/AGENTS.md
+lifecycle: UNKNOWN

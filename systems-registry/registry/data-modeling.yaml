@@ -1,0 +1,38 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+name: data-modeling-system
+purpose: Deterministic visual exercises for modeling and SQL transformations.
+owns:
+- grain and key declarations
+- staging, joins, facts, and modeling invariants
+- local exercise metric calculations
+does_not_own:
+- orchestration and operational monitoring
+- learner assessment and shared business metric governance
+path: projects/Data Modeling System
+entrypoints:
+- projects/Data Modeling System/scripts/run.py
+public_interfaces:
+- projects/Data Modeling System/services/modeling-engine/src/data_modeling_lab/api.py
+- projects/Data Modeling System/services/modeling-engine/src/data_modeling_lab/engine.py
+depends_on: []
+consumed_by:
+- analytics-engineering-lab
+contracts:
+- projects/Data Modeling System/services/modeling-engine/src/data_modeling_lab/contracts.py
+- projects/Data Modeling System/docs/contracts.json
+state_owned:
+- synthetic scenarios and golden outputs
+- in-memory exercise and DuckDB execution state
+tests:
+  unit:
+  - uv run pytest
+  smoke: []
+  contract: []
+  integration:
+  - npm --prefix apps/web run test:e2e
+health_check: null
+documentation:
+- projects/Data Modeling System/README.md
+- projects/Data Modeling System/docs/architecture.md
+- projects/Data Modeling System/AGENTS.md
+lifecycle: UNKNOWN

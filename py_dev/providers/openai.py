@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
 from dataclasses import dataclass
 from time import monotonic
 from typing import Any
 
-from py_dev.models import ModelRequest, ProviderResult
+from py_dev.models import ModelRequest, ProviderResult, ToolCall
 
 from .base import ProviderUnavailable, request_messages, schema_instruction, usage_dict
 
@@ -32,7 +33,7 @@ class OpenAIProvider:
         arguments: dict[str, Any] = {
             "model": self.model,
             "instructions": schema_instruction(request),
-            "input": request_messages(request),
+            "input": list(request.provider_state) if request.provider_state is not None else request_messages(request),
             "store": False,
         }
         if request.reasoning_level:
@@ -43,13 +44,30 @@ class OpenAIProvider:
             # JSON mode accepts the shared schema subset across configured models;
             # router validation remains authoritative.
             arguments["text"] = {"format": {"type": "json_object"}}
+        if request.tools:
+            arguments["tools"] = [{"type": "function", "name": tool["name"], "description": tool.get("description", ""), "parameters": dict(tool["parameters"]), "strict": False} for tool in request.tools]
+            arguments["parallel_tool_calls"] = False
+        for output in request.tool_outputs:
+            arguments["input"].append({"type": "function_call_output", "call_id": output.call_id, "output": json.dumps(output.output, allow_nan=False)})
         start = monotonic()
         try:
             client = self.client.with_options(timeout=request.timeout_seconds) if hasattr(self.client, "with_options") else self.client
             response = client.responses.create(**arguments)
-            content = response.output_text
-            if not isinstance(content, str) or not content.strip():
+            if getattr(response, "status", None) != "completed":
+                raise ValueError("OpenAI response did not complete")
+            content = getattr(response, "output_text", "") or ""
+            calls = []
+            native = []
+            for item in getattr(response, "output", ()):
+                block = item.model_dump(mode="json") if hasattr(item, "model_dump") else dict(vars(item))
+                native.append(block)
+                if block.get("type") == "function_call":
+                    params = json.loads(block["arguments"])
+                    if not isinstance(params, dict):
+                        raise ValueError("Tool arguments must be an object")
+                    calls.append(ToolCall(block["call_id"], block["name"], params))
+            if not calls and (not isinstance(content, str) or not content.strip()):
                 raise ValueError("empty content")
-            return ProviderResult(content, str(getattr(response, "model", None) or self.model), str(getattr(response, "status", None) or "unknown"), int((monotonic() - start) * 1000), usage_dict(getattr(response, "usage", None)))
+            return ProviderResult(content, str(getattr(response, "model", None) or self.model), "tool_call" if calls else str(getattr(response, "status", None) or "unknown"), int((monotonic() - start) * 1000), usage_dict(getattr(response, "usage", None)), tuple(calls), [*arguments["input"], *native])
         except Exception as exc:
             raise ProviderUnavailable("OpenAI is unavailable or returned an invalid response") from exc

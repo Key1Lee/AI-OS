@@ -1,0 +1,40 @@
+version: 2
+sources:
+  - name: lab_source
+    schema: quality
+    tables:
+      - name: fct_orders_input
+        columns:
+          - name: order_id
+            data_tests: [not_null, unique]
+models:
+  - name: customers
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+  - name: fct_orders
+    columns:
+      - name: order_id
+        data_tests: [unique]
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [pending, completed, cancelled, shipped]
+      - name: customer_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('customers')
+                field: customer_id
+unit_tests:
+  - name: completed_revenue_excludes_cancelled
+    model: completed_amount
+    given:
+      - input: ref('unit_orders')
+        rows:
+          - {status: complete, amount: 100}
+          - {status: cancelled, amount: 200}
+    expect:
+      rows:
+        - {revenue: 100}

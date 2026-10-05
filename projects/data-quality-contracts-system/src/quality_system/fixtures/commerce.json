@@ -1,0 +1,590 @@
+{
+  "fct_orders": {
+    "id": "fct_orders",
+    "columns": [
+      {
+        "name": "order_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "customer_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "ordered_at",
+        "data_type": "TIMESTAMP",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "net_revenue",
+        "data_type": "DECIMAL",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "payment_status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "shipped_at",
+        "data_type": "TIMESTAMP",
+        "nullable": true,
+        "required": true
+      },
+      {
+        "name": "description",
+        "data_type": "STRING",
+        "nullable": true,
+        "required": false
+      },
+      {
+        "name": "currency",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "order_id": "1001",
+        "customer_id": "C1",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "10.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1001",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1002",
+        "customer_id": "C2",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "20.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1002",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1003",
+        "customer_id": "C3",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "30.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1003",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1004",
+        "customer_id": "C4",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "40.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1004",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1005",
+        "customer_id": "C5",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "50.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1005",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1006",
+        "customer_id": "C1",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "60.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1006",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1007",
+        "customer_id": "C2",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "70.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1007",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1008",
+        "customer_id": "C3",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "80.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1008",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1009",
+        "customer_id": "C4",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "90.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1009",
+        "currency": "USD"
+      },
+      {
+        "order_id": "1010",
+        "customer_id": "C5",
+        "ordered_at": "2026-09-28T00:00:00Z",
+        "net_revenue": "100.00",
+        "status": "completed",
+        "payment_status": "paid",
+        "shipped_at": "2026-09-29T00:00:00Z",
+        "description": "Order 1010",
+        "currency": "USD"
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  },
+  "customers": {
+    "id": "customers",
+    "columns": [
+      {
+        "name": "customer_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "email",
+        "data_type": "STRING",
+        "nullable": true,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "customer_id": "C1",
+        "email": "customer1@example.com"
+      },
+      {
+        "customer_id": "C2",
+        "email": "customer2@example.com"
+      },
+      {
+        "customer_id": "C3",
+        "email": "customer3@example.com"
+      },
+      {
+        "customer_id": "C4",
+        "email": "customer4@example.com"
+      },
+      {
+        "customer_id": "C5",
+        "email": "customer5@example.com"
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  },
+  "orders": {
+    "id": "orders",
+    "columns": [
+      {
+        "name": "order_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "customer_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "gross_amount",
+        "data_type": "DECIMAL",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "order_id": "1001",
+        "customer_id": "C1",
+        "gross_amount": "15.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1002",
+        "customer_id": "C2",
+        "gross_amount": "20.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1003",
+        "customer_id": "C3",
+        "gross_amount": "30.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1004",
+        "customer_id": "C4",
+        "gross_amount": "40.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1005",
+        "customer_id": "C5",
+        "gross_amount": "50.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1006",
+        "customer_id": "C1",
+        "gross_amount": "60.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1007",
+        "customer_id": "C2",
+        "gross_amount": "70.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1008",
+        "customer_id": "C3",
+        "gross_amount": "80.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1009",
+        "customer_id": "C4",
+        "gross_amount": "90.00",
+        "status": "completed"
+      },
+      {
+        "order_id": "1010",
+        "customer_id": "C5",
+        "gross_amount": "100.00",
+        "status": "completed"
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  },
+  "order_items": {
+    "id": "order_items",
+    "columns": [
+      {
+        "name": "item_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "order_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "product_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "quantity",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "item_id": "I1",
+        "order_id": "1001",
+        "product_id": "P1",
+        "quantity": 1
+      },
+      {
+        "item_id": "I2",
+        "order_id": "1002",
+        "product_id": "P2",
+        "quantity": 1
+      },
+      {
+        "item_id": "I3",
+        "order_id": "1003",
+        "product_id": "P3",
+        "quantity": 1
+      },
+      {
+        "item_id": "I4",
+        "order_id": "1004",
+        "product_id": "P1",
+        "quantity": 1
+      },
+      {
+        "item_id": "I5",
+        "order_id": "1005",
+        "product_id": "P2",
+        "quantity": 1
+      },
+      {
+        "item_id": "I6",
+        "order_id": "1006",
+        "product_id": "P3",
+        "quantity": 1
+      },
+      {
+        "item_id": "I7",
+        "order_id": "1007",
+        "product_id": "P1",
+        "quantity": 1
+      },
+      {
+        "item_id": "I8",
+        "order_id": "1008",
+        "product_id": "P2",
+        "quantity": 1
+      },
+      {
+        "item_id": "I9",
+        "order_id": "1009",
+        "product_id": "P3",
+        "quantity": 1
+      },
+      {
+        "item_id": "I10",
+        "order_id": "1010",
+        "product_id": "P1",
+        "quantity": 1
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  },
+  "products": {
+    "id": "products",
+    "columns": [
+      {
+        "name": "product_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "name",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "product_id": "P1",
+        "name": "Product 1"
+      },
+      {
+        "product_id": "P2",
+        "name": "Product 2"
+      },
+      {
+        "product_id": "P3",
+        "name": "Product 3"
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  },
+  "payments": {
+    "id": "payments",
+    "columns": [
+      {
+        "name": "payment_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "order_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "amount",
+        "data_type": "DECIMAL",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "currency",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "payment_id": "PAY1",
+        "order_id": "1001",
+        "amount": "15.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY2",
+        "order_id": "1002",
+        "amount": "20.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY3",
+        "order_id": "1003",
+        "amount": "30.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY4",
+        "order_id": "1004",
+        "amount": "40.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY5",
+        "order_id": "1005",
+        "amount": "50.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY6",
+        "order_id": "1006",
+        "amount": "60.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY7",
+        "order_id": "1007",
+        "amount": "70.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY8",
+        "order_id": "1008",
+        "amount": "80.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY9",
+        "order_id": "1009",
+        "amount": "90.00",
+        "status": "captured",
+        "currency": "USD"
+      },
+      {
+        "payment_id": "PAY10",
+        "order_id": "1010",
+        "amount": "100.00",
+        "status": "captured",
+        "currency": "USD"
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  },
+  "returns": {
+    "id": "returns",
+    "columns": [
+      {
+        "name": "return_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "order_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "refund_amount",
+        "data_type": "DECIMAL",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      },
+      {
+        "name": "currency",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true
+      }
+    ],
+    "rows": [
+      {
+        "return_id": "R1",
+        "order_id": "1001",
+        "refund_amount": "5.00",
+        "status": "refunded",
+        "currency": "USD"
+      }
+    ],
+    "loaded_at": "2026-10-01T23:30:00Z",
+    "currency": "USD"
+  }
+}

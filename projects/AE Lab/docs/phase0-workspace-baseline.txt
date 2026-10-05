@@ -1,0 +1,237 @@
+Phase 0 workspace status, observed before the first Lab write on 2026-10-03.
+Reconstructed from the initial git-status tool transcript; checked against the later status.
+The original observation is in this chat. No discovery-time content hashes were captured.
+Later AE Lab and FDE Lab untracked entries are excluded because they were absent initially.
+
+ M "../Data Observability System/.gitignore"
+ M "../Data Observability System/Makefile"
+ M "../Data Observability System/README.md"
+ M "../Data Observability System/docs/migration.md"
+ M "../Data Observability System/docs/screenshots/map-learning-incident.png"
+ M "../Data Observability System/docs/screenshots/map-mobile-light.png"
+ M "../Data Observability System/src/data_system_map/demo/commerce/README.md"
+ M "../Data Observability System/web/package-lock.json"
+ M "../Data Observability System/web/package.json"
+ M "../Data Observability System/web/src/foundation.css"
+ D ../Northstar/AGENTS.md
+ D ../Northstar/AI_OS.md
+ D ../Northstar/README.md
+ D ../Northstar/compose.yaml
+ D ../Northstar/n8n/workflows/ai-os-example.json
+ D ../Northstar/n8n/workflows/northstar-error-handler.json
+ D ../Northstar/n8n/workflows/northstar-leadops.json
+ D ../Northstar/n8n/workflows/pro-opportunity-intake.json
+ D ../Northstar/northstar-leadops/.env.example
+ D ../Northstar/northstar-leadops/README.md
+ D ../Northstar/northstar-leadops/db/001_schema.sql
+ D ../Northstar/northstar-leadops/db/002_operations.sql
+ D ../Northstar/northstar-leadops/docs/architecture.md
+ D ../Northstar/northstar-leadops/docs/process.md
+ D ../Northstar/northstar-leadops/docs/regression-baseline.md
+ D ../Northstar/northstar-leadops/fixtures/01_hot_lead.json
+ D ../Northstar/northstar-leadops/fixtures/02_warm_lead.json
+ D ../Northstar/northstar-leadops/fixtures/03_cold_student.json
+ D ../Northstar/northstar-leadops/fixtures/04_duplicate_same_event.json
+ D ../Northstar/northstar-leadops/fixtures/05_existing_contact_new_event.json
+ D ../Northstar/northstar-leadops/fixtures/06_missing_email.json
+ D ../Northstar/northstar-leadops/fixtures/07_malformed_payload.json
+ D ../Northstar/northstar-leadops/fixtures/08_prompt_injection.json
+ D ../Northstar/northstar-leadops/fixtures/09_low_ai_confidence.json
+ D ../Northstar/northstar-leadops/fixtures/10_crm_429.json
+ D ../Northstar/northstar-leadops/fixtures/11_enrichment_500.json
+ D ../Northstar/northstar-leadops/fixtures/12_llm_timeout.json
+ D ../Northstar/northstar-leadops/fixtures/13_malformed_llm_output.json
+ D ../Northstar/northstar-leadops/fixtures/14_budget_conflict.json
+ D ../Northstar/northstar-leadops/fixtures/15_expired_crm_credentials.json
+ D ../Northstar/northstar-leadops/scripts/build-artifacts.mjs
+ D ../Northstar/northstar-leadops/scripts/regression-baseline.mjs
+ D ../Northstar/northstar-leadops/scripts/test-behavior.mjs
+ D ../Northstar/northstar-leadops/scripts/validate.mjs
+ D ../Northstar/northstar-leadops/workflows/northstar-error-handler.json
+ D ../Northstar/northstar-leadops/workflows/northstar-leadops.json
+ D ../Northstar/scripts/n8n.ps1
+ D ../Northstar/searxng-settings.yml
+ D ../Toptal-Testing/.env.example
+ D ../Toptal-Testing/.gitignore
+ D ../Toptal-Testing/AGENTS.md
+ D ../Toptal-Testing/Makefile
+ D ../Toptal-Testing/README.md
+ D ../Toptal-Testing/START_TOPTAL_TRAINING.command
+ D ../Toptal-Testing/Start-AE-Trainer.command
+ D ../Toptal-Testing/Start-Toptal-Testing.command
+ D ../Toptal-Testing/aios.toml
+ D ../Toptal-Testing/alembic.ini
+ D ../Toptal-Testing/app/__init__.py
+ D ../Toptal-Testing/app/assessment.py
+ D ../Toptal-Testing/app/config.py
+ D ../Toptal-Testing/app/database.py
+ D ../Toptal-Testing/app/engine.py
+ D ../Toptal-Testing/app/evidence.py
+ D ../Toptal-Testing/app/main.py
+ D ../Toptal-Testing/app/models.py
+ D ../Toptal-Testing/app/openai_service.py
+ D ../Toptal-Testing/app/prompts/interviewer.md
+ D ../Toptal-Testing/app/scenarios.py
+ D ../Toptal-Testing/app/static/app.js
+ D ../Toptal-Testing/app/static/index.html
+ D ../Toptal-Testing/app/static/styles.css
+ D ../Toptal-Testing/apps/__init__.py
+ D ../Toptal-Testing/apps/api/__init__.py
+ D ../Toptal-Testing/apps/api/data_map.py
+ D ../Toptal-Testing/apps/api/main.py
+ D ../Toptal-Testing/apps/web/e2e/data-map.spec.ts
+ D ../Toptal-Testing/apps/web/e2e/training.spec.ts
+ D ../Toptal-Testing/apps/web/index.html
+ D ../Toptal-Testing/apps/web/package-lock.json
+ D ../Toptal-Testing/apps/web/package.json
+ D ../Toptal-Testing/apps/web/playwright.config.ts
+ D ../Toptal-Testing/apps/web/src/App.tsx
+ D ../Toptal-Testing/apps/web/src/Dashboard.tsx
+ D ../Toptal-Testing/apps/web/src/Editor.tsx
+ D ../Toptal-Testing/apps/web/src/EvidenceViews.tsx
+ D ../Toptal-Testing/apps/web/src/Solve.tsx
+ D ../Toptal-Testing/apps/web/src/api.ts
+ D ../Toptal-Testing/apps/web/src/components.tsx
+ D ../Toptal-Testing/apps/web/src/data-map/DataMap.tsx
+ D ../Toptal-Testing/apps/web/src/data-map/InvestigationPanel.tsx
+ D ../Toptal-Testing/apps/web/src/data-map/training-map.css
+ D ../Toptal-Testing/apps/web/src/data-map/types.ts
+ D ../Toptal-Testing/apps/web/src/main.tsx
+ D ../Toptal-Testing/apps/web/src/styles.css
+ D ../Toptal-Testing/apps/web/src/types.ts
+ D ../Toptal-Testing/apps/web/src/useDraft.ts
+ D ../Toptal-Testing/apps/web/tsconfig.json
+ D ../Toptal-Testing/apps/web/vite.config.ts
+ D ../Toptal-Testing/assessment/competency-map.md
+ D ../Toptal-Testing/assessment/history.md
+ D ../Toptal-Testing/assessment/mastery-evidence.md
+ D ../Toptal-Testing/assessment/session-evidence/.gitkeep
+ D ../Toptal-Testing/assessment/weaknesses.md
+ D ../Toptal-Testing/curriculum/competencies.yaml
+ D ../Toptal-Testing/curriculum/selection.yaml
+ D ../Toptal-Testing/data/.gitkeep
+ D ../Toptal-Testing/docs/adaptive_engine.md
+ D ../Toptal-Testing/docs/adding_exercises.md
+ D ../Toptal-Testing/docs/api.md
+ D ../Toptal-Testing/docs/architecture.md
+ D ../Toptal-Testing/docs/competency_model.md
+ D ../Toptal-Testing/docs/data-observability-migration.md
+ D ../Toptal-Testing/docs/dbt_lab.md
+ D ../Toptal-Testing/docs/exercise_spec.md
+ D ../Toptal-Testing/docs/implementation_plan.md
+ D ../Toptal-Testing/docs/interview_mode.md
+ D ../Toptal-Testing/docs/mastery.md
+ D ../Toptal-Testing/docs/product_spec.md
+ D ../Toptal-Testing/docs/research/2026-10-01-public-curriculum.md
+ D ../Toptal-Testing/docs/scoring.md
+ D ../Toptal-Testing/docs/screenshots/dashboard.png
+ D ../Toptal-Testing/docs/screenshots/map-learning-incident.png
+ D ../Toptal-Testing/docs/screenshots/map-mobile-light.png
+ D ../Toptal-Testing/docs/screenshots/map-overview.png
+ D ../Toptal-Testing/docs/screenshots/solving.png
+ D ../Toptal-Testing/docs/verification.md
+ D ../Toptal-Testing/exercise_bank/sql/sql-calendar-window.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-click-sessions.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-customer-latest.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-day-seven-retention.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-device-islands.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-export-activation.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-historical-owner.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-inventory-current.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-missing-invoices.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-order-reconciliation.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-price-levels.json
+ D ../Toptal-Testing/exercise_bank/sql/sql-settlement-days.json
+ D ../Toptal-Testing/migrations/env.py
+ D ../Toptal-Testing/migrations/versions/001_initial.py
+ D ../Toptal-Testing/requirements-ae.txt
+ D ../Toptal-Testing/requirements-dev.txt
+ D ../Toptal-Testing/requirements.txt
+ D ../Toptal-Testing/scripts/e2e_server.py
+ D ../Toptal-Testing/scripts/seed_ae.py
+ D ../Toptal-Testing/tests/__init__.py
+ D ../Toptal-Testing/tests/ae/__init__.py
+ D ../Toptal-Testing/tests/ae/conftest.py
+ D ../Toptal-Testing/tests/ae/test_contracts.py
+ D ../Toptal-Testing/tests/ae/test_execution.py
+ D ../Toptal-Testing/tests/ae/test_workflow.py
+ D ../Toptal-Testing/tests/conftest.py
+ D ../Toptal-Testing/tests/data_map/__init__.py
+ D ../Toptal-Testing/tests/data_map/conftest.py
+ D ../Toptal-Testing/tests/data_map/test_api.py
+ D ../Toptal-Testing/tests/data_map/test_observability_contract.py
+ D ../Toptal-Testing/tests/regression/conftest.py
+ D ../Toptal-Testing/tests/regression/test_ae_database_identity.py
+ D ../Toptal-Testing/tests/regression/test_ae_no_unobserved_gaps.py
+ D ../Toptal-Testing/tests/regression/test_ae_output_schema.py
+ D ../Toptal-Testing/tests/regression/test_ae_primary_attempt.py
+ D ../Toptal-Testing/tests/regression/test_ae_result_matching.py
+ D ../Toptal-Testing/tests/regression/test_ae_submission_recovery.py
+ D ../Toptal-Testing/tests/regression/test_data_map_verification.py
+ D ../Toptal-Testing/tests/test_api.py
+ D ../Toptal-Testing/tests/test_openai_service.py
+ D ../Toptal-Testing/tests/training/__init__.py
+ D ../Toptal-Testing/tests/training/helpers.py
+ D ../Toptal-Testing/tests/training/test_acceptance.py
+ D ../Toptal-Testing/tests/training/test_evaluators.py
+ D ../Toptal-Testing/tests/training/test_mastery.py
+ D ../Toptal-Testing/tests/training/test_persistence.py
+ D ../Toptal-Testing/tests/training/test_scheduling.py
+ D ../Toptal-Testing/tests/training/test_selection.py
+ D ../Toptal-Testing/trainer/__init__.py
+ D ../Toptal-Testing/trainer/adaptive/__init__.py
+ D ../Toptal-Testing/trainer/adaptive/selection.py
+ D ../Toptal-Testing/trainer/config.py
+ D ../Toptal-Testing/trainer/data_map/__init__.py
+ D ../Toptal-Testing/trainer/data_map/contracts.py
+ D ../Toptal-Testing/trainer/data_map/service.py
+ D ../Toptal-Testing/trainer/data_map/store.py
+ D ../Toptal-Testing/trainer/execution/__init__.py
+ D ../Toptal-Testing/trainer/execution/compare.py
+ D ../Toptal-Testing/trainer/execution/sql.py
+ D ../Toptal-Testing/trainer/execution/worker.py
+ D ../Toptal-Testing/trainer/exercises/__init__.py
+ D ../Toptal-Testing/trainer/exercises/bank.py
+ D ../Toptal-Testing/trainer/mastery/__init__.py
+ D ../Toptal-Testing/trainer/mastery/policy.py
+ D ../Toptal-Testing/trainer/repositories/__init__.py
+ D ../Toptal-Testing/trainer/repositories/models.py
+ D ../Toptal-Testing/trainer/repositories/store.py
+ D ../Toptal-Testing/trainer/schemas/__init__.py
+ D ../Toptal-Testing/trainer/schemas/models.py
+ D ../Toptal-Testing/trainer/services/__init__.py
+ D ../Toptal-Testing/trainer/services/progress.py
+ D ../Toptal-Testing/trainer/services/training.py
+ D ../Toptal-Testing/training/__init__.py
+ D ../Toptal-Testing/training/__main__.py
+ D ../Toptal-Testing/training/application.py
+ D ../Toptal-Testing/training/calibration.py
+ D ../Toptal-Testing/training/cli.py
+ D ../Toptal-Testing/training/config.py
+ D ../Toptal-Testing/training/content.py
+ D ../Toptal-Testing/training/content/questions.json
+ D ../Toptal-Testing/training/deterministic.py
+ D ../Toptal-Testing/training/evaluation.py
+ D ../Toptal-Testing/training/generation.py
+ D ../Toptal-Testing/training/llm.py
+ D ../Toptal-Testing/training/mastery.py
+ D ../Toptal-Testing/training/models.py
+ D ../Toptal-Testing/training/persistence.py
+ D ../Toptal-Testing/training/prompts/evaluator.md
+ D ../Toptal-Testing/training/scheduling.py
+ D ../Toptal-Testing/training/selection.py
+?? "../Data Modeling System/"
+?? "../Data Observability System/docs/openapi-preservation.json"
+?? "../Data Observability System/docs/preservation.json"
+?? "../Data Observability System/docs/restart-smoke.json"
+?? "../Data Observability System/docs/screenshots/standalone-incident.png"
+?? "../Data Observability System/docs/screenshots/standalone-mobile.png"
+?? "../Data Observability System/docs/verification-agent.json"
+?? "../Data Observability System/docs/verification.md"
+?? "../Data Observability System/scripts/"
+?? "../Data Observability System/web/e2e/"
+?? "../Data Observability System/web/playwright.config.ts"
+?? "../Data Orchestration System/"
+?? "../Toptal-Testing System/"
+?? ../data-quality-contracts-system/
+?? "../n8n System/"

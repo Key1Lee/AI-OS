@@ -72,10 +72,12 @@ make test
 make lint
 make build
 make check-demo
+make test-e2e
 ```
 
+Browser checks require a Playwright Chromium installation (`cd web && PLAYWRIGHT_BROWSERS_PATH=../.cache/playwright npx playwright install chromium`).
 Tests use temporary metadata profiles. Toptal's `make test` runs its retained
-trainer/integration suite plus this package's generic tests. Its existing browser
+trainer/integration suite plus this package's generic tests. This project's browser tests exercise the independent app; the trainer's browser
 suite verifies assessment hiding, learning, SQL training and multi-tab recovery.
 See [migration and recovery](docs/migration.md), [HTTP contracts](docs/api.md), and
 [verification](docs/verification.md). `docs/initial-implementation/` is historical

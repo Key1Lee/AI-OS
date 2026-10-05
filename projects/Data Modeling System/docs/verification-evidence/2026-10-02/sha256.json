@@ -1,0 +1,20 @@
+{
+  "advanced-graph-desktop.png": "f3f48f5570f6aedea5d93efbc7e14297df64a8d1e8db8579c9e085465d7fd2b6",
+  "advanced-probes.mjs": "d4c1fbe776d92a17c431886cf1d367b16657ade69857087ac9688ab2575c38f4",
+  "broken-fact-desktop.png": "e94b7cc8c21564a1f6b05b10f6f83311e8d0a215e6a3d9d5dc2c3189fdf52e54",
+  "browser-probes.mjs": "5fa56834fb55520af8f113c14c65b7f489b9b43eb2970869c9ad8252ee3ee6ef",
+  "check-results.json": "5fbacf4d5fdc5ec264006df7c12ebd67ad30eeaa0d7769f2e5383282c8467457",
+  "export.json": "5e5348c800fda063b09b557fc7651fe4ff197a143042eb5036686810764dbd2f",
+  "extra-observations.json": "06683733be464860ee65c5368fcaa1faf4c70d51bbf6100acd8fa7f1139a0b26",
+  "initial-desktop.png": "b20dd911f7d7252542f4c874bb502b7b5eb8f11dc6fb6763d2150f16e51a25d0",
+  "join-customer-desktop.png": "0f1bc9590237065ecb2f0cfbb57024cff9535ba7f0cc91039f59c114fe5cf799",
+  "many-to-many-desktop.png": "705b1cb01cb35ddad5f42dd27452ff76fa73023b5804d42eea0662a41990137b",
+  "metric-desktop.png": "1837c2c3d7fb9c00940a5648a16144b2725a1d70a71472444ec0b369bf53c232",
+  "mobile-Buildverify.png": "2b0c5d9c9b013b7117f0ffd64c3a52340c592a1d53ad3cfe3b2d0969eaa21756",
+  "mobile-Joinlab.png": "f1316fabd1b7cdbb77285a894aeb108222565d8a19a04e36980ccf27c97e25f4",
+  "mobile-Semanticmetric.png": "83882d5d8672a507c2847dfc2fc97f375bf66efaf9c00897f42f9dee614b29bb",
+  "mobile-Transformationstory.png": "9de5570d8d4f5d4e291cbc41a28c904d03517521048e5024998e14085a7ec43f",
+  "observations.json": "ea55e7b6bb347fdd6dbccf736c9e55c88f152735f27cf1302a2b076bda83c0ed",
+  "prepared-view-desktop.png": "be38489b94e8301b5d7612d39f30d0a6f4c6573c60dc4b401c55c1661b3bc08a",
+  "staging-desktop.png": "5954caefd40be6ae9b7ac89d2868681cf04922e49790eb534401ad4070e740ae"
+}

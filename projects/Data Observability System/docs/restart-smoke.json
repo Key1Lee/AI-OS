@@ -1,0 +1,16 @@
+{
+  "trainer_health": {
+    "status": "ok",
+    "service": "senior-ae-trainer",
+    "sql_available": true,
+    "exercises": 12
+  },
+  "overview_stage_count": 5,
+  "overview_visible_nodes": 0,
+  "snapshot_identity_preserved": true,
+  "current_investigation_present": false,
+  "learner_file_hashes_unchanged": {
+    "data/ae-trainer.db": true,
+    "data/data-map-training.db": true
+  }
+}

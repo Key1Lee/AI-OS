@@ -1,5 +1,12 @@
 # AI-OS
 
+Shared intelligence and bounded decision contracts are documented in
+[docs/ai-os/intelligence-plane.md](docs/ai-os/intelligence-plane.md). Inspect
+readiness with `python3 -m py_dev ai providers --probe`; a configured key or
+installed SDK is never treated as proof that a provider is operational. Local
+JSON callers use `python3 -m py_dev ai request` or `ai decision` with input on
+stdin. Projects retain business rules, deterministic checks, permissions and state.
+
 AI-OS is the top-level engineering system and shared architectural layer for
 standards, templates, skills, commands, scripts, schemas, evaluations, and
 architectural guidance.

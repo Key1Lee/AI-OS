@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checks": {
+    "fixture_deterministic_exact_money": true,
+    "bounded_batches_keep_nonadjacent_duplicate_keys_together": true,
+    "native_adapters_detect_distributed_duplicates_without_hiding_rows": true,
+    "native_modeling_oversize_key_group_fails_closed": true,
+    "real_native_failure_and_publication_impact": true,
+    "repair_requires_recorded_diagnosis": true,
+    "prose_keywords_do_not_grant_repair": true,
+    "resumed_real_recovery_complete_data_retry_safety_and_historic_incident": true,
+    "verification_can_repeat_without_reintroducing_corruption": true,
+    "compensating_row_corruption_cannot_pass_repeat_safety": true,
+    "latest_failed_verification_cannot_award_mastery": true,
+    "repeat_verification_preserves_one_parent_completion_event": true,
+    "automated_assistance_cannot_award_local_mastery": true,
+    "reset_preserves_prior_evidence": true,
+    "modified_pinned_fixture_cannot_substitute_a_new_source": true,
+    "exported_canonical_events_correlate_and_order": true,
+    "incident_events_resolve_real_correlated_prior_failures": true,
+    "sibling_source_and_config_digests_unchanged_during_probes": true
+  },
+  "native_source_and_config_files_compared": 398
+}

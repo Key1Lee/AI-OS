@@ -1,0 +1,4 @@
+# Stable identities retained after user-owned directory renames.
+[aliases]
+Toptal-Testing = "Toptal-Testing System"
+Northstar = "n8n System"

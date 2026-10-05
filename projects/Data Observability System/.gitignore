@@ -6,3 +6,6 @@ __pycache__/
 data/*.db*
 web/node_modules/
 web/dist/
+web/test-results/
+web/playwright-report/
+.cache/

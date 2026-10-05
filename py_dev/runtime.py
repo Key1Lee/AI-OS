@@ -210,6 +210,8 @@ class AIOSRuntime:
             offline_requirement=run.offline or (provider == "qwen_local" and not config.get("external_escalation", "enabled") and not run.review_with),
         )
         router = ModelRouter(settings, providers=self.providers, audit_sink=self.audit_sink, validator=self.validator)
+        if report:
+            router.capabilities["qwen_local"] = replace(router.capabilities["qwen_local"], context_window=min(report.model_context, report.runtime_context))
         response = router.run(model_request)
         verification_result = "failed" if response.degraded else "not_requested"
         escalation_decision = "fallback" if response.fallback_occurred else "manual_cloud" if provider != "qwen_local" else "none"
@@ -225,7 +227,9 @@ class AIOSRuntime:
                     for candidate, enabled in (("openai", settings.openai_enabled), ("claude", settings.claude_enabled)):
                         if not enabled:
                             continue
-                        escalated = router.run(replace(model_request, brain=candidate, review_with=None))
+                        # Local startup proves a local ceiling only. Cloud limits remain
+                        # unknown; an explicit context guarantee cannot be inferred.
+                        escalated = router.run(replace(model_request, brain=candidate, review_with=None, context_size=0))
                         escalation_decision = f"verification_failed_to_{candidate}"
                         if escalated.degraded:
                             continue

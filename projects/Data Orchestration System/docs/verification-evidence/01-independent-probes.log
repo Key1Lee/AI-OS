@@ -1,0 +1,103 @@
+✔ independent reversed diamond has stable ready-node definition priority and waits for slow parent (4.747125ms)
+✔ independent self-cycle, distant cycle, duplicate edge, unknown edge and duplicate task reject (0.447792ms)
+✔ all_success stays WAITING during retry, becomes BLOCKED only after exhausted failure (1.0925ms)
+✔ all_done joins wait for a retrying and failed parent to both become terminal (0.418958ms)
+✔ one_success starts at first success despite long running other parent (0.572416ms)
+✔ skipped/failed parents block one_success but all_done runs; no ninth state appears (0.469084ms)
+✖ retry release lets another task run; delay is an eligibility boundary under contention (1.064291ms)
+✔ timeout retry never magically succeeds when authored duration still exceeds timeout (0.351959ms)
+✔ UTC midnight crossing and historical partition preserve logical date and timestamp offset (0.219208ms)
+✔ source asset event does not erase task dependencies or daily gate semantics (0.473625ms)
+✔ reruns preserve other partitions, input stores and earlier traces for both write modes (6.713208ms)
+✔ calendar backfills handle month/year/leap boundaries and exact 31-day range bound (0.341916ms)
+✖ append behavior cannot silently turn explicit successful replacement into 200 rows (1.470542ms)
+✔ 31 backfill dates with retries obey independent interval sweep global budgets (93.567208ms)
+✖ runtime boundary rejects primitive and nested non-record output stores before execution (0.348292ms)
+✖ runtime boundary rejects string-valued dependencies even with matching one-letter ID (0.354709ms)
+✔ accepted custom engine events satisfy the exported consumer schema (25.528417ms)
+✔ model adapter preserves metadata objects without shared references and infers no SQL semantics (0.489083ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 14
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 325.025584
+
+✖ failing tests:
+
+test at docs/verification-evidence/independent-probes.test.ts:72:1
+✖ retry release lets another task run; delay is an eligibility boundary under contention (1.064291ms)
+  AssertionError [ERR_ASSERTION]: must not promise a start while the only worker is occupied
+      at TestContext.<anonymous> (/Users/key/_AI-OS/projects/Data Orchestration System/docs/verification-evidence/independent-probes.test.ts:79:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'Attempt 1 failed: Independent temporary failure Next attempt starts at 06:02 Asia/Seoul, after 1 more virtual minutes.',
+    expected: /eligible/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at docs/verification-evidence/independent-probes.test.ts:119:1
+✖ append behavior cannot silently turn explicit successful replacement into 200 rows (1.470542ms)
+  AssertionError [ERR_ASSERTION]: explicit replacement must replace or reject append incompatibility
+  
+  200 !== 100
+  
+      at TestContext.<anonymous> (/Users/key/_AI-OS/projects/Data Orchestration System/docs/verification-evidence/independent-probes.test.ts:124:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 100,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at docs/verification-evidence/independent-probes.test.ts:142:1
+✖ runtime boundary rejects primitive and nested non-record output stores before execution (0.348292ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: invalid output store 7
+      at TestContext.<anonymous> (/Users/key/_AI-OS/projects/Data Orchestration System/docs/verification-evidence/independent-probes.test.ts:145:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at docs/verification-evidence/independent-probes.test.ts:148:1
+✖ runtime boundary rejects string-valued dependencies even with matching one-letter ID (0.354709ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (/Users/key/_AI-OS/projects/Data Orchestration System/docs/verification-evidence/independent-probes.test.ts:151:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }

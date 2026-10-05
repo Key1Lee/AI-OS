@@ -1,0 +1,28 @@
+✔ independent reversed diamond has stable ready-node definition priority and waits for slow parent (4.255ms)
+✔ independent self-cycle, distant cycle, duplicate edge, unknown edge and duplicate task reject (0.743625ms)
+✔ all_success stays WAITING during retry, becomes BLOCKED only after exhausted failure (1.247625ms)
+✔ all_done joins wait for a retrying and failed parent to both become terminal (0.517208ms)
+✔ one_success starts at first success despite long running other parent (0.638ms)
+✔ skipped/failed parents block one_success but all_done runs; no ninth state appears (0.508666ms)
+✔ retry release lets another task run; delay is an eligibility boundary under contention (1.520292ms)
+✔ timeline names policy delay and capacity waiting truthfully for occupied retry worker (6.299833ms)
+✔ timeout retry never magically succeeds when authored duration still exceeds timeout (0.521083ms)
+✔ UTC midnight crossing and historical partition preserve logical date and timestamp offset (0.319875ms)
+✔ source asset event does not erase task dependencies or daily gate semantics (0.708917ms)
+✔ reruns preserve other partitions, input stores and earlier traces for both write modes (12.584916ms)
+✔ calendar backfills handle month/year/leap boundaries and exact 31-day range bound (0.341583ms)
+✔ append behavior cannot silently turn explicit successful replacement into 200 rows (0.433042ms)
+✔ 31 backfill dates with retries obey independent interval sweep global budgets (174.407666ms)
+✔ backfill result contains exact replay definition/options including partition-specific failure (6.49425ms)
+✔ runtime boundary rejects primitive and nested non-record output stores before execution (0.567666ms)
+✔ runtime boundary rejects string-valued dependencies even with matching one-letter ID (0.213084ms)
+✔ accepted custom engine events satisfy the exported consumer schema (23.200375ms)
+✔ model adapter preserves metadata objects without shared references and infers no SQL semantics (0.462542ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 451.350333

@@ -1,0 +1,949 @@
+{
+  "contradicted": 3,
+  "probes": [
+    {
+      "actual": {
+        "FAIL": 0,
+        "PASS": 18,
+        "UNKNOWN": 0,
+        "WARN": 0
+      },
+      "expected": {
+        "FAIL": 0,
+        "PASS": 18,
+        "UNKNOWN": 0,
+        "WARN": 0
+      },
+      "group": "scenario",
+      "id": "baseline-18-pass",
+      "supported": true
+    },
+    {
+      "actual": "OPEN",
+      "expected": "OPEN",
+      "group": "gate",
+      "id": "baseline-gate-open",
+      "supported": true
+    },
+    {
+      "actual": [
+        "550.00",
+        "555.00",
+        "5.00"
+      ],
+      "expected": [
+        "550.00",
+        "555.00",
+        "5.00"
+      ],
+      "group": "scenario",
+      "id": "fixture-exact-sums",
+      "supported": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "group": "determinism",
+      "id": "scenario-input-immutable",
+      "supported": true
+    },
+    {
+      "actual": 10,
+      "expected": 10,
+      "group": "determinism",
+      "id": "fixture-isolation",
+      "supported": true
+    },
+    {
+      "actual": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "expected": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "group": "scenario",
+      "id": "failure-duplicate",
+      "supported": true
+    },
+    {
+      "actual": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "expected": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "group": "scenario",
+      "id": "failure-orphan",
+      "supported": true
+    },
+    {
+      "actual": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "expected": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "group": "scenario",
+      "id": "failure-schema",
+      "supported": true
+    },
+    {
+      "actual": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "expected": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "group": "scenario",
+      "id": "failure-stale",
+      "supported": true
+    },
+    {
+      "actual": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "expected": [
+        "BLOCKED",
+        "FAIL"
+      ],
+      "group": "scenario",
+      "id": "failure-unpaid",
+      "supported": true
+    },
+    {
+      "actual": [
+        "OPEN",
+        {
+          "FAIL": 0,
+          "PASS": 17,
+          "UNKNOWN": 0,
+          "WARN": 1
+        }
+      ],
+      "expected": [
+        "OPEN",
+        {
+          "FAIL": 0,
+          "PASS": 17,
+          "UNKNOWN": 0,
+          "WARN": 1
+        }
+      ],
+      "group": "gate",
+      "id": "warning-continues",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "uniqueness",
+      "id": "unique-composite",
+      "supported": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "group": "uniqueness",
+      "id": "unique-composite-repeat",
+      "supported": true
+    },
+    {
+      "actual": [
+        3,
+        2
+      ],
+      "expected": [
+        3,
+        2
+      ],
+      "group": "uniqueness",
+      "id": "unique-affected-vs-excess",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "uniqueness",
+      "id": "unique-typed-values",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "uniqueness",
+      "id": "unique-null-fails",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "uniqueness",
+      "id": "unique-null-ignore",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "unique-all-null-ignore",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "unique-empty",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "unique-missing-column",
+      "supported": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "group": "evidence",
+      "id": "sample-row-number-protected",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "completeness",
+      "id": "nonnull-zero-false-empty-string",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "completeness",
+      "id": "nonnull-inclusive-threshold",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "completeness",
+      "id": "nonnull-below-threshold",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "completeness",
+      "id": "nonnull-exact-third-threshold",
+      "supported": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "group": "determinism",
+      "id": "nonnull-independent-of-decimal-context",
+      "supported": true
+    },
+    {
+      "actual": false,
+      "expected": true,
+      "group": "determinism",
+      "id": "nonnull-independent-of-rounding",
+      "supported": false
+    },
+    {
+      "actual": {
+        "exception": "Inexact",
+        "message": "[<class 'decimal.Inexact'>]"
+      },
+      "expected": "FAIL",
+      "group": "determinism",
+      "id": "nonnull-independent-of-inexact-trap",
+      "supported": false
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "validity",
+      "id": "accepted-typed-membership",
+      "supported": true
+    },
+    {
+      "actual": [
+        "FAIL",
+        "PASS"
+      ],
+      "expected": [
+        "FAIL",
+        "PASS"
+      ],
+      "group": "validity",
+      "id": "accepted-null-policy",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "validity",
+      "id": "accepted-invalid-value",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "relationship",
+      "id": "relationship-orphan",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "relationship-missing-parent",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "relationship",
+      "id": "relationship-empty-parent",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "relationship",
+      "id": "relationship-optional-null",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "relationship",
+      "id": "relationship-required-null",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "relationship",
+      "id": "relationship-unknown-member",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "relationship",
+      "id": "relationship-late-dimension-tolerance",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "relationship",
+      "id": "relationship-duplicate-parent",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "relationship",
+      "id": "relationship-duplicate-parent-opt-out",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "schema-no-metadata",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "schema",
+      "id": "schema-missing-column",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "schema",
+      "id": "schema-observed-nullable",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "schema",
+      "id": "schema-rejects-float-money",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "schema",
+      "id": "schema-decimal-shape",
+      "supported": true
+    },
+    {
+      "actual": "99999999999999999999999999999999999999",
+      "expected": "99999999999999999999999999999999999999",
+      "group": "money",
+      "id": "money-38-digit-exact",
+      "supported": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "group": "money",
+      "id": "decimal38-schema-valid",
+      "supported": true
+    },
+    {
+      "actual": 3,
+      "expected": 3,
+      "group": "contracts",
+      "id": "generated-id-name-boundary",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "freshness",
+      "id": "freshness-exact",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "freshness",
+      "id": "freshness-over",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "freshness",
+      "id": "freshness-future",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "freshness",
+      "id": "freshness-naive",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "freshness",
+      "id": "freshness-missing",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "freshness",
+      "id": "freshness-timezone",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "volume",
+      "id": "volume-empty-fails",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "volume",
+      "id": "volume-inclusive",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "business",
+      "id": "business-completed-unpaid",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "business",
+      "id": "business-noncomplete-unpaid",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "business-missing-evidence",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "business",
+      "id": "business-shipment-before",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "business",
+      "id": "business-shipped-null",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "business",
+      "id": "business-negative",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "business",
+      "id": "business-zero",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "reconciliation",
+      "id": "reconciliation-decimal-addition",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "reconciliation",
+      "id": "reconciliation-absolute-equality",
+      "supported": true
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "group": "reconciliation",
+      "id": "reconciliation-over-tolerance",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "reconciliation",
+      "id": "reconciliation-relative-equality",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "FAIL",
+      "group": "reconciliation",
+      "id": "reconciliation-exact-relative-third",
+      "supported": false
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "reconciliation",
+      "id": "reconciliation-zero-both",
+      "supported": true
+    },
+    {
+      "actual": [
+        "FAIL",
+        null
+      ],
+      "expected": [
+        "FAIL",
+        null
+      ],
+      "group": "reconciliation",
+      "id": "reconciliation-zero-baseline",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "reconciliation",
+      "id": "reconciliation-refunds",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "unknown",
+      "id": "reconciliation-nonfinite",
+      "supported": true
+    },
+    {
+      "actual": "REJECTED",
+      "expected": "BLOCKED or REJECTED",
+      "group": "gate",
+      "id": "gate-wrong-dataset",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-missing",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-duplicate",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-run_id",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-input_fingerprint",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-executed_at",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-target_id",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-severity",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-blocking",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "gate-mismatch-status",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "blocking-warning-blocks",
+      "supported": true
+    },
+    {
+      "actual": "BLOCKED",
+      "expected": "BLOCKED",
+      "group": "gate",
+      "id": "partial-selection-withholds",
+      "supported": true
+    },
+    {
+      "actual": "COMPATIBLE",
+      "expected": "COMPATIBLE",
+      "group": "compatibility",
+      "id": "compatibility-no-change",
+      "supported": true
+    },
+    {
+      "actual": "COMPATIBLE",
+      "expected": "COMPATIBLE",
+      "group": "compatibility",
+      "id": "compatibility-optional-add",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-strict-add",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-column-drop",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-type-change",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-grain",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-key",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-semantic",
+      "supported": true
+    },
+    {
+      "actual": "REVIEW",
+      "expected": "REVIEW",
+      "group": "compatibility",
+      "id": "compatibility-semantic-review-policy",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-null-tighten-no-proof",
+      "supported": true
+    },
+    {
+      "actual": "COMPATIBLE",
+      "expected": "COMPATIBLE",
+      "group": "compatibility",
+      "id": "compatibility-null-tighten-with-proof",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-null-tighten-wrong-target",
+      "supported": true
+    },
+    {
+      "actual": "BREAKING",
+      "expected": "BREAKING",
+      "group": "compatibility",
+      "id": "compatibility-null-tighten-empty",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "dbt-invalid-count--1",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "dbt-invalid-count-True",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "dbt-invalid-count-'1'",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "dbt-invalid-count-1.5",
+      "supported": true
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "group": "adapter",
+      "id": "dbt-zero-pass",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "dbt-wrong-rule",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "dbt-runtime-error",
+      "supported": true
+    },
+    {
+      "actual": [
+        "order_id"
+      ],
+      "expected": [
+        "order_id"
+      ],
+      "group": "adapter",
+      "id": "modeling-actual-scenario-export",
+      "supported": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "group": "adapter",
+      "id": "modeling-preserves-business-definition",
+      "supported": true
+    },
+    {
+      "actual": "HEALTHY",
+      "expected": "HEALTHY",
+      "group": "adapter",
+      "id": "observability-existing-shape",
+      "supported": true
+    },
+    {
+      "actual": "HEALTHY",
+      "expected": "HEALTHY",
+      "group": "adapter",
+      "id": "observability-status-PASS",
+      "supported": true
+    },
+    {
+      "actual": "WARNING",
+      "expected": "WARNING",
+      "group": "adapter",
+      "id": "observability-status-WARN",
+      "supported": true
+    },
+    {
+      "actual": "FAILED",
+      "expected": "FAILED",
+      "group": "adapter",
+      "id": "observability-status-FAIL",
+      "supported": true
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "group": "adapter",
+      "id": "observability-status-UNKNOWN",
+      "supported": true
+    },
+    {
+      "actual": [
+        {
+          "FAIL": 0,
+          "PASS": 0,
+          "UNKNOWN": 18,
+          "WARN": 0
+        },
+        "BLOCKED"
+      ],
+      "expected": [
+        {
+          "FAIL": 0,
+          "PASS": 0,
+          "UNKNOWN": 18,
+          "WARN": 0
+        },
+        "BLOCKED"
+      ],
+      "group": "api",
+      "id": "api-missing-target-unknown-withheld",
+      "supported": true
+    },
+    {
+      "actual": 404,
+      "expected": 404,
+      "group": "api",
+      "id": "api-unknown-scenario",
+      "supported": true
+    },
+    {
+      "actual": 422,
+      "expected": 422,
+      "group": "api",
+      "id": "api-invalid-clock-rejected",
+      "supported": true
+    },
+    {
+      "actual": 422,
+      "expected": 422,
+      "group": "api",
+      "id": "api-rule-selection-rejected",
+      "supported": true
+    },
+    {
+      "actual": 422,
+      "expected": 422,
+      "group": "boundary",
+      "id": "api-scoring-extension-rejected",
+      "supported": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "group": "determinism",
+      "id": "api-deterministic-repeat",
+      "supported": true
+    }
+  ],
+  "source_changed_during_run": false,
+  "source_hashes_at_end": {
+    "src/quality_system/__init__.py": "fe45c41c2a4caae865724a5a5a4281aad83cf741d65c0270a3e0d45c3f0293b6",
+    "src/quality_system/adapters.py": "580ef94d87d4113602984bcb421fa23a8b522e0690ec2d7e13b4846c88dd97bf",
+    "src/quality_system/api.py": "2065a79f9f473255137479648d08b4357e8c6db2463044988dd69c1eabbbd7e0",
+    "src/quality_system/compatibility.py": "8895b31acdc970701f29a490e80849be803ef82007a0c14e789d7731b5e87ab1",
+    "src/quality_system/contracts.py": "01e9b67ec5215f5f41f0764ee67be72d1dbdc22c1aaf5652f2489c36242d86e7",
+    "src/quality_system/engine.py": "b382ee7948b49616fd61d61fa1a1506293d2b7cd875140a064184d7148ff1cbb",
+    "src/quality_system/scenarios.py": "893247abe73ab7e0ac65b7c4292b138564db1ae915cac463af172843d7bd1ab5"
+  },
+  "source_hashes_at_start": {
+    "src/quality_system/__init__.py": "fe45c41c2a4caae865724a5a5a4281aad83cf741d65c0270a3e0d45c3f0293b6",
+    "src/quality_system/adapters.py": "580ef94d87d4113602984bcb421fa23a8b522e0690ec2d7e13b4846c88dd97bf",
+    "src/quality_system/api.py": "2065a79f9f473255137479648d08b4357e8c6db2463044988dd69c1eabbbd7e0",
+    "src/quality_system/compatibility.py": "8895b31acdc970701f29a490e80849be803ef82007a0c14e789d7731b5e87ab1",
+    "src/quality_system/contracts.py": "01e9b67ec5215f5f41f0764ee67be72d1dbdc22c1aaf5652f2489c36242d86e7",
+    "src/quality_system/engine.py": "b382ee7948b49616fd61d61fa1a1506293d2b7cd875140a064184d7148ff1cbb",
+    "src/quality_system/scenarios.py": "893247abe73ab7e0ac65b7c4292b138564db1ae915cac463af172843d7bd1ab5"
+  },
+  "supported": 114
+}

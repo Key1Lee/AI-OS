@@ -1,0 +1,40 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# Data Quality System/ is empty; this path holds the implementation. Artifact adapters are not live wiring.
+name: data-quality-system
+purpose: Deterministic data contract and rule validation with publication gate evidence.
+owns:
+- data contracts, assertions, and compatibility checks
+- quality events and simulated publication gate eligibility
+does_not_own:
+- transformations and scheduling
+- operational monitoring, incidents, and learner scoring
+path: projects/data-quality-contracts-system
+entrypoints:
+- projects/data-quality-contracts-system/scripts/run.py
+public_interfaces:
+- projects/data-quality-contracts-system/src/quality_system/api.py
+- projects/data-quality-contracts-system/src/quality_system/engine.py
+- projects/data-quality-contracts-system/src/quality_system/adapters.py
+depends_on: []
+consumed_by:
+- analytics-engineering-lab
+contracts:
+- projects/data-quality-contracts-system/src/quality_system/contracts.py
+- projects/data-quality-contracts-system/contracts/openapi.json
+state_owned:
+- versioned contracts, rules, and synthetic fixtures
+- browser-memory rules and validation evidence
+tests:
+  unit:
+  - uv run pytest
+  smoke: []
+  contract: []
+  integration:
+  - npm --prefix web run test:e2e
+health_check: null
+documentation:
+- projects/data-quality-contracts-system/README.md
+- projects/data-quality-contracts-system/docs/architecture.md
+- projects/data-quality-contracts-system/docs/integrations.md
+- projects/data-quality-contracts-system/AGENTS.md
+lifecycle: UNKNOWN

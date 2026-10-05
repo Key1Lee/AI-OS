@@ -1,0 +1,42 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# Dependencies are implemented consumer-owned subprocess adapters, not remote service calls.
+name: analytics-engineering-lab
+purpose: Guided retry-safety scenario integrating existing local engineering systems.
+owns:
+- scenario fixtures, failure injection, and evidence correlation
+- local warehouse operations and learning session state
+- consumer-owned sibling runtime adapters
+does_not_own:
+- canonical sibling engine logic and Toptal mastery
+- production schedulers, BI, and connectors
+path: projects/AE Lab
+entrypoints:
+- projects/AE Lab/lab/__main__.py
+- projects/AE Lab/lab/cli.py
+public_interfaces:
+- projects/AE Lab/lab/contracts.py
+- projects/AE Lab/lab/adapters/bridge.py
+depends_on:
+- data-modeling-system
+- data-orchestration-system
+- data-quality-system
+- data-observability-system
+- toptal-testing-system
+consumed_by: []
+contracts:
+- projects/AE Lab/lab/contracts.py
+state_owned:
+- isolated .lab profiles and state.sqlite
+- per-run warehouses, observability profiles, and evidence exports
+tests:
+  unit: []
+  smoke: []
+  contract: []
+  integration:
+  - uv run pytest -q
+health_check: null
+documentation:
+- projects/AE Lab/README.md
+- projects/AE Lab/docs/architecture.md
+- projects/AE Lab/docs/system-inventory.md
+lifecycle: UNKNOWN

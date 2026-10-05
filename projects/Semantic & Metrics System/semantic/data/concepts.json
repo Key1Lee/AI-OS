@@ -1,0 +1,101 @@
+{
+  "entity": {
+    "concept": "Entity is a business object; its identifier is a key, its dimension describes it.",
+    "diagram": "Customer -> customer_id -> region",
+    "business_example": "A customer buys two orders in the north region.",
+    "failure": "Counting order rows as customers reports two customers.",
+    "question": "What business object are you counting?",
+    "fix": "Use the Customer canonical identity, not the Order row count.",
+    "recall": "How do entity, identifier and dimension differ?"
+  },
+  "identity": {
+    "concept": "Identity mapping is a business and Modeling contract; string equality is not identity resolution.",
+    "diagram": "guest email -> explicit identity map <- CRM account_id\n                              |\n                         customer_id",
+    "business_example": "One person checks out as a guest and later registers.",
+    "failure": "COUNT(DISTINCT email) disagrees with COUNT(DISTINCT customer_id).",
+    "question": "Are these records proven to represent the same customer?",
+    "fix": "Request an explicit identity mapping with ambiguity policy; preserve unresolved identities.",
+    "recall": "Why can a technically unique email still be the wrong customer identifier?"
+  },
+  "grain": {
+    "concept": "Grain states what one row represents.",
+    "diagram": "Order $100 -> Item A $100\n           -> Item B $100\n           -> Item C $100",
+    "business_example": "One order has three product items.",
+    "failure": "Summing the repeated order total reports $300.",
+    "question": "What does one row represent before and after the join?",
+    "fix": "Use an order-grain fact with unique order_id; reject item fanout and ask Modeling for approved allocation.",
+    "recall": "Which relationship can multiply an order-level measure?"
+  },
+  "dimension": {
+    "concept": "A dimension describes a slicing attribute with an explicit relationship and time behavior.",
+    "diagram": "Order -> N:1 Customer -> region",
+    "business_example": "An order is sliced by the customer region at the supplied snapshot.",
+    "failure": "A duplicate Customer dimension row doubles joined revenue.",
+    "question": "Is the right-side identifier unique, and is the attribute current or historical?",
+    "fix": "Validate N:1 identity/cardinality; declare current_snapshot and require a separate SCD contract for historical slicing.",
+    "recall": "Why does adding a descriptive dimension sometimes change a metric?"
+  },
+  "measure": {
+    "concept": "A measure is a numerical fact with an aggregation; a metric adds governed meaning.",
+    "diagram": "gross_order_value -> SUM + eligibility + time + owner -> gross_revenue",
+    "business_example": "Order value is 10000 USD cents before refunds.",
+    "failure": "An analyst calls the raw amount column net revenue.",
+    "question": "Which business decisions are missing from the measure?",
+    "fix": "Define a metric contract with population, grain, unit, recognition time and accountable owner.",
+    "recall": "What converts a measure into a governed metric?"
+  },
+  "metric": {
+    "concept": "A metric answers a named business question under an explicit contract.",
+    "diagram": "modeled data -> owner meaning -> versioned metric -> BI/API/AI",
+    "business_example": "Finance asks for recognized value after refunds; Growth asks for booked value.",
+    "failure": "Both reports use the label Revenue while serving different decisions.",
+    "question": "Must these decisions share one number or retain different explicit names?",
+    "fix": "Obtain owner decisions; define separate gross/net or booking/recognition metrics when the meanings differ.",
+    "recall": "Why does a larger number not establish which metric is correct?"
+  },
+  "ownership": {
+    "concept": "Business ownership approves meaning; technical ownership maintains execution.",
+    "diagram": "Finance -> business definition\nPlatform -> interface reliability",
+    "business_example": "Finance chooses recognition time; Platform maintains the query tool.",
+    "failure": "A Platform engineer silently chooses paid_at as revenue time.",
+    "question": "Who has authority over the business decision?",
+    "fix": "Record accountable business approval and technical maintenance separately.",
+    "recall": "Can a passing Platform test approve a Finance definition?"
+  },
+  "time": {
+    "concept": "Reporting time requires event field, timezone, calendar and refund attribution.",
+    "diagram": "created_at / paid_at / fulfilled_at -> owner decision -> timezone date",
+    "business_example": "2026-10-01T01:00Z is Sep30 in America/Chicago.",
+    "failure": "Two valid queries group the same event into different days.",
+    "question": "Which event and local reporting date does this decision require?",
+    "fix": "Record the owner-chosen event, named timezone, calendar and an explicit half-open window.",
+    "recall": "How do event time, processing time and reporting date differ?"
+  },
+  "lineage": {
+    "concept": "Lineage traces declared data and metric dependencies to consumers.",
+    "diagram": "orders_raw -> stg_orders -> fct_orders -> gross -> net -> dashboard/AI",
+    "business_example": "A refund aggregate is subtracted from fulfillment-cohort value.",
+    "failure": "A metric omits the refund asset in its dependency metadata.",
+    "question": "Can you trace every part of the formula to a modeled asset?",
+    "fix": "Require source bindings for measures and dimensions; retain definition/source fingerprints in results.",
+    "recall": "Does declared lineage prove operational freshness?"
+  },
+  "versioning": {
+    "concept": "A semantic revision must preserve historical interpretation and require migration.",
+    "diagram": "v1 meaning -> explicit change + owner review -> v2 -> consumer migration",
+    "business_example": "An order count switches from fulfillment date to created date.",
+    "failure": "The same ID/version now returns different historical periods.",
+    "question": "Would an old consumer interpret the new value the same way?",
+    "fix": "Create a new major version for breaking meaning, effective date and migration; retain v1 explicitly.",
+    "recall": "What must a consumer pin besides the metric name?"
+  },
+  "consumer_consistency": {
+    "concept": "Every consumer requests one governed metric/version and carries result provenance.",
+    "diagram": "dashboard A / dashboard B / API / AI -> net_revenue@1.0.0",
+    "business_example": "An AI tool returns the same net contract and amount as a dashboard.",
+    "failure": "An LLM substitutes SUM(raw_orders) and guesses the meaning.",
+    "question": "Does the response show which owner-approved definition actually ran?",
+    "fix": "Accept only metric/version/window/dimensions; reject caller formulas and return definition/catalog/source fingerprints.",
+    "recall": "Why does the AI language model not own the canonical business meaning?"
+  }
+}

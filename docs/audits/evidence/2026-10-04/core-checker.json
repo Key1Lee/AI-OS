@@ -1,0 +1,23 @@
+{
+  "scope": "global",
+  "live": true,
+  "passed": [
+    "AUD-001 canonical Skill catalog loads",
+    "AUD-002 Codex and Claude mirrors match",
+    "AUD-003 configuration inheritance resolves",
+    "AUD-004 reasoning and tool policy remain separate",
+    "AUD-005 Qwen GGUF identity and header read",
+    "AUD-008 no conflicting escalation trace found",
+    "AUD-009 registered local routes resolve and freshness is current",
+    "AUD-010 no hardcoded GGUF path found in sampled project code"
+  ],
+  "findings": [
+    {
+      "id": "AUD-006",
+      "classification": "verification gap",
+      "message": "Local Qwen health or identity could not be verified",
+      "evidence": "Local llama.cpp endpoint is unavailable: http://127.0.0.1:8080/health"
+    }
+  ],
+  "coverage_limit": "Bounded static and local checks only; project workflow execution, cloud/Codex/Claude invocation, and all permission paths were not exhaustively verified"
+}

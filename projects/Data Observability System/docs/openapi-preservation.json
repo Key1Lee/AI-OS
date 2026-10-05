@@ -1,0 +1,8 @@
+{
+  "baseline_sha256": "1952b669e32b5f299d7ade28472c603af08c95dc44bc182cbf25a0fa3e0428ec",
+  "current_sha256": "1952b669e32b5f299d7ade28472c603af08c95dc44bc182cbf25a0fa3e0428ec",
+  "exact_match": true,
+  "path_count": 46,
+  "map_path_count": 25,
+  "source": "Original API source in pre-extraction recovery tar, temporary profiles only."
+}

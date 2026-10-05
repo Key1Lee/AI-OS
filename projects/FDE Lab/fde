@@ -1,0 +1,4 @@
+#!/bin/sh
+FDE_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+cd "$FDE_ROOT" || exit 1
+exec python3 -m lab "$@"

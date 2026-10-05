@@ -1,0 +1,54 @@
+{
+  "qwen_local": {
+    "provider": "qwen_local",
+    "supported": true,
+    "configured": true,
+    "credential_present": null,
+    "sdk_present": true,
+    "authenticated": null,
+    "tested": false,
+    "available": false,
+    "status": "UNAVAILABLE",
+    "model": "Qwen3-4B-Q4_K_M",
+    "detail": "Local live runtime checks failed; no operational claim"
+  },
+  "openai": {
+    "provider": "openai",
+    "supported": true,
+    "configured": false,
+    "credential_present": false,
+    "sdk_present": false,
+    "authenticated": null,
+    "tested": false,
+    "available": false,
+    "status": "SUPPORTED",
+    "model": null,
+    "detail": "Model task untested; credential presence is not authentication"
+  },
+  "claude": {
+    "provider": "claude",
+    "supported": true,
+    "configured": false,
+    "credential_present": false,
+    "sdk_present": false,
+    "authenticated": null,
+    "tested": false,
+    "available": false,
+    "status": "SUPPORTED",
+    "model": null,
+    "detail": "Model task untested; credential presence is not authentication"
+  },
+  "jev": {
+    "provider": "jev",
+    "supported": true,
+    "configured": false,
+    "credential_present": false,
+    "sdk_present": false,
+    "authenticated": null,
+    "tested": false,
+    "available": false,
+    "status": "SUPPORTED",
+    "model": null,
+    "detail": "Model task untested; credential presence is not authentication"
+  }
+}

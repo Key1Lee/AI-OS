@@ -1,0 +1,90 @@
+======================================================================
+ERROR: test_large_task_cannot_exceed_running_server (test_runtime.ContextTests.test_large_task_cannot_exceed_running_server)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/key/_AI-OS/tests/test_runtime.py", line 150, in test_large_task_cannot_exceed_running_server
+    config = RuntimeConfigResolver().resolve(project="Toptal-Testing", task="system_design")
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 129, in resolve
+    project_data = self._project(project)
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 117, in _project
+    raise RuntimeConfigError(f"Unknown project: {project}")
+py_dev.runtime_config.RuntimeConfigError: Unknown project: Toptal-Testing
+
+======================================================================
+ERROR: test_global_defaults_and_unconfigured_project_inherit (test_runtime.InheritanceTests.test_global_defaults_and_unconfigured_project_inherit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/key/_AI-OS/tests/test_runtime.py", line 90, in test_global_defaults_and_unconfigured_project_inherit
+    northstar = resolver.resolve(project="Northstar")
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 129, in resolve
+    project_data = self._project(project)
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 117, in _project
+    raise RuntimeConfigError(f"Unknown project: {project}")
+py_dev.runtime_config.RuntimeConfigError: Unknown project: Northstar
+
+======================================================================
+ERROR: test_project_changes_only_its_preference (test_runtime.InheritanceTests.test_project_changes_only_its_preference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/key/_AI-OS/tests/test_runtime.py", line 111, in test_project_changes_only_its_preference
+    self.assertEqual(resolver.resolve(project="Toptal-Testing").get("generation", "max_output_tokens"), 4096)
+                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 129, in resolve
+    project_data = self._project(project)
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 117, in _project
+    raise RuntimeConfigError(f"Unknown project: {project}")
+py_dev.runtime_config.RuntimeConfigError: Unknown project: Toptal-Testing
+
+======================================================================
+ERROR: test_provider_project_task_and_run_precedence (test_runtime.InheritanceTests.test_provider_project_task_and_run_precedence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/key/_AI-OS/tests/test_runtime.py", line 99, in test_provider_project_task_and_run_precedence
+    config = RuntimeConfigResolver().resolve(project="Toptal-Testing", task="system_design", run={"reasoning": "none", "max_output": 2048})
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 129, in resolve
+    project_data = self._project(project)
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 117, in _project
+    raise RuntimeConfigError(f"Unknown project: {project}")
+py_dev.runtime_config.RuntimeConfigError: Unknown project: Toptal-Testing
+
+======================================================================
+ERROR: test_local_provider_selection_and_trace (test_runtime.RuntimeTests.test_local_provider_selection_and_trace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py", line 1880, in _inner
+    return f(*args, **kw)
+  File "/Users/key/_AI-OS/tests/test_runtime.py", line 201, in test_local_provider_selection_and_trace
+    result = instance.run(RuntimeInput(prompt="hello", project="Toptal-Testing", task="rapid_recall", task_id="run-1", overrides={"reasoning": "none", "max_output": 64}))
+  File "/Users/key/_AI-OS/py_dev/runtime.py", line 137, in run
+    return self._run_inner(run)
+           ~~~~~~~~~~~~~~~^^^^^
+  File "/Users/key/_AI-OS/py_dev/runtime.py", line 160, in _run_inner
+    config = self.resolve(project=run.project, task=run.task, overrides=run.overrides)
+  File "/Users/key/_AI-OS/py_dev/runtime.py", line 116, in resolve
+    preliminary = self.resolver.resolve(project=project, task=task, run={**environment, **(overrides or {})})
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 129, in resolve
+    project_data = self._project(project)
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 117, in _project
+    raise RuntimeConfigError(f"Unknown project: {project}")
+py_dev.runtime_config.RuntimeConfigError: Unknown project: Toptal-Testing
+
+======================================================================
+ERROR: test_project_and_run_provider_overrides_do_not_change_skill (test_skills.SkillRunnerTests.test_project_and_run_provider_overrides_do_not_change_skill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/key/_AI-OS/tests/test_skills.py", line 141, in test_project_and_run_provider_overrides_do_not_change_skill
+    execution = self.runner.run("$level-up my AI OS", project="Toptal-Testing", overrides={"provider": "openai", "max_output": 64})
+  File "/Users/key/_AI-OS/py_dev/skills.py", line 145, in run
+    resolved = self.runtime.resolve(project=project, task=definition.task_profile if definition else None, overrides=overrides or {})
+  File "/Users/key/_AI-OS/py_dev/runtime.py", line 116, in resolve
+    preliminary = self.resolver.resolve(project=project, task=task, run={**environment, **(overrides or {})})
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 129, in resolve
+    project_data = self._project(project)
+  File "/Users/key/_AI-OS/py_dev/runtime_config.py", line 117, in _project
+    raise RuntimeConfigError(f"Unknown project: {project}")
+py_dev.runtime_config.RuntimeConfigError: Unknown project: Toptal-Testing
+
+----------------------------------------------------------------------
+Ran 76 tests in 1.132s
+
+FAILED (errors=6)

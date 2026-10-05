@@ -1,0 +1,31 @@
+{
+  "errors": [],
+  "externalRequests": [],
+  "checks": [
+    {
+      "name": "stage-first view hides full task graph",
+      "status": "SUPPORTED"
+    },
+    {
+      "name": "all eight questions remain available in Backfill and Guide",
+      "status": "SUPPORTED"
+    },
+    {
+      "name": "active Backfill export includes the displayed historical runs and valid events",
+      "status": "SUPPORTED"
+    },
+    {
+      "name": "accepted August partition is labeled with its actual calendar month",
+      "status": "SUPPORTED"
+    },
+    {
+      "name": "narrow backfill controls and partition evidence fit without page overflow",
+      "status": "SUPPORTED"
+    },
+    {
+      "name": "page runs without JS errors or external network resources",
+      "status": "SUPPORTED"
+    }
+  ],
+  "augustPartitionLabel": "AUG 2026\n01\n✓ SUCCESS\nKeep existing\n100 published rows"
+}

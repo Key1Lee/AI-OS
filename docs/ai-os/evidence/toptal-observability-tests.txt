@@ -1,0 +1,1487 @@
+................FFFFFFFFFFFFFFFFFFFFF.FFFFFF.FF.F...............F....... [ 47%]
+F..F.....................F.F.F...F...................................... [ 94%]
+........                                                                 [100%]
+=================================== FAILURES ===================================
+_____ test_reference_solution_executes_all_cases[sql-order-reconciliation] _____
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-order-reconciliation'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b5c2900>
+code = "WITH p AS (SELECT order_id, SUM(COALESCE(amount,0)) AS paid_total FROM payments GROUP BY order_id), i AS (SELECT orde...otal,0) AS unit_total FROM orders o LEFT JOIN p USING(order_id) LEFT JOIN i USING(order_id) WHERE o.status='completed'"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = 29.9999982080044
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_______ test_reference_solution_executes_all_cases[sql-customer-latest] ________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-customer-latest'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b5d9f90>
+code = 'SELECT customer_id,email,updated_at FROM customer_updates WHERE customer_id IS NOT NULL QUALIFY ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY updated_at DESC NULLS LAST, record_id DESC)=1'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='customer_updates', columns=[Column(name='record_...T10:00:00']], diagnostic='Which row wins when timestamps tie or are NULL? Is the business key valid?', competencies=[])
+timeout = 29.999997958992026
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+______ test_reference_solution_executes_all_cases[sql-inventory-current] _______
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-inventory-current'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b5da210>
+code = 'SELECT sku,quantity,event_id FROM inventory_events WHERE valid IS TRUE AND observed_at IS NOT NULL AND sku IS NOT NULL QUALIFY ROW_NUMBER() OVER(PARTITION BY sku ORDER BY observed_at DESC,event_id DESC)=1'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='inventory_events', columns=[Column(name='event_i...lid or undated observations compete with valid records? Does the tie breaker select exactly one row?', competencies=[])
+timeout = 29.999997082995833
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_______ test_reference_solution_executes_all_cases[sql-settlement-days] ________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-settlement-days'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b6a5ba0>
+code = "WITH latest AS (SELECT * FROM transaction_events QUALIFY ROW_NUMBER() OVER(PARTITION BY event_id ORDER BY ingest_seq ... AND occurred_at>=TIMESTAMPTZ '2026-09-01 00:00:00+00' AND occurred_at<TIMESTAMPTZ '2026-10-01 00:00:00+00' GROUP BY 1"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='transaction_events', columns=[Column(name='event...Check replay precedence before status filtering, signed amounts, and UTC half-open month boundaries.', competencies=[])
+timeout = 29.99999879200186
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+______ test_reference_solution_executes_all_cases[sql-export-activation] _______
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-export-activation'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b6a62c0>
+code = "WITH active AS (SELECT DISTINCT account_id FROM events WHERE event_type='export' AND event_at>=TIMESTAMP '2026-09-01'.../NULLIF(COUNT(*),0) AS activation_rate FROM accounts a LEFT JOIN active USING(account_id) WHERE a.is_internal IS FALSE"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='accounts', columns=[Column(name='account_id', ty...he denominator, and can repeated actions multiply active accounts? What is the zero-population rate?', competencies=[])
+timeout = 29.99999758299964
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_________ test_reference_solution_executes_all_cases[sql-price-levels] _________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-price-levels'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bc4ccb0>
+code = 'SELECT product_id,category,price FROM products WHERE category IS NOT NULL AND price IS NOT NULL QUALIFY DENSE_RANK() OVER(PARTITION BY category ORDER BY price DESC)<=2'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='products', columns=[Column(name='product_id', ty...]], diagnostic='Does a tie consume a price level or an individual row? Were unknown prices excluded?', competencies=[])
+timeout = 29.999998875005986
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_______ test_reference_solution_executes_all_cases[sql-calendar-window] ________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-calendar-window'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd30f30>
+code = 'WITH daily AS (SELECT day,SUM(COALESCE(amount,0)) AS amount FROM daily_activity GROUP BY day), spine AS (SELECT c.day...y_amount,SUM(daily_amount) OVER(ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_7d_amount FROM spine'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='calendar', columns=[Column(name='day', type='DAT...me seven calendar days or seven observed rows? Are repeated daily rows aggregated before the window?', competencies=[])
+timeout = 29.99999804199615
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_____ test_reference_solution_executes_all_cases[sql-day-seven-retention] ______
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-day-seven-retention'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd31590>
+code = "WITH cohort AS (SELECT user_id,CAST(signed_up_at AT TIME ZONE 'UTC' AS DATE) AS cohort_day FROM users WHERE signed_up...OUNT(r.user_id)*1.0/COUNT(*) AS retention_rate FROM cohort c LEFT JOIN retained r USING(user_id) GROUP BY c.cohort_day"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='users', columns=[Column(name='user_id', type='IN...ers who never return? Are repeated events or local timestamp offsets affecting day-seven membership?', competencies=[])
+timeout = 29.999997542006895
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_______ test_reference_solution_executes_all_cases[sql-historical-owner] _______
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-historical-owner'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd21a50>
+code = 'SELECT s.sale_id,o.owner_id FROM sales s LEFT JOIN ownership o ON s.customer_id=o.customer_id AND s.sold_at>=o.valid_from AND (s.sold_at<o.valid_to OR o.valid_to IS NULL)'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='sales', columns=[Column(name='sale_id', type='IN...='Which owner applies exactly at a handoff boundary? Does a sale without matching ownership survive?', competencies=[])
+timeout = 29.99999762501102
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+________ test_reference_solution_executes_all_cases[sql-device-islands] ________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-device-islands'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bab6e50>
+code = 'WITH eligible AS (SELECT device_id,day,day-CAST(ROW_NUMBER() OVER(PARTITION BY device_id ORDER BY day) AS INTEGER) AS...LECT device_id,MIN(day) AS start_day,MAX(day) AS end_day,COUNT(*) AS day_count FROM eligible GROUP BY device_id,island'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='device_days', columns=[Column(name='device_id', ...es a missing date break a run? Are runs partitioned by device and limited to confirmed online dates?', competencies=[])
+timeout = 29.999999000006937
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+________ test_reference_solution_executes_all_cases[sql-click-sessions] ________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-click-sessions'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b69f020>
+code = 'WITH unique_events AS (SELECT DISTINCT user_id,event_id,event_at FROM click_events WHERE user_id IS NOT NULL AND even... BY user_id ORDER BY event_at,event_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS session_number FROM marked'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='click_events', columns=[Column(name='event_id', ...minutes still the same session? Do tied timestamps, replays and user partitions behave consistently?', competencies=[])
+timeout = 29.999997083999915
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_______ test_reference_solution_executes_all_cases[sql-missing-invoices] _______
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+exercise_id = 'sql-missing-invoices'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10b69da90>
+code = "SELECT a.account_id FROM billing_accounts a WHERE NOT EXISTS(SELECT 1 FROM invoices i WHERE i.account_id=a.account_id AND i.period=DATE '2026-09-01' AND i.status='settled')"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='billing_accounts', columns=[Column(name='account... change the meaning of your anti join? Do irrelevant invoice statuses or periods exclude an account?', competencies=[])
+timeout = 29.99999758299964
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+___ test_untrusted_sql_cannot_write_read_files_or_network[DROP TABLE orders] ___
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = 'DROP TABLE orders'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd4c3d0>
+code = 'DROP TABLE orders'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_ test_untrusted_sql_cannot_write_read_files_or_network[SELECT 1; DELETE FROM orders] _
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = 'SELECT 1; DELETE FROM orders'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bca6890>
+code = 'SELECT 1; DELETE FROM orders'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_ test_untrusted_sql_cannot_write_read_files_or_network[ATTACH '/tmp/app.db' AS app] _
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = "ATTACH '/tmp/app.db' AS app"
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd5bc70>
+code = "ATTACH '/tmp/app.db' AS app"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_ test_untrusted_sql_cannot_write_read_files_or_network[COPY orders TO '/tmp/escaped.csv'] _
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = "COPY orders TO '/tmp/escaped.csv'"
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bcff1d0>
+code = "COPY orders TO '/tmp/escaped.csv'"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_ test_untrusted_sql_cannot_write_read_files_or_network[SET enable_external_access=true] _
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = 'SET enable_external_access=true'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bcffb90>
+code = 'SET enable_external_access=true'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+____ test_untrusted_sql_cannot_write_read_files_or_network[INSTALL httpfs] _____
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = 'INSTALL httpfs'
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd0a8e0>
+code = 'INSTALL httpfs'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_ test_untrusted_sql_cannot_write_read_files_or_network[SELECT * FROM read_text('/etc/passwd')] _
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = "SELECT * FROM read_text('/etc/passwd')"
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd0b070>
+code = "SELECT * FROM read_text('/etc/passwd')"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+_ test_untrusted_sql_cannot_write_read_files_or_network[SELECT * FROM read_csv('https://example.com/data.csv')] _
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+sql = "SELECT * FROM read_csv('https://example.com/data.csv')"
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd60870>
+code = "SELECT * FROM read_csv('https://example.com/data.csv')"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+____________ test_os_sandbox_denies_files_outside_worker_directory _____________
+
+tmp_path = PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pytest-of-key/pytest-46/test_os_sandbox_denies_files_o0')
+
+>   ???
+E   assert 'PermissionError' in 'sandbox-exec: sandbox_apply: Operation not permitted\n'
+E    +  where 'sandbox-exec: sandbox_apply: Operation not permitted\n' = CompletedProcess(args=['/usr/bin/sandbox-exec', '-f', '/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pytest...es_o0/secret.txt').read()"], returncode=71, stdout='', stderr='sandbox-exec: sandbox_apply: Operation not permitted\n').stderr
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:46: AssertionError
+_______________ test_timeout_and_output_limits_preserve_control ________________
+
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_execution.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trainer.execution.sql.SqlRunner object at 0x10bd9f1d0>
+code = 'SELECT i FROM range(1001) AS r(i)'
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = None
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+______________ test_offline_vertical_loop_idempotency_and_restart ______________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10bcfb740>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   assert (503 == 200)
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:25: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+___ test_failure_feedback_hides_rows_and_revision_has_no_independent_credit ____
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10bf582c0>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   assert 503 == 200
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:47: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "9ba4a418d34d4cd993ccb3b9ec9696f2"}
+_________________ test_hints_and_solution_exposure_are_sticky __________________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10c04bd80>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   KeyError: 'result'
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:66: KeyError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "4416db3f7f8a40c08e5abb530b406a52"}
+_____________________ test_external_assistance_is_recorded _____________________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10c19c7c0>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   KeyError: 'external_assistance'
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:75: KeyError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "e6308bfb4242460389adaa1d6242181c"}
+_______ test_strict_mode_denies_hint_and_clarification_is_not_assistance _______
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10c283600>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   KeyError: 'hint_count'
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:84: KeyError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "977975467d794227832f1549bdb72ff1"}
+_________ test_infrastructure_failure_saves_submission_without_mastery _________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10c5bb2e0>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   KeyError: 'result'
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:115: KeyError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "b88ebc2414654057b3b00e1d38858ab5"}
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "b88ebc2414654057b3b00e1d38858ab5"}
+______________ test_request_id_reuse_and_completed_edits_rejected ______________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10c73db20>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   assert 503 == 200
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+E    +    where <Response [503 Service Unavailable]> = submit(<starlette.testclient.TestClient object at 0x10c77c650>, {'id': '4202140aba2640ebb63d145c0c5c46d4', 'session_id': 'd33abb297e804e2e8c860dfcf5bce07f', 'parent_attempt_id': None, 'mode': 'practice', ...}, "WITH p AS (SELECT order_id, SUM(COALESCE(amount,0)) AS paid_total FROM payments GROUP BY order_id), i AS (SELECT orde...otal,0) AS unit_total FROM orders o LEFT JOIN p USING(order_id) LEFT JOIN i USING(order_id) WHERE o.status='completed'")
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:120: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "4202140aba2640ebb63d145c0c5c46d4"}
+____________ test_transfer_resolves_observed_gap_and_logs_evidence _____________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10c913560>
+bank = <trainer.exercises.bank.Bank object at 0x1097a4590>
+
+>   ???
+E   AssertionError: assert 503 == 200
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+E    +    where <Response [503 Service Unavailable]> = submit(<starlette.testclient.TestClient object at 0x10c525310>, {'id': 'ce16ce2da0854eb09a856e2333e2eb6f', 'session_id': 'f6d0f7c3cdd446c68b1c1f01e5c32d09', 'parent_attempt_id': None, 'mode': 'practice', ...}, 'SELECT customer_id,email,updated_at FROM customer_updates')
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/ae/test_workflow.py:135: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "ce16ce2da0854eb09a856e2333e2eb6f"}
+____________ test_syntax_error_does_not_claim_untested_concept_gaps ____________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10d55c900>
+
+>   ???
+E   assert 503 == 200
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/regression/test_ae_no_unobserved_gaps.py:7: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "d86bb91cdfdb4eb590a2b8df69450ba7"}
+___________ test_old_failed_request_cannot_reopen_completed_attempt ____________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10dac79c0>
+
+>   ???
+E   AssertionError: assert 503 == 409
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+E    +    where <Response [503 Service Unavailable]> = submit(<starlette.testclient.TestClient object at 0x10db9da90>, {'id': '6ff50820c2144f828fde7c13195b6bca', 'session_id': '54ceade026b04df29debfb90ddb3617f', 'parent_attempt_id': None, 'mode': 'practice', ...}, 'SELECT 1', 'old-failed-request')
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/regression/test_ae_submission_recovery.py:23: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "6ff50820c2144f828fde7c13195b6bca"}
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "6ff50820c2144f828fde7c13195b6bca"}
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "6ff50820c2144f828fde7c13195b6bca"}
+________ test_late_worker_failure_cannot_reset_a_completed_lease_retry _________
+
+ae_factory = <function ae_factory.<locals>.factory at 0x10dc9f9c0>
+
+>   ???
+
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/regression/test_ae_submission_recovery.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trainer/services/training.py:179: in submit
+    result = self.runner.grade(payload.code,exercise)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/key/_AI-OS/projects/Toptal-Testing/tests/regression/test_ae_submission_recovery.py:57: in grade
+    ???
+trainer/execution/sql.py:100: in grade
+    result = self.execute(code, case, timeout=self.settings.suite_timeout - (monotonic() - started))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trainer/execution/sql.py:58: in execute
+    return self._execute(code,case,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_ae_submission_recovery.DelayedFirstFailure object at 0x10bef5160>
+code = "WITH p AS (SELECT order_id, SUM(COALESCE(amount,0)) AS paid_total FROM payments GROUP BY order_id), i AS (SELECT orde...otal,0) AS unit_total FROM orders o LEFT JOIN p USING(order_id) LEFT JOIN i USING(order_id) WHERE o.status='completed'"
+case = TestCase(id='visible', category='Public fixture', tables=[Table(name='orders', columns=[Column(name='order_id', type='...en an order has multiple payments and multiple items? Check the output grain and missing child rows.', competencies=[])
+timeout = 29.99999758299964
+
+    def _execute(self, code: str, case: TestCase, *, timeout: float | None = None) -> dict:
+        if not self.supported:
+            raise ExecutionUnavailable("SQL execution requires the macOS sandbox. Other hosts need an OS sandbox adapter; execution is disabled safely.")
+        limit = min(timeout, self.settings.execution_timeout) if timeout is not None else self.settings.execution_timeout
+        payload = {"code": code, "tables": [t.model_dump() for t in case.tables], "max_rows": self.settings.max_rows, "cpu_seconds": math.ceil(limit) + 1}
+        started = monotonic()
+        with tempfile.TemporaryDirectory(prefix="ae-sql-") as directory:
+            temporary = Path(directory)
+            profile = temporary / "worker.sb"
+            profile.write_text(self._profile(temporary))
+            env = {"PATH": "/usr/bin:/bin", "TMPDIR": str(temporary), "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1"}
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/sandbox-exec", "-f", str(profile), sys.executable, "-I", str(self.worker)],
+                    input=json.dumps(payload), text=True, capture_output=True, cwd=temporary,
+                    env=env, timeout=limit, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                return {"ok": False, "kind": "timeout", "error": "Execution time limit exceeded. Check join cardinality and query scope.", "duration_ms": int((monotonic() - started) * 1000)}
+            if result.returncode != 0:
+                log.error(json.dumps({"event": "sql_worker_failure", "exit_code": result.returncode}))
+>               raise ExecutionUnavailable("The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.")
+E               trainer.execution.sql.ExecutionUnavailable: The isolated SQL worker could not start or complete. Your work is saved; no mastery change was recorded.
+
+trainer/execution/sql.py:83: ExecutionUnavailable
+------------------------------ Captured log call -------------------------------
+ERROR    trainer.execution.sql:sql.py:82 {"event": "sql_worker_failure", "exit_code": 71}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "9a8fc815c5304b01b0a030ccf24a0b0a"}
+ERROR    trainer.services.training:training.py:188 {"event": "grading_failed", "attempt_id": "9a8fc815c5304b01b0a030ccf24a0b0a"}
+________ test_qwen_returns_semantic_result_with_authoritative_metadata _________
+
+self = QwenEvaluator(settings=Settings(database_path=PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pyte...training.test_evaluators.FakeLocalClient object at 0x10bef5a90>, model='Qwen3.8-27B-UD-Q4_KS-C256K', name='qwen_local')
+question = Question(id='python-mutation-01', competency='Python semantics', family='mutable-defaults', difficulty=2, prompt='A pr... initialization line.', 'test': 'State the two calls and the exact independent results you expect.'}, source='curated')
+answer = 'A demonstrated explanation.', mode = <Mode.ASSESSMENT: 'assessment'>
+deterministic = DeterministicReport(version='deterministic-v1', checks=(DeterministicCheck(name='answer_present', passed=True, authori... passed=True, authoritative=False, detail='Question rubric must contain at least one uniquely identified criterion.')))
+
+    def evaluate_with_context(
+        self,
+        question: Question,
+        answer: str,
+        mode: Mode,
+        deterministic: DeterministicReport,
+    ) -> Evaluation:
+        self.transport.client = self.client or self.transport.client
+        try:
+>           response = self.transport.parse(output_type=ReasoningEvaluation,
+                instructions=PROMPT, context=_context(question, answer, mode, deterministic),
+                run_id="evaluation:" + question.id, request_id=str(uuid.uuid4()),
+                max_output_tokens=2200)
+
+training/llm.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../py_dev/providers/parsed.py:124: in parse
+    self.event_sink({"request_id": request_id, "calling_system": self.calling_system, "run_id": run_id, "capability": "structured_evaluation", "provider": self.provider, "model": self.model, "latency_ms": result.latency_ms, "usage": dict(result.usage), "status": "unavailable" if result.degraded else "proposed", "tool_calls": 0, "fallback": False, "verification_status": result.validation_status})
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <py_dev.telemetry.EventSink object at 0x10c22d480>
+event = {'request_id': '33f838b6-16d8-45a9-a52c-1fbdf75ac47e', 'calling_system': 'toptal.evaluator', 'run_id': 'evaluation:python-mutation-01', 'capability': 'structured_evaluation', ...}
+
+    def __call__(self, event: Mapping[str, Any]) -> None:
+        # Call sites construct whitelist events. Do not pass arbitrary provider objects.
+        payload = json.dumps(dict(event), allow_nan=False, separators=(",", ":")) + "\n"
+        self.path.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
+>       descriptor = os.open(self.path, os.O_APPEND | os.O_CREAT | os.O_WRONLY, 0o600)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 1] Operation not permitted: '/Users/key/.config/py-dev/intelligence-events.jsonl'
+
+../../py_dev/telemetry.py:18: PermissionError
+
+The above exception was the direct cause of the following exception:
+
+tmp_path = PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pytest-of-key/pytest-46/test_qwen_returns_semantic_res0')
+
+    def test_qwen_returns_semantic_result_with_authoritative_metadata(tmp_path):
+        question = load_questions()[0]
+        payload = structured_payload(question.id, [item.id for item in question.criteria])
+        provider = qwen_provider(tmp_path, json.dumps(payload))
+        healthy, reason = provider.health_check()
+        assert healthy is True and reason is None
+>       result = provider.evaluate(question, "A demonstrated explanation.", Mode.ASSESSMENT)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/training/test_evaluators.py:121: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+training/llm.py:248: in evaluate
+    return self.evaluate_with_context(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = QwenEvaluator(settings=Settings(database_path=PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pyte...training.test_evaluators.FakeLocalClient object at 0x10bef5a90>, model='Qwen3.8-27B-UD-Q4_KS-C256K', name='qwen_local')
+question = Question(id='python-mutation-01', competency='Python semantics', family='mutable-defaults', difficulty=2, prompt='A pr... initialization line.', 'test': 'State the two calls and the exact independent results you expect.'}, source='curated')
+answer = 'A demonstrated explanation.', mode = <Mode.ASSESSMENT: 'assessment'>
+deterministic = DeterministicReport(version='deterministic-v1', checks=(DeterministicCheck(name='answer_present', passed=True, authori... passed=True, authoritative=False, detail='Question rubric must contain at least one uniquely identified criterion.')))
+
+    def evaluate_with_context(
+        self,
+        question: Question,
+        answer: str,
+        mode: Mode,
+        deterministic: DeterministicReport,
+    ) -> Evaluation:
+        self.transport.client = self.client or self.transport.client
+        try:
+            response = self.transport.parse(output_type=ReasoningEvaluation,
+                instructions=PROMPT, context=_context(question, answer, mode, deterministic),
+                run_id="evaluation:" + question.id, request_id=str(uuid.uuid4()),
+                max_output_tokens=2200)
+        except (ProviderUnavailable, OSError) as exc:
+>           raise LLMUnavailable("Local Qwen unavailable or invalid structured JSON") from exc
+E           training.llm.LLMUnavailable: Local Qwen unavailable or invalid structured JSON
+
+training/llm.py:266: LLMUnavailable
+_______________ test_qwen_incomplete_rubric_evidence_is_rejected _______________
+
+tmp_path = PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pytest-of-key/pytest-46/test_qwen_incomplete_rubric_ev0')
+
+    def test_qwen_incomplete_rubric_evidence_is_rejected(tmp_path):
+        question = load_questions()[0]
+        payload = structured_payload(question.id, [question.criteria[0].id])
+        provider = qwen_provider(tmp_path, json.dumps(payload))
+>       with pytest.raises(LLMUnavailable, match="rubric evidence"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'rubric evidence'
+E         Actual message: 'Local Qwen unavailable or invalid structured JSON'
+
+tests/training/test_evaluators.py:140: AssertionError
+________ test_authoritative_deterministic_failure_overrides_model_pass _________
+
+self = QwenEvaluator(settings=Settings(database_path=PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pyte...training.test_evaluators.FakeLocalClient object at 0x10c22de00>, model='Qwen3.8-27B-UD-Q4_KS-C256K', name='qwen_local')
+question = Question(id='python-mutation-01', competency='Python semantics', family='mutable-defaults', difficulty=2, prompt='A pr... initialization line.', 'test': 'State the two calls and the exact independent results you expect.'}, source='curated')
+answer = 'plausible explanation', mode = <Mode.ASSESSMENT: 'assessment'>
+deterministic = DeterministicReport(version='test-v1', checks=(DeterministicCheck(name='sql_expected_rows', passed=False, authoritative=True, detail='Query returned incorrect rows.'),))
+
+    def evaluate_with_context(
+        self,
+        question: Question,
+        answer: str,
+        mode: Mode,
+        deterministic: DeterministicReport,
+    ) -> Evaluation:
+        self.transport.client = self.client or self.transport.client
+        try:
+>           response = self.transport.parse(output_type=ReasoningEvaluation,
+                instructions=PROMPT, context=_context(question, answer, mode, deterministic),
+                run_id="evaluation:" + question.id, request_id=str(uuid.uuid4()),
+                max_output_tokens=2200)
+
+training/llm.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../py_dev/providers/parsed.py:124: in parse
+    self.event_sink({"request_id": request_id, "calling_system": self.calling_system, "run_id": run_id, "capability": "structured_evaluation", "provider": self.provider, "model": self.model, "latency_ms": result.latency_ms, "usage": dict(result.usage), "status": "unavailable" if result.degraded else "proposed", "tool_calls": 0, "fallback": False, "verification_status": result.validation_status})
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <py_dev.telemetry.EventSink object at 0x10e32a030>
+event = {'request_id': '8bf1c900-b17f-4550-a7b3-a0919c0939fc', 'calling_system': 'toptal.evaluator', 'run_id': 'evaluation:python-mutation-01', 'capability': 'structured_evaluation', ...}
+
+    def __call__(self, event: Mapping[str, Any]) -> None:
+        # Call sites construct whitelist events. Do not pass arbitrary provider objects.
+        payload = json.dumps(dict(event), allow_nan=False, separators=(",", ":")) + "\n"
+        self.path.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
+>       descriptor = os.open(self.path, os.O_APPEND | os.O_CREAT | os.O_WRONLY, 0o600)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 1] Operation not permitted: '/Users/key/.config/py-dev/intelligence-events.jsonl'
+
+../../py_dev/telemetry.py:18: PermissionError
+
+The above exception was the direct cause of the following exception:
+
+tmp_path = PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pytest-of-key/pytest-46/test_authoritative_determinist0')
+
+    def test_authoritative_deterministic_failure_overrides_model_pass(tmp_path):
+        question = load_questions()[0]
+        payload = structured_payload(question.id, [item.id for item in question.criteria])
+        provider = qwen_provider(tmp_path, json.dumps(payload))
+        report = DeterministicReport(
+            version="test-v1",
+            checks=(
+                DeterministicCheck(
+                    name="sql_expected_rows",
+                    passed=False,
+                    authoritative=True,
+                    detail="Query returned incorrect rows.",
+                ),
+            ),
+        )
+>       model_result = provider.evaluate_with_context(
+            question, "plausible explanation", Mode.ASSESSMENT, report
+        )
+
+tests/training/test_evaluators.py:185: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = QwenEvaluator(settings=Settings(database_path=PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pyte...training.test_evaluators.FakeLocalClient object at 0x10c22de00>, model='Qwen3.8-27B-UD-Q4_KS-C256K', name='qwen_local')
+question = Question(id='python-mutation-01', competency='Python semantics', family='mutable-defaults', difficulty=2, prompt='A pr... initialization line.', 'test': 'State the two calls and the exact independent results you expect.'}, source='curated')
+answer = 'plausible explanation', mode = <Mode.ASSESSMENT: 'assessment'>
+deterministic = DeterministicReport(version='test-v1', checks=(DeterministicCheck(name='sql_expected_rows', passed=False, authoritative=True, detail='Query returned incorrect rows.'),))
+
+    def evaluate_with_context(
+        self,
+        question: Question,
+        answer: str,
+        mode: Mode,
+        deterministic: DeterministicReport,
+    ) -> Evaluation:
+        self.transport.client = self.client or self.transport.client
+        try:
+            response = self.transport.parse(output_type=ReasoningEvaluation,
+                instructions=PROMPT, context=_context(question, answer, mode, deterministic),
+                run_id="evaluation:" + question.id, request_id=str(uuid.uuid4()),
+                max_output_tokens=2200)
+        except (ProviderUnavailable, OSError) as exc:
+>           raise LLMUnavailable("Local Qwen unavailable or invalid structured JSON") from exc
+E           training.llm.LLMUnavailable: Local Qwen unavailable or invalid structured JSON
+
+training/llm.py:266: LLMUnavailable
+____________________ test_primary_qwen_metadata_is_audited _____________________
+
+self = <tests.training.helpers.ScriptedIO object at 0x10e448750>, prompt = '> '
+
+    def read(self, prompt: str = "") -> str:
+        self.output.append(prompt)
+        try:
+>           return next(self.inputs)
+                   ^^^^^^^^^^^^^^^^^
+E           StopIteration
+
+tests/training/helpers.py:15: StopIteration
+
+The above exception was the direct cause of the following exception:
+
+tmp_path = PosixPath('/private/var/folders/cl/91y0ht7x1kz__0vw0psz8b2h0000gn/T/pytest-of-key/pytest-46/test_primary_qwen_metadata_is_0')
+
+    def test_primary_qwen_metadata_is_audited(tmp_path):
+        question = load_questions()[0]
+        payload = structured_payload(question.id, [item.id for item in question.criteria])
+        provider = qwen_provider(tmp_path, json.dumps(payload))
+        settings = Settings(
+            database_path=tmp_path / "training.db",
+            evaluator_provider="qwen_local",
+            session_questions=1,
+        )
+        io = ScriptedIO(["", "A demonstrated explanation.", "/submit"])
+>       assert TrainingApplication(settings, io, provider=provider).run() == 0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/training/test_evaluators.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+training/application.py:105: in run
+    return self._run_session_safely(mode, session_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+training/application.py:109: in _run_session_safely
+    return self._run_session(mode, session_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+training/application.py:182: in _run_session
+    followup = self._read_response(session_id, question, mode, allow_hints=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+training/application.py:247: in _read_response
+    line = self.io.read("> ")
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.training.helpers.ScriptedIO object at 0x10e448750>, prompt = '> '
+
+    def read(self, prompt: str = "") -> str:
+        self.output.append(prompt)
+        try:
+            return next(self.inputs)
+        except StopIteration as exc:
+>           raise AssertionError(f"Application requested unexpected input: {prompt}") from exc
+E           AssertionError: Application requested unexpected input: >
+
+tests/training/helpers.py:17: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/fastapi/testclient.py:1
+  /Users/key/_AI-OS/projects/Toptal-Testing System/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-order-reconciliation]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-customer-latest]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-inventory-current]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-settlement-days]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-export-activation]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-price-levels]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-calendar-window]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-day-seven-retention]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-historical-owner]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-device-islands]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-click-sessions]
+FAILED tests/ae/test_execution.py::test_reference_solution_executes_all_cases[sql-missing-invoices]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[DROP TABLE orders]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[SELECT 1; DELETE FROM orders]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[ATTACH '/tmp/app.db' AS app]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[COPY orders TO '/tmp/escaped.csv']
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[SET enable_external_access=true]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[INSTALL httpfs]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[SELECT * FROM read_text('/etc/passwd')]
+FAILED tests/ae/test_execution.py::test_untrusted_sql_cannot_write_read_files_or_network[SELECT * FROM read_csv('https://example.com/data.csv')]
+FAILED tests/ae/test_execution.py::test_os_sandbox_denies_files_outside_worker_directory
+FAILED tests/ae/test_execution.py::test_timeout_and_output_limits_preserve_control
+FAILED tests/ae/test_workflow.py::test_offline_vertical_loop_idempotency_and_restart
+FAILED tests/ae/test_workflow.py::test_failure_feedback_hides_rows_and_revision_has_no_independent_credit
+FAILED tests/ae/test_workflow.py::test_hints_and_solution_exposure_are_sticky
+FAILED tests/ae/test_workflow.py::test_external_assistance_is_recorded - KeyE...
+FAILED tests/ae/test_workflow.py::test_strict_mode_denies_hint_and_clarification_is_not_assistance
+FAILED tests/ae/test_workflow.py::test_infrastructure_failure_saves_submission_without_mastery
+FAILED tests/ae/test_workflow.py::test_request_id_reuse_and_completed_edits_rejected
+FAILED tests/ae/test_workflow.py::test_transfer_resolves_observed_gap_and_logs_evidence
+FAILED tests/regression/test_ae_no_unobserved_gaps.py::test_syntax_error_does_not_claim_untested_concept_gaps
+FAILED tests/regression/test_ae_submission_recovery.py::test_old_failed_request_cannot_reopen_completed_attempt
+FAILED tests/regression/test_ae_submission_recovery.py::test_late_worker_failure_cannot_reset_a_completed_lease_retry
+FAILED tests/training/test_evaluators.py::test_qwen_returns_semantic_result_with_authoritative_metadata
+FAILED tests/training/test_evaluators.py::test_qwen_incomplete_rubric_evidence_is_rejected
+FAILED tests/training/test_evaluators.py::test_authoritative_deterministic_failure_overrides_model_pass
+FAILED tests/training/test_evaluators.py::test_primary_qwen_metadata_is_audited
+37 failed, 115 passed, 1 warning in 8.42s

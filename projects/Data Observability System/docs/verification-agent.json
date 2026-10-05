@@ -1,0 +1,159 @@
+{
+  "status": "PASS",
+  "requirements_checked": [
+    {
+      "id": 1,
+      "status": "PASS",
+      "evidence": "Generic engine, adapters, contracts, API, UI, fixtures and tests moved to Data Observability System."
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": "Assessment, scoring, disclosure, drafts and learner history remain in Toptal; no reverse imports found."
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": "Both Python suites, TypeScript checks and frontend builds pass."
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": "One canonical graph, adapter, metadata store, exploration router and generic renderer remain."
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": "Dependency inspection and ownership tests found no circular or consumer dependencies."
+    },
+    {
+      "id": 6,
+      "status": "PASS",
+      "evidence": "152 combined Python tests pass; 35 standalone tests pass independently."
+    },
+    {
+      "id": 7,
+      "status": "PASS",
+      "evidence": "Assessment probes covered all 12 query operations, three failure routes, graph status projection, explanation blocking and import blocking."
+    },
+    {
+      "id": 8,
+      "status": "PASS",
+      "evidence": "Learning, diagnosis scoring, persistence and draft recovery pass browser checks."
+    },
+    {
+      "id": 9,
+      "status": "PASS",
+      "evidence": "Graph implementation and renderer hashes match baseline; golden traversal tests pass."
+    },
+    {
+      "id": 10,
+      "status": "PASS",
+      "evidence": "Adapter hash and all four artifact hashes match baseline; ingestion and trusted demo checks pass."
+    },
+    {
+      "id": 11,
+      "status": "PASS",
+      "evidence": "Uploaded SQL remains inert; existing SQL trainer scenarios pass. SQLGlot, SQLFluff and column lineage were absent from baseline and remain explicitly deferred."
+    },
+    {
+      "id": 12,
+      "status": "PASS",
+      "evidence": "Independently reconstructed baseline OpenAPI matches current OpenAPI exactly: 46 paths, including 25 map paths."
+    },
+    {
+      "id": 13,
+      "status": "PASS",
+      "evidence": "Both production frontend builds and typechecks pass."
+    },
+    {
+      "id": 14,
+      "status": "PASS",
+      "evidence": "Obsolete source engine, fixtures, generator, generic renderer files and metadata database paths are removed; active references resolve."
+    },
+    {
+      "id": 15,
+      "status": "PASS",
+      "evidence": "README and API/migration documentation reflect package ownership, configuration, setup, recovery and genuine limitations."
+    }
+  ],
+  "tests_executed": [
+    {
+      "command": "Pre-extraction pytest",
+      "result": "146 passed; 21.28 seconds"
+    },
+    {
+      "command": "Toptal make test",
+      "result": "152 passed; 20.30 seconds"
+    },
+    {
+      "command": "Standalone make test",
+      "result": "35 passed; 1.02 seconds"
+    },
+    {
+      "command": "Both make lint",
+      "result": "PASS"
+    },
+    {
+      "command": "Toptal npm --prefix apps/web run build",
+      "result": "PASS"
+    },
+    {
+      "command": "Standalone make build",
+      "result": "PASS"
+    },
+    {
+      "command": "Both trusted demo checks",
+      "result": "PASS"
+    },
+    {
+      "command": "Toptal make test-e2e",
+      "result": "11 passed; 25.5 seconds"
+    },
+    {
+      "command": "Standalone make test-e2e with existing Chromium cache",
+      "result": "2 passed; 1.9 seconds"
+    },
+    {
+      "command": "Standalone pip check",
+      "result": "No broken requirements"
+    },
+    {
+      "command": "Independent temporary-profile API probes",
+      "result": "PASS: assessment projections, query operations, safe validation, missing resources and import guards"
+    },
+    {
+      "command": "Independent browser mode-transition probe",
+      "result": "PASS: focused learning view transitions to assessment overview with SQL and diagnostics cleared"
+    },
+    {
+      "command": "Baseline OpenAPI comparison",
+      "result": "Exact equality"
+    },
+    {
+      "command": "Baseline map CSS comparison",
+      "result": "Exact equality across 408 selector/declaration/media entries"
+    },
+    {
+      "command": "Database preservation comparison",
+      "result": "PASS: integrity, table contents, row counts and snapshot identity preserved"
+    }
+  ],
+  "failures": [],
+  "architectural_violations": [],
+  "incorrect_assumptions": [],
+  "missing_tests": [],
+  "security_findings": [],
+  "ux_findings": [],
+  "evidence": [
+    "Standalone tests run in its own virtual environment, including package execution outside both checkouts.",
+    "Core graph, contracts, adapter, security and repository files match captured baseline hashes.",
+    "Metadata contains the same system, snapshot, 11 nodes and 10 edges as the stopped backup.",
+    "SQL and investigation databases and four canonical learner records retain recorded hashes.",
+    "Verification used disposable profiles; no real learner mutation endpoints or live model calls were used.",
+    "Temporary verification servers were stopped cleanly.",
+    "Initial standalone browser launch lacked Chromium in its default cache; rerunning with the existing documented cache passed.",
+    "Existing Starlette/httpx deprecation and Monaco bundle advisories remain nonblocking."
+  ],
+  "recommended_fixes": []
+}

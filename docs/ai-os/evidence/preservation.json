@@ -1,0 +1,29 @@
+{
+  "sampled_saved_state_files": 120,
+  "saved_state_changes": [],
+  "modified_preexisting_source_paths": [
+    "AGENTS.md",
+    "README.md",
+    "py_dev/__main__.py",
+    "py_dev/router.py",
+    "py_dev/capabilities.py",
+    "py_dev/runtime.py",
+    "py_dev/__init__.py",
+    "py_dev/models.py",
+    "py_dev/config.py",
+    "py_dev/runtime_config.py",
+    "py_dev/providers/openai.py",
+    "py_dev/providers/claude.py",
+    "projects/Toptal-Testing System/Start-Toptal-Testing.command",
+    "projects/Toptal-Testing System/README.md",
+    "projects/Toptal-Testing System/requirements.txt",
+    "projects/Toptal-Testing System/tests/test_openai_service.py",
+    "projects/Toptal-Testing System/app/config.py",
+    "projects/Toptal-Testing System/app/openai_service.py",
+    "projects/Toptal-Testing System/training/llm.py",
+    "projects/Toptal-Testing System/training/config.py",
+    "projects/Toptal-Testing System/tests/training/test_evaluators.py",
+    "projects/Toptal-Testing System/.env.example"
+  ],
+  "scope": "Audit baseline sampled files. Listed paths are observed changes, not exclusive authorship: AGENTS.md includes concurrent work from another chat. Shared/Toptal edits are authorized here; the synthetic new semantic project is separate."
+}

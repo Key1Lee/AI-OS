@@ -1,0 +1,14 @@
+{
+  "grain": "order",
+  "primary_key": ["order_id"],
+  "columns": ["order_id", "customer_id", "status", "order_amount", "currency", "ordered_at"],
+  "types": ["VARCHAR", "VARCHAR", "VARCHAR", "DECIMAL(18,2)", "VARCHAR", "TIMESTAMP WITH TIME ZONE"],
+  "rows": [
+    {"order_id": "O1", "customer_id": "C1", "status": "completed", "order_amount": "100.00", "currency": "USD", "ordered_at": "2026-09-28T09:00:00+00:00"},
+    {"order_id": "O2", "customer_id": "C1", "status": "completed", "order_amount": "50.00", "currency": "USD", "ordered_at": "2026-09-29T10:00:00+00:00"},
+    {"order_id": "O3", "customer_id": "C2", "status": "completed", "order_amount": "75.00", "currency": "USD", "ordered_at": "2026-09-30T14:00:00+00:00"}
+  ],
+  "revenue": "225.00",
+  "broken_join_rows": 4,
+  "broken_join_revenue": "325.00"
+}

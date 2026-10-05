@@ -1,0 +1,57 @@
+{
+  "id": "ecommerce-revenue-v1",
+  "title": "From raw orders to trusted revenue",
+  "currency": "USD",
+  "tables": {
+    "raw_orders": {
+      "label": "orders",
+      "description": "Operational order versions. An order may be delivered more than once; the latest source version wins.",
+      "grain": "source_order_version",
+      "grain_label": "1 row / source order version",
+      "primary_key": ["orderId", "sourceVersion"],
+      "columns": {"orderId": "VARCHAR", "customerId": "VARCHAR", "status": "VARCHAR", "totalPriceCents": "BIGINT", "currency": "VARCHAR", "createdAt": "VARCHAR", "updatedAt": "VARCHAR", "sourceVersion": "INTEGER"},
+      "rows": [
+        ["O1", "C1", " COMPLETED ", 9000, "USD", "2026-09-28T09:00:00+00:00", "2026-09-28T09:01:00+00:00", 1],
+        ["O1", "C1", "completed", 10000, "USD", "2026-09-28T09:00:00+00:00", "2026-09-28T09:05:00+00:00", 2],
+        ["O2", "C1", "completed", 5000, "USD", "2026-09-29T10:00:00+00:00", "2026-09-29T10:01:00+00:00", 1],
+        ["O3", "C2", "completed", 7500, "USD", "2026-09-30T14:00:00+00:00", "2026-09-30T14:01:00+00:00", 1],
+        ["O4", null, "cancelled", 20000, "USD", "2026-09-30T16:00:00+00:00", "2026-09-30T16:01:00+00:00", 1]
+      ]
+    },
+    "customers": {
+      "label": "customers",
+      "description": "Two customer records. Customer C1 placed two completed orders.",
+      "grain": "customer", "grain_label": "1 row / customer", "primary_key": ["customer_id"],
+      "columns": {"customer_id": "VARCHAR", "name": "VARCHAR", "region": "VARCHAR"},
+      "rows": [["C1", "Maya Chen", "West"], ["C2", "Noah Park", "East"]]
+    },
+    "order_items": {
+      "label": "order_items",
+      "description": "Line items. O1 contains two different items; O4's item belongs to a cancelled order.",
+      "grain": "order_item", "grain_label": "1 row / order item", "primary_key": ["item_id"],
+      "columns": {"item_id": "VARCHAR", "order_id": "VARCHAR", "product_id": "VARCHAR", "quantity": "INTEGER", "line_amount": "DECIMAL(18,2)"},
+      "rows": [["I1", "O1", "P1", 1, "60.00"], ["I2", "O1", "P2", 1, "40.00"], ["I3", "O2", "P3", 1, "50.00"], ["I4", "O3", "P4", 1, "75.00"], ["I5", "O4", "P5", 1, "200.00"]]
+    },
+    "payments": {
+      "label": "payments",
+      "description": "Payment attempts. O1 has two successful split payments. A failed attempt is not paid revenue.",
+      "grain": "payment", "grain_label": "1 row / payment attempt", "primary_key": ["payment_id"],
+      "columns": {"payment_id": "VARCHAR", "order_id": "VARCHAR", "amount": "DECIMAL(18,2)", "status": "VARCHAR", "currency": "VARCHAR"},
+      "rows": [["PAY1", "O1", "60.00", "succeeded", "USD"], ["PAY2", "O1", "40.00", "succeeded", "USD"], ["PAY3", "O2", "50.00", "succeeded", "USD"], ["PAY4", "O3", "75.00", "succeeded", "USD"], ["PAY5", "O3", "75.00", "failed", "USD"]]
+    },
+    "products": {
+      "label": "products",
+      "description": "Product descriptions. A reusable descriptive entity, rather than a transaction fact.",
+      "grain": "product", "grain_label": "1 row / product", "primary_key": ["product_id"],
+      "columns": {"product_id": "VARCHAR", "name": "VARCHAR", "category": "VARCHAR"},
+      "rows": [["P1", "Field notebook", "Stationery"], ["P2", "Desk lamp", "Home"], ["P3", "Canvas tote", "Accessories"], ["P4", "Ceramic set", "Home"], ["P5", "Studio chair", "Home"]]
+    },
+    "returns": {
+      "label": "returns",
+      "description": "O3 has a USD 25.00 return. This slice defines gross order revenue before returns; net revenue would require refund logic.",
+      "grain": "return", "grain_label": "1 row / return", "primary_key": ["return_id"],
+      "columns": {"return_id": "VARCHAR", "order_id": "VARCHAR", "refund_amount": "DECIMAL(18,2)", "currency": "VARCHAR"},
+      "rows": [["R1", "O3", "25.00", "USD"]]
+    }
+  }
+}

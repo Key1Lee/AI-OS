@@ -39,7 +39,9 @@ Stop local app processes first. The source retains
 learner evidence with a baseline backup.
 
 For rollback before new writes, restore moved code/config from that archive,
-move the stopped metadata profile and sidecars back to
+restore shared foundational rules from `web/src/foundation.css` into the trainer
+stylesheet and remove its new foundation import/alias; move the stopped metadata
+profile and sidecars back to
 `Toptal-Testing/data/data-system-map.db`, and restore the original trainer default
 path. Remove the new editable dependency and restore the original UI build.
 After later metadata writes, move the current stopped profile back instead of
@@ -48,7 +50,7 @@ replacing it with the backup. Leave SQL/investigation/canonical registers intact
 ## Evidence
 
 Baseline: 146 passing Python tests. Core graph/contracts/dbt/security/repository
-and fixture hashes match the captured source baseline. Added six ownership,
+and four JSON fixture hashes match the captured source baseline. Added six ownership,
 independent-package, contract/projection and configuration tests. Frontend and
 backend checks, standalone package execution outside either checkout, original
 commerce flow and existing trainer browser scenarios are recorded separately in

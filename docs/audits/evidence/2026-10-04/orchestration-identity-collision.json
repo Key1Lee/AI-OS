@@ -1,0 +1,95 @@
+{
+  "first_status": "FAILED",
+  "replay_status": "SUCCESS",
+  "first_run_id": "backfill:daily-ecommerce:2026-10-01:missing",
+  "replay_run_id": "backfill:daily-ecommerce:2026-10-01:missing",
+  "first_event_count": 25,
+  "replay_event_count": 27,
+  "overlapping_event_count": 25,
+  "conflicting_events": [
+    {
+      "original": {
+        "contract_version": "orchestration-event-v1",
+        "event_id": "backfill:daily-ecommerce:2026-10-01:missing:24",
+        "run_id": "backfill:daily-ecommerce:2026-10-01:missing",
+        "workflow_id": "daily-ecommerce",
+        "task_id": "mart_revenue",
+        "asset_id": "mart_revenue",
+        "status": "FAILED",
+        "attempt": 1,
+        "occurred_at": "2026-10-03T06:13:00+09:00",
+        "start_time": "2026-10-03T06:11:00+09:00",
+        "end_time": "2026-10-03T06:13:00+09:00",
+        "duration": 2,
+        "error_type": "deterministic",
+        "error_message": "Authored failure for this partition only.",
+        "partition": "2026-10-01",
+        "upstream_state": {
+          "fct_orders": "SUCCESS"
+        }
+      },
+      "replay": {
+        "contract_version": "orchestration-event-v1",
+        "event_id": "backfill:daily-ecommerce:2026-10-01:missing:24",
+        "run_id": "backfill:daily-ecommerce:2026-10-01:missing",
+        "workflow_id": "daily-ecommerce",
+        "task_id": "mart_revenue",
+        "asset_id": "mart_revenue",
+        "status": "SUCCESS",
+        "attempt": 1,
+        "occurred_at": "2026-10-03T06:13:00+09:00",
+        "start_time": "2026-10-03T06:11:00+09:00",
+        "end_time": "2026-10-03T06:13:00+09:00",
+        "duration": 2,
+        "error_type": null,
+        "error_message": null,
+        "partition": "2026-10-01",
+        "upstream_state": {
+          "fct_orders": "SUCCESS"
+        }
+      }
+    },
+    {
+      "original": {
+        "contract_version": "orchestration-event-v1",
+        "event_id": "backfill:daily-ecommerce:2026-10-01:missing:25",
+        "run_id": "backfill:daily-ecommerce:2026-10-01:missing",
+        "workflow_id": "daily-ecommerce",
+        "task_id": "dashboard",
+        "asset_id": "revenue_dashboard",
+        "status": "BLOCKED",
+        "attempt": 0,
+        "occurred_at": "2026-10-03T06:13:00+09:00",
+        "start_time": null,
+        "end_time": "2026-10-03T06:13:00+09:00",
+        "duration": null,
+        "error_type": null,
+        "error_message": null,
+        "partition": "2026-10-01",
+        "upstream_state": {
+          "mart_revenue": "FAILED"
+        }
+      },
+      "replay": {
+        "contract_version": "orchestration-event-v1",
+        "event_id": "backfill:daily-ecommerce:2026-10-01:missing:25",
+        "run_id": "backfill:daily-ecommerce:2026-10-01:missing",
+        "workflow_id": "daily-ecommerce",
+        "task_id": "dashboard",
+        "asset_id": "revenue_dashboard",
+        "status": "READY",
+        "attempt": 0,
+        "occurred_at": "2026-10-03T06:13:00+09:00",
+        "start_time": null,
+        "end_time": null,
+        "duration": null,
+        "error_type": null,
+        "error_message": null,
+        "partition": "2026-10-01",
+        "upstream_state": {
+          "mart_revenue": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

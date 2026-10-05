@@ -1,0 +1,45 @@
+
+> data-orchestration-lab@0.1.0 test
+> tsx --test tests/*.test.ts
+
+✔ Sep 27–29 produces exactly three historical runs today and preserves each partition key (15.841042ms)
+✔ one partition can fail without blocking neighboring dates; failed partitions remain replayable (5.167292ms)
+✔ successful partitions are kept by default and reprocessed only under explicit replacement policy (3.0555ms)
+✔ worker budget and resource pools are GLOBAL across concurrent partitions (14.690959ms)
+✔ partition concurrency one prevents overlap even with excess worker capacity (2.238208ms)
+✔ invalid dates/ranges, future dates, duplicate records, forged plans and invalid capacities are rejected (0.899583ms)
+✔ every scenario and every transition satisfy independently compiled integration schemas (13.41075ms)
+✔ malformed contract versions, states and assessment-policy extensions fail schema validation (1.411917ms)
+✔ Modeling adapter uses existing parents and preserves opaque grain/materialization metadata (1.229834ms)
+✔ Modeling adapter rejects unknown model parents and model cycles (0.351041ms)
+✔ truth engine uses no wall clock, randomness, sibling imports or orchestration vendors (0.954208ms)
+✔ healthy DAG has stable topological ordering and joins both staging dependencies (5.727334ms)
+✔ cycles, missing dependencies and duplicate tasks/dependencies are rejected before executing (0.516416ms)
+✔ final customer failure blocks descendants without failing the independent orders branch (1.238917ms)
+✔ transient retry waits exactly five minutes, releases the worker and increments attempts (1.74675ms)
+✔ retry exhaustion is terminal; deterministic errors never get automatic retries (1.56175ms)
+✔ timeouts use FAILED with timeout evidence; equal-to-limit duration succeeds (3.257708ms)
+✔ daily scheduling is separate from readiness and uses explicit Asia/Seoul timestamps (0.504042ms)
+✔ a declared asset event triggers the same workflow; unrelated assets cannot (1.214459ms)
+✔ worker and pool constraints leave eligible tasks READY and never overcommit (5.627958ms)
+✔ SKIPPED propagation and all_done/one_success trigger rules are explicit (3.53325ms)
+✔ same-input reruns preserve 100 rows with replace and accumulate 200 with append (4.116875ms)
+✔ critical path is duration-weighted and shortening the other branch cannot speed it up (0.335916ms)
+✔ one-success joins use the first nominally successful parent in the duration bound (1.083417ms)
+✔ simulation and event ordering are repeatable and do not mutate the supplied definition (4.459292ms)
+✔ invalid dates, policies, capacities, outcomes and prototype IDs fail before execution (1.012917ms)
+✔ expectation is an execution fact with measurable delay and unavailable readiness (1.140792ms)
+✔ verifier: malformed top-level/nested output stores fail at createRun (3.8865ms)
+✔ verifier: a string dependency matching a valid single-character ID is rejected before execution (0.212583ms)
+✔ verifier: explicit successful-partition replacement rejects an append workflow (2.691ms)
+✔ verifier: retry delay guarantees eligibility, not start, when another task occupies the worker (6.5875ms)
+✔ nested workflow shapes and null optional run values are never silently accepted (1.028208ms)
+✔ partition failure injection works for a workflow without a mart task (1.872833ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 186.3025

@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "assertions": 245,
+  "cli_commands": 133,
+  "scenario_count": 1,
+  "components": 11,
+  "evidence_cards": 13,
+  "recall_prompts": 11,
+  "alternate_sql_base_cases": 8,
+  "alternate_sql_replay_cases": 16,
+  "temporary_profiles_removed": true
+}

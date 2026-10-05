@@ -1,0 +1,1825 @@
+{
+  "contract_version": "quality-bundle-v1",
+  "contract": {
+    "contract_version": "data-contract-v1",
+    "id": "current_orders_net_usd",
+    "version": "1.0",
+    "dataset_id": "fct_orders",
+    "grain": "1 row / current order",
+    "primary_key": [
+      "order_id"
+    ],
+    "columns": [
+      {
+        "name": "order_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "customer_id",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "ordered_at",
+        "data_type": "TIMESTAMP",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "net_revenue",
+        "data_type": "DECIMAL",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "payment_status",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "shipped_at",
+        "data_type": "TIMESTAMP",
+        "nullable": true,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "description",
+        "data_type": "STRING",
+        "nullable": true,
+        "required": false,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "currency",
+        "data_type": "STRING",
+        "nullable": false,
+        "required": true,
+        "description": "",
+        "precision": 18,
+        "scale": 2
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "relationship",
+        "column": "customer_id",
+        "parent_dataset": "customers",
+        "parent_column": "customer_id",
+        "allow_null": false,
+        "require_unique_parent": true,
+        "maximum_orphan_rate": "0"
+      }
+    ],
+    "rules": [
+      {
+        "id": "status_allowed",
+        "name": "Status has an agreed meaning",
+        "description": "Only documented order statuses may be consumed.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "validity",
+        "expectation": {
+          "kind": "accepted_values",
+          "column": "status",
+          "values": [
+            "pending",
+            "completed",
+            "cancelled",
+            "shipped"
+          ],
+          "allow_null": false
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "completed_paid",
+        "name": "Completed orders are paid",
+        "description": "The producer promises that completed orders have a paid payment_status.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "business_rule",
+        "expectation": {
+          "kind": "business_rule",
+          "invariant": "completed_is_paid"
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "nonnegative",
+        "name": "Net revenue is nonnegative",
+        "description": "This scenario's net-order definition excludes negative amounts. Other business contracts may allow them.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "business_rule",
+        "expectation": {
+          "kind": "business_rule",
+          "invariant": "non_negative_revenue"
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "shipment_order",
+        "name": "Shipment follows order time",
+        "description": "A shipped order must have a shipment timestamp at or after ordered_at.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "consistency",
+        "expectation": {
+          "kind": "business_rule",
+          "invariant": "shipment_after_order"
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "freshness",
+        "name": "Data arrived within 2 hours",
+        "description": "Freshness measures data arrival age; a successful task alone cannot prove this.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "freshness",
+        "expectation": {
+          "kind": "freshness",
+          "maximum_age_minutes": 120
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "volume",
+        "name": "The exercise contains 10–12 orders",
+        "description": "These explicit fixture bounds detect missing output, not statistical anomalies.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "volume",
+        "expectation": {
+          "kind": "volume",
+          "minimum": 10,
+          "maximum": 12
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "reconciliation",
+        "name": "Net revenue reconciles",
+        "description": "Captured payments minus refunded returns must reconcile to net USD revenue within absolute OR relative tolerance.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "reconciliation",
+        "expectation": {
+          "kind": "reconciliation",
+          "column": "net_revenue",
+          "source_dataset": "payments",
+          "source_column": "amount",
+          "adjustment_dataset": "returns",
+          "adjustment_column": "refund_amount",
+          "absolute_tolerance": "0.01",
+          "relative_tolerance": "0",
+          "currency": "USD"
+        },
+        "severity": "CRITICAL",
+        "blocking": true,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      },
+      {
+        "id": "description_complete",
+        "name": "Descriptions are at least 90% complete",
+        "description": "Optional descriptions improve readability; their threshold is nonblocking.",
+        "target": "fct_orders",
+        "target_type": "dataset",
+        "dimension": "completeness",
+        "expectation": {
+          "kind": "not_null",
+          "column": "description",
+          "minimum_rate": "0.90"
+        },
+        "severity": "WARNING",
+        "blocking": false,
+        "owner": "Commerce Analytics",
+        "evidence_source": "deterministic_dataset"
+      }
+    ],
+    "owner": "Commerce Analytics",
+    "semantic_meaning": "One current record for each order. Net revenue is captured USD payments less refunded USD returns allocated to that order. The fixture contains 10 completed paid orders; no conversion, tax or chargeback logic is implied. This differs from Modeling's gross completed-order Revenue metric.",
+    "currency": "USD"
+  },
+  "rules": [
+    {
+      "id": "contract_schema",
+      "name": "Schema matches the contract",
+      "description": "Required columns, types and nullability preserve the producer's promise.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "schema",
+      "expectation": {
+        "kind": "schema",
+        "allow_extra_columns": true
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "contract_grain",
+      "name": "Primary key supports declared grain",
+      "description": "1 row / current order. Repeating this key can repeat measures; uniqueness supports this declaration but does not prove row meaning.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "uniqueness",
+      "expectation": {
+        "kind": "unique",
+        "columns": [
+          "order_id"
+        ],
+        "null_policy": "fail"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_order_id",
+      "name": "order_id is not null",
+      "description": "The contract requires a value in order_id for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "order_id",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_customer_id",
+      "name": "customer_id is not null",
+      "description": "The contract requires a value in customer_id for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "customer_id",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_ordered_at",
+      "name": "ordered_at is not null",
+      "description": "The contract requires a value in ordered_at for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "ordered_at",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_net_revenue",
+      "name": "net_revenue is not null",
+      "description": "The contract requires a value in net_revenue for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "net_revenue",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_status",
+      "name": "status is not null",
+      "description": "The contract requires a value in status for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "status",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_payment_status",
+      "name": "payment_status is not null",
+      "description": "The contract requires a value in payment_status for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "payment_status",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "required_currency",
+      "name": "currency is not null",
+      "description": "The contract requires a value in currency for every row.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "currency",
+        "minimum_rate": "1"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "relationship_0_customer_id",
+      "name": "customer_id has a parent",
+      "description": "Every applicable customer_id must exist in customers.customer_id.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "referential_integrity",
+      "expectation": {
+        "kind": "relationship",
+        "column": "customer_id",
+        "parent_dataset": "customers",
+        "parent_column": "customer_id",
+        "allow_null": false,
+        "require_unique_parent": true,
+        "maximum_orphan_rate": "0"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "status_allowed",
+      "name": "Status has an agreed meaning",
+      "description": "Only documented order statuses may be consumed.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "validity",
+      "expectation": {
+        "kind": "accepted_values",
+        "column": "status",
+        "values": [
+          "pending",
+          "completed",
+          "cancelled",
+          "shipped"
+        ],
+        "allow_null": false
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "completed_paid",
+      "name": "Completed orders are paid",
+      "description": "The producer promises that completed orders have a paid payment_status.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "business_rule",
+      "expectation": {
+        "kind": "business_rule",
+        "invariant": "completed_is_paid"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "nonnegative",
+      "name": "Net revenue is nonnegative",
+      "description": "This scenario's net-order definition excludes negative amounts. Other business contracts may allow them.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "business_rule",
+      "expectation": {
+        "kind": "business_rule",
+        "invariant": "non_negative_revenue"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "shipment_order",
+      "name": "Shipment follows order time",
+      "description": "A shipped order must have a shipment timestamp at or after ordered_at.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "consistency",
+      "expectation": {
+        "kind": "business_rule",
+        "invariant": "shipment_after_order"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "freshness",
+      "name": "Data arrived within 2 hours",
+      "description": "Freshness measures data arrival age; a successful task alone cannot prove this.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "freshness",
+      "expectation": {
+        "kind": "freshness",
+        "maximum_age_minutes": 120
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "volume",
+      "name": "The exercise contains 10–12 orders",
+      "description": "These explicit fixture bounds detect missing output, not statistical anomalies.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "volume",
+      "expectation": {
+        "kind": "volume",
+        "minimum": 10,
+        "maximum": 12
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "reconciliation",
+      "name": "Net revenue reconciles",
+      "description": "Captured payments minus refunded returns must reconcile to net USD revenue within absolute OR relative tolerance.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "reconciliation",
+      "expectation": {
+        "kind": "reconciliation",
+        "column": "net_revenue",
+        "source_dataset": "payments",
+        "source_column": "amount",
+        "adjustment_dataset": "returns",
+        "adjustment_column": "refund_amount",
+        "absolute_tolerance": "0.01",
+        "relative_tolerance": "0",
+        "currency": "USD"
+      },
+      "severity": "CRITICAL",
+      "blocking": true,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    },
+    {
+      "id": "description_complete",
+      "name": "Descriptions are at least 90% complete",
+      "description": "Optional descriptions improve readability; their threshold is nonblocking.",
+      "target": "fct_orders",
+      "target_type": "dataset",
+      "dimension": "completeness",
+      "expectation": {
+        "kind": "not_null",
+        "column": "description",
+        "minimum_rate": "0.90"
+      },
+      "severity": "WARNING",
+      "blocking": false,
+      "owner": "Commerce Analytics",
+      "evidence_source": "deterministic_dataset"
+    }
+  ],
+  "results": [
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "contract_schema",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "schema",
+        "allow_extra_columns": true
+      },
+      "actual": {
+        "structural_issues": [],
+        "invalid_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "declared metadata + typed row validation",
+        "message": "Schema and actual values match.",
+        "sample_rows": [],
+        "metrics": {
+          "extra_columns": []
+        }
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "contract_grain",
+      "target_id": "fct_orders",
+      "status": "FAIL",
+      "expected": {
+        "kind": "unique",
+        "columns": [
+          "order_id"
+        ],
+        "null_policy": "fail"
+      },
+      "actual": {
+        "rows": 11,
+        "distinct_non_null_keys": 10,
+        "duplicate_extra_rows": 1,
+        "duplicate_affected_rows": 2,
+        "null_key_rows": 0,
+        "declared_grain": "1 row / current order",
+        "semantic_grain_proof": false
+      },
+      "failed_rows": 2,
+      "total_rows": 11,
+      "failure_rate": "0.1818181818181818181818181818181818181818181818181818181818181818181818181818181818181818181818181818",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "count typed composite non-null keys; separate NULL policy",
+        "message": "11 rows, 10 distinct non-null keys; 1 extra repeated rows affect 2 rows. Key evidence supports the declared grain, not its semantic meaning.",
+        "sample_rows": [
+          {
+            "order_id": "1007",
+            "customer_id": "C2",
+            "ordered_at": "2026-09-28T00:00:00Z",
+            "net_revenue": "70.00",
+            "status": "completed",
+            "payment_status": "paid",
+            "shipped_at": "2026-09-29T00:00:00Z",
+            "description": "Order 1007",
+            "currency": "USD",
+            "_row_number": 7
+          },
+          {
+            "order_id": "1007",
+            "customer_id": "C2",
+            "ordered_at": "2026-09-28T00:00:00Z",
+            "net_revenue": "70.00",
+            "status": "completed",
+            "payment_status": "paid",
+            "shipped_at": "2026-09-29T00:00:00Z",
+            "description": "Order 1007",
+            "currency": "USD",
+            "_row_number": 11
+          }
+        ],
+        "metrics": {
+          "rows": 11,
+          "distinct_non_null_keys": 10,
+          "duplicate_extra_rows": 1,
+          "duplicate_affected_rows": 2,
+          "null_key_rows": 0,
+          "declared_grain": "1 row / current order",
+          "semantic_grain_proof": false
+        }
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_order_id",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "order_id",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_customer_id",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "customer_id",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_ordered_at",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "ordered_at",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_net_revenue",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "net_revenue",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_status",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "status",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_payment_status",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "payment_status",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "required_currency",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "currency",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "relationship_0_customer_id",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "relationship",
+        "column": "customer_id",
+        "parent_dataset": "customers",
+        "parent_column": "customer_id",
+        "allow_null": false,
+        "require_unique_parent": true,
+        "maximum_orphan_rate": "0"
+      },
+      "actual": {
+        "unmatched_rows": 0,
+        "matched_rows": 11,
+        "duplicate_parent_key": false
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "typed FK membership; explicit NULL, orphan tolerance and parent uniqueness policies",
+        "message": "0 orphan/disallowed NULL rows. Parent uniqueness holds. Unknown members must exist as parent records; late dimensions require an explicit orphan tolerance.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "status_allowed",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "accepted_values",
+        "column": "status",
+        "values": [
+          "pending",
+          "completed",
+          "cancelled",
+          "shipped"
+        ],
+        "allow_null": false
+      },
+      "actual": {
+        "invalid_rows": 0,
+        "allowed_values": [
+          "pending",
+          "completed",
+          "cancelled",
+          "shipped"
+        ]
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "typed set membership + explicit NULL policy",
+        "message": "0 rows fall outside the allowed values.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "completed_paid",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "business_rule",
+        "invariant": "completed_is_paid"
+      },
+      "actual": {
+        "violations": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "completed_is_paid",
+        "message": "0 rows violate completed is paid.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "nonnegative",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "business_rule",
+        "invariant": "non_negative_revenue"
+      },
+      "actual": {
+        "violations": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non_negative_revenue",
+        "message": "0 rows violate non negative revenue.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "shipment_order",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "business_rule",
+        "invariant": "shipment_after_order"
+      },
+      "actual": {
+        "violations": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "shipment_after_order",
+        "message": "0 rows violate shipment after order.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "freshness",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "freshness",
+        "maximum_age_minutes": 120
+      },
+      "actual": {
+        "age_minutes": "30",
+        "loaded_at": "2026-10-01T23:30:00Z"
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "explicit clock minus data arrival; inclusive maximum age",
+        "message": "Data age is 30 minutes; allowed ≤ 120 minutes.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "volume",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "volume",
+        "minimum": 10,
+        "maximum": 12
+      },
+      "actual": {
+        "rows": 11
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "inclusive authored row-count bounds",
+        "message": "11 rows; expected 10–12. This is a deterministic bound, not an anomaly model.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "reconciliation",
+      "target_id": "fct_orders",
+      "status": "FAIL",
+      "expected": {
+        "kind": "reconciliation",
+        "column": "net_revenue",
+        "source_dataset": "payments",
+        "source_column": "amount",
+        "adjustment_dataset": "returns",
+        "adjustment_column": "refund_amount",
+        "absolute_tolerance": "0.01",
+        "relative_tolerance": "0",
+        "currency": "USD"
+      },
+      "actual": {
+        "captured_payments": "555.00",
+        "refunded_returns": "5.00",
+        "source_net_total": "550.00",
+        "warehouse_total": "620.00",
+        "absolute_difference": "70.00",
+        "relative_difference": "0.12727272727272727272727272727272727272727272727272727272727272727272727272727273",
+        "currency": "USD",
+        "tolerance_policy": "absolute OR relative; inclusive; nonzero difference at zero source has no relative tolerance"
+      },
+      "failed_rows": null,
+      "total_rows": 11,
+      "failure_rate": null,
+      "severity": "CRITICAL",
+      "blocking": true,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "SUM(captured payments) - SUM(refunded returns) ≈ SUM(net_revenue)",
+        "message": "Source net 550.00 USD; warehouse 620.00 USD; absolute difference 70.00. Aggregate mismatch does not identify specific failing rows.",
+        "sample_rows": [],
+        "metrics": {
+          "captured_payments": "555.00",
+          "refunded_returns": "5.00",
+          "source_net_total": "550.00",
+          "warehouse_total": "620.00",
+          "absolute_difference": "70.00",
+          "relative_difference": "0.12727272727272727272727272727272727272727272727272727272727272727272727272727273",
+          "currency": "USD",
+          "tolerance_policy": "absolute OR relative; inclusive; nonzero difference at zero source has no relative tolerance"
+        }
+      }
+    },
+    {
+      "contract_version": "validation-result-v1",
+      "rule_id": "description_complete",
+      "target_id": "fct_orders",
+      "status": "PASS",
+      "expected": {
+        "kind": "not_null",
+        "column": "description",
+        "minimum_rate": "0.90"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failed_rows": 0,
+      "total_rows": 11,
+      "failure_rate": "0",
+      "severity": "WARNING",
+      "blocking": false,
+      "executed_at": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 0.90.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    }
+  ],
+  "gate": {
+    "contract_version": "quality-gate-v1",
+    "dataset_id": "fct_orders",
+    "status": "BLOCKED",
+    "publication": "WITHHELD",
+    "blocking_rule_ids": [
+      "contract_grain",
+      "reconciliation"
+    ],
+    "reasons": [
+      "Primary key supports declared grain: FAIL",
+      "Net revenue reconciles: FAIL"
+    ],
+    "run_id": "commerce-run-1",
+    "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8"
+  },
+  "events": [
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "contract_schema",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "schema",
+        "allow_extra_columns": true
+      },
+      "actual": {
+        "structural_issues": [],
+        "invalid_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "declared metadata + typed row validation",
+        "message": "Schema and actual values match.",
+        "sample_rows": [],
+        "metrics": {
+          "extra_columns": []
+        }
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "contract_grain",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "unique",
+        "columns": [
+          "order_id"
+        ],
+        "null_policy": "fail"
+      },
+      "actual": {
+        "rows": 11,
+        "distinct_non_null_keys": 10,
+        "duplicate_extra_rows": 1,
+        "duplicate_affected_rows": 2,
+        "null_key_rows": 0,
+        "declared_grain": "1 row / current order",
+        "semantic_grain_proof": false
+      },
+      "failure_count": 2,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "count typed composite non-null keys; separate NULL policy",
+        "message": "11 rows, 10 distinct non-null keys; 1 extra repeated rows affect 2 rows. Key evidence supports the declared grain, not its semantic meaning.",
+        "sample_rows": [
+          {
+            "order_id": "1007",
+            "customer_id": "C2",
+            "ordered_at": "2026-09-28T00:00:00Z",
+            "net_revenue": "70.00",
+            "status": "completed",
+            "payment_status": "paid",
+            "shipped_at": "2026-09-29T00:00:00Z",
+            "description": "Order 1007",
+            "currency": "USD",
+            "_row_number": 7
+          },
+          {
+            "order_id": "1007",
+            "customer_id": "C2",
+            "ordered_at": "2026-09-28T00:00:00Z",
+            "net_revenue": "70.00",
+            "status": "completed",
+            "payment_status": "paid",
+            "shipped_at": "2026-09-29T00:00:00Z",
+            "description": "Order 1007",
+            "currency": "USD",
+            "_row_number": 11
+          }
+        ],
+        "metrics": {
+          "rows": 11,
+          "distinct_non_null_keys": 10,
+          "duplicate_extra_rows": 1,
+          "duplicate_affected_rows": 2,
+          "null_key_rows": 0,
+          "declared_grain": "1 row / current order",
+          "semantic_grain_proof": false
+        }
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_order_id",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "order_id",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_customer_id",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "customer_id",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_ordered_at",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "ordered_at",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_net_revenue",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "net_revenue",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_status",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "status",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_payment_status",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "payment_status",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "required_currency",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "not_null",
+        "column": "currency",
+        "minimum_rate": "1"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 1.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "relationship_0_customer_id",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "relationship",
+        "column": "customer_id",
+        "parent_dataset": "customers",
+        "parent_column": "customer_id",
+        "allow_null": false,
+        "require_unique_parent": true,
+        "maximum_orphan_rate": "0"
+      },
+      "actual": {
+        "unmatched_rows": 0,
+        "matched_rows": 11,
+        "duplicate_parent_key": false
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "typed FK membership; explicit NULL, orphan tolerance and parent uniqueness policies",
+        "message": "0 orphan/disallowed NULL rows. Parent uniqueness holds. Unknown members must exist as parent records; late dimensions require an explicit orphan tolerance.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "status_allowed",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "accepted_values",
+        "column": "status",
+        "values": [
+          "pending",
+          "completed",
+          "cancelled",
+          "shipped"
+        ],
+        "allow_null": false
+      },
+      "actual": {
+        "invalid_rows": 0,
+        "allowed_values": [
+          "pending",
+          "completed",
+          "cancelled",
+          "shipped"
+        ]
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "typed set membership + explicit NULL policy",
+        "message": "0 rows fall outside the allowed values.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "completed_paid",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "business_rule",
+        "invariant": "completed_is_paid"
+      },
+      "actual": {
+        "violations": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "completed_is_paid",
+        "message": "0 rows violate completed is paid.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "nonnegative",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "business_rule",
+        "invariant": "non_negative_revenue"
+      },
+      "actual": {
+        "violations": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non_negative_revenue",
+        "message": "0 rows violate non negative revenue.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "shipment_order",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "business_rule",
+        "invariant": "shipment_after_order"
+      },
+      "actual": {
+        "violations": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "shipment_after_order",
+        "message": "0 rows violate shipment after order.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "freshness",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "freshness",
+        "maximum_age_minutes": 120
+      },
+      "actual": {
+        "age_minutes": "30",
+        "loaded_at": "2026-10-01T23:30:00Z"
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "explicit clock minus data arrival; inclusive maximum age",
+        "message": "Data age is 30 minutes; allowed ≤ 120 minutes.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "volume",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "volume",
+        "minimum": 10,
+        "maximum": 12
+      },
+      "actual": {
+        "rows": 11
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "inclusive authored row-count bounds",
+        "message": "11 rows; expected 10–12. This is a deterministic bound, not an anomaly model.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "reconciliation",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "expected": {
+        "kind": "reconciliation",
+        "column": "net_revenue",
+        "source_dataset": "payments",
+        "source_column": "amount",
+        "adjustment_dataset": "returns",
+        "adjustment_column": "refund_amount",
+        "absolute_tolerance": "0.01",
+        "relative_tolerance": "0",
+        "currency": "USD"
+      },
+      "actual": {
+        "captured_payments": "555.00",
+        "refunded_returns": "5.00",
+        "source_net_total": "550.00",
+        "warehouse_total": "620.00",
+        "absolute_difference": "70.00",
+        "relative_difference": "0.12727272727272727272727272727272727272727272727272727272727272727272727272727273",
+        "currency": "USD",
+        "tolerance_policy": "absolute OR relative; inclusive; nonzero difference at zero source has no relative tolerance"
+      },
+      "failure_count": null,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "SUM(captured payments) - SUM(refunded returns) ≈ SUM(net_revenue)",
+        "message": "Source net 550.00 USD; warehouse 620.00 USD; absolute difference 70.00. Aggregate mismatch does not identify specific failing rows.",
+        "sample_rows": [],
+        "metrics": {
+          "captured_payments": "555.00",
+          "refunded_returns": "5.00",
+          "source_net_total": "550.00",
+          "warehouse_total": "620.00",
+          "absolute_difference": "70.00",
+          "relative_difference": "0.12727272727272727272727272727272727272727272727272727272727272727272727272727273",
+          "currency": "USD",
+          "tolerance_policy": "absolute OR relative; inclusive; nonzero difference at zero source has no relative tolerance"
+        }
+      }
+    },
+    {
+      "contract_version": "quality-event-v1",
+      "dataset_id": "fct_orders",
+      "rule_id": "description_complete",
+      "status": "PASS",
+      "severity": "WARNING",
+      "expected": {
+        "kind": "not_null",
+        "column": "description",
+        "minimum_rate": "0.90"
+      },
+      "actual": {
+        "not_null_rate": "1",
+        "null_rows": 0
+      },
+      "failure_count": 0,
+      "total_rows": 11,
+      "timestamp": "2026-10-02T00:00:00Z",
+      "run_id": "commerce-run-1",
+      "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8",
+      "evidence": {
+        "classification": "FACT",
+        "source": "deterministic_quality_engine",
+        "method": "non-null rows / total rows; empty string, zero and false are non-null",
+        "message": "11 / 11 rows have a value; minimum completeness is 0.90.",
+        "sample_rows": [],
+        "metrics": {}
+      }
+    }
+  ],
+  "summary": {
+    "PASS": 16,
+    "WARN": 0,
+    "FAIL": 2,
+    "UNKNOWN": 0
+  },
+  "run_id": "commerce-run-1",
+  "input_fingerprint": "332c111b12b164f612ed2dfe1f3c89bbdd184edaa34c5dae8116bbb0c8df82f8"
+}

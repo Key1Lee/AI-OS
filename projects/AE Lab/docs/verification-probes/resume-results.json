@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": {
+    "adapter_fault_keeps_resumable_state_and_actual_committed_data": true,
+    "fault_resume_reconstructs_exact_fixture_without_double_append": true,
+    "partial_recovery_cannot_be_verified": true,
+    "guided_recovery_resume_finishes_native_checks_verify_recall_connect": true,
+    "reverification_adapter_error_suspends_prior_mastery_and_recall": true,
+    "unknown_run_does_not_silently_start_or_reuse_data": true
+  }
+}

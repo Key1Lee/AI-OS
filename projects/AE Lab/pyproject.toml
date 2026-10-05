@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "analytics-engineering-lab"
+version = "0.1.0"
+description = "Local integration and learning laboratory for five existing analytics systems"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+lab = "lab.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+include = ["lab*"]
+
+[tool.setuptools.package-data]
+lab = ["adapters/workers/*.ts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

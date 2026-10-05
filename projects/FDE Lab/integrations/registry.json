@@ -1,0 +1,156 @@
+{
+  "schema_version": "fde-integrations-v1",
+  "inspection_date": "2026-10-03",
+  "path_base": "FDE Lab project root",
+  "connection_policy": "reference-only",
+  "execution_enabled": false,
+  "verification_scope": "Read-only source inspection; no sibling runtime, model endpoint or test suite executed.",
+  "systems": [
+    {
+      "id": "ai-os",
+      "name": "AI-OS",
+      "relative_root": "../..",
+      "status": "source-inspected",
+      "purpose": "Shared engineering guidance and optional provider-neutral reasoning runtime.",
+      "ownership": "Architecture, Skills, runtime configuration and model routing; projects own business rules, side effects and durable state.",
+      "interfaces": ["py_dev CLI", "ModelRequest / ModelResponse", "ModelRouter"],
+      "source_evidence": ["README.md", "AGENTS.md", "architecture/runtime.md", "architecture/model-router.md", "py_dev/__main__.py"],
+      "manual_commands": {
+        "configuration": ["python3 -m py_dev status --brain qwen"],
+        "runtime_check": ["python3 -m py_dev check"]
+      },
+      "fde_connection": "Reference architecture and controls; no runtime import or provider migration.",
+      "limits": ["No shared tool executor.", "Existing project apps retain independent runtimes.", "Local model availability was not probed."]
+    },
+    {
+      "id": "data-modeling",
+      "name": "Data Modeling System",
+      "relative_root": "../Data Modeling System",
+      "status": "source-inspected",
+      "purpose": "Deterministic grain, keys, joins, SQL transformations and semantic metric exercises.",
+      "ownership": "Desired data definitions, bounded transformations and deterministic assertions.",
+      "interfaces": ["data_modeling_lab.ModelingEngine", "modeling-lab-v1", "/api/build", "/api/contracts"],
+      "source_evidence": ["README.md", "AGENTS.md", "docs/architecture.md", "Makefile", "services/modeling-engine/src/data_modeling_lab/engine.py", "services/modeling-engine/src/data_modeling_lab/contracts.py"],
+      "manual_commands": {
+        "launch": ["make run"],
+        "checks": ["make check"],
+        "contract_export": ["make contracts"]
+      },
+      "documented_url": "http://127.0.0.1:8075",
+      "fde_connection": "Reference independent exercise and inspect explicitly selected exported definitions.",
+      "limits": ["No sibling imports, assessment scoring or incident workflow.", "SQL execution is bounded and read-only.", "Designed graph is not collected runtime lineage."]
+    },
+    {
+      "id": "orchestration",
+      "name": "Data Orchestration System",
+      "relative_root": "../Data Orchestration System",
+      "status": "source-inspected",
+      "purpose": "Deterministic dependencies, schedules, attempts, retry eligibility and partition simulation.",
+      "ownership": "Simulation execution states and authored execution evidence.",
+      "interfaces": ["src/engine/index.ts", "createRun / stepSimulation / simulate", "orchestration-event-v1", "orchestration-scenario-v1", "workflowFromModels"],
+      "source_evidence": ["README.md", "AGENTS.md", "docs/architecture.md", "package.json", "src/engine/index.ts", "contracts/execution-event.schema.json", "contracts/scenario.schema.json"],
+      "manual_commands": {
+        "launch": ["npm run build", "npm start"],
+        "checks": ["npm run check"],
+        "contract_export": ["npm run contracts"]
+      },
+      "documented_url": "http://127.0.0.1:8078",
+      "fde_connection": "Reference simulator and explicitly exported execution evidence.",
+      "limits": ["No SQL execution, actual warehouse writes or production scheduler.", "Modeling metadata conversion executes authored placeholders.", "Live Observability and Toptal connections remain future consumer adapters."]
+    },
+    {
+      "id": "quality",
+      "name": "Data Quality & Contracts System",
+      "relative_root": "../data-quality-contracts-system",
+      "status": "source-inspected",
+      "purpose": "Validate explicit data assumptions and report publication eligibility.",
+      "ownership": "Contracts, deterministic validation evidence and fail-closed quality gates.",
+      "interfaces": ["quality_system.engine.validate_bundle", "/api/validate", "data-contract-v1", "validation-result-v1", "quality-event-v1", "quality-gate-v1", "quality-bundle-v1"],
+      "source_evidence": ["README.md", "AGENTS.md", "docs/architecture.md", "docs/integrations.md", "Makefile", "src/quality_system/engine.py", "contracts/openapi.json"],
+      "manual_commands": {
+        "launch": ["npm --prefix web run build", "make run"],
+        "checks": ["make check"],
+        "optional_dbt_check": ["make check-dbt"],
+        "contract_export": ["make contracts"]
+      },
+      "documented_url": "http://127.0.0.1:8082",
+      "fde_connection": "Reference validator and inspect versioned evidence; FDE supplies no result status.",
+      "limits": ["Bounded educational inputs; no production mart is published.", "UNKNOWN never grants publication for a blocking rule.", "Core owns no transformations, scheduling, incidents or assessment scoring.", "Live sibling wiring is deferred; mappings are serialized interfaces."]
+    },
+    {
+      "id": "observability",
+      "name": "Data Observability System",
+      "relative_root": "../Data Observability System",
+      "status": "source-inspected",
+      "purpose": "Investigate local metadata, lineage, recorded failures and declared impact.",
+      "ownership": "Generic ingestion, immutable snapshots, graph traversal, incident evidence and map UI/API.",
+      "interfaces": ["data_system_map.create_service", "DataSystemService.import_dbt", "data-map-v1", "/api/map", "MapContext consumer hooks"],
+      "source_evidence": ["README.md", "AGENTS.md", "docs/api.md", "Makefile", "src/data_system_map/__init__.py"],
+      "manual_commands": {
+        "launch": ["make dev"],
+        "checks": ["make test", "make lint", "make build", "make check-demo", "make test-e2e"]
+      },
+      "documented_url": "http://127.0.0.1:8002",
+      "fde_connection": "Reference an independent metadata investigation; no shared database or mounted router.",
+      "limits": ["Uploaded SQL is not executed.", "Column lineage, SQL analysis and runtime warehouse connections remain deferred.", "Dependency impact does not prove incorrect values.", "Consumer disclosure is separate from generic engine truth."]
+    },
+    {
+      "id": "analytics-lab",
+      "name": "AE Lab",
+      "relative_root": "../AE Lab",
+      "status": "source-inspected",
+      "inspection_date": "2026-10-04",
+      "purpose": "Local analytics integration and learning consumer for five independent systems.",
+      "ownership": "Its own fixtures, local warehouse/store, telemetry, learning flow and subprocess adapters.",
+      "interfaces": ["ae-lab-v1", "lab CLI", "lab/contracts.py protocols", "lab/adapters/bridge.py"],
+      "source_evidence": ["README.md", "docs/system-inventory.md", "pyproject.toml", "Makefile", "lab/cli.py", "lab/contracts.py", "lab/adapters/bridge.py", "tests/contract/test_quality.py", "tests/contract/test_observability.py", "tests/contract/test_testing.py"],
+      "manual_commands": {
+        "setup": ["uv sync --extra dev"],
+        "inventory": ["uv run lab systems"],
+        "launch": ["uv run lab learn ORCH-IDEMPOTENCY-001"],
+        "checks": ["uv run pytest -q"]
+      },
+      "fde_connection": "Reference its independent guided analytics exercise after the learner identifies the relevant capability; no adapter or state sharing.",
+      "limits": ["The README and CLI now exist; commands were inspected in source, not executed by FDE.", "Its exercise requires separately installed sibling runtimes.", "Its adapters, fixtures, learner evidence and mastery remain owned by AE Lab.", "Its lab package and CLI run in that project's own environment."]
+    },
+    {
+      "id": "testing",
+      "name": "Toptal-Testing System",
+      "relative_root": "../Toptal-Testing System",
+      "status": "source-inspected",
+      "purpose": "Independent technical assessment, terminal practice and deterministic SQL trainer.",
+      "ownership": "Questions, modes, disclosure, assistance, assessment results and learner evidence.",
+      "interfaces": ["training.models", "training.deterministic.enforce_authoritative_results", "trainer execution/scoring", "consumer-owned Observability MapContext"],
+      "source_evidence": ["README.md", "AGENTS.md", "docs/architecture.md", "Makefile", "training/deterministic.py"],
+      "manual_commands": {
+        "sql_trainer_launch": ["make dev"],
+        "checks": ["make test", "make lint", "npm --prefix apps/web run build", "make test-e2e"]
+      },
+      "documented_url": "http://127.0.0.1:8001",
+      "fde_connection": "Reference independent assessment after practice; FDE never writes its evidence registers or mastery.",
+      "limits": ["SQL trainer is separate from the original assessment app and terminal training.", "Prose checks alone do not execute candidate SQL or Python.", "Practice and assisted work are not independent mastery evidence."]
+    }
+  ],
+  "existing_relationships": [
+    {
+      "from": "testing",
+      "to": "observability",
+      "status": "source-inspected",
+      "relationship": "Toptal installs the Observability package and consumes its generic UI; Toptal owns assessment policy."
+    },
+    {
+      "from": "analytics-lab",
+      "to": ["data-modeling", "orchestration", "quality", "observability", "testing"],
+      "status": "source-inspected",
+      "inspection_date": "2026-10-04",
+      "relationship": "AE Lab's guided CLI consumes five systems through its own subprocess adapters; FDE inspected the source without executing the sibling workflow."
+    }
+  ],
+  "proposed_connections": [
+    {
+      "status": "proposed-only",
+      "relationship": "Future FDE-owned artifact adapters for explicitly selected versioned exports.",
+      "conditions": ["Retain provenance and explicit unknowns.", "Validate contract versions and metric meanings.", "Keep disclosure and learner progress in FDE.", "Keep producer truth engines and state with their owners."]
+    }
+  ]
+}

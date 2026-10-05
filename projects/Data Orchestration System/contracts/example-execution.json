@@ -1,0 +1,876 @@
+{
+  "run_id": "daily-ecommerce:2026-10-02:daily:1",
+  "workflow_id": "daily-ecommerce",
+  "partition": "2026-10-02",
+  "clock_date": "2026-10-02",
+  "now": 383,
+  "timezone": "Asia/Seoul",
+  "trigger": {
+    "kind": "daily"
+  },
+  "max_concurrency": 2,
+  "status": "SUCCESS",
+  "activated": true,
+  "complete": true,
+  "start_time": "2026-10-02T06:00:00+09:00",
+  "end_time": "2026-10-02T06:23:00+09:00",
+  "tasks": {
+    "extract_orders": {
+      "task_id": "extract_orders",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:09:00+09:00",
+      "end_time": "2026-10-02T06:13:00+09:00",
+      "duration": 4,
+      "execution_attempt": 2,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "FAILED",
+          "start_time": "2026-10-02T06:00:00+09:00",
+          "end_time": "2026-10-02T06:04:00+09:00",
+          "duration": 4,
+          "start_minute": 360,
+          "end_minute": 364,
+          "error": {
+            "type": "transient",
+            "message": "Orders API request timed out temporarily."
+          }
+        },
+        {
+          "attempt": 2,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:09:00+09:00",
+          "end_time": "2026-10-02T06:13:00+09:00",
+          "duration": 4,
+          "start_minute": 369,
+          "end_minute": 373,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "extract_customers": {
+      "task_id": "extract_customers",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": "2026-10-02T06:03:00+09:00",
+      "duration": 3,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:00:00+09:00",
+          "end_time": "2026-10-02T06:03:00+09:00",
+          "duration": 3,
+          "start_minute": 360,
+          "end_minute": 363,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "stg_orders": {
+      "task_id": "stg_orders",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:13:00+09:00",
+      "end_time": "2026-10-02T06:15:00+09:00",
+      "duration": 2,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:13:00+09:00",
+          "end_time": "2026-10-02T06:15:00+09:00",
+          "duration": 2,
+          "start_minute": 373,
+          "end_minute": 375,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "stg_customers": {
+      "task_id": "stg_customers",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:03:00+09:00",
+      "end_time": "2026-10-02T06:05:00+09:00",
+      "duration": 2,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:03:00+09:00",
+          "end_time": "2026-10-02T06:05:00+09:00",
+          "duration": 2,
+          "start_minute": 363,
+          "end_minute": 365,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "int_orders": {
+      "task_id": "int_orders",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:15:00+09:00",
+      "end_time": "2026-10-02T06:18:00+09:00",
+      "duration": 3,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:15:00+09:00",
+          "end_time": "2026-10-02T06:18:00+09:00",
+          "duration": 3,
+          "start_minute": 375,
+          "end_minute": 378,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "quality_check": {
+      "task_id": "quality_check",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:15:00+09:00",
+      "end_time": "2026-10-02T06:17:00+09:00",
+      "duration": 2,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:15:00+09:00",
+          "end_time": "2026-10-02T06:17:00+09:00",
+          "duration": 2,
+          "start_minute": 375,
+          "end_minute": 377,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "fct_orders": {
+      "task_id": "fct_orders",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:18:00+09:00",
+      "end_time": "2026-10-02T06:20:00+09:00",
+      "duration": 2,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:18:00+09:00",
+          "end_time": "2026-10-02T06:20:00+09:00",
+          "duration": 2,
+          "start_minute": 378,
+          "end_minute": 380,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "mart_revenue": {
+      "task_id": "mart_revenue",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:20:00+09:00",
+      "end_time": "2026-10-02T06:22:00+09:00",
+      "duration": 2,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:20:00+09:00",
+          "end_time": "2026-10-02T06:22:00+09:00",
+          "duration": 2,
+          "start_minute": 380,
+          "end_minute": 382,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    },
+    "dashboard": {
+      "task_id": "dashboard",
+      "status": "SUCCESS",
+      "start_time": "2026-10-02T06:22:00+09:00",
+      "end_time": "2026-10-02T06:23:00+09:00",
+      "duration": 1,
+      "execution_attempt": 1,
+      "error": null,
+      "next_retry_minute": null,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "SUCCESS",
+          "start_time": "2026-10-02T06:22:00+09:00",
+          "end_time": "2026-10-02T06:23:00+09:00",
+          "duration": 1,
+          "start_minute": 382,
+          "end_minute": 383,
+          "error": null
+        }
+      ],
+      "blocked_by": []
+    }
+  },
+  "events": [
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:1",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:00:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:2",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_customers",
+      "asset_id": "raw_customers",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:00:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:3",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:00:00+09:00",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:4",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_customers",
+      "asset_id": "raw_customers",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:00:00+09:00",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:5",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_customers",
+      "asset_id": "raw_customers",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:03:00+09:00",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": "2026-10-02T06:03:00+09:00",
+      "duration": 3,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:6",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "stg_customers",
+      "asset_id": "stg_customers",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:03:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "extract_customers": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:7",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "stg_customers",
+      "asset_id": "stg_customers",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:03:00+09:00",
+      "start_time": "2026-10-02T06:03:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "extract_customers": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:8",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "FAILED",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:04:00+09:00",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": "2026-10-02T06:04:00+09:00",
+      "duration": 4,
+      "error_type": "transient",
+      "error_message": "Orders API request timed out temporarily.",
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:9",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "RETRYING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:04:00+09:00",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": "2026-10-02T06:04:00+09:00",
+      "duration": 4,
+      "error_type": "transient",
+      "error_message": "Orders API request timed out temporarily.",
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:10",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "stg_customers",
+      "asset_id": "stg_customers",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:05:00+09:00",
+      "start_time": "2026-10-02T06:03:00+09:00",
+      "end_time": "2026-10-02T06:05:00+09:00",
+      "duration": 2,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "extract_customers": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:11",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "READY",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:09:00+09:00",
+      "start_time": "2026-10-02T06:00:00+09:00",
+      "end_time": "2026-10-02T06:04:00+09:00",
+      "duration": 4,
+      "error_type": "transient",
+      "error_message": "Orders API request timed out temporarily.",
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:12",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "RUNNING",
+      "attempt": 2,
+      "occurred_at": "2026-10-02T06:09:00+09:00",
+      "start_time": "2026-10-02T06:09:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:13",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "extract_orders",
+      "asset_id": "raw_orders",
+      "status": "SUCCESS",
+      "attempt": 2,
+      "occurred_at": "2026-10-02T06:13:00+09:00",
+      "start_time": "2026-10-02T06:09:00+09:00",
+      "end_time": "2026-10-02T06:13:00+09:00",
+      "duration": 4,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {}
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:14",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "stg_orders",
+      "asset_id": "stg_orders",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:13:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "extract_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:15",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "stg_orders",
+      "asset_id": "stg_orders",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:13:00+09:00",
+      "start_time": "2026-10-02T06:13:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "extract_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:16",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "stg_orders",
+      "asset_id": "stg_orders",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:15:00+09:00",
+      "start_time": "2026-10-02T06:13:00+09:00",
+      "end_time": "2026-10-02T06:15:00+09:00",
+      "duration": 2,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "extract_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:17",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "int_orders",
+      "asset_id": "int_orders",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:15:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "stg_orders": "SUCCESS",
+        "stg_customers": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:18",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "quality_check",
+      "asset_id": "quality_result",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:15:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "stg_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:19",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "int_orders",
+      "asset_id": "int_orders",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:15:00+09:00",
+      "start_time": "2026-10-02T06:15:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "stg_orders": "SUCCESS",
+        "stg_customers": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:20",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "quality_check",
+      "asset_id": "quality_result",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:15:00+09:00",
+      "start_time": "2026-10-02T06:15:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "stg_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:21",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "quality_check",
+      "asset_id": "quality_result",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:17:00+09:00",
+      "start_time": "2026-10-02T06:15:00+09:00",
+      "end_time": "2026-10-02T06:17:00+09:00",
+      "duration": 2,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "stg_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:22",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "int_orders",
+      "asset_id": "int_orders",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:18:00+09:00",
+      "start_time": "2026-10-02T06:15:00+09:00",
+      "end_time": "2026-10-02T06:18:00+09:00",
+      "duration": 3,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "stg_orders": "SUCCESS",
+        "stg_customers": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:23",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "fct_orders",
+      "asset_id": "fct_orders",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:18:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "int_orders": "SUCCESS",
+        "quality_check": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:24",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "fct_orders",
+      "asset_id": "fct_orders",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:18:00+09:00",
+      "start_time": "2026-10-02T06:18:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "int_orders": "SUCCESS",
+        "quality_check": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:25",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "fct_orders",
+      "asset_id": "fct_orders",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:20:00+09:00",
+      "start_time": "2026-10-02T06:18:00+09:00",
+      "end_time": "2026-10-02T06:20:00+09:00",
+      "duration": 2,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "int_orders": "SUCCESS",
+        "quality_check": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:26",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "mart_revenue",
+      "asset_id": "mart_revenue",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:20:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "fct_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:27",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "mart_revenue",
+      "asset_id": "mart_revenue",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:20:00+09:00",
+      "start_time": "2026-10-02T06:20:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "fct_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:28",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "mart_revenue",
+      "asset_id": "mart_revenue",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:22:00+09:00",
+      "start_time": "2026-10-02T06:20:00+09:00",
+      "end_time": "2026-10-02T06:22:00+09:00",
+      "duration": 2,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "fct_orders": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:29",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "dashboard",
+      "asset_id": "revenue_dashboard",
+      "status": "READY",
+      "attempt": 0,
+      "occurred_at": "2026-10-02T06:22:00+09:00",
+      "start_time": null,
+      "end_time": null,
+      "duration": null,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "mart_revenue": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:30",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "dashboard",
+      "asset_id": "revenue_dashboard",
+      "status": "RUNNING",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:22:00+09:00",
+      "start_time": "2026-10-02T06:22:00+09:00",
+      "end_time": null,
+      "duration": 0,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "mart_revenue": "SUCCESS"
+      }
+    },
+    {
+      "contract_version": "orchestration-event-v1",
+      "event_id": "daily-ecommerce:2026-10-02:daily:1:31",
+      "run_id": "daily-ecommerce:2026-10-02:daily:1",
+      "workflow_id": "daily-ecommerce",
+      "task_id": "dashboard",
+      "asset_id": "revenue_dashboard",
+      "status": "SUCCESS",
+      "attempt": 1,
+      "occurred_at": "2026-10-02T06:23:00+09:00",
+      "start_time": "2026-10-02T06:22:00+09:00",
+      "end_time": "2026-10-02T06:23:00+09:00",
+      "duration": 1,
+      "error_type": null,
+      "error_message": null,
+      "partition": "2026-10-02",
+      "upstream_state": {
+        "mart_revenue": "SUCCESS"
+      }
+    }
+  ],
+  "outputs": {
+    "raw_customers": {
+      "2026-10-02": 100
+    },
+    "stg_customers": {
+      "2026-10-02": 100
+    },
+    "raw_orders": {
+      "2026-10-02": 100
+    },
+    "stg_orders": {
+      "2026-10-02": 100
+    },
+    "quality_result": {
+      "2026-10-02": 100
+    },
+    "int_orders": {
+      "2026-10-02": 100
+    },
+    "fct_orders": {
+      "2026-10-02": 100
+    },
+    "mart_revenue": {
+      "2026-10-02": 100
+    },
+    "revenue_dashboard": {
+      "2026-10-02": 100
+    }
+  }
+}

@@ -1,0 +1,52 @@
+# Paths are relative to the AI-OS root; test commands run from this system path.
+# Depends on Observability through a Python package and shared UI source, not HTTP.
+name: toptal-testing-system
+purpose: Project-owned SQL practice, assessment, adaptive training, and mastery evidence.
+owns:
+- exercise execution and assessment policy
+- adaptive terminal training and mastery records
+- learner investigation extensions over the observability map
+does_not_own:
+- generic observability graph engine, API, and UI
+- official employer hiring acceptance
+- model provider clients, credentials, retries, and budgets
+path: projects/Toptal-Testing System
+entrypoints:
+- projects/Toptal-Testing System/Start-AE-Trainer.command
+- projects/Toptal-Testing System/Start-Toptal-Testing.command
+- projects/Toptal-Testing System/START_TOPTAL_TRAINING.command
+- projects/Toptal-Testing System/scripts/rebuild_training_credit.py
+public_interfaces:
+- projects/Toptal-Testing System/apps/api/main.py
+- projects/Toptal-Testing System/app/main.py
+- projects/Toptal-Testing System/training/models.py
+- projects/Toptal-Testing System/training/deterministic.py
+depends_on:
+- data-observability-system
+- ai-os
+consumed_by:
+- analytics-engineering-lab
+contracts:
+- projects/Toptal-Testing System/trainer/schemas/models.py
+- projects/Toptal-Testing System/trainer/data_map/contracts.py
+- projects/Toptal-Testing System/training/models.py
+state_owned:
+- AE, assessment, terminal training, and investigation SQLite stores
+- canonical assessment Markdown evidence registers
+tests:
+  unit:
+  - make test
+  - .venv/bin/python -m pytest -q tests/training
+  smoke:
+  - make check-map-demo
+  contract: []
+  integration:
+  - make test-e2e
+health_check: null
+documentation:
+- projects/Toptal-Testing System/README.md
+- projects/Toptal-Testing System/docs/api.md
+- projects/Toptal-Testing System/docs/architecture.md
+- projects/Toptal-Testing System/docs/data-observability-migration.md
+- projects/Toptal-Testing System/AGENTS.md
+lifecycle: UNKNOWN

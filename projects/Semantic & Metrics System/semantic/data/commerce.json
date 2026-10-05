@@ -1,0 +1,143 @@
+{
+  "contract_version": "modeled-semantic-snapshot-v1",
+  "scope": "synthetic_scenario",
+  "producer": "authored_modeling_adapter_fixture",
+  "as_of": "2026-10-04T12:00:00Z",
+  "refund_policy": "refunded_through_as_of_aggregated_per_order",
+  "provenance": {
+    "source": "bundled synthetic commerce",
+    "live_connection": false
+  },
+  "tables": {
+    "fct_orders": {
+      "grain": "order",
+      "rows": [
+        {
+          "order_id": "O1",
+          "customer_id": "C1",
+          "product_id": "P1",
+          "channel": "web",
+          "status": "fulfilled",
+          "currency": "USD",
+          "gross_order_value_cents": 400000000,
+          "created_at": "2026-09-29T23:30:00Z",
+          "paid_at": "2026-09-29T23:30:00Z",
+          "fulfilled_at": "2026-10-01T01:00:00Z",
+          "shipped_at": "2026-10-01T01:00:00Z"
+        },
+        {
+          "order_id": "O2",
+          "customer_id": "C2",
+          "product_id": "P2",
+          "channel": "store",
+          "status": "fulfilled",
+          "currency": "USD",
+          "gross_order_value_cents": 470000000,
+          "created_at": "2026-09-30T23:30:00Z",
+          "paid_at": "2026-09-30T23:30:00Z",
+          "fulfilled_at": "2026-10-01T06:00:00Z",
+          "shipped_at": "2026-10-01T06:00:00Z"
+        },
+        {
+          "order_id": "O3",
+          "customer_id": "C1",
+          "product_id": "P1",
+          "channel": "web",
+          "status": "canceled",
+          "currency": "USD",
+          "gross_order_value_cents": 90000000,
+          "created_at": "2026-10-01T06:00:00Z",
+          "paid_at": null,
+          "fulfilled_at": null,
+          "shipped_at": null
+        },
+        {
+          "order_id": "O4",
+          "customer_id": "C3",
+          "product_id": "P2",
+          "channel": "marketplace",
+          "status": "paid",
+          "currency": "USD",
+          "gross_order_value_cents": 10000000,
+          "created_at": "2026-10-01T06:00:00Z",
+          "paid_at": "2026-10-01T06:00:00Z",
+          "fulfilled_at": null,
+          "shipped_at": null
+        },
+        {
+          "order_id": "O5",
+          "customer_id": "C3",
+          "product_id": "P2",
+          "channel": "web",
+          "status": "fulfilled",
+          "currency": "EUR",
+          "gross_order_value_cents": 10000000,
+          "created_at": "2026-09-30T06:00:00Z",
+          "paid_at": "2026-09-30T06:00:00Z",
+          "fulfilled_at": "2026-10-01T08:00:00Z",
+          "shipped_at": "2026-10-01T08:00:00Z"
+        },
+        {
+          "order_id": "O6",
+          "customer_id": "C1",
+          "product_id": "P1",
+          "channel": "web",
+          "status": "fulfilled",
+          "currency": "USD",
+          "gross_order_value_cents": 20000000,
+          "created_at": "2026-10-02T00:00:00Z",
+          "paid_at": "2026-10-02T00:00:00Z",
+          "fulfilled_at": "2026-10-03T07:00:00Z",
+          "shipped_at": "2026-10-03T07:00:00Z"
+        }
+      ]
+    },
+    "fct_order_refunds": {
+      "grain": "order",
+      "rows": [
+        {
+          "order_id": "O1",
+          "refund_amount_cents": 20000000,
+          "currency": "USD",
+          "as_of": "2026-10-04T12:00:00Z"
+        },
+        {
+          "order_id": "O2",
+          "refund_amount_cents": 30000000,
+          "currency": "USD",
+          "as_of": "2026-10-04T12:00:00Z"
+        }
+      ]
+    },
+    "dim_customers": {
+      "grain": "customer",
+      "rows": [
+        {
+          "customer_id": "C1",
+          "region": "north"
+        },
+        {
+          "customer_id": "C2",
+          "region": "south"
+        },
+        {
+          "customer_id": "C3",
+          "region": "south"
+        }
+      ]
+    },
+    "dim_products": {
+      "grain": "product",
+      "rows": [
+        {
+          "product_id": "P1",
+          "product_category": "electronics"
+        },
+        {
+          "product_id": "P2",
+          "product_category": "home"
+        }
+      ]
+    }
+  }
+}

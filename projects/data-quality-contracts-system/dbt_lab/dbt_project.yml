@@ -1,0 +1,14 @@
+name: quality_contracts_lab
+version: '1.0'
+config-version: 2
+profile: quality_contracts_lab
+model-paths: [models]
+seed-paths: [seeds]
+test-paths: [tests]
+macro-paths: [macros]
+models:
+  quality_contracts_lab:
+    +materialized: table
+seeds:
+  quality_contracts_lab:
+    +quote_columns: false
