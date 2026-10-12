@@ -1,4 +1,15 @@
-# Phase 1 architecture
+# Lab architecture
+
+The original five-system retry slice below remains unchanged. The browser now
+also hosts ten [business architecture exercises](business-exercises.md).
+Their coordinator is `lab/business.py`, using the same Store with a distinct
+versioned record kind. It invokes native Modeling connection/key APIs, generic
+Quality contracts, and Toptal objective enforcement. Source-system conditions
+are pinned fixture facts; there is no new orchestration or observability engine.
+Publication is a Lab-owned SQLite candidate snapshot and transactional pointer.
+Independent authored row oracles supplement the narrower native quality gate.
+
+## Original Phase 1 integration
 
 One Python CLI coordinates five bounded native interfaces. The Lab owns the
 scenario and evidence; each existing project owns its engine. This implements

@@ -1,7 +1,7 @@
 # Paths are relative to the AI-OS root; test commands run from this system path.
 # Dependencies are implemented consumer-owned subprocess adapters, not remote service calls.
 name: analytics-engineering-lab
-purpose: Guided retry-safety scenario integrating existing local engineering systems.
+purpose: Guided business architecture exercises and an integrated retry-safety scenario over existing local engineering systems.
 owns:
 - scenario fixtures, failure injection, and evidence correlation
 - local warehouse operations and learning session state
@@ -13,6 +13,8 @@ path: projects/AE Lab
 entrypoints:
 - projects/AE Lab/lab/__main__.py
 - projects/AE Lab/lab/cli.py
+- projects/AE Lab/lab/web.py
+- projects/AE Lab/Start-AE-Lab.command
 public_interfaces:
 - projects/AE Lab/lab/contracts.py
 - projects/AE Lab/lab/adapters/bridge.py
@@ -39,4 +41,6 @@ documentation:
 - projects/AE Lab/README.md
 - projects/AE Lab/docs/architecture.md
 - projects/AE Lab/docs/system-inventory.md
+- projects/AE Lab/docs/browser-ui.md
+- projects/AE Lab/docs/business-exercises.md
 lifecycle: UNKNOWN

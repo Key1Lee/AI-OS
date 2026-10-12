@@ -66,14 +66,16 @@ def checks_for(stage: str, answer: dict) -> dict[str, bool]:
     }
 
 
-def evaluate(stage: str, answer: dict) -> dict:
+def evaluate(stage: str, answer: dict, authored: dict | None = None) -> dict:
     if stage not in CONTRACTS or not isinstance(answer, dict):
         raise ValueError("Evaluation requires a known learning stage and structured answer.")
-    contract = CONTRACTS[stage]
+    contract = authored or CONTRACTS[stage]
+    policy_version = "ae-lab-business-objective-v1" if authored else POLICY_VERSION
+    question_id = f"{authored['scenario_id']}:{stage}:v1" if authored else f"ORCH-IDEMPOTENCY-001:{stage}:v1"
     question = Question(
-        id=f"ORCH-IDEMPOTENCY-001:{stage}:v1",
-        competency="Reliability: idempotent ingestion",
-        family="partial-write-and-retry",
+        id=question_id,
+        competency=authored["concept"] if authored else "Reliability: idempotent ingestion",
+        family="business-architecture" if authored else "partial-write-and-retry",
         difficulty=3,
         prompt=contract["prompt"],
         criteria=tuple(Criterion(key, description, ()) for key, description in contract["criteria"]),
@@ -83,12 +85,13 @@ def evaluate(stage: str, answer: dict) -> dict:
     )
     serialized = json.dumps(answer, sort_keys=True, allow_nan=False)
     native = run_deterministic_checks(question, serialized)
-    results = checks_for(stage, answer)
+    results = ({key: exact_string(answer.get(key), set(values)) for key, values in authored["expected"].items()}
+               if authored else checks_for(stage, answer))
     objective = tuple(
         DeterministicCheck(key, results[key], True, description)
         for key, description in contract["criteria"]
     )
-    report = DeterministicReport(POLICY_VERSION, (*native.checks, *objective))
+    report = DeterministicReport(policy_version, (*native.checks, *objective))
     passed = all(results.values())
     evaluation = Evaluation(
         outcome=Outcome.PASS if passed else Outcome.FAIL,
@@ -101,7 +104,7 @@ def evaluate(stage: str, answer: dict) -> dict:
         evaluator_model="none",
         evaluation_mode="structured_objective",
         evaluation_confidence="high_for_declared_fields_only",
-        rubric_version=POLICY_VERSION,
+        rubric_version=policy_version,
         evidence=tuple(f"{key}={json.dumps(answer.get(key))}" for key in results),
         raw={"question_id": question.id, "answer": answer},
     )
@@ -112,7 +115,7 @@ def evaluate(stage: str, answer: dict) -> dict:
         "native_version": training.__version__,
         "interface": "training.deterministic.enforce_authoritative_results",
         "question_id": question.id,
-        "policy_version": POLICY_VERSION,
+        "policy_version": policy_version,
         "source_files": [str(path) for path in source_files],
         "source_sha256": {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in source_files},
         "provider": enforced.evaluator_provider,
@@ -133,4 +136,4 @@ def evaluate(stage: str, answer: dict) -> dict:
 
 if __name__ == "__main__":
     request = json.load(sys.stdin)
-    print(json.dumps(evaluate(request["stage"], request["answer"]), allow_nan=False))
+    print(json.dumps(evaluate(request["stage"], request["answer"], request.get("authored")), allow_nan=False))

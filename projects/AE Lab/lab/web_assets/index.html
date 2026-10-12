@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AE Lab · Learn by tracing</title><link rel="stylesheet" href="/style.css"><script defer src="/business-app.js"></script><script defer src="/app.js"></script></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/"><span class="brand-icon">ae<span>↗</span></span><span>Analytics<br><strong>Engineering Lab</strong></span></a>
+  <div class="nav-label">YOUR LEARNING PATH</div><nav id="steps" aria-label="Exercise steps"></nav>
+  <div class="sidebar-bottom"><span class="online-dot"></span> Local workspace<br><small>One concept. One experiment.</small></div>
+</aside>
+<div class="workspace">
+ <header class="topbar"><span>WORKSPACE <span class="slash">/</span> <span id="workspace-topic">Business architecture</span></span><div><button class="quiet" id="catalog-button">Exercise library <span>↗</span></button><button class="quiet" id="sessions-button">Saved sessions <span>↗</span></button></div></header>
+ <main>
+  <section class="page-heading"><div><div class="eyebrow" id="priority-label">ANALYTICS ENGINEERING · MUST KNOW</div><h1>Learn by tracing.</h1><p>See the pipeline. Break it. Understand why.</p></div><div class="scenario-tag" id="scenario-label">01 <span>Partial write + retry</span></div></section>
+  <div id="notification" role="alert" hidden></div>
+  <section class="architecture panel"><div class="panel-header"><div><span class="eyebrow">THE BIG PICTURE</span><h2 id="architecture-title">One order. Every layer.</h2></div><span class="legend"><i></i> <span id="graph-state">Ready to explore</span></span></div><div id="pipeline" aria-label="Interactive pipeline diagram"></div><div id="node-detail" class="node-detail" aria-live="polite"></div></section>
+  <div class="exercise-grid"><section class="lesson panel" id="lesson" aria-live="polite"></section><aside class="side-stack"><section class="focus-card"><div class="eyebrow">KEEP THIS QUESTION IN MIND</div><h3>Where did this number come from?</h3><p>Walk backward from the metric to the rows that produced it.</p><div class="trace-mini">SOURCE <span>→</span> ROWS <span>→</span> METRIC</div></section><section class="session-card" id="session-info"></section></aside></div>
+  <section class="panel evidence-panel" id="evidence-panel" hidden></section>
+  <footer>Small experiments. Real evidence. <span>Saved on this Mac.</span></footer>
+ </main>
+</div>
+<dialog id="sessions-dialog"><div class="dialog-header"><h2>Your saved sessions</h2><button class="quiet" id="close-sessions" aria-label="Close saved sessions">✕</button></div><p>Resume where you left off, or start a fresh attempt.</p><div id="session-list"></div><button class="primary" id="new-session">Start a new exercise <span>→</span></button></dialog>
+<dialog id="catalog-dialog"><div class="dialog-header"><h2>Business exercise library</h2><button class="quiet" id="close-catalog" aria-label="Close exercise library">✕</button></div><p>Ten different business problems. Choose one, predict the failure, then defend the architectural repair. Earlier sessions stay saved.</p><div id="catalog-list"></div></dialog>
+</body></html>

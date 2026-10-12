@@ -1,14 +1,23 @@
 # Analytics Engineering Lab
 
 A local laboratory connecting five existing projects through consumer adapters.
-Phase 1 teaches one **MUST KNOW** concept: safe retries after a partial write.
-It executes `ORCH-IDEMPOTENCY-001`; the larger scenario catalog remains future work.
+The browser offers **10 distinct business architecture exercises**, plus the
+original integrated `ORCH-IDEMPOTENCY-001` partial-write and retry exercise.
+Open **Exercise library** to choose a business problem. Each new case explains
+the design constraints, causal failure, architectural repair, and tradeoffs.
+See the [business exercise catalog and boundaries](docs/business-exercises.md).
 
 The Lab owns fixtures, failure injection, its SQLite warehouse, learning state,
 event correlation and evidence exports. Existing systems retain their own logic.
 Sibling source files, service data and learner records are preserved.
 
 ## Start
+
+On this Mac, double-click **Start AE Lab.command** on the Desktop. It starts
+the local server and opens **http://127.0.0.1:8088** in your browser, with
+readable diagrams, prediction, diagnosis, repair and recall questions.
+Keep its Terminal window open while learning; Control-C stops the server.
+The project launcher is `Start-AE-Lab.command`; the Desktop shortcut points to it.
 
 Use Python 3.11+, `uv`, and the existing sibling runtimes. No API key, Docker,
 cloud account or additional service is required for this slice.
@@ -19,6 +28,14 @@ uv run lab systems
 uv run lab scenarios
 uv run lab learn ORCH-IDEMPOTENCY-001
 ```
+
+To launch the browser directly, run `uv run lab-web --open`. The UI and CLI
+share the same saved exercise state. The browser shows one focused step at a time,
+keeps answers hidden until observation, and lets you resume or repeat sessions.
+See [browser UI and local API](docs/browser-ui.md). The new business exercises
+are guided in the browser; CLI `scenarios`, `inspect`, and `progress` also show
+their metadata and evidence. CLI `learn`, `run`, `fix`, and `verify` retain the
+original retry exercise contract.
 
 The same CLI runs as `python -m lab` inside the environment. The default state
 directory is `.lab` in this project. Put `--state-dir PATH` before the command
@@ -92,7 +109,7 @@ flowchart LR
 | Command | Purpose |
 |---|---|
 | `lab systems` | Inspect the five configured integration boundaries |
-| `lab scenarios` | Show the single authored Phase 1 scenario |
+| `lab scenarios` | List the original scenario and ten browser business exercises |
 | `lab learn ORCH-IDEMPOTENCY-001` | Start or resume the guided learning loop |
 | `lab run ORCH-IDEMPOTENCY-001` | Execute baseline and injected failure |
 | `lab inspect RUN_ID` | Inspect saved evidence and transitions |
@@ -154,8 +171,12 @@ interrupted recheck.
   Free-text reasoning, transfer and broad mastery remain unassessed.
 
 This is a local, single-user lab. No production connector, scheduler deployment,
-live BI application, general SQL execution service or later scenario family is included.
-Freshness is reported as `NOT_MEASURED`; this exercise does not establish a
+live BI application, or general SQL execution service is included. The ten
+business cases execute native local transformations and quality contracts;
+their source/API/CDC conditions are simulated fixture facts. They do not claim
+native orchestration or observability execution. The original retry exercise
+retains all five sibling integrations.
+Freshness in the original exercise is reported as `NOT_MEASURED`; it does not establish a
 freshness SLA or simulate a source outage.
 
 ## Checks and design records

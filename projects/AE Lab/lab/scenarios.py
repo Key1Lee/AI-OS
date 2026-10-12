@@ -1,4 +1,4 @@
-"""One stable deterministic definition; later families are intentionally absent."""
+"""Original integrated retry definition; browser business cases live in business_catalog."""
 from dataclasses import dataclass
 from .contracts import SCENARIO_ID
 

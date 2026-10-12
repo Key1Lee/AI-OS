@@ -12,16 +12,22 @@ from .core import Lab
 from .learning import CONNECT, DIAGNOSE, ORIENT, PREDICT, RECALL
 from .store import StateError
 from .telemetry import mermaid
+from .business_catalog import CASES, VERSION
 
 def summary(record: dict):
     phase = record["phases"].get("rerun") or record["phases"].get("recovery") or record["phases"].get("fault")
     print(f"Run: {record['run_id']}\nState: {record['state']}")
     if phase:
-        print(f"Expected rows: {phase['expected_rows']:,}\nActual rows:   {phase['rows']:,}\nDuplicate extra rows: {phase['duplicate_extra']:,}")
-        print(f"Pipeline: {phase['pipeline_status']} | Modeling: {phase['model_status']} | Quality: {phase['quality_status']}\nFreshness: {phase['freshness']}")
-        print(f"Revenue USD: {phase['revenue']} (expected {phase['expected_revenue']})\nPublication: {phase['publication']}")
-        if phase["observability"]["impact"]:
-            print("Downstream impact: " + ", ".join(phase["observability"]["impact"]))
+        if record.get("kind")==VERSION:
+            print(f"Expected rows: {phase['expected_count']:,}\nActual rows:   {phase['row_count']:,}")
+            print(f"{phase['metric_label']}: {phase['value']} (expected {phase['expected_value']})\nPublication: {phase['publication']}")
+            print(phase['scope'])
+        else:
+            print(f"Expected rows: {phase['expected_rows']:,}\nActual rows:   {phase['rows']:,}\nDuplicate extra rows: {phase['duplicate_extra']:,}")
+            print(f"Pipeline: {phase['pipeline_status']} | Modeling: {phase['model_status']} | Quality: {phase['quality_status']}\nFreshness: {phase['freshness']}")
+            print(f"Revenue USD: {phase['revenue']} (expected {phase['expected_revenue']})\nPublication: {phase['publication']}")
+            if phase["observability"]["impact"]:
+                print("Downstream impact: " + ", ".join(phase["observability"]["impact"]))
     if record["verification"]:
         print("Verification: " + record["verification"]["status"])
         for criterion, passed in record["verification"]["checks"].items():
@@ -156,11 +162,15 @@ def main(argv=None):
             return 0
         if args.command == "scenarios":
             print(f"{SCENARIO_ID} | MUST KNOW | Partial write + retry | 1,000 → 1,700 → 1,000")
+            for item in CASES:
+                print(f"{item['id']} | {item['priority']} | {item['title']} | browser exercise")
             return 0
         if args.command == "lineage":
             print(mermaid(args.mode, args.asset))
             return 0
         lab = Lab(args.state_dir)
+        if getattr(args,"run_id",None) and args.command!="inspect" and lab.store.get(args.run_id).get("kind")==VERSION:
+            raise StateError("Resume this business exercise in the browser: uv run lab-web --open. CLI inspect and progress remain available.")
         if args.command in {"run", "learn", "reset"}:
             scenario(args.scenario_id)
         if args.command == "run":
