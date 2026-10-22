@@ -152,10 +152,11 @@ next session; do not assume persistent memory or automatic repository syncing.
 | --- | --- | --- |
 | Private GitHub repository | GitHub CLI and connected GitHub metadata report private visibility | Supported |
 | Shared baseline locally | Fresh `.venv/cloud`; 119 unit tests passed; mirrors match; 11 registry entries validate | Supported locally |
-| Complete Git synchronization | Compare final local commit and `refs/heads/main` after push | Pending publication |
-| Linux execution | Shared GitHub Actions workflow added; inspect its actual run after push | Pending CI |
+| Complete Git synchronization | Snapshot commit `1b906c709cd12cab8a3b2b6d787d69be606a27eb` matched both remote branches after push; final documentation update is checked separately | Supported for snapshot |
+| Linux execution | [Shared CI run](https://github.com/Key1Lee/AI-OS/actions/runs/39873944692): 119 tests passed, mirrors matched, 11 registry entries validated; [PeopleOps CI run](https://github.com/Key1Lee/AI-OS/actions/runs/39873944700): all configured steps succeeded | Supported for those workflows |
 | Codex Cloud execution | Create-environment selector reported “GitHub connections couldn’t load” after retry; CLI listed no tasks | Blocked on cloud connection |
 | Personal ChatGPT retrieval | Must execute the retrieval challenge in the personal ChatGPT conversation | Unverified |
+| Connected GitHub tool retrieval in this Codex chat | Fetched this guide from private `main` after publication | Supported in this chat only |
 | Every independent project executes remotely | Requires project-specific environments and checks | Unverified |
 
 Gitleaks 8.30.1 scanned the four existing Git commits and the candidate snapshot.
