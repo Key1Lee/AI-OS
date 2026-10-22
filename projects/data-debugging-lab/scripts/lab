@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+lab_root="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$lab_root"
+record=("$lab_root/scripts/record.sh")
+case "${1:-help}" in
+  up)
+    "${record[@]}" startup docker compose up -d --wait mysql
+    ;;
+  build)
+    "${record[@]}" build docker compose run --rm -T runner -lc './mvnw -B -ntp -s /workspace/maven-settings.xml -pl support/ide-configs,support/checkstyle,support/revapi,debezium-connector-mysql -am install -Dquick -DskipITs -Ddocker.skip=true -Dformat.skip=true -Dcheckstyle.skip=true'
+    ;;
+  unit)
+    "${record[@]}" unit docker compose run --rm -T runner -lc './mvnw -B -ntp -o -s /workspace/maven-settings.xml -pl debezium-connector-mysql test -Dtest=MySqlConnectorConfigTest,MySqlConnectorTest -Darchunit.skip=true -Dformat.skip=true -Dcheckstyle.skip=true -Ddocker.skip=true'
+    ;;
+  smoke)
+    "${record[@]}" smoke docker compose run --rm -T runner -lc './mvnw -B -ntp -o -s /workspace/maven-settings.xml -pl debezium-connector-mysql verify -Dtest=MySqlConnectorConfigTest,MySqlConnectorTest -Dit.test=ConnectionIT,MySqlConnectorIT#shouldConsumeAllEventsFromDatabaseUsingSnapshot -Darchunit.skip=true -Dformat.skip=true -Dcheckstyle.skip=true -Ddocker.skip=true -Ddocker.host.address=mysql'
+    ;;
+  warmup)
+    "${record[@]}" smoke docker compose run --rm -T runner -lc './mvnw -B -ntp -s /workspace/maven-settings.xml -pl debezium-connector-mysql verify -Dtest=MySqlConnectorConfigTest,MySqlConnectorTest -Dit.test=ConnectionIT,MySqlConnectorIT#shouldConsumeAllEventsFromDatabaseUsingSnapshot -Darchunit.skip=true -Dformat.skip=true -Dcheckstyle.skip=true -Ddocker.skip=true -Ddocker.host.address=mysql'
+    ;;
+  challenge)
+    "${record[@]}" challenge docker compose run --rm -T runner -lc './mvnw -B -ntp -o -s /workspace/maven-settings.xml -pl debezium-connector-mysql verify -Dtest=MySqlConnectorConfigTest,MySqlConnectorTest -Dit.test=MySqlKeepAliveDataLossIT -Darchunit.skip=true -Dformat.skip=true -Dcheckstyle.skip=true -Ddocker.skip=true -Ddocker.host.address=mysql'
+    ;;
+  sql)
+    shift
+    if [ "$#" -eq 0 ]; then
+      exec docker compose exec mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" exec mysql -uroot'
+    fi
+    exec docker compose exec -T mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" exec mysql -uroot -t -e "$1"' sh "$1"
+    ;;
+  logs)
+    exec docker compose logs --no-color mysql
+    ;;
+  status)
+    docker compose ps -a
+    git -C source/debezium rev-parse HEAD
+    git -C source/debezium status --short
+    ;;
+  shell)
+    exec docker compose run --rm runner
+    ;;
+  down)
+    exec docker compose down
+    ;;
+  *)
+    printf 'Usage: ./scripts/lab {up|build|warmup|unit|smoke|challenge|sql [SQL]|logs|status|shell|down}\n'
+    ;;
+esac

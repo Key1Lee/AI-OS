@@ -1,0 +1,14 @@
+{
+  "repository": "https://github.com/debezium/debezium.git",
+  "commit": "1397c912f32f48a6be513c481d9a1a6077dc8836",
+  "issue_provenance_contains_spoilers": "https://github.com/debezium/dbz/issues/2359",
+  "reporter_test_url": "https://github.com/user-attachments/files/30727193/MySqlKeepAliveDataLossIT.java",
+  "reporter_test_sha256": "8dc8f19cca712c796d4b11b4b32a22282db5dcb0a76909a230c13c4ce5c22513",
+  "debezium_version": "3.7.0-SNAPSHOT (built entirely from the pinned checkout)",
+  "mysql_binlog_client_version_from_upstream_pom": "0.41.0",
+  "mysql_image": "mysql:8.2@sha256:212fe73edca5df6ff14826d5eb975c914bfb91f82a2e923f9050568f99525da1",
+  "runner_image": "maven:3.9.11-eclipse-temurin-21@sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237",
+  "platform": "linux/arm64/v8",
+  "observed_jdk": "Temurin 21.0.9+10-LTS",
+  "maven_used": "3.9.12 via the checkout's ./mvnw (container mvn is not used)"
+}

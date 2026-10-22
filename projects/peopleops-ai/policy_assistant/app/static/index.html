@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PeopleOps AI · Policy assistant</title><link rel="stylesheet" href="/static/style.css"><script src="/static/app.js" defer></script></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="PeopleOps AI home"><span class="brand-icon">p<span>◦</span></span><strong>PeopleOps<span>AI</span></strong></a>
+  <div class="workspace"><span class="workspace-icon">A</span><div>Acme workplace<small>Fictional company</small></div></div>
+  <div class="nav-label">YOUR WORKSPACE</div>
+  <div class="nav-active"><span>◈</span> Policy assistant <span class="dot"></span></div>
+  <div class="sidebar-note"><span class="small-symbol">✳</span><h3>A little clarity goes a long way.</h3><p>Find the right policy, see its source, and know when to ask a person.</p></div>
+  <div class="sidebar-bottom"><span class="dot"></span> Local fictional demo<small>No live employee records</small></div>
+</aside>
+<main>
+  <header><span>Workspace <span class="slash">/</span> <strong>Policy assistant</strong></span><span class="badge">FICTIONAL POLICIES</span></header>
+  <div class="page">
+    <section class="intro"><div class="eyebrow"><span class="dot"></span> PEOPLE SUPPORT, MADE SIMPLE</div><h1>Your policies.<br><span>Clear answers.</span></h1><p>Ask about work, leave, and benefits. Every answer comes<br class="desktop-break"> with a policy you can check.</p></section>
+    <section class="connection" aria-label="Connect your identity">
+      <div><strong id="identity-label">Connect your demo identity</strong><p id="identity-help">Paste an employee token from access-tokens.json to begin.</p></div>
+      <form id="connect-form"><label class="sr-only" for="token">Employee access token</label><input id="token" type="password" placeholder="Employee access token" autocomplete="off" required><button id="connect" class="secondary" type="submit">Connect <span>↗</span></button></form>
+      <button id="disconnect" class="secondary hidden" type="button">Disconnect</button>
+    </section>
+    <div id="connection-status" role="status"></div>
+    <section class="chat" aria-label="Policy conversation">
+      <div class="chat-top"><span class="assistant-icon">✳</span><div><strong>PeopleOps assistant</strong><small>Policy guidance, with sources</small></div><span id="mode" class="chat-mode">Ready when you are</span></div>
+      <div id="messages" aria-live="polite" aria-relevant="additions">
+        <div class="welcome" id="welcome"><h2>What can I help you find?</h2><p>Start with a question or choose a topic below.</p>
+          <div class="suggestions"><button data-question="How do I request PTO?">☀ <span>Request time off</span> ↗</button><button data-question="How does benefits enrollment work?">♡ <span>Benefits enrollment</span> ↗</button><button data-question="What is the parental leave process?">♧ <span>Parental leave</span> ↗</button><button data-question="What is the remote work policy?">⌂ <span>Remote work</span> ↗</button></div>
+        </div>
+      </div>
+      <form id="question-form"><label class="sr-only" for="question">Ask a policy question</label><textarea id="question" rows="2" maxlength="2000" minlength="3" placeholder="Ask a question about a workplace policy…" required></textarea><button id="send" type="submit" aria-label="Send question">↑</button><div class="composer-foot"><span>Keep personal, payroll, and medical details private.</span><span>Enter to send</span></div></form>
+    </section>
+    <div class="trust-row"><span>◎ Current policies</span><span>▤ Checkable sources</span><span>↗ Human help when needed</span></div>
+    <p class="footnote">A fictional HR policy assistant. Personal balances, eligibility, and coverage need a private review by People Operations.</p>
+  </div>
+</main>
+</body></html>

@@ -11,6 +11,21 @@ AI-OS is the top-level engineering system and shared architectural layer for
 standards, templates, skills, commands, scripts, schemas, evaluations, and
 architectural guidance.
 
+## Remote development and coaching
+
+The private source repository is [Key1Lee/AI-OS](https://github.com/Key1Lee/AI-OS).
+For a fresh clone with Python 3.11 or newer:
+
+```sh
+bash scripts/cloud/setup.sh
+bash scripts/cloud/check.sh
+```
+
+These commands install and check the shared layer. Each independent project
+retains its own dependencies and tests. Follow [cloud development and coaching
+guidance](architecture/cloud-development.md) for Codex Cloud setup, personal
+ChatGPT access, verification, and a reusable one-question-at-a-time prompt.
+
 ## Project organization
 
 Every directory inside `projects/` is an independent business project. New

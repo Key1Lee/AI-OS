@@ -14,8 +14,9 @@ files; it does not imply a production pipeline or a running service.
 | [Data Quality](systems-registry/registry/data-quality.yaml) | Data contracts, rule checks, compatibility, and gate evidence | Transformations, scheduling, monitoring, and learner scoring |
 | [Data Observability](systems-registry/registry/data-observability.yaml) | Metadata graph, lineage, incidents, impact, shared API and map UI | Learner scoring, disclosure, and warehouse execution |
 | [Semantic & Metrics](systems-registry/registry/semantic-metrics.yaml) | Business meaning, governed metrics, bounded snapshot evaluation | Ingestion, scheduling, general quality, and monitoring |
-| [Analytics Engineering Lab](systems-registry/registry/analytics-engineering-lab.yaml) | Guided business architecture exercises, integrated retry scenario, local warehouse, adapters, and evidence | Sibling engine logic, canonical mastery, and production connectors |
+| [Analytics Engineering Lab](systems-registry/registry/analytics-engineering-lab.yaml) | Guided architecture exercises, curriculum, local concept evidence/recall, retry scenario, fixture warehouses and adapters | Sibling engine logic, Toptal canonical mastery, and production connectors |
 | [Forward Deployment Engineering Lab](systems-registry/registry/forward-deployment-engineering-lab.yaml) | Synthetic customer discovery, SQL practice, and learner progress | Real deployment, production incidents, and sibling engine state |
+| [PeopleOps AI](systems-registry/registry/peopleops-ai.yaml) | Fictional local HR application, policy retrieval, mock workflows, and engineering learning guide | Real employee data, enterprise integrations, production deployment, and canonical learner mastery |
 | [Toptal Testing](systems-registry/registry/toptal-testing.yaml) | SQL practice, assessment, adaptive training, mastery, learner map extensions | Generic observability engine and official hiring acceptance |
 | [n8n / Northstar](systems-registry/registry/n8n-system.yaml) | Existing local n8n runner and deterministic lead-intake workflow | The orchestration learning simulator and other projects' credentials |
 
@@ -28,14 +29,15 @@ it does not establish that every possible relationship has been investigated.
 
 | System | Current directory | Uses registered systems | Used by |
 | --- | --- | --- | --- |
-| AI-OS | `.` | None proven | Toptal provider consumers; shared guidance also applies |
+| AI-OS | `.` | None proven | Toptal provider consumers; PeopleOps local Qwen runtime; shared guidance also applies |
 | Modeling | `projects/Data Modeling System/` | None proven | AE Lab |
 | Orchestration | `projects/Data Orchestration System/` | None proven | AE Lab |
 | Quality | `projects/data-quality-contracts-system/` | None proven | AE Lab |
 | Observability | `projects/Data Observability System/` | None proven | AE Lab, Toptal |
-| Semantic & Metrics | `projects/Semantic & Metrics System/` | None proven | UNKNOWN |
-| AE Lab | `projects/AE Lab/` | Modeling, Orchestration, Quality, Observability, Toptal | UNKNOWN |
+| Semantic & Metrics | `projects/Semantic & Metrics System/` | None proven | AE Lab (read-only synthetic contract reference) |
+| AE Lab | `projects/AE Lab/` | Modeling, Orchestration, Quality, Observability, Toptal, Semantic reference | UNKNOWN |
 | FDE Lab | `projects/FDE Lab/` | References only; runtime connections UNKNOWN | UNKNOWN |
+| PeopleOps AI | `projects/peopleops-ai/` | AI-OS local Qwen runtime | UNKNOWN |
 | Toptal | `projects/Toptal-Testing System/` | Observability package/UI; AI-OS provider transport | AE Lab |
 | n8n / Northstar | `projects/n8n System/` | None proven; external service readiness UNKNOWN | UNKNOWN |
 
@@ -43,9 +45,10 @@ it does not establish that every possible relationship has been investigated.
 Shared engineering guidance: AI-OS
 
 Implemented sibling code/runtime use (consumer -> provider):
-AE Lab -> Modeling, Orchestration, Quality, Observability, Toptal
+AE Lab -> Modeling, Orchestration, Quality, Observability, Toptal, Semantic reference
 Toptal -> Observability
 Toptal provider consumers -> AI-OS
+PeopleOps local Qwen consumer -> AI-OS
 
 Other independent projects in this map:
 Semantic & Metrics    FDE Lab    n8n / Northstar
@@ -56,6 +59,12 @@ and UI source. Neither relationship establishes a deployed network service.
 The existing source evidence is in AE Lab's `lab/adapters/bridge.py` and
 `lab/adapters/workers/`, and Toptal's `apps/api/data_map.py` and
 `apps/web/vite.config.ts`.
+
+AE's learning framework owns original problems and local concept evidence in its
+existing Store; it never writes Toptal examination/mastery records. Its PostgreSQL
+fixture executor is consumer-owned. The Semantic worker reads the existing
+synthetic governed definition and explicitly reports that it does not certify
+new lending, billing, or mixed-product scenario metrics.
 
 Orchestration implements an optional serialized Modeling adapter. Quality
 implements Modeling input conversion and Observability record output. These

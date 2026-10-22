@@ -1,0 +1,4 @@
+Department,SurveyName,SurveyPeriod,Metric,Score,RespondentCount,ScoringMethodology
+Sales,SYNTHETIC IMPORT EXAMPLE,DEMO PERIOD - NOT A REAL SURVEY,engagement,72.5,40,Provided demo favorable percentage; use the actual documented survey methodology for an authorized integration
+Research & Development,SYNTHETIC IMPORT EXAMPLE,DEMO PERIOD - NOT A REAL SURVEY,engagement,75.0,60,Provided demo favorable percentage; use the actual documented survey methodology for an authorized integration
+Human Resources,SYNTHETIC IMPORT EXAMPLE,DEMO PERIOD - NOT A REAL SURVEY,engagement,70.0,10,Provided demo favorable percentage; use the actual documented survey methodology for an authorized integration

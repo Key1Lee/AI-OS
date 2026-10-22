@@ -1,0 +1,10 @@
+.env
+.venv/
+access-tokens.json
+__pycache__/
+.pytest_cache/
+reports/
+data/
+.coverage
+htmlcov/
+.ruff_cache/

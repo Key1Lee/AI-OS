@@ -1,0 +1,17 @@
+version: 1
+mock_assumptions: true
+deny_by_default: true
+self_permission: pto:read:self
+delegated_permission: pto:read:delegated
+restricted_document_permission: policy:read:restricted
+internal_document_permission: policy:read:internal
+test_runner_permission: lab:run
+rules:
+  - {id: SEC-SESSION, description: Authenticate a server-owned active employee session, requirements: [HR-001]}
+  - {id: SEC-SLACK, description: Verify transport HMAC separately and bind the signed workspace and user, requirements: [HR-001, HR-015]}
+  - {id: SEC-PTO-SELF, description: Require ownership and the explicit self-service permission, requirements: [HR-004]}
+  - {id: SEC-PTO-DELEGATED, description: Require an explicit target scope and server-owned purpose, requirements: [HR-004, HR-015]}
+  - {id: SEC-DOC-ACL, description: Filter tenant country group role classification and current inventory before ranking, requirements: [HR-004, HR-008, HR-011]}
+  - {id: SEC-INJECTION, description: Reject untrusted instruction and arbitrary tool attempts, requirements: [HR-015]}
+  - {id: SEC-LAB-RUN, description: Require explicit lab permission and demo mode for allowlisted test jobs, requirements: [HR-012, HR-015]}
+  - {id: SEC-RECEIPT, description: Reuse a receipt only while its identity grants and governed inventory remain unchanged, requirements: [HR-004, HR-010, HR-011]}

@@ -5,22 +5,29 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "analytics-engineering-lab"
 version = "0.1.0"
-description = "Local integration and learning laboratory for five existing analytics systems"
+description = "Local engineering integration lab with reusable curriculum and evidence-based learning"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "jsonschema>=4.23,<5",
+    "psycopg[binary]>=3.2,<4",
+    "sqlglot>=28,<29",
+]
 
 [project.scripts]
 lab = "lab.cli:main"
 lab-web = "lab.web:main"
+lab-learn = "lab.learning_cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10"]
 
 [tool.setuptools.packages.find]
-include = ["lab*"]
+include = ["lab*", "curriculum*", "contracts*"]
 
 [tool.setuptools.package-data]
 lab = ["adapters/workers/*.ts", "web_assets/*"]
+curriculum = ["*.json"]
+contracts = ["*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

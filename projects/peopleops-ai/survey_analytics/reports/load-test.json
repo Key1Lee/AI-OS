@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "synthetic_only": true,
+  "started_at_utc": "2026-10-20T13:09:08.390425+00:00",
+  "target": "http://127.0.0.1:8812/mock-qualtrics/exports/005a7ab5b5b05795356fb562386a0589607feecaf5a761084fbfb56fae743a88/file",
+  "account_id": "acct_local_synthetic_001",
+  "requests": 500,
+  "concurrency": 20,
+  "successful_http_200": 500,
+  "payloads_validated": 500,
+  "failures": 0,
+  "http_status_counts": {
+    "200": 500
+  },
+  "elapsed_seconds": 1.554,
+  "requests_per_second": 321.75,
+  "latency_ms": {
+    "p50": 47.719,
+    "p95": 145.036,
+    "p99": 210.045,
+    "max": 399.314
+  },
+  "auth_controls": {
+    "missing_token": 401,
+    "wrong_token": 401,
+    "fake_token": 200
+  },
+  "setup_control_requests_excluded_from_load_count": 5,
+  "mock_data": {
+    "source_sha256": "005a7ab5b5b05795356fb562386a0589607feecaf5a761084fbfb56fae743a88",
+    "rows_per_response": 15,
+    "response_rows_validated": 7500,
+    "unique_response_ids_per_export": 13,
+    "note": "Repeated fixed fixture downloads; not new respondents or Gold writes"
+  },
+  "errors": [],
+  "measurement": "Real localhost HTTP, keep-alive, no retries, HTTP latency excludes semaphore wait; percentiles use linear interpolation"
+}

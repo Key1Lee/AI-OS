@@ -1,0 +1,419 @@
+{
+  "id": "samsaraSurveyDemo2026",
+  "name": "Samsara People Analytics — Synthetic Demo",
+  "active": false,
+  "versionId": "c5148854-369b-4560-b832-2c56a49d1d32",
+  "nodes": [
+    {
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "samsara-survey",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "d3258216-d83b-44cf-ab35-919a2c356273"
+    },
+    {
+      "id": "qwen-interpret-question",
+      "name": "Qwen Interpret Question",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://web:3000/api/assistant/interpret",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body || {}) }}",
+        "options": {
+          "timeout": 35000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "interpretation-result",
+      "name": "Interpretation Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const response=$json; const data=response.body || response; return [{json:{...data,question:$('Webhook').first().json.body.question,statusCode:response.statusCode >= 400 ? response.statusCode : undefined}}];"
+      }
+    },
+    {
+      "id": "valid-request",
+      "name": "Valid Request",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "valid",
+              "leftValue": "={{ !!$json.plan && !$json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "mock-qualtrics",
+      "name": "Mock Qualtrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        -80
+      ],
+      "parameters": {
+        "url": "http://web:3000/api/mock-qualtrics/responses",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "metrics-engine",
+      "name": "Metrics Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        -80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://web:3000/api/metrics",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({snapshot:{responses:$json.responses,headcount:$json.headcount},plan:$('Interpretation Result').first().json.plan}) }}",
+        "options": {
+          "timeout": 10000,
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "rag-retrieval",
+      "name": "RAG Retrieval",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        -80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://web:3000/api/rag/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({question:$('Interpretation Result').first().json.retrievalQuery}) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "qwen-grounded-answer",
+      "name": "Qwen Grounded Answer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        -80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://web:3000/api/assistant/answer",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({question:$('Interpretation Result').first().json.question,interpretation:$('Interpretation Result').first().json,metrics:$('Metrics Engine').first().json,references:$json.references}) }}",
+        "options": {
+          "timeout": 35000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "build-grounded-answer",
+      "name": "Build Grounded Answer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        -80
+      ],
+      "parameters": {
+        "jsCode": "const response=$json; const data=response.body || response; return [{json:{...data,statusCode:response.statusCode >= 400 ? response.statusCode : undefined}}];"
+      }
+    },
+    {
+      "id": "attach-execution-receipt",
+      "name": "Attach Execution Receipt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        -80
+      ],
+      "parameters": {
+        "jsCode": "if($json.error || $json.validation?.status !== 'PASS' || !$json.report || !$json.ai) return [{json:{...$json,statusCode:$json.statusCode || ($json.validation?.status === 'FAIL' ? 409 : 502)}}];\nreturn [{json:{...$json,orchestration:{mode:'n8n',executionId:$execution.id,workflowId:$workflow.id}}}];"
+      }
+    },
+    {
+      "id": "handle-failure",
+      "name": "Handle Failure",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        230
+      ],
+      "parameters": {
+        "jsCode": "const statusCode = $json.statusCode || 502; return [{json:{error:$json.error && typeof $json.error === 'string' ? $json.error : 'A workflow service failed. Check mock data, reference validation and execution logs.',statusCode,validation:{status:'NOT VERIFIED'},orchestration:{mode:'n8n',executionId:$execution.id,workflowId:$workflow.id}}}];"
+      }
+    },
+    {
+      "id": "respond-to-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2200,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 200 }}"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Qwen Interpret Question",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Interpret Question": {
+      "main": [
+        [
+          {
+            "node": "Interpretation Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Interpretation Result": {
+      "main": [
+        [
+          {
+            "node": "Valid Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valid Request": {
+      "main": [
+        [
+          {
+            "node": "Mock Qualtrics",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Qualtrics": {
+      "main": [
+        [
+          {
+            "node": "Metrics Engine",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Metrics Engine": {
+      "main": [
+        [
+          {
+            "node": "RAG Retrieval",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RAG Retrieval": {
+      "main": [
+        [
+          {
+            "node": "Qwen Grounded Answer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Grounded Answer": {
+      "main": [
+        [
+          {
+            "node": "Build Grounded Answer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Grounded Answer": {
+      "main": [
+        [
+          {
+            "node": "Attach Execution Receipt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attach Execution Receipt": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Failure": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "executionTimeout": 90
+  },
+  "pinData": {},
+  "tags": []
+}

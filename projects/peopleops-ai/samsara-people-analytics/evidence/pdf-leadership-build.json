@@ -1,0 +1,14 @@
+{
+  "output": "/Users/key/_AI-OS/projects/peopleops-ai/samsara-people-analytics/output/pdf/samsara-n8n-leadership-workflow.pdf",
+  "pages": 2,
+  "executionId": "62",
+  "validation": "PASS",
+  "sourceChecksum": "c40c1567c7737bcd61eb53a932c10f9d936dd0862def22c0f267504b8c5500fd",
+  "verifiedAt": "2026-10-21T16:06:53.565Z",
+  "workflow": "samsaraSurveyDemo2026",
+  "layoutChecks": 13,
+  "deliveredPath": "/Users/key/Downloads/Samsara-People-Analytics-n8n-Leadership-Brief.pdf",
+  "pdfChecksum": "655c497e362979af805a57e6425dde54d48819556f42316afe033ee1f2262713",
+  "visualReview": "PASS",
+  "textAndPageChecks": "PASS"
+}

@@ -1,0 +1,17 @@
+flowchart LR
+    UI[Question and filters] --> HOOK[n8n Webhook]
+    HOOK --> INTERPRET[Local Qwen: interpret natural language]
+    INTERPRET --> PLAN[Validate allowlisted query plan]
+    PLAN --> RAW[Mock Qualtrics: full snapshot]
+    RAW --> METRICS[Deterministic TypeScript analytics]
+    GOLD[Independent Python golden reference] --> VERIFY[Check every field and checksum]
+    METRICS --> VERIFY
+    VERIFY --> RAG[Keyword retrieval with Qwen query rewriting]
+    KB[Four approved Markdown documents] --> RAG
+    RAG --> QWEN[Local Qwen: select fact and passage IDs]
+    QWEN --> GATE[Validate IDs and render approved evidence]
+    GATE --> RECEIPT[n8n execution and actual model receipts]
+    RECEIPT --> UI
+    VERIFY -->|FAIL or unavailable| BLOCK[Withhold numerical answer]
+    INTERPRET -->|unsupported or unavailable| ERROR[Visible error]
+    QWEN -->|invalid or unavailable| ERROR

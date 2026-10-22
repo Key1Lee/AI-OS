@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "probe": "intentional synthetic failure",
+  "notification": {
+    "workflow_id": "qualtricsGoldFailure01",
+    "execution_id": "130",
+    "last_node": "Intentional checklist failure",
+    "received_at": "2026-10-20T16:02:24.013564+00:00"
+  },
+  "channel": "local_inbox",
+  "external_messages_sent": 0
+}

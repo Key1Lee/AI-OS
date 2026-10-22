@@ -1,0 +1,14 @@
+{
+  "problem_id": "REASON-TRANSLATE-001",
+  "run_id": "d86ce711-84ce-42f6-9159-a9b59478626a",
+  "mode": "LEARN",
+  "difficulty": "L3",
+  "fixture_variant": "sample",
+  "url": "http://127.0.0.1:8089/learn?focus=reasoning&session=d86ce711-84ce-42f6-9159-a9b59478626a",
+  "state": "READY",
+  "learner_answers": 0,
+  "attempts": 0,
+  "hints": 0,
+  "solution_revealed": false,
+  "scope": "Authentic first challenge; no answer or assessment prefilled."
+}

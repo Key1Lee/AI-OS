@@ -1,0 +1,3007 @@
+{
+  "schemaVersion": 1,
+  "sourceChecksum": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+  "reference": "Independent Python standard library",
+  "reports": {
+    "2024|Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 57.624113475177296,
+        "validRespondents": 47,
+        "eligibleEmployees": 60,
+        "responseRate": 78.33333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 47
+      }
+    },
+    "2024|Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 51.8939393939394,
+        "validRespondents": 44,
+        "eligibleEmployees": 60,
+        "responseRate": 73.33333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 44
+      }
+    },
+    "2024|Customer Support": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 53.44202898550725,
+        "validRespondents": 46,
+        "eligibleEmployees": 60,
+        "responseRate": 76.66666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 46
+      }
+    },
+    "2024|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.853479853479854,
+          "validRespondents": 91,
+          "eligibleEmployees": 120,
+          "responseRate": 75.83333333333333,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 54.853479853479854,
+        "validRespondents": 91,
+        "eligibleEmployees": 120,
+        "responseRate": 75.83333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 91
+      }
+    },
+    "2024|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 55.55555555555556,
+          "validRespondents": 93,
+          "eligibleEmployees": 120,
+          "responseRate": 77.5,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 55.55555555555556,
+        "validRespondents": 93,
+        "eligibleEmployees": 120,
+        "responseRate": 77.5
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 93
+      }
+    },
+    "2024|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 52.68518518518519,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 52.68518518518519,
+        "validRespondents": 90,
+        "eligibleEmployees": 120,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 90
+      }
+    },
+    "2024|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.37956204379562,
+          "validRespondents": 137,
+          "eligibleEmployees": 180,
+          "responseRate": 76.11111111111111,
+          "yoyChange": null
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2024,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 54.37956204379562,
+        "validRespondents": 137,
+        "eligibleEmployees": 180,
+        "responseRate": 76.11111111111111
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 137
+      }
+    },
+    "2025|Engineering": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 9.042553191489361
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 66.66666666666666,
+        "validRespondents": 43,
+        "eligibleEmployees": 60,
+        "responseRate": 71.66666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 43
+      }
+    },
+    "2025|Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "yoyChange": 9.95791245791245
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 61.85185185185185,
+        "validRespondents": 45,
+        "eligibleEmployees": 60,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 45
+      }
+    },
+    "2025|Customer Support": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": 8.43740363860622
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 61.87943262411347,
+        "validRespondents": 47,
+        "eligibleEmployees": 60,
+        "responseRate": 78.33333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 47
+      }
+    },
+    "2025|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 64.20454545454545,
+          "validRespondents": 88,
+          "eligibleEmployees": 120,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 9.3510656010656
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 64.20454545454545,
+        "validRespondents": 88,
+        "eligibleEmployees": 120,
+        "responseRate": 73.33333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 88
+      }
+    },
+    "2025|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 64.16666666666667,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 8.611111111111114
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 64.16666666666667,
+        "validRespondents": 90,
+        "eligibleEmployees": 120,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 90
+      }
+    },
+    "2025|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 61.8659420289855,
+          "validRespondents": 92,
+          "eligibleEmployees": 120,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 9.18075684380031
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 61.8659420289855,
+        "validRespondents": 92,
+        "eligibleEmployees": 120,
+        "responseRate": 76.66666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 92
+      }
+    },
+    "2025|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 63.39506172839506,
+          "validRespondents": 135,
+          "eligibleEmployees": 180,
+          "responseRate": 75.0,
+          "yoyChange": 9.01549968459944
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2025,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 63.39506172839506,
+        "validRespondents": 135,
+        "eligibleEmployees": 180,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 135
+      }
+    },
+    "2026|Engineering": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 6.25
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 72.91666666666666,
+        "validRespondents": 44,
+        "eligibleEmployees": 60,
+        "responseRate": 73.33333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 44
+      }
+    },
+    "2026|Sales": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 4.8148148148148096
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 66.66666666666666,
+        "validRespondents": 46,
+        "eligibleEmployees": 60,
+        "responseRate": 76.66666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 46
+      }
+    },
+    "2026|Customer Support": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 7.8880092363516425
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 69.76744186046511,
+        "validRespondents": 43,
+        "eligibleEmployees": 60,
+        "responseRate": 71.66666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 43
+      }
+    },
+    "2026|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 69.72222222222223,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 5.517676767676775
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 69.72222222222223,
+        "validRespondents": 90,
+        "eligibleEmployees": 120,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 90
+      }
+    },
+    "2026|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 71.36015325670498,
+          "validRespondents": 87,
+          "eligibleEmployees": 120,
+          "responseRate": 72.5,
+          "yoyChange": 7.1934865900383045
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 71.36015325670498,
+        "validRespondents": 87,
+        "eligibleEmployees": 120,
+        "responseRate": 72.5
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 87
+      }
+    },
+    "2026|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 68.16479400749063,
+          "validRespondents": 89,
+          "eligibleEmployees": 120,
+          "responseRate": 74.16666666666667,
+          "yoyChange": 6.298851978505127
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 68.16479400749063,
+        "validRespondents": 89,
+        "eligibleEmployees": 120,
+        "responseRate": 74.16666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 89
+      }
+    },
+    "2026|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2026,
+          "score": 69.73684210526316,
+          "validRespondents": 133,
+          "eligibleEmployees": 180,
+          "responseRate": 73.88888888888889,
+          "yoyChange": 6.341780376868101
+        }
+      ],
+      "trend": {
+        "fromYear": 2026,
+        "toYear": 2026,
+        "change": 0.0
+      },
+      "departments": [
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 69.73684210526316,
+        "validRespondents": 133,
+        "eligibleEmployees": 180,
+        "responseRate": 73.88888888888889
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 133
+      }
+    },
+    "2024,2025|Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 9.042553191489361
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 9.042553191489361
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 61.94444444444444,
+        "validRespondents": 90,
+        "eligibleEmployees": 120,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 90
+      }
+    },
+    "2024,2025|Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "yoyChange": 9.95791245791245
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 9.95791245791245
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 56.928838951310865,
+        "validRespondents": 89,
+        "eligibleEmployees": 120,
+        "responseRate": 74.16666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 89
+      }
+    },
+    "2024,2025|Customer Support": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": 8.43740363860622
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 8.43740363860622
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 57.706093189964164,
+        "validRespondents": 93,
+        "eligibleEmployees": 120,
+        "responseRate": 77.5
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 93
+      }
+    },
+    "2024,2025|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.853479853479854,
+          "validRespondents": 91,
+          "eligibleEmployees": 120,
+          "responseRate": 75.83333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 64.20454545454545,
+          "validRespondents": 88,
+          "eligibleEmployees": 120,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 9.3510656010656
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 9.3510656010656
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 59.45065176908752,
+        "validRespondents": 179,
+        "eligibleEmployees": 240,
+        "responseRate": 74.58333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 179
+      }
+    },
+    "2024,2025|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 55.55555555555556,
+          "validRespondents": 93,
+          "eligibleEmployees": 120,
+          "responseRate": 77.5,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 64.16666666666667,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 8.611111111111114
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 8.611111111111114
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 59.79052823315118,
+        "validRespondents": 183,
+        "eligibleEmployees": 240,
+        "responseRate": 76.25
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 183
+      }
+    },
+    "2024,2025|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 52.68518518518519,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 61.8659420289855,
+          "validRespondents": 92,
+          "eligibleEmployees": 120,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 9.18075684380031
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 9.18075684380031
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 57.32600732600733,
+        "validRespondents": 182,
+        "eligibleEmployees": 240,
+        "responseRate": 75.83333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 182
+      }
+    },
+    "2024,2025|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.37956204379562,
+          "validRespondents": 137,
+          "eligibleEmployees": 180,
+          "responseRate": 76.11111111111111,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 63.39506172839506,
+          "validRespondents": 135,
+          "eligibleEmployees": 180,
+          "responseRate": 75.0,
+          "yoyChange": 9.01549968459944
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2025,
+        "change": 9.01549968459944
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 58.854166666666664,
+        "validRespondents": 272,
+        "eligibleEmployees": 360,
+        "responseRate": 75.55555555555556
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 272
+      }
+    },
+    "2024,2026|Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 6.25
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.292553191489361
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 65.01831501831501,
+        "validRespondents": 91,
+        "eligibleEmployees": 120,
+        "responseRate": 75.83333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 91
+      }
+    },
+    "2024,2026|Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 4.8148148148148096
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 14.77272727272726
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 59.44444444444444,
+        "validRespondents": 90,
+        "eligibleEmployees": 120,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 90
+      }
+    },
+    "2024,2026|Customer Support": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 7.8880092363516425
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 16.325412874957863
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 61.32958801498127,
+        "validRespondents": 89,
+        "eligibleEmployees": 120,
+        "responseRate": 74.16666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 89
+      }
+    },
+    "2024,2026|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.853479853479854,
+          "validRespondents": 91,
+          "eligibleEmployees": 120,
+          "responseRate": 75.83333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 69.72222222222223,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 5.517676767676775
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 14.868742368742375
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 62.246777163904234,
+        "validRespondents": 181,
+        "eligibleEmployees": 240,
+        "responseRate": 75.41666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 181
+      }
+    },
+    "2024,2026|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 55.55555555555556,
+          "validRespondents": 93,
+          "eligibleEmployees": 120,
+          "responseRate": 77.5,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 71.36015325670498,
+          "validRespondents": 87,
+          "eligibleEmployees": 120,
+          "responseRate": 72.5,
+          "yoyChange": 7.1934865900383045
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.804597701149419
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 63.19444444444444,
+        "validRespondents": 180,
+        "eligibleEmployees": 240,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 180
+      }
+    },
+    "2024,2026|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 52.68518518518519,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 68.16479400749063,
+          "validRespondents": 89,
+          "eligibleEmployees": 120,
+          "responseRate": 74.16666666666667,
+          "yoyChange": 6.298851978505127
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.479608822305437
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 60.38175046554935,
+        "validRespondents": 179,
+        "eligibleEmployees": 240,
+        "responseRate": 74.58333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 179
+      }
+    },
+    "2024,2026|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.37956204379562,
+          "validRespondents": 137,
+          "eligibleEmployees": 180,
+          "responseRate": 76.11111111111111,
+          "yoyChange": null
+        },
+        {
+          "year": 2026,
+          "score": 69.73684210526316,
+          "validRespondents": 133,
+          "eligibleEmployees": 180,
+          "responseRate": 73.88888888888889,
+          "yoyChange": 6.341780376868101
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.357280061467542
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 61.94444444444444,
+        "validRespondents": 270,
+        "eligibleEmployees": 360,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 270
+      }
+    },
+    "2025,2026|Engineering": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 9.042553191489361
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 6.25
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 6.25
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 69.82758620689656,
+        "validRespondents": 87,
+        "eligibleEmployees": 120,
+        "responseRate": 72.5
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 87
+      }
+    },
+    "2025,2026|Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "yoyChange": 9.95791245791245
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 4.8148148148148096
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 4.8148148148148096
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 64.28571428571429,
+        "validRespondents": 91,
+        "eligibleEmployees": 120,
+        "responseRate": 75.83333333333333
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 91
+      }
+    },
+    "2025,2026|Customer Support": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": 8.43740363860622
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 7.8880092363516425
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 7.8880092363516425
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 65.64814814814814,
+        "validRespondents": 90,
+        "eligibleEmployees": 120,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 90
+      }
+    },
+    "2025,2026|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 64.20454545454545,
+          "validRespondents": 88,
+          "eligibleEmployees": 120,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 9.3510656010656
+        },
+        {
+          "year": 2026,
+          "score": 69.72222222222223,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 5.517676767676775
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 5.517676767676775
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 66.99438202247191,
+        "validRespondents": 178,
+        "eligibleEmployees": 240,
+        "responseRate": 74.16666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 178
+      }
+    },
+    "2025,2026|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 64.16666666666667,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 8.611111111111114
+        },
+        {
+          "year": 2026,
+          "score": 71.36015325670498,
+          "validRespondents": 87,
+          "eligibleEmployees": 120,
+          "responseRate": 72.5,
+          "yoyChange": 7.1934865900383045
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 7.1934865900383045
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 67.70244821092278,
+        "validRespondents": 177,
+        "eligibleEmployees": 240,
+        "responseRate": 73.75
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 177
+      }
+    },
+    "2025,2026|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 61.8659420289855,
+          "validRespondents": 92,
+          "eligibleEmployees": 120,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 9.18075684380031
+        },
+        {
+          "year": 2026,
+          "score": 68.16479400749063,
+          "validRespondents": 89,
+          "eligibleEmployees": 120,
+          "responseRate": 74.16666666666667,
+          "yoyChange": 6.298851978505127
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 6.298851978505127
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 64.96316758747697,
+        "validRespondents": 181,
+        "eligibleEmployees": 240,
+        "responseRate": 75.41666666666667
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 181
+      }
+    },
+    "2025,2026|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2025,
+          "score": 63.39506172839506,
+          "validRespondents": 135,
+          "eligibleEmployees": 180,
+          "responseRate": 75.0,
+          "yoyChange": 9.01549968459944
+        },
+        {
+          "year": 2026,
+          "score": 69.73684210526316,
+          "validRespondents": 133,
+          "eligibleEmployees": 180,
+          "responseRate": 73.88888888888889,
+          "yoyChange": 6.341780376868101
+        }
+      ],
+      "trend": {
+        "fromYear": 2025,
+        "toYear": 2026,
+        "change": 6.341780376868101
+      },
+      "departments": [
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 66.54228855721392,
+        "validRespondents": 268,
+        "eligibleEmployees": 360,
+        "responseRate": 74.44444444444444
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 268
+      }
+    },
+    "2024,2025,2026|Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 9.042553191489361
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 6.25
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.292553191489361
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        }
+      ],
+      "overall": {
+        "score": 65.54726368159204,
+        "validRespondents": 134,
+        "eligibleEmployees": 180,
+        "responseRate": 74.44444444444444
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 134
+      }
+    },
+    "2024,2025,2026|Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "yoyChange": 9.95791245791245
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 4.8148148148148096
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 14.77272727272726
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 60.24691358024691,
+        "validRespondents": 135,
+        "eligibleEmployees": 180,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 135
+      }
+    },
+    "2024,2025,2026|Customer Support": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "yoyChange": 8.43740363860622
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "yoyChange": 7.8880092363516425
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 16.325412874957863
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 61.51960784313725,
+        "validRespondents": 136,
+        "eligibleEmployees": 180,
+        "responseRate": 75.55555555555556
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 136
+      }
+    },
+    "2024,2025,2026|Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.853479853479854,
+          "validRespondents": 91,
+          "eligibleEmployees": 120,
+          "responseRate": 75.83333333333333,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 64.20454545454545,
+          "validRespondents": 88,
+          "eligibleEmployees": 120,
+          "responseRate": 73.33333333333333,
+          "yoyChange": 9.3510656010656
+        },
+        {
+          "year": 2026,
+          "score": 69.72222222222223,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 5.517676767676775
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 14.868742368742375
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        }
+      ],
+      "overall": {
+        "score": 62.88723667905825,
+        "validRespondents": 269,
+        "eligibleEmployees": 360,
+        "responseRate": 74.72222222222223
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 269
+      }
+    },
+    "2024,2025,2026|Customer Support,Engineering": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 55.55555555555556,
+          "validRespondents": 93,
+          "eligibleEmployees": 120,
+          "responseRate": 77.5,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 64.16666666666667,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": 8.611111111111114
+        },
+        {
+          "year": 2026,
+          "score": 71.36015325670498,
+          "validRespondents": 87,
+          "eligibleEmployees": 120,
+          "responseRate": 72.5,
+          "yoyChange": 7.1934865900383045
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.804597701149419
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 63.51851851851852,
+        "validRespondents": 270,
+        "eligibleEmployees": 360,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 270
+      }
+    },
+    "2024,2025,2026|Customer Support,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 52.68518518518519,
+          "validRespondents": 90,
+          "eligibleEmployees": 120,
+          "responseRate": 75.0,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 61.8659420289855,
+          "validRespondents": 92,
+          "eligibleEmployees": 120,
+          "responseRate": 76.66666666666667,
+          "yoyChange": 9.18075684380031
+        },
+        {
+          "year": 2026,
+          "score": 68.16479400749063,
+          "validRespondents": 89,
+          "eligibleEmployees": 120,
+          "responseRate": 74.16666666666667,
+          "yoyChange": 6.298851978505127
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.479608822305437
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 60.88560885608856,
+        "validRespondents": 271,
+        "eligibleEmployees": 360,
+        "responseRate": 75.27777777777777
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 271
+      }
+    },
+    "2024,2025,2026|Customer Support,Engineering,Sales": {
+      "annual": [
+        {
+          "year": 2024,
+          "score": 54.37956204379562,
+          "validRespondents": 137,
+          "eligibleEmployees": 180,
+          "responseRate": 76.11111111111111,
+          "yoyChange": null
+        },
+        {
+          "year": 2025,
+          "score": 63.39506172839506,
+          "validRespondents": 135,
+          "eligibleEmployees": 180,
+          "responseRate": 75.0,
+          "yoyChange": 9.01549968459944
+        },
+        {
+          "year": 2026,
+          "score": 69.73684210526316,
+          "validRespondents": 133,
+          "eligibleEmployees": 180,
+          "responseRate": 73.88888888888889,
+          "yoyChange": 6.341780376868101
+        }
+      ],
+      "trend": {
+        "fromYear": 2024,
+        "toYear": 2026,
+        "change": 15.357280061467542
+      },
+      "departments": [
+        {
+          "year": 2024,
+          "score": 57.624113475177296,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2024,
+          "score": 51.8939393939394,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Sales"
+        },
+        {
+          "year": 2024,
+          "score": 53.44202898550725,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2025,
+          "score": 66.66666666666666,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Engineering"
+        },
+        {
+          "year": 2025,
+          "score": 61.85185185185185,
+          "validRespondents": 45,
+          "eligibleEmployees": 60,
+          "responseRate": 75.0,
+          "department": "Sales"
+        },
+        {
+          "year": 2025,
+          "score": 61.87943262411347,
+          "validRespondents": 47,
+          "eligibleEmployees": 60,
+          "responseRate": 78.33333333333333,
+          "department": "Customer Support"
+        },
+        {
+          "year": 2026,
+          "score": 72.91666666666666,
+          "validRespondents": 44,
+          "eligibleEmployees": 60,
+          "responseRate": 73.33333333333333,
+          "department": "Engineering"
+        },
+        {
+          "year": 2026,
+          "score": 66.66666666666666,
+          "validRespondents": 46,
+          "eligibleEmployees": 60,
+          "responseRate": 76.66666666666667,
+          "department": "Sales"
+        },
+        {
+          "year": 2026,
+          "score": 69.76744186046511,
+          "validRespondents": 43,
+          "eligibleEmployees": 60,
+          "responseRate": 71.66666666666667,
+          "department": "Customer Support"
+        }
+      ],
+      "overall": {
+        "score": 62.42798353909465,
+        "validRespondents": 405,
+        "eligibleEmployees": 540,
+        "responseRate": 75.0
+      },
+      "quality": {
+        "retrievedRecords": 495,
+        "deduplicatedRecords": 477,
+        "duplicatesRemoved": 18,
+        "invalidExcluded": 72,
+        "validRecordsUsed": 405
+      }
+    }
+  }
+}

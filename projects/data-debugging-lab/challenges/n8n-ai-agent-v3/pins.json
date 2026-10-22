@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/n8n-io/n8n",
+  "issue": "https://github.com/n8n-io/n8n/issues/34359",
+  "commit": "50c3d88af56ebb869f76f13a2417c528d90ffd4c",
+  "commit_time": "2026-07-16T14:46:02Z",
+  "revision_selection": "Issue does not name a release or SHA. This is the last default-branch commit returned by the GitHub commits API at/before the report timestamp. The public symptom is locally reproduced on this unmodified revision; this is not a claim that the reporter used this exact SHA.",
+  "verified_affected": true,
+  "verification_runs": [
+    "evidence/20261022T124157Z-business-pair-19652",
+    "evidence/20261022T124218Z-business-pair-19783"
+  ],
+  "package_version": "2.31.0",
+  "agent_node_version": 3,
+  "node": "22.22.0",
+  "pnpm": "10.32.1",
+  "vitest": "4.1.9",
+  "node_base_image": "node:22.22.0-bookworm-slim@sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94",
+  "pnpm_lock_sha256": "bca5f41de75ead3f54df983a9dbb275b92799b9266406869aea8eb36fa942d36",
+  "fixtures_sha256": "db2db5e116c1a14cb8963a078a232fe7c058d8e5ad735deed0da9a9378ecc279",
+  "upstream_source_modified": false,
+  "external_boundary": "Original AgentV3 public execute; original agent code; harness execution-context/engine-envelope adapter, deterministic model, loopback mock tools; upstream Vitest DI stubs. Full workflow engine/UI/persistence not run."
+}

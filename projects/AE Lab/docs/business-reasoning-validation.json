@@ -1,0 +1,1041 @@
+{
+  "generated_at": "2026-10-15T10:52:04.686760+00:00",
+  "status": "PASS",
+  "case_count": 60,
+  "areas": {
+    "translate": 6,
+    "grain": 6,
+    "entities": 6,
+    "metrics": 6,
+    "fanout": 6,
+    "temporal": 6,
+    "integrity": 6,
+    "dimensions": 6,
+    "validation": 6,
+    "communication": 6
+  },
+  "domains": {
+    "iot": 10,
+    "marketing": 8,
+    "saas": 8,
+    "commerce": 7,
+    "workforce": 8,
+    "ai": 9,
+    "payments": 5,
+    "logistics": 5
+  },
+  "levels": {
+    "L3": 23,
+    "L2": 13,
+    "L1": 2,
+    "L4": 16,
+    "L5": 5,
+    "L6": 1
+  },
+  "objective_reference_combinations": 195,
+  "rejected_single_fact_mutants": 510,
+  "mode_variant_workflows": 540,
+  "diagnosis_cases": 38,
+  "multi_policy_cases": 5,
+  "scope": "Contract/disclosure/fixture agreement and objective execution. Semantic judgment is intentionally unassessed by this validator; trusted tutor evidence is tested separately. Temporary profiles only.",
+  "cases": [
+    {
+      "problem_id": "REASON-TRANSLATE-001",
+      "domain": "iot",
+      "area": "translate",
+      "difficulty": "L3",
+      "definition_sha256": "e4e8f6ccabaef76a232868f04f450a2d67308815650f33b573aba21f6b7595e8",
+      "variants": 3,
+      "policies": [
+        "known_observation",
+        "strict_contract"
+      ],
+      "objective_fields": [
+        "entity_count",
+        "unknown_duration",
+        "selected_result"
+      ],
+      "transfer_problem": "REASON-TRANSLATE-002"
+    },
+    {
+      "problem_id": "REASON-TRANSLATE-002",
+      "domain": "marketing",
+      "area": "translate",
+      "difficulty": "L3",
+      "definition_sha256": "527e692b72f26562d1e0649f28afd824b3195743a88283ad2ccb68e495e8ebd3",
+      "variants": 3,
+      "policies": [
+        "current",
+        "historical"
+      ],
+      "objective_fields": [
+        "current_population",
+        "historical_population",
+        "selected_result"
+      ],
+      "transfer_problem": "REASON-TRANSLATE-001"
+    },
+    {
+      "problem_id": "REASON-TRANSLATE-003",
+      "domain": "saas",
+      "area": "translate",
+      "difficulty": "L3",
+      "definition_sha256": "851ed86b01acebdefb0d8cc9b3a9ab12dcac1249da213fdc796d8681f9f4facc",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "contract_value",
+        "paid_population_value"
+      ],
+      "transfer_problem": "REASON-TRANSLATE-001"
+    },
+    {
+      "problem_id": "REASON-TRANSLATE-004",
+      "domain": "commerce",
+      "area": "translate",
+      "difficulty": "L2",
+      "definition_sha256": "d8ef5374c20aad8f9b429f592d505e2ad1e2f2e2f32871ece64f9bc471f9952a",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "denominator",
+        "numerator",
+        "sample_rate"
+      ],
+      "transfer_problem": "REASON-TRANSLATE-001"
+    },
+    {
+      "problem_id": "REASON-TRANSLATE-005",
+      "domain": "workforce",
+      "area": "translate",
+      "difficulty": "L2",
+      "definition_sha256": "fbf28965e3768f8921ac324913dec4dba648f9710c6d38015a6c93772969f46f",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "staff_people",
+        "relationships"
+      ],
+      "transfer_problem": "REASON-TRANSLATE-001"
+    },
+    {
+      "problem_id": "REASON-TRANSLATE-006",
+      "domain": "ai",
+      "area": "translate",
+      "difficulty": "L3",
+      "definition_sha256": "cd717105d03886ecb3aef5943930bcc2310066612aadc0fe49987966694b95e8",
+      "variants": 3,
+      "policies": [
+        "final",
+        "any"
+      ],
+      "objective_fields": [
+        "eligible_population",
+        "final_successes",
+        "any_successes",
+        "selected_result"
+      ],
+      "transfer_problem": "REASON-TRANSLATE-001"
+    },
+    {
+      "problem_id": "REASON-GRAIN-001",
+      "domain": "commerce",
+      "area": "grain",
+      "difficulty": "L1",
+      "definition_sha256": "0e3bd7eabb974cee339375622caed8fe1dcc53a5408824cb48634fa86d4cebc6",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "header_key",
+        "detail_key",
+        "joined_rows"
+      ],
+      "transfer_problem": "REASON-GRAIN-002"
+    },
+    {
+      "problem_id": "REASON-GRAIN-002",
+      "domain": "marketing",
+      "area": "grain",
+      "difficulty": "L2",
+      "definition_sha256": "a95fbb489e7f5a1aa4d42b27e92a9a7c83123ea05e3b11c42da814fb101216d2",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "lead_identity",
+        "joined_rows"
+      ],
+      "transfer_problem": "REASON-GRAIN-001"
+    },
+    {
+      "problem_id": "REASON-GRAIN-003",
+      "domain": "iot",
+      "area": "grain",
+      "difficulty": "L1",
+      "definition_sha256": "fae1f6f9f25b8366546492fae617eea0371c9466b36d9b1f95a835c748c060c9",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "received_key",
+        "logical_key",
+        "logical_count"
+      ],
+      "transfer_problem": "REASON-GRAIN-001"
+    },
+    {
+      "problem_id": "REASON-GRAIN-004",
+      "domain": "workforce",
+      "area": "grain",
+      "difficulty": "L2",
+      "definition_sha256": "c04c7145430a605c5c1413bef7b256242ec7e8444865c13d06df6a78acbc3312",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "person_key",
+        "assignment_key",
+        "headcount"
+      ],
+      "transfer_problem": "REASON-GRAIN-001"
+    },
+    {
+      "problem_id": "REASON-GRAIN-005",
+      "domain": "saas",
+      "area": "grain",
+      "difficulty": "L2",
+      "definition_sha256": "40b4657cdb29054666e7151f0bcff20e1a2d5aef55cab3529f5f905415dcdf49",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "account_key",
+        "subscription_key",
+        "relationship"
+      ],
+      "transfer_problem": "REASON-GRAIN-001"
+    },
+    {
+      "problem_id": "REASON-GRAIN-006",
+      "domain": "ai",
+      "area": "grain",
+      "difficulty": "L2",
+      "definition_sha256": "883877dc96061859249a7248d3f2b02b5a6bb79d86e91b35d00afac6bf3bf59d",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "task_key",
+        "attempt_key",
+        "call_count"
+      ],
+      "transfer_problem": "REASON-GRAIN-001"
+    },
+    {
+      "problem_id": "REASON-ENTITIES-001",
+      "domain": "payments",
+      "area": "entities",
+      "difficulty": "L2",
+      "definition_sha256": "cc4c83f83e3a2ae9fb3c76ff3a615806d92f4248c7be79f78c8f1a260bf77dc2",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "attempts",
+        "payments",
+        "identity"
+      ],
+      "transfer_problem": "REASON-ENTITIES-002"
+    },
+    {
+      "problem_id": "REASON-ENTITIES-002",
+      "domain": "logistics",
+      "area": "entities",
+      "difficulty": "L3",
+      "definition_sha256": "ba35d1dc1e6889a63d13e80c6efe383eb8b112fad1db816b541063c43673cc22",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "ever_delivered",
+        "currently_delivered"
+      ],
+      "transfer_problem": "REASON-ENTITIES-001"
+    },
+    {
+      "problem_id": "REASON-ENTITIES-003",
+      "domain": "ai",
+      "area": "entities",
+      "difficulty": "L2",
+      "definition_sha256": "a963857f6a07239a19f9f8d18ef35505d4d6e91a7a4dc4ac93fe19472611440c",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "active_users",
+        "active_accounts"
+      ],
+      "transfer_problem": "REASON-ENTITIES-001"
+    },
+    {
+      "problem_id": "REASON-ENTITIES-004",
+      "domain": "iot",
+      "area": "entities",
+      "difficulty": "L2",
+      "definition_sha256": "23b92efbcbb2e7e8b24dafad162e9c618608666f721be3a53c2d96f6763756bc",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "trips",
+        "trip_devices",
+        "registered_devices"
+      ],
+      "transfer_problem": "REASON-ENTITIES-001"
+    },
+    {
+      "problem_id": "REASON-ENTITIES-005",
+      "domain": "workforce",
+      "area": "entities",
+      "difficulty": "L3",
+      "definition_sha256": "10965e3165bdeb174c6740dd5c60ff9f2bdc7c816594c264a76f08ab523682cc",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "relationships",
+        "people"
+      ],
+      "transfer_problem": "REASON-ENTITIES-001"
+    },
+    {
+      "problem_id": "REASON-ENTITIES-006",
+      "domain": "commerce",
+      "area": "entities",
+      "difficulty": "L2",
+      "definition_sha256": "c60dab8a4b8461b50409db1d306354f0757feb751d0e398733867d0838b61b94",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "orders",
+        "buyers"
+      ],
+      "transfer_problem": "REASON-ENTITIES-001"
+    },
+    {
+      "problem_id": "REASON-METRICS-001",
+      "domain": "ai",
+      "area": "metrics",
+      "difficulty": "L3",
+      "definition_sha256": "9219271598414595e098ac9f85e3ab44baf6540f5e8ab24568487fd462e52e76",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "mau",
+        "accounts"
+      ],
+      "transfer_problem": "REASON-METRICS-002"
+    },
+    {
+      "problem_id": "REASON-METRICS-002",
+      "domain": "saas",
+      "area": "metrics",
+      "difficulty": "L3",
+      "definition_sha256": "2d90678b2d8f371cb54302c1d173694e85a174e0cbf2eacb476aaf308669def9",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "opening_accounts",
+        "churned",
+        "observed_rate"
+      ],
+      "transfer_problem": "REASON-METRICS-001"
+    },
+    {
+      "problem_id": "REASON-METRICS-003",
+      "domain": "saas",
+      "area": "metrics",
+      "difficulty": "L4",
+      "definition_sha256": "7e8f5723f437bb091f97ad9ce3cb8c84aaa19e8965faa83f96c4480bb9627b4e",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "opening",
+        "nrr",
+        "grr"
+      ],
+      "transfer_problem": "REASON-METRICS-001"
+    },
+    {
+      "problem_id": "REASON-METRICS-004",
+      "domain": "commerce",
+      "area": "metrics",
+      "difficulty": "L3",
+      "definition_sha256": "67f299a465999a70f9881a1c055120b1ce19111a71f71e0ed2bdacccb26de3b7",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "numerator",
+        "denominator",
+        "aov"
+      ],
+      "transfer_problem": "REASON-METRICS-001"
+    },
+    {
+      "problem_id": "REASON-METRICS-005",
+      "domain": "logistics",
+      "area": "metrics",
+      "difficulty": "L3",
+      "definition_sha256": "2c4a7d7521c8c8fff4e6fb98bcc18de31a5f570e050e27cff3447d5b0b875645",
+      "variants": 3,
+      "policies": [
+        "delivered",
+        "all_promises"
+      ],
+      "objective_fields": [
+        "on_time",
+        "delivered",
+        "selected_result"
+      ],
+      "transfer_problem": "REASON-METRICS-001"
+    },
+    {
+      "problem_id": "REASON-METRICS-006",
+      "domain": "iot",
+      "area": "metrics",
+      "difficulty": "L3",
+      "definition_sha256": "1f39a6b71062fed84717bdd6309f9e918208622682f492efb95e04955ac257e6",
+      "variants": 3,
+      "policies": [
+        "known_observation",
+        "strict_contract"
+      ],
+      "objective_fields": [
+        "known_up",
+        "known_duration",
+        "coverage",
+        "selected_result"
+      ],
+      "transfer_problem": "REASON-METRICS-001"
+    },
+    {
+      "problem_id": "REASON-FANOUT-001",
+      "domain": "commerce",
+      "area": "fanout",
+      "difficulty": "L3",
+      "definition_sha256": "cd51d34e273af83e02c96b105ad95be3fc55bbf78969af5b8c08022694d603a1",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "true_total",
+        "candidate_total"
+      ],
+      "transfer_problem": "REASON-FANOUT-002"
+    },
+    {
+      "problem_id": "REASON-FANOUT-002",
+      "domain": "marketing",
+      "area": "fanout",
+      "difficulty": "L4",
+      "definition_sha256": "8d33c3d0fff38e11d0f55d0364067ca1317f090c24282f04eea9302e8817419a",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "leads",
+        "memberships",
+        "credit"
+      ],
+      "transfer_problem": "REASON-FANOUT-001"
+    },
+    {
+      "problem_id": "REASON-FANOUT-003",
+      "domain": "iot",
+      "area": "fanout",
+      "difficulty": "L4",
+      "definition_sha256": "352b0aeee728ac4ee166f16e744c20a6f14c960a124f17c9834f4ed49939bca1",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "rows",
+        "minutes"
+      ],
+      "transfer_problem": "REASON-FANOUT-001"
+    },
+    {
+      "problem_id": "REASON-FANOUT-004",
+      "domain": "workforce",
+      "area": "fanout",
+      "difficulty": "L4",
+      "definition_sha256": "6a6ef26699a8365f8abb30e6a2ef4327fd966c54d8b0a94fdb65165e441f88d6",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "correct_hours",
+        "candidate_hours"
+      ],
+      "transfer_problem": "REASON-FANOUT-001"
+    },
+    {
+      "problem_id": "REASON-FANOUT-005",
+      "domain": "ai",
+      "area": "fanout",
+      "difficulty": "L4",
+      "definition_sha256": "276800a02db255952ebe84e1e84df47bc7e8f37edcce19935b15390ef2069b08",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "candidate_successes",
+        "final_tasks",
+        "cost"
+      ],
+      "transfer_problem": "REASON-FANOUT-001"
+    },
+    {
+      "problem_id": "REASON-FANOUT-006",
+      "domain": "payments",
+      "area": "fanout",
+      "difficulty": "L3",
+      "definition_sha256": "d19f5ece637e7a47ead99603e0da71761a9f6280114cfe13f7c48b9cb7f1b86d",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "captures",
+        "candidate"
+      ],
+      "transfer_problem": "REASON-FANOUT-001"
+    },
+    {
+      "problem_id": "REASON-TEMPORAL-001",
+      "domain": "iot",
+      "area": "temporal",
+      "difficulty": "L4",
+      "definition_sha256": "3cd0fd6b3c31c1b308ea9bf6342ce6736faf39c429bdd8a7e880c354bffd7dc8",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "event_truth",
+        "known_at_close"
+      ],
+      "transfer_problem": "REASON-TEMPORAL-002"
+    },
+    {
+      "problem_id": "REASON-TEMPORAL-002",
+      "domain": "marketing",
+      "area": "temporal",
+      "difficulty": "L4",
+      "definition_sha256": "8795b1edcb9e779755c4f8b55d2039a149f833a155fff0805554d8b24df7ac8f",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "at_close",
+        "current"
+      ],
+      "transfer_problem": "REASON-TEMPORAL-001"
+    },
+    {
+      "problem_id": "REASON-TEMPORAL-003",
+      "domain": "saas",
+      "area": "temporal",
+      "difficulty": "L3",
+      "definition_sha256": "a6eb9f9c3631de77449b6224a743558d108318c4219049cfa494313255430aa4",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "snapshot",
+        "open_versions"
+      ],
+      "transfer_problem": "REASON-TEMPORAL-001"
+    },
+    {
+      "problem_id": "REASON-TEMPORAL-004",
+      "domain": "logistics",
+      "area": "temporal",
+      "difficulty": "L3",
+      "definition_sha256": "b7a0c8e330dbecf856ab3420924a4207cccdb46d0112d0883701e91a0194e5fa",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "late_rows",
+        "delivered"
+      ],
+      "transfer_problem": "REASON-TEMPORAL-001"
+    },
+    {
+      "problem_id": "REASON-TEMPORAL-005",
+      "domain": "workforce",
+      "area": "temporal",
+      "difficulty": "L3",
+      "definition_sha256": "8e0215e95e10c95c8f9f9e9092939622c9827915795f845bd81b7d2fd457ea50",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "before",
+        "leavers",
+        "at_boundary"
+      ],
+      "transfer_problem": "REASON-TEMPORAL-001"
+    },
+    {
+      "problem_id": "REASON-TEMPORAL-006",
+      "domain": "commerce",
+      "area": "temporal",
+      "difficulty": "L4",
+      "definition_sha256": "069edac4a9fbd0ae94993dd9af49cec174d19dc4c8b6d3347b67840ae09266a6",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "eligible",
+        "converted",
+        "optional_cart"
+      ],
+      "transfer_problem": "REASON-TEMPORAL-001"
+    },
+    {
+      "problem_id": "REASON-INTEGRITY-001",
+      "domain": "iot",
+      "area": "integrity",
+      "difficulty": "L2",
+      "definition_sha256": "0067e2d9fcfd96d47c4b7814c8242983bd5fc1f2fd461efb6ee602e7f972aabb",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "missing",
+        "unknown",
+        "down"
+      ],
+      "transfer_problem": "REASON-INTEGRITY-002"
+    },
+    {
+      "problem_id": "REASON-INTEGRITY-002",
+      "domain": "payments",
+      "area": "integrity",
+      "difficulty": "L2",
+      "definition_sha256": "d735c6bef15e9edd24258b0d0e411fbf3d56a0fec4fe08f3621d1e49b342927e",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "unknown_amounts",
+        "known_zero",
+        "without_capture"
+      ],
+      "transfer_problem": "REASON-INTEGRITY-001"
+    },
+    {
+      "problem_id": "REASON-INTEGRITY-003",
+      "domain": "ai",
+      "area": "integrity",
+      "difficulty": "L3",
+      "definition_sha256": "c921e334468223997a70a5e22b5ffc4eb0ebddb04180afa3f1089e771fb011c8",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "known",
+        "unknown",
+        "absent"
+      ],
+      "transfer_problem": "REASON-INTEGRITY-001"
+    },
+    {
+      "problem_id": "REASON-INTEGRITY-004",
+      "domain": "marketing",
+      "area": "integrity",
+      "difficulty": "L2",
+      "definition_sha256": "ec486b07e7ad866de29f6d1a728e8b5f71268d3fe5f6a60af8b9c55eb5d93751",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "transport_key",
+        "business_key",
+        "extra_deliveries"
+      ],
+      "transfer_problem": "REASON-INTEGRITY-001"
+    },
+    {
+      "problem_id": "REASON-INTEGRITY-005",
+      "domain": "saas",
+      "area": "integrity",
+      "difficulty": "L3",
+      "definition_sha256": "e085cc6346deb9fdf58591d8f9cd1413ae9f4bf01085aa03111ccb9ddaf4dcef",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "event_rows",
+        "paid_value"
+      ],
+      "transfer_problem": "REASON-INTEGRITY-001"
+    },
+    {
+      "problem_id": "REASON-INTEGRITY-006",
+      "domain": "logistics",
+      "area": "integrity",
+      "difficulty": "L3",
+      "definition_sha256": "d6d2cc0f1cb8a3dc40ec947a2510de377ab6012447cd25c95fd5fa8a6aba5115",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "orphan_count",
+        "promise_population"
+      ],
+      "transfer_problem": "REASON-INTEGRITY-001"
+    },
+    {
+      "problem_id": "REASON-DIMENSIONS-001",
+      "domain": "saas",
+      "area": "dimensions",
+      "difficulty": "L4",
+      "definition_sha256": "e9df36958a636212975bd758a25dd6309f814c7ce883f459f433e8461a0bb373",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "version_identity",
+        "past_mrr"
+      ],
+      "transfer_problem": "REASON-DIMENSIONS-002"
+    },
+    {
+      "problem_id": "REASON-DIMENSIONS-002",
+      "domain": "workforce",
+      "area": "dimensions",
+      "difficulty": "L4",
+      "definition_sha256": "de4d3716e90a7652987169f6c41abb28a95f0c518eec6a9f2885eec99df166eb",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "work_hours",
+        "current_staff"
+      ],
+      "transfer_problem": "REASON-DIMENSIONS-001"
+    },
+    {
+      "problem_id": "REASON-DIMENSIONS-003",
+      "domain": "marketing",
+      "area": "dimensions",
+      "difficulty": "L4",
+      "definition_sha256": "06fc142b83f228acc89a4a5c1ade1fcf04eea5362e231ee21ead184a648808d7",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "historical_segment",
+        "current_enterprise"
+      ],
+      "transfer_problem": "REASON-DIMENSIONS-001"
+    },
+    {
+      "problem_id": "REASON-DIMENSIONS-004",
+      "domain": "iot",
+      "area": "dimensions",
+      "difficulty": "L4",
+      "definition_sha256": "3ad49b2e1ae5456eaab3f76e4dafe764e25c5e06940d7298d56acf6d7900527f",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "historical_owner",
+        "current_owner"
+      ],
+      "transfer_problem": "REASON-DIMENSIONS-001"
+    },
+    {
+      "problem_id": "REASON-DIMENSIONS-005",
+      "domain": "ai",
+      "area": "dimensions",
+      "difficulty": "L4",
+      "definition_sha256": "36131b558db2baa8b648c84820a251022985c4fb26a64cea9973fca5ae555d60",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "attempt_grain",
+        "large_attempts"
+      ],
+      "transfer_problem": "REASON-DIMENSIONS-001"
+    },
+    {
+      "problem_id": "REASON-DIMENSIONS-006",
+      "domain": "payments",
+      "area": "dimensions",
+      "difficulty": "L3",
+      "definition_sha256": "c6c0ca25eaf4888fab9850d7111576a2523b962b802486b83ff12dc485beb873",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "merchant_key",
+        "logical_payments",
+        "attempts"
+      ],
+      "transfer_problem": "REASON-DIMENSIONS-001"
+    },
+    {
+      "problem_id": "REASON-VALIDATION-001",
+      "domain": "commerce",
+      "area": "validation",
+      "difficulty": "L3",
+      "definition_sha256": "765f7e71b3747e78062c2159f2ef26848a0ed2ca4d59a033cb69fd95ff54e19d",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "gross",
+        "refunds",
+        "net"
+      ],
+      "transfer_problem": "REASON-VALIDATION-002"
+    },
+    {
+      "problem_id": "REASON-VALIDATION-002",
+      "domain": "ai",
+      "area": "validation",
+      "difficulty": "L4",
+      "definition_sha256": "506dd97d130c4b42792d2f61c04859a2bf925fd1a0359d95e9bf6a5ac87cd44c",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "cost_total",
+        "final_successes"
+      ],
+      "transfer_problem": "REASON-VALIDATION-001"
+    },
+    {
+      "problem_id": "REASON-VALIDATION-003",
+      "domain": "iot",
+      "area": "validation",
+      "difficulty": "L4",
+      "definition_sha256": "a1da51024e3127e74540dacabd7e7aecc7979e4610618833bfc16ff0146db529",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "monitored",
+        "unknown",
+        "strict_result"
+      ],
+      "transfer_problem": "REASON-VALIDATION-001"
+    },
+    {
+      "problem_id": "REASON-VALIDATION-004",
+      "domain": "marketing",
+      "area": "validation",
+      "difficulty": "L3",
+      "definition_sha256": "3d59c8200b77c86d9f01b4c579e3e8682947577d42d8433177297ca93a76a327",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "invalid_groups",
+        "lead_population"
+      ],
+      "transfer_problem": "REASON-VALIDATION-001"
+    },
+    {
+      "problem_id": "REASON-VALIDATION-005",
+      "domain": "logistics",
+      "area": "validation",
+      "difficulty": "L4",
+      "definition_sha256": "b13743510683bdf458c86ab22c53a4b521f54c4111205e5eabf83f9cdc930c25",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "promises",
+        "without_delivery",
+        "on_time"
+      ],
+      "transfer_problem": "REASON-VALIDATION-001"
+    },
+    {
+      "problem_id": "REASON-VALIDATION-006",
+      "domain": "workforce",
+      "area": "validation",
+      "difficulty": "L3",
+      "definition_sha256": "6bf24d5814eafc4a05a4e58346cb22c704e145874a8c520412ebda803a4697e5",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "people",
+        "fte",
+        "unknown_source_fte"
+      ],
+      "transfer_problem": "REASON-VALIDATION-001"
+    },
+    {
+      "problem_id": "REASON-COMMUNICATION-001",
+      "domain": "marketing",
+      "area": "communication",
+      "difficulty": "L5",
+      "definition_sha256": "2ef3f522549fa25b360687de9eec08224ec906a116c917f4d79eca588d1173ff",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "current",
+        "historical"
+      ],
+      "transfer_problem": "REASON-COMMUNICATION-002"
+    },
+    {
+      "problem_id": "REASON-COMMUNICATION-002",
+      "domain": "saas",
+      "area": "communication",
+      "difficulty": "L5",
+      "definition_sha256": "2e805c3b7f0d4853c8bf7c63b789dc4260a7917c061d996840892a8c193e128e",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "opening",
+        "new_logo",
+        "unknown"
+      ],
+      "transfer_problem": "REASON-COMMUNICATION-001"
+    },
+    {
+      "problem_id": "REASON-COMMUNICATION-003",
+      "domain": "iot",
+      "area": "communication",
+      "difficulty": "L5",
+      "definition_sha256": "93c72ebbb0b12adc0ddb1b7614f47d7192ec2785e1cdf9a22e5f9d5ba70742ae",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "coverage",
+        "unknown"
+      ],
+      "transfer_problem": "REASON-COMMUNICATION-001"
+    },
+    {
+      "problem_id": "REASON-COMMUNICATION-004",
+      "domain": "workforce",
+      "area": "communication",
+      "difficulty": "L5",
+      "definition_sha256": "06835610ff69a9ea27996373d019aac0834f74f177c0e20f56b858cf2290f76e",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "company_people",
+        "active_allocations"
+      ],
+      "transfer_problem": "REASON-COMMUNICATION-001"
+    },
+    {
+      "problem_id": "REASON-COMMUNICATION-005",
+      "domain": "payments",
+      "area": "communication",
+      "difficulty": "L5",
+      "definition_sha256": "079815cda40ba0f27b7d0948f8c719024391c3607305768292b39f27b22361ef",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "authorization_total",
+        "settled_total"
+      ],
+      "transfer_problem": "REASON-COMMUNICATION-001"
+    },
+    {
+      "problem_id": "REASON-COMMUNICATION-006",
+      "domain": "ai",
+      "area": "communication",
+      "difficulty": "L6",
+      "definition_sha256": "0171025d0442dcffadfef6dd08b99553068fb5aa148868634b532010edaa6cfd",
+      "variants": 3,
+      "policies": [
+        "specified"
+      ],
+      "objective_fields": [
+        "unapproved_success",
+        "eligible",
+        "approved_final"
+      ],
+      "transfer_problem": "REASON-COMMUNICATION-001"
+    }
+  ]
+}

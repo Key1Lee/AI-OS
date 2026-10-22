@@ -1,0 +1,12 @@
+peopleops:
+  target: local
+  outputs:
+    local:
+      type: sqlite
+      threads: 1
+      database: peopleops_analytics
+      schema: main
+      schemas_and_paths:
+        main: "{{ env_var('PEOPLEOPS_ANALYTICS_PATH') }}"
+        app: "{{ env_var('PEOPLEOPS_DB_PATH') }}"
+      schema_directory: "{{ env_var('PEOPLEOPS_DATA_DIR') }}"

@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-10-21T16:31:53.036600+00:00",
+  "status": "PASS",
+  "results": [
+    {
+      "command": [
+        "python3",
+        "scripts/verify.py"
+      ],
+      "exitCode": 0,
+      "stdout": "PASS: all 217 reference combinations; checksum c40c1567c7737bcd61eb53a932c10f9d936dd0862def22c0f267504b8c5500fd\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "*_test.py",
+        "-v"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "test_equal_respondents_and_invalid_rules (reference_test.ReferenceTest.test_equal_respondents_and_invalid_rules) ... ok\ntest_latest_invalid_wins (reference_test.ReferenceTest.test_latest_invalid_wins) ... ok\ntest_reproducible_seed_and_cohorts (reference_test.ReferenceTest.test_reproducible_seed_and_cohorts) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.583s\n\nOK\n"
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "web",
+        "test"
+      ],
+      "exitCode": 0,
+      "stdout": "\n> samsara-people-analytics-demo@1.0.0 test\n> tsx --test ../tests/*.test.ts\n\n\u2714 free-form input accepts possessives, shorthand and general survey questions without a word list (2.956ms)\n\u2714 model query proposals are allowlisted and explicit filter controls take precedence (1.808709ms)\n\u2714 Qwen can select only exact verified facts and retrieved passages; invented numbers cannot enter the answer (154.081917ms)\n\u2714 local Qwen transport validates actual model, completed structured output and usage; outages fail explicitly (21.946292ms)\n\u2714 all 217 Python reference scopes reconcile every report field and source checksum (7443.90225ms)\n\u2714 5,000 eligible employees per year across five unequal department cohorts (10.634459ms)\n\u2714 large fixture passes the bounded HTTP parser; oversized bodies are rejected (39.493709ms)\n\u2714 respondent formula maps 1 to 0, 3 to 50 and 5 to 100 (0.311834ms)\n\u2714 completion, missing, fractional, invalid and YTD cutoff rules (0.212917ms)\n\u2714 deduplicate before validation; latest invalid revision supersedes earlier valid (0.566167ms)\n\u2714 company and pooled averages weight respondents, never department means (0.186459ms)\n\u2714 negative test: tampered application score is FAIL (67.670125ms)\n\u2714 corrupted reference, incomplete reference, changed headcount and stale source are rejected (274.256459ms)\n\u2714 missing reference is NOT VERIFIED; count comparisons are exact (64.363666ms)\n\u2714 missing survey records fail and mismatched source withholds report (100.055875ms)\n\u2714 the five required questions produce bounded, deterministic plans (1.276625ms)\n\u2714 all canonical department names, ampersands, and legacy shorthand resolve correctly (0.211625ms)\n\u2714 three selected departments are a partial scope; all five are company-wide (146.783ms)\n\u2714 unknown departments, unsupported periods, individual answers and SQL/URLs are rejected (0.45325ms)\n\u2714 formula retrieval is ranked first and grounded answers only format verified numbers (72.953125ms)\n\u2714 generated workflow executes Qwen services and attaches only verified execution receipts (75.186041ms)\n\u2714 unavailable n8n produces an explicit 503 with no fallback claim (1.870958ms)\n\u2139 tests 22\n\u2139 suites 0\n\u2139 pass 22\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 8520.018416\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "web",
+        "run",
+        "lint"
+      ],
+      "exitCode": 0,
+      "stdout": "\n> samsara-people-analytics-demo@1.0.0 lint\n> eslint src\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "web",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "stdout": "\n> samsara-people-analytics-demo@1.0.0 typecheck\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "web",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "stdout": "\n> samsara-people-analytics-demo@1.0.0 build\n> next build\n\n\u25b2 Next.js 16.4.2 (Turbopack)\n\u2713 Running next.config.ts took 61ms\n\n  Creating an optimized production build ...\n\u2713 Compiled successfully in 503ms\n  Running TypeScript ...\n  Finished TypeScript in 1014ms ...\n  Collecting page data using 9 workers ...\n  Generating static pages using 9 workers (0/4) ...\n  Generating static pages using 9 workers (1/4) \n  Generating static pages using 9 workers (2/4) \n  Generating static pages using 9 workers (3/4) \n\u2713 Generating static pages using 9 workers (4/4) in 141ms\n  Finalizing page optimization ...\n\nRoute (app)\n\u250c \u25cb /\n\u251c \u25cb /_not-found\n\u251c \u0192 /api/assistant/answer\n\u251c \u0192 /api/assistant/interpret\n\u251c \u0192 /api/chat\n\u251c \u0192 /api/metrics\n\u251c \u0192 /api/mock-qualtrics/responses\n\u251c \u0192 /api/rag/search\n\u2514 \u0192 /api/report\n\n\n\u25cb  (Static)   prerendered as static content\n\u0192  (Dynamic)  server-rendered on demand\n\n",
+      "stderr": ""
+    }
+  ]
+}

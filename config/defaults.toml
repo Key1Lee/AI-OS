@@ -85,3 +85,7 @@ context = "standard"
 [task_profiles.skill_3d_brain]
 reasoning = "low"
 context = "small"
+
+[task_profiles.skill_repository_architecture_investigator]
+reasoning = "high"
+context = "standard"

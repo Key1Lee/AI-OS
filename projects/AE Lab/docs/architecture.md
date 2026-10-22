@@ -1,5 +1,28 @@
 # Lab architecture
 
+The [Step 1 learning framework](learning-framework.md) adds the master
+curriculum, reusable problem contract, local concept evidence, spaced recall and
+adaptive selection. Its seven representative exercises use the existing Store,
+server and native sibling boundaries. `/learn` is the new learning surface;
+original retry and business formats remain intact. PostgreSQL runs only the
+new project-owned SQL fixtures. Canonical Toptal examination/mastery is separate.
+
+The [Step 2 SQL Problem Engine](sql-problem-engine.md) derives 116 additional
+original definitions from the same problem contract and catalog. It reuses
+PostgreSQL, native validators and the evidence ledger; it adds no sibling engine.
+Review and performance judgment remain separate from executable correctness.
+
+The [Step 3 business reasoning extension](business-reasoning.md) adds
+`kind: reasoning` to `ae-problem-v1` and loads 60 definitions into `PROBLEMS`.
+`LearningEngine` remains the coordinator; `business_reasoning.py` contains
+stateless objective and semantic-review validation helpers. Synthetic fixture
+calculations live in `reasoning_fixtures.py`, reusing copies of five Step 2
+source domains and adding three local domains. No SQL runtime is duplicated.
+The existing `/learn` page, CLI, Store and append-only Mastery ledger own the
+whole learning loop. Questions receive trusted tutor classification; semantic
+review requires criterion scores, exact saved quotations and rationale.
+Numeric agreement remains `REVIEW_REQUIRED` until that assessment occurs.
+
 The original five-system retry slice below remains unchanged. The browser now
 also hosts ten [business architecture exercises](business-exercises.md).
 Their coordinator is `lab/business.py`, using the same Store with a distinct

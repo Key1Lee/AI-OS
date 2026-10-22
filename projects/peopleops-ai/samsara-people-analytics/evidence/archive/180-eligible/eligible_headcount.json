@@ -1,0 +1,47 @@
+[
+  {
+    "SurveyYear": 2024,
+    "Department": "Engineering",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2024,
+    "Department": "Sales",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2024,
+    "Department": "Customer Support",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Engineering",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Sales",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Customer Support",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Engineering",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Sales",
+    "EligibleEmployees": 60
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Customer Support",
+    "EligibleEmployees": 60
+  }
+]

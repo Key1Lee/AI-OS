@@ -1,0 +1,23 @@
+[project]
+name = "peopleops-policy-assistant"
+version = "2.1.0"
+description = "Fictional, evidence-bound HR policy assistant"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi>=0.143,<0.144", "uvicorn>=0.34,<1", "pydantic-settings>=2.8,<3",
+  "psycopg[binary]>=3.3,<4", "pgvector>=0.5,<1", "httpx>=0.28,<0.29", "pyyaml>=6,<7",
+]
+[dependency-groups]
+dev = ["pytest>=9,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1"]
+[project.optional-dependencies]
+dev = ["pytest>=9,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1"]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[tool.hatch.build.targets.wheel]
+packages = ["app", "ingestion", "evals"]
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/integration", "tests/security", "tests/end_to_end", "tests/performance"]
+pythonpath = ["."]
+addopts = "-q --cov --cov-report=term-missing --cov-report=json:reports/coverage.json --cov-report=xml:reports/coverage.xml"
+markers = ["database: requires the dedicated test PostgreSQL database", "requirement(*ids): traced enterprise mock requirement IDs"]

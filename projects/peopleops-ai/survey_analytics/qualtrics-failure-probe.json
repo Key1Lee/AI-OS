@@ -1,0 +1,61 @@
+{
+  "id": "qualtricsGoldFailure01",
+  "name": "Qualtrics TEST - intentional failure probe",
+  "active": false,
+  "nodes": [
+    {
+      "id": "failure-webhook",
+      "name": "Failure test webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "qualtrics-gold-failure-test",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "qualtrics-gold-failure-test",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "intentional-failure",
+      "name": "Intentional checklist failure",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        300,
+        0
+      ],
+      "parameters": {
+        "errorType": "errorMessage",
+        "errorMessage": "Synthetic production-checklist failure probe"
+      }
+    }
+  ],
+  "connections": {
+    "Failure test webhook": {
+      "main": [
+        [
+          {
+            "node": "Intentional checklist failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "executionTimeout": 30,
+    "errorWorkflow": "qualtricsGoldError01",
+    "availableInMCP": false,
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "all"
+  },
+  "pinData": {},
+  "tags": []
+}

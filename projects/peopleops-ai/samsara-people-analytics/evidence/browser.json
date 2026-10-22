@@ -1,0 +1,538 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-21T16:05:20.109Z",
+  "checks": [
+    {
+      "label": "5,000 eligible across all five departments",
+      "annual": [
+        [
+          "2024",
+          "57.28",
+          "3,770",
+          "5,000",
+          "75.40%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.13",
+          "3,843",
+          "5,000",
+          "76.86%",
+          "+5.86 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "68.58",
+          "3,720",
+          "5,000",
+          "74.40%",
+          "+5.45 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Human Resources",
+          "250",
+          "196",
+          "71.68",
+          "78.40%"
+        ],
+        [
+          "Marketing",
+          "500",
+          "360",
+          "66.06",
+          "72.00%"
+        ],
+        [
+          "Engineering & Product",
+          "2,000",
+          "1,503",
+          "71.82",
+          "75.15%"
+        ],
+        [
+          "Sales",
+          "1,250",
+          "890",
+          "64.95",
+          "71.20%"
+        ],
+        [
+          "Customer Success & Support",
+          "1,000",
+          "771",
+          "66.84",
+          "77.10%"
+        ]
+      ],
+      "eligibleTotal": 5000,
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "overflow": false,
+        "width": 1440
+      }
+    },
+    {
+      "label": "default answer matches annual report",
+      "annual": [
+        [
+          "2024",
+          "57.28",
+          "3,770",
+          "5,000",
+          "75.40%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.13",
+          "3,843",
+          "5,000",
+          "76.86%",
+          "+5.86 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "68.58",
+          "3,720",
+          "5,000",
+          "74.40%",
+          "+5.45 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Human Resources",
+          "250",
+          "196",
+          "71.68",
+          "78.40%"
+        ],
+        [
+          "Marketing",
+          "500",
+          "360",
+          "66.06",
+          "72.00%"
+        ],
+        [
+          "Engineering & Product",
+          "2,000",
+          "1,503",
+          "71.82",
+          "75.15%"
+        ],
+        [
+          "Sales",
+          "1,250",
+          "890",
+          "64.95",
+          "71.20%"
+        ],
+        [
+          "Customer Success & Support",
+          "1,000",
+          "771",
+          "66.84",
+          "77.10%"
+        ]
+      ],
+      "eligibleTotal": 5000,
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "overflow": false,
+        "width": 1440
+      },
+      "answer": "Samsara Company Survey Results — Mock Data\nCompany-wide · Demo Company Engagement Score\n\n2024: 57.28/100 · 3770/5000 valid responses (75.40%)\n2025: 63.13/100 · 3843/5000 valid responses (76.86%)\n2026 YTD: 68.58/100 · 3720/5000 valid responses (74.40%)\n\nSelected-period trend (2024–2026): +11.31 points.\nCalendar-year changes: 2025: +5.86 points vs 2024; 2026: +5.45 points vs 2025\nPooled selected-period engagement: 62.97/100 (11333 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript."
+    },
+    {
+      "label": "Marketing scope uses 500 eligible employees",
+      "annual": [
+        [
+          "2024",
+          "55.07",
+          "365",
+          "500",
+          "73.00%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "58.51",
+          "372",
+          "500",
+          "74.40%",
+          "+3.44 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "66.06",
+          "360",
+          "500",
+          "72.00%",
+          "+7.55 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Marketing",
+          "500",
+          "360",
+          "66.06",
+          "72.00%"
+        ]
+      ],
+      "eligibleTotal": 500,
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "overflow": false,
+        "width": 1440
+      },
+      "answer": "Samsara Company Survey Results — Mock Data\nMarketing · Demo Company Engagement Score\n\n2024: 55.07/100 · 365/500 valid responses (73.00%)\n2025: 58.51/100 · 372/500 valid responses (74.40%)\n2026 YTD: 66.06/100 · 360/500 valid responses (72.00%)\n\nDepartment comparison:\nMarketing, 2024: 55.07/100 · 365 valid responses\nMarketing, 2025: 58.51/100 · 372 valid responses\nMarketing, 2026: 66.06/100 · 360 valid responses\n\nSelected-period trend (2024–2026): +11.00 points.\nCalendar-year changes: 2025: +3.44 points vs 2024; 2026: +7.55 points vs 2025\nPooled selected-period engagement: 59.85/100 (1097 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript."
+    },
+    {
+      "label": "Marketing in 2025",
+      "annual": [
+        [
+          "2025",
+          "58.51",
+          "372",
+          "500",
+          "74.40%",
+          "+3.44 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Marketing",
+          "500",
+          "372",
+          "58.51",
+          "74.40%"
+        ]
+      ],
+      "eligibleTotal": 500,
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "overflow": false,
+        "width": 1440
+      },
+      "answer": "Samsara Company Survey Results — Mock Data\nMarketing · Demo Company Engagement Score\n\n2025: 58.51/100 · 372/500 valid responses (74.40%)\n\nDepartment comparison:\nMarketing, 2025: 58.51/100 · 372 valid responses\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +3.44 points vs 2024\nPooled selected-period engagement: 58.51/100 (372 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n\nData Validation: PASS · independent Python reference agrees with TypeScript."
+    },
+    {
+      "label": "tablet filtered layout",
+      "annual": [
+        [
+          "2025",
+          "58.51",
+          "372",
+          "500",
+          "74.40%",
+          "+3.44 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Marketing",
+          "500",
+          "372",
+          "58.51",
+          "74.40%"
+        ]
+      ],
+      "eligibleTotal": 500,
+      "layout": {
+        "charts": 3,
+        "height": 900,
+        "overflow": false,
+        "width": 1024
+      },
+      "answer": "Samsara Company Survey Results — Mock Data\nMarketing · Demo Company Engagement Score\n\n2025: 58.51/100 · 372/500 valid responses (74.40%)\n\nDepartment comparison:\nMarketing, 2025: 58.51/100 · 372 valid responses\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +3.44 points vs 2024\nPooled selected-period engagement: 58.51/100 (372 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n\nData Validation: PASS · independent Python reference agrees with TypeScript."
+    },
+    {
+      "label": "mobile filtered layout",
+      "annual": [
+        [
+          "2025",
+          "58.51",
+          "372",
+          "500",
+          "74.40%",
+          "+3.44 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Marketing",
+          "500",
+          "372",
+          "58.51",
+          "74.40%"
+        ]
+      ],
+      "eligibleTotal": 500,
+      "layout": {
+        "charts": 3,
+        "height": 844,
+        "overflow": false,
+        "width": 390
+      },
+      "answer": "Samsara Company Survey Results — Mock Data\nMarketing · Demo Company Engagement Score\n\n2025: 58.51/100 · 372/500 valid responses (74.40%)\n\nDepartment comparison:\nMarketing, 2025: 58.51/100 · 372 valid responses\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +3.44 points vs 2024\nPooled selected-period engagement: 58.51/100 (372 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n\nData Validation: PASS · independent Python reference agrees with TypeScript."
+    },
+    {
+      "label": "mobile full population",
+      "annual": [
+        [
+          "2024",
+          "57.28",
+          "3,770",
+          "5,000",
+          "75.40%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.13",
+          "3,843",
+          "5,000",
+          "76.86%",
+          "+5.86 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "68.58",
+          "3,720",
+          "5,000",
+          "74.40%",
+          "+5.45 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Human Resources",
+          "250",
+          "196",
+          "71.68",
+          "78.40%"
+        ],
+        [
+          "Marketing",
+          "500",
+          "360",
+          "66.06",
+          "72.00%"
+        ],
+        [
+          "Engineering & Product",
+          "2,000",
+          "1,503",
+          "71.82",
+          "75.15%"
+        ],
+        [
+          "Sales",
+          "1,250",
+          "890",
+          "64.95",
+          "71.20%"
+        ],
+        [
+          "Customer Success & Support",
+          "1,000",
+          "771",
+          "66.84",
+          "77.10%"
+        ]
+      ],
+      "eligibleTotal": 5000,
+      "layout": {
+        "charts": 3,
+        "height": 844,
+        "overflow": false,
+        "width": 390
+      }
+    },
+    {
+      "label": "final desktop full population",
+      "annual": [
+        [
+          "2024",
+          "57.28",
+          "3,770",
+          "5,000",
+          "75.40%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.13",
+          "3,843",
+          "5,000",
+          "76.86%",
+          "+5.86 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "68.58",
+          "3,720",
+          "5,000",
+          "74.40%",
+          "+5.45 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Human Resources",
+          "250",
+          "196",
+          "71.68",
+          "78.40%"
+        ],
+        [
+          "Marketing",
+          "500",
+          "360",
+          "66.06",
+          "72.00%"
+        ],
+        [
+          "Engineering & Product",
+          "2,000",
+          "1,503",
+          "71.82",
+          "75.15%"
+        ],
+        [
+          "Sales",
+          "1,250",
+          "890",
+          "64.95",
+          "71.20%"
+        ],
+        [
+          "Customer Success & Support",
+          "1,000",
+          "771",
+          "66.84",
+          "77.10%"
+        ]
+      ],
+      "eligibleTotal": 5000,
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "overflow": false,
+        "width": 1440
+      }
+    },
+    {
+      "label": "final production n8n answer",
+      "annual": [
+        [
+          "2024",
+          "57.28",
+          "3,770",
+          "5,000",
+          "75.40%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.13",
+          "3,843",
+          "5,000",
+          "76.86%",
+          "+5.86 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "68.58",
+          "3,720",
+          "5,000",
+          "74.40%",
+          "+5.45 pts",
+          "✓ PASS"
+        ]
+      ],
+      "departments": [
+        [
+          "Human Resources",
+          "250",
+          "196",
+          "71.68",
+          "78.40%"
+        ],
+        [
+          "Marketing",
+          "500",
+          "360",
+          "66.06",
+          "72.00%"
+        ],
+        [
+          "Engineering & Product",
+          "2,000",
+          "1,503",
+          "71.82",
+          "75.15%"
+        ],
+        [
+          "Sales",
+          "1,250",
+          "890",
+          "64.95",
+          "71.20%"
+        ],
+        [
+          "Customer Success & Support",
+          "1,000",
+          "771",
+          "66.84",
+          "77.10%"
+        ]
+      ],
+      "eligibleTotal": 5000,
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "overflow": false,
+        "width": 1440
+      },
+      "answer": "Samsara Company Survey Results — Mock Data\nCompany-wide · Demo Company Engagement Score\n\n2024: 57.28/100 · 3770/5000 valid responses (75.40%)\n2025: 63.13/100 · 3843/5000 valid responses (76.86%)\n2026 YTD: 68.58/100 · 3720/5000 valid responses (74.40%)\n\nSelected-period trend (2024–2026): +11.31 points.\nCalendar-year changes: 2025: +5.86 points vs 2024; 2026: +5.45 points vs 2025\nPooled selected-period engagement: 62.97/100 (11333 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript."
+    },
+    {
+      "label": "expanded CSV export",
+      "file": "/Users/key/Downloads/samsara-synthetic-survey-report.csv",
+      "annualRows": 3,
+      "departmentRows": 15,
+      "annualEligibleTotal": 5000,
+      "checksumAndMetricsVerified": true
+    }
+  ]
+}

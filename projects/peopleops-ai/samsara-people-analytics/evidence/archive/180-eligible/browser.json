@@ -1,0 +1,212 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-21T12:11:38.532Z",
+  "checks": [
+    {
+      "label": "desktop default question",
+      "rows": [
+        [
+          "2024",
+          "54.38",
+          "137",
+          "180",
+          "76.11%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.40",
+          "135",
+          "180",
+          "75.00%",
+          "+9.02 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "69.74",
+          "133",
+          "180",
+          "73.89%",
+          "+6.34 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nCompany-wide · Demo Company Engagement Score\n\n2024: 54.38/100 · 137/180 valid responses (76.11%)\n2025: 63.40/100 · 135/180 valid responses (75.00%)\n2026 YTD: 69.74/100 · 133/180 valid responses (73.89%)\n\nSelected-period trend (2024–2026): +15.36 points.\nCalendar-year changes: 2025: +9.02 points vs 2024; 2026: +6.34 points vs 2025\nPooled selected-period engagement: 62.43/100 (405 valid responses).\n\nHow calculated: average the three 1–5 answers, subtract 1, multiply by 25, then average valid respondents equally.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "horizontalOverflow": false,
+        "width": 1440
+      }
+    },
+    {
+      "label": "year filter 2025",
+      "rows": [
+        [
+          "2025",
+          "63.40",
+          "135",
+          "180",
+          "75.00%",
+          "+9.02 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nCompany-wide · Demo Company Engagement Score\n\n2025: 63.40/100 · 135/180 valid responses (75.00%)\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +9.02 points vs 2024\nPooled selected-period engagement: 63.40/100 (135 valid responses).\n\nHow calculated: average the three 1–5 answers, subtract 1, multiply by 25, then average valid respondents equally.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "horizontalOverflow": false,
+        "width": 1440
+      }
+    },
+    {
+      "label": "Engineering 2025 filter",
+      "rows": [
+        [
+          "2025",
+          "66.67",
+          "43",
+          "60",
+          "71.67%",
+          "+9.04 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nEngineering · Demo Company Engagement Score\n\n2025: 66.67/100 · 43/60 valid responses (71.67%)\n\nDepartment comparison:\nEngineering, 2025: 66.67/100 · 43 valid responses\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +9.04 points vs 2024\nPooled selected-period engagement: 66.67/100 (43 valid responses).\n\nHow calculated: average the three 1–5 answers, subtract 1, multiply by 25, then average valid respondents equally.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "horizontalOverflow": false,
+        "width": 1440
+      }
+    },
+    {
+      "label": "tablet 1024px all three charts visible",
+      "rows": [
+        [
+          "2025",
+          "66.67",
+          "43",
+          "60",
+          "71.67%",
+          "+9.04 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nEngineering · Demo Company Engagement Score\n\n2025: 66.67/100 · 43/60 valid responses (71.67%)\n\nDepartment comparison:\nEngineering, 2025: 66.67/100 · 43 valid responses\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +9.04 points vs 2024\nPooled selected-period engagement: 66.67/100 (43 valid responses).\n\nHow calculated: average the three 1–5 answers, subtract 1, multiply by 25, then average valid respondents equally.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 900,
+        "horizontalOverflow": false,
+        "width": 1024
+      }
+    },
+    {
+      "label": "mobile 390px",
+      "rows": [
+        [
+          "2025",
+          "66.67",
+          "43",
+          "60",
+          "71.67%",
+          "+9.04 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nEngineering · Demo Company Engagement Score\n\n2025: 66.67/100 · 43/60 valid responses (71.67%)\n\nDepartment comparison:\nEngineering, 2025: 66.67/100 · 43 valid responses\n\nSelected-period trend (2025–2025): +0.00 points.\nCalendar-year changes: 2025: +9.04 points vs 2024\nPooled selected-period engagement: 66.67/100 (43 valid responses).\n\nHow calculated: average the three 1–5 answers, subtract 1, multiply by 25, then average valid respondents equally.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 844,
+        "horizontalOverflow": false,
+        "width": 390
+      }
+    },
+    {
+      "label": "final desktop grounded answer",
+      "rows": [
+        [
+          "2024",
+          "54.38",
+          "137",
+          "180",
+          "76.11%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.40",
+          "135",
+          "180",
+          "75.00%",
+          "+9.02 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "69.74",
+          "133",
+          "180",
+          "73.89%",
+          "+6.34 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nCompany-wide · Demo Company Engagement Score\n\n2024: 54.38/100 · 137/180 valid responses (76.11%)\n2025: 63.40/100 · 135/180 valid responses (75.00%)\n2026 YTD: 69.74/100 · 133/180 valid responses (73.89%)\n\nSelected-period trend (2024–2026): +15.36 points.\nCalendar-year changes: 2025: +9.02 points vs 2024; 2026: +6.34 points vs 2025\nPooled selected-period engagement: 62.43/100 (405 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 1000,
+        "horizontalOverflow": false,
+        "width": 1440
+      }
+    },
+    {
+      "label": "CSV export",
+      "syntheticLabel": true,
+      "annualRows": 3
+    },
+    {
+      "label": "final mobile default question",
+      "rows": [
+        [
+          "2024",
+          "54.38",
+          "137",
+          "180",
+          "76.11%",
+          "—",
+          "✓ PASS"
+        ],
+        [
+          "2025",
+          "63.40",
+          "135",
+          "180",
+          "75.00%",
+          "+9.02 pts",
+          "✓ PASS"
+        ],
+        [
+          "2026YTD",
+          "69.74",
+          "133",
+          "180",
+          "73.89%",
+          "+6.34 pts",
+          "✓ PASS"
+        ]
+      ],
+      "answer": "Samsara Company Survey Results — Mock Data\nCompany-wide · Demo Company Engagement Score\n\n2024: 54.38/100 · 137/180 valid responses (76.11%)\n2025: 63.40/100 · 135/180 valid responses (75.00%)\n2026 YTD: 69.74/100 · 133/180 valid responses (73.89%)\n\nSelected-period trend (2024–2026): +15.36 points.\nCalendar-year changes: 2025: +9.02 points vs 2024; 2026: +6.34 points vs 2025\nPooled selected-period engagement: 62.43/100 (405 valid responses).\n\nHow calculated: Respondent Score = ((QID1 + QID2 + QID3) / 3 - 1) × 25. Company Engagement Score = the arithmetic mean of all valid respondent scores.\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+      "layout": {
+        "charts": 3,
+        "height": 844,
+        "horizontalOverflow": false,
+        "width": 390
+      }
+    }
+  ]
+}

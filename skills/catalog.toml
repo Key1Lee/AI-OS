@@ -29,3 +29,10 @@ implicit_patterns = ['\blevel up\b.*\bAI[ -]?OS\b', '\bfind one\b.*\b(high.value
 [skills.3d-brain]
 task_profile = "skill_3d_brain"
 implicit_patterns = ['\b3d brain\b', '\bvisualiz(e|ation)\b.*\b(AI[ -]?OS|knowledge)\b.*\b3d\b', '\bexplore\b.*\bknowledge graph\b.*\b3d\b']
+
+[skills.repository-architecture-investigator]
+task_profile = "skill_repository_architecture_investigator"
+implicit_patterns = [
+  '\b(investigate|understand|reconstruct|explain|map|verify)\b.*\b(repository|repo|codebase)\b.*\barchitecture\b',
+  '\b(investigate|understand|reconstruct|explain|map|verify)\b.*\barchitecture\b.*\b(repository|repo|codebase)\b',
+]

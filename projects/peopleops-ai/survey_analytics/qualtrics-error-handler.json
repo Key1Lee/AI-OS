@@ -1,0 +1,63 @@
+{
+  "id": "qualtricsGoldError01",
+  "name": "Qualtrics TEST - local error notifications",
+  "active": false,
+  "nodes": [
+    {
+      "id": "error",
+      "name": "Survey workflow failed",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "notify-local-inbox",
+      "name": "Notify local inbox",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/notifications/workflow-error",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({workflow_id: $json.workflow.id, execution_id: String($json.execution?.id || 'trigger'), last_node: $json.execution?.lastNodeExecuted || 'trigger'}) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    }
+  ],
+  "connections": {
+    "Survey workflow failed": {
+      "main": [
+        [
+          {
+            "node": "Notify local inbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "executionTimeout": 45,
+    "availableInMCP": false,
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all"
+  },
+  "pinData": {},
+  "tags": []
+}

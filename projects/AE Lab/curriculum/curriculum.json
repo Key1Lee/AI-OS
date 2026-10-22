@@ -1,0 +1,829 @@
+{
+  "version": "ae-curriculum-v1",
+  "domains": [
+    {
+      "id": "sql",
+      "title": "SQL",
+      "concepts": {
+        "filtering": [
+          "predicates",
+          "boolean_logic",
+          "sorting",
+          "limit",
+          "select_aliases",
+          "expressions",
+          "and_or_precedence",
+          "in_between",
+          "distinct",
+          "case_priority"
+        ],
+        "aggregation": [
+          "group_by",
+          "having",
+          "conditional_aggregation",
+          "distinct_counts",
+          "aggregation_levels",
+          "count_star_column",
+          "sum_avg_min_max",
+          "ratios_zero",
+          "weighted_averages",
+          "multi_metric",
+          "percentages"
+        ],
+        "nulls": [
+          "three_valued_logic",
+          "coalesce",
+          "aggregate_nulls",
+          "unknown_vs_zero",
+          "is_null",
+          "propagation",
+          "missing_row_vs_value",
+          "nullif",
+          "not_in_null"
+        ],
+        "joins": [
+          "inner",
+          "left",
+          "full",
+          "semi_anti",
+          "cardinality",
+          "fanout",
+          "filtering_semantics",
+          "right",
+          "self",
+          "multi_table",
+          "one_to_one",
+          "one_to_many",
+          "many_to_many",
+          "bridge_allocation",
+          "preaggregation",
+          "duplicate_matches"
+        ],
+        "ctes": [
+          "decomposition",
+          "scope",
+          "recursive_patterns",
+          "subqueries",
+          "correlated",
+          "exists",
+          "not_exists",
+          "physical_vs_logical"
+        ],
+        "windows": [
+          "row_number",
+          "ranking_ties",
+          "lag_lead",
+          "frames",
+          "running_totals",
+          "rank_dense_rank",
+          "first_last",
+          "moving_average",
+          "count_over",
+          "rows_range",
+          "partition_order",
+          "nth_event",
+          "ntile"
+        ],
+        "dates": [
+          "timezones",
+          "buckets",
+          "intervals",
+          "as_of",
+          "half_open",
+          "date_spine",
+          "calendar_fiscal",
+          "iso_week",
+          "leap_year",
+          "dst",
+          "event_processing",
+          "rolling_period",
+          "period_comparison"
+        ],
+        "deduplication": [
+          "business_keys",
+          "latest_version",
+          "deterministic_ties",
+          "status_after_resolution",
+          "exact_rows",
+          "ingestion_retries",
+          "max_timestamp_join",
+          "late_duplicates"
+        ],
+        "semi_structured": [
+          "json",
+          "arrays",
+          "unnesting",
+          "schema_variability"
+        ],
+        "analytics": [
+          "cohorts",
+          "funnels",
+          "retention",
+          "sessionization",
+          "reconciliation",
+          "ltv",
+          "gaps_islands",
+          "percentiles",
+          "cohort_denominators",
+          "ordered_funnels",
+          "last_touch"
+        ],
+        "strings": [
+          "trim_case",
+          "replace_substring",
+          "split_domain",
+          "like_regex",
+          "normalized_identifiers"
+        ],
+        "types": [
+          "explicit_casts",
+          "safe_casts",
+          "precision",
+          "integer_division",
+          "identifier_semantics"
+        ],
+        "sets": [
+          "union",
+          "union_all",
+          "intersect",
+          "except"
+        ],
+        "performance": [
+          "scan_filter",
+          "join_aggregation",
+          "sort_window",
+          "materialization",
+          "plans",
+          "portability"
+        ],
+        "grain": [
+          "entity_keys",
+          "output_keys",
+          "additive",
+          "semi_additive",
+          "non_additive"
+        ]
+      },
+      "practice": {
+        "problem_bank": "sql-bank.json",
+        "contract": "../contracts/problem.schema.json",
+        "reasoning_sequence": [
+          "business_question",
+          "available_data",
+          "entity",
+          "input_grain",
+          "output_grain",
+          "cardinality",
+          "edge_cases",
+          "sql_design",
+          "execution",
+          "validation",
+          "business_interpretation"
+        ],
+        "priority_areas": [
+          "joins",
+          "nulls",
+          "grain",
+          "windows",
+          "dates",
+          "deduplication",
+          "analytics"
+        ],
+        "evaluation_dimensions": [
+          "result_correctness",
+          "grain_correctness",
+          "edge_case_robustness",
+          "business_interpretation",
+          "query_clarity",
+          "performance_awareness"
+        ],
+        "execution_dialect": "PostgreSQL 17",
+        "advanced_portability_reference": "sql-dialects.json",
+        "deferred_capabilities": [
+          "sql.ctes.recursive_patterns"
+        ],
+        "ownership": "Existing AE LearningEngine and evidence ledger; stricter Toptal assessment remains separate."
+      }
+    },
+    {
+      "id": "python",
+      "title": "Python",
+      "concepts": {
+        "language": [
+          "collections",
+          "iteration",
+          "functions",
+          "exceptions",
+          "typing"
+        ],
+        "data": [
+          "files",
+          "parsing",
+          "datetime",
+          "decimal_money",
+          "dataframes"
+        ],
+        "engineering": [
+          "modules",
+          "testing",
+          "logging",
+          "dependency_isolation",
+          "configuration"
+        ],
+        "execution": [
+          "generators",
+          "batching",
+          "concurrency",
+          "memory_bounds",
+          "api_clients"
+        ]
+      }
+    },
+    {
+      "id": "spark",
+      "title": "Spark",
+      "concepts": {
+        "execution": [
+          "lazy_plans",
+          "partitions",
+          "shuffles",
+          "stages",
+          "lineage"
+        ],
+        "transformations": [
+          "dataframes",
+          "joins",
+          "windows",
+          "schema_enforcement",
+          "udf_tradeoffs"
+        ],
+        "performance": [
+          "skew",
+          "broadcast",
+          "predicate_pushdown",
+          "small_files",
+          "adaptive_execution"
+        ],
+        "streaming": [
+          "checkpoints",
+          "watermarks",
+          "state",
+          "late_data",
+          "delivery_semantics"
+        ]
+      }
+    },
+    {
+      "id": "modeling",
+      "title": "Data Modeling",
+      "concepts": {
+        "grain": [
+          "row_meaning",
+          "natural_surrogate_keys",
+          "uniqueness",
+          "output_grain"
+        ],
+        "relationships": [
+          "cardinality",
+          "fanout",
+          "bridges",
+          "conformed_dimensions"
+        ],
+        "facts": [
+          "transaction",
+          "event",
+          "periodic_snapshot",
+          "accumulating_snapshot",
+          "factless",
+          "aggregate"
+        ],
+        "dimensions": [
+          "scd1",
+          "scd2",
+          "effective_intervals",
+          "late_dimensions"
+        ],
+        "design": [
+          "normalization",
+          "dimensional_models",
+          "consumer_gold",
+          "additivity"
+        ]
+      }
+    },
+    {
+      "id": "dbt",
+      "title": "dbt / Analytics Engineering",
+      "concepts": {
+        "models": [
+          "sources",
+          "staging",
+          "intermediate",
+          "marts",
+          "dependencies",
+          "materializations"
+        ],
+        "incremental": [
+          "unique_key",
+          "merge",
+          "watermarks",
+          "late_arrivals",
+          "backfill_equivalence"
+        ],
+        "contracts": [
+          "unique_not_null",
+          "relationships",
+          "schema_changes",
+          "source_freshness",
+          "unit_tests"
+        ],
+        "delivery": [
+          "ci",
+          "environments",
+          "documentation",
+          "macros",
+          "deployment"
+        ]
+      }
+    },
+    {
+      "id": "pipeline",
+      "title": "Pipeline Architecture",
+      "concepts": {
+        "ingestion": [
+          "files",
+          "apis",
+          "cdc",
+          "cursors",
+          "schema_drift"
+        ],
+        "layers": [
+          "bronze",
+          "silver",
+          "gold",
+          "etl_elt",
+          "serving_models"
+        ],
+        "state": [
+          "idempotency",
+          "checkpoints",
+          "replay",
+          "deletes",
+          "late_data"
+        ],
+        "tradeoffs": [
+          "batch_streaming",
+          "latency",
+          "coupling",
+          "source_load"
+        ]
+      }
+    },
+    {
+      "id": "storage",
+      "title": "Storage",
+      "concepts": {
+        "formats": [
+          "row_columnar",
+          "parquet",
+          "avro",
+          "compression"
+        ],
+        "layout": [
+          "partitioning",
+          "clustering",
+          "indexing",
+          "compaction",
+          "file_sizes"
+        ],
+        "tables": [
+          "transactions",
+          "snapshot_isolation",
+          "table_formats",
+          "schema_evolution",
+          "time_travel"
+        ],
+        "lifecycle": [
+          "retention",
+          "archival",
+          "deletion",
+          "access_controls"
+        ]
+      }
+    },
+    {
+      "id": "orchestration",
+      "title": "Orchestration",
+      "concepts": {
+        "dependencies": [
+          "dags",
+          "triggers",
+          "sensors",
+          "readiness"
+        ],
+        "execution": [
+          "retries",
+          "timeouts",
+          "pools",
+          "concurrency",
+          "state_transitions"
+        ],
+        "partitions": [
+          "schedules",
+          "timezones",
+          "backfills",
+          "catchup",
+          "replacement"
+        ],
+        "operations": [
+          "runbooks",
+          "failure_isolation",
+          "checkpoints",
+          "deployment"
+        ]
+      }
+    },
+    {
+      "id": "quality",
+      "title": "Data Quality",
+      "concepts": {
+        "assertions": [
+          "uniqueness",
+          "not_null",
+          "relationships",
+          "accepted_values",
+          "business_invariants"
+        ],
+        "contracts": [
+          "schema",
+          "compatibility",
+          "ownership",
+          "gates",
+          "quarantine"
+        ],
+        "measures": [
+          "completeness",
+          "freshness",
+          "reconciliation",
+          "distribution",
+          "exact_money"
+        ],
+        "evidence": [
+          "coverage",
+          "severity",
+          "unknown",
+          "false_positives"
+        ]
+      }
+    },
+    {
+      "id": "observability",
+      "title": "Observability",
+      "concepts": {
+        "signals": [
+          "row_counts",
+          "freshness",
+          "volume",
+          "distribution",
+          "schema_changes"
+        ],
+        "lineage": [
+          "declared_observed",
+          "dependencies",
+          "impact",
+          "provenance"
+        ],
+        "diagnosis": [
+          "correlation_causation",
+          "anomalies",
+          "baselines",
+          "evidence_gaps"
+        ],
+        "operations": [
+          "alerts",
+          "ownership",
+          "triage",
+          "incident_history"
+        ]
+      }
+    },
+    {
+      "id": "semantics",
+      "title": "Semantic / Metrics",
+      "concepts": {
+        "definitions": [
+          "business_meaning",
+          "entities",
+          "identity",
+          "grain",
+          "time_basis",
+          "currency"
+        ],
+        "metrics": [
+          "additivity",
+          "ratios",
+          "distinct_counts",
+          "mrr_arr",
+          "ltv",
+          "refund_attribution"
+        ],
+        "governance": [
+          "owners",
+          "versions",
+          "approvals",
+          "consumer_consistency",
+          "compatibility"
+        ],
+        "usage": [
+          "dimensions",
+          "filters",
+          "aggregation_paths",
+          "evidence"
+        ]
+      }
+    },
+    {
+      "id": "reliability",
+      "title": "Reliability",
+      "concepts": {
+        "guarantees": [
+          "idempotency",
+          "atomicity",
+          "delivery_semantics",
+          "determinism"
+        ],
+        "recovery": [
+          "retries",
+          "replay",
+          "backfills",
+          "rollback",
+          "partial_failures"
+        ],
+        "objectives": [
+          "slis_slos",
+          "freshness_slas",
+          "error_budgets",
+          "failure_domains"
+        ],
+        "resilience": [
+          "capacity",
+          "degradation",
+          "dependency_failures",
+          "disaster_recovery"
+        ]
+      }
+    },
+    {
+      "id": "performance",
+      "title": "Performance / Cost",
+      "concepts": {
+        "sql": [
+          "query_plans",
+          "indexes",
+          "join_algorithms",
+          "scan_pruning",
+          "cardinality_estimates"
+        ],
+        "distributed": [
+          "skew",
+          "shuffle",
+          "parallelism",
+          "memory",
+          "spill"
+        ],
+        "cost": [
+          "compute_storage",
+          "scan_cost",
+          "refresh_frequency",
+          "serving_cost",
+          "capacity"
+        ],
+        "tradeoffs": [
+          "latency_accuracy",
+          "materialization",
+          "incremental_full",
+          "measurement"
+        ]
+      }
+    },
+    {
+      "id": "business",
+      "title": "Business Reasoning",
+      "concepts": {
+        "requirements": [
+          "decision",
+          "stakeholders",
+          "acceptance",
+          "ambiguity",
+          "grain"
+        ],
+        "finance": [
+          "money_precision",
+          "currency",
+          "recognition",
+          "refunds_reversals",
+          "reconciliation"
+        ],
+        "operations": [
+          "capacity",
+          "retention",
+          "inventory",
+          "settlement",
+          "service_levels"
+        ],
+        "communication": [
+          "core",
+          "assumptions",
+          "uncertainty",
+          "recommendations"
+        ],
+        "translate": [
+          "core",
+          "decision",
+          "clarification",
+          "acceptance"
+        ],
+        "grain": [
+          "core",
+          "row_meaning",
+          "relationships",
+          "output_grain"
+        ],
+        "entities": [
+          "core",
+          "identity",
+          "events",
+          "population"
+        ],
+        "metrics": [
+          "core",
+          "numerator_denominator",
+          "eligibility",
+          "contract"
+        ],
+        "fanout": [
+          "core",
+          "multiplicity",
+          "allocation",
+          "preaggregation"
+        ],
+        "temporal": [
+          "core",
+          "business_time",
+          "availability",
+          "boundaries"
+        ],
+        "integrity": [
+          "core",
+          "missing_unknown",
+          "duplicates",
+          "source_truth"
+        ],
+        "dimensions": [
+          "core",
+          "historical_attributes",
+          "classification",
+          "segments"
+        ],
+        "validation": [
+          "core",
+          "invariants",
+          "reconciliation",
+          "anomalies"
+        ]
+      },
+      "learning_paths": {
+        "source": "business-paths.json",
+        "routing": "Prerequisites guide selection; experienced learners may enter a diagnostic case without invented mastery."
+      }
+    },
+    {
+      "id": "system_design",
+      "title": "System Design",
+      "concepts": {
+        "discovery": [
+          "functional_requirements",
+          "nonfunctional_requirements",
+          "constraints",
+          "scope"
+        ],
+        "architecture": [
+          "boundaries",
+          "interfaces",
+          "ownership",
+          "state",
+          "consumers"
+        ],
+        "scale": [
+          "capacity_estimates",
+          "partitioning",
+          "bottlenecks",
+          "cost",
+          "evolution"
+        ],
+        "judgment": [
+          "incomplete_evidence",
+          "operational_risk",
+          "conflicting_stakeholders",
+          "alternatives"
+        ]
+      }
+    },
+    {
+      "id": "debugging",
+      "title": "Debugging",
+      "concepts": {
+        "method": [
+          "expected_observed",
+          "reproduction",
+          "hypotheses",
+          "falsification",
+          "minimal_case"
+        ],
+        "data": [
+          "grain_errors",
+          "fanout",
+          "nulls",
+          "deduplication",
+          "late_data"
+        ],
+        "systems": [
+          "logs",
+          "trace_correlation",
+          "dependency_failures",
+          "state_inspection"
+        ],
+        "repair": [
+          "smallest_fix",
+          "regression_evidence",
+          "causal_explanation",
+          "verification"
+        ]
+      }
+    },
+    {
+      "id": "incident",
+      "title": "Incident Response",
+      "concepts": {
+        "triage": [
+          "impact",
+          "severity",
+          "timeline",
+          "evidence",
+          "ownership"
+        ],
+        "stabilization": [
+          "containment",
+          "publication_hold",
+          "rollback",
+          "communication"
+        ],
+        "recovery": [
+          "reconciliation",
+          "backfill",
+          "verification",
+          "safe_release"
+        ],
+        "learning": [
+          "root_cause",
+          "contributing_factors",
+          "postmortem",
+          "prevention"
+        ]
+      }
+    },
+    {
+      "id": "fde",
+      "title": "FDE Discovery",
+      "concepts": {
+        "customer": [
+          "why",
+          "who",
+          "workflow",
+          "pain",
+          "desired_decision"
+        ],
+        "requirements": [
+          "data_access",
+          "identity",
+          "metric_meaning",
+          "constraints",
+          "acceptance"
+        ],
+        "delivery": [
+          "prototype",
+          "handoff",
+          "integration_boundaries",
+          "adoption",
+          "feedback"
+        ],
+        "judgment": [
+          "ambiguity",
+          "stakeholder_conflicts",
+          "scope_tradeoffs",
+          "evidence"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "recorded_at_utc": "2026-10-20T16:09:24.031989+00:00",
+  "client_review_date": "2026-10-21",
+  "tests": {
+    "passed": 27,
+    "failed": 0,
+    "existing_deprecation_warnings": 1
+  },
+  "cohort_live_checks": 7,
+  "cohort": {
+    "completed": 5000,
+    "invited": 5000,
+    "valid_started": 5000
+  },
+  "failure_notification_probe": {
+    "workflow_id": "qualtricsGoldFailure01",
+    "execution_id": "130",
+    "last_node": "Intentional checklist failure",
+    "received_at": "2026-10-20T16:02:24.013564+00:00"
+  },
+  "documents": {
+    "BusinessRequirements.docx": {
+      "bytes": 110323,
+      "pages_visually_inspected": 3,
+      "title_border_count": 0
+    },
+    "WorkflowRequirements.docx": {
+      "bytes": 40450,
+      "pages_visually_inspected": 3,
+      "title_border_count": 0
+    }
+  },
+  "guided_stages": 6,
+  "functional_requirements": 12,
+  "business_requirements": 6,
+  "nonfunctional_requirements": 4,
+  "manual_execute_observed": "completed with item counts through final response",
+  "guide_execute_observed": "completed with 5000 synthetic responses and 10 departments",
+  "diagram": "docs/manager-pack/architecture.svg",
+  "production_certification": false
+}

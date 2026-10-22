@@ -1,0 +1,819 @@
+{
+  "status": "passed",
+  "executed_at_utc": "2026-10-20T17:37:49.445540+00:00",
+  "synthetic": true,
+  "demonstrations": [
+    {
+      "mode": "direct",
+      "scenarios_passed": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "scenario_http_ms": [
+        2.79,
+        2.98,
+        2.46,
+        0.98,
+        0.93
+      ],
+      "responses": [
+        {
+          "status": "report",
+          "message": "Here is your employee-experience report. All values come from the labeled source.",
+          "options": [],
+          "report": {
+            "title": "Sales \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "job_satisfaction": {
+                    "key": "job_satisfaction",
+                    "label": "Job satisfaction",
+                    "value": 61.4,
+                    "average": 2.75,
+                    "numerator": 274,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  },
+                  "work_life_balance": {
+                    "key": "work_life_balance",
+                    "label": "Work-life balance",
+                    "value": 73.5,
+                    "average": 2.82,
+                    "numerator": 328,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Job satisfaction is 61.4% favorable (n=446); Work-life balance is 73.5% favorable (n=446). These descriptive sample results do not establish causes or predict future departures.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "2b786afda1b54e9eaed618d0d2fe143d",
+            "csv_url": "/api/reports/2b786afda1b54e9eaed618d0d2fe143d/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales"
+            ],
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 1.58,
+          "execution_mode": "direct"
+        },
+        {
+          "status": "report",
+          "message": "Here is your employee-experience report. All values come from the labeled source.",
+          "options": [],
+          "report": {
+            "title": "Department comparison \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "job_satisfaction": {
+                    "key": "job_satisfaction",
+                    "label": "Job satisfaction",
+                    "value": 61.4,
+                    "average": 2.75,
+                    "numerator": 274,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  },
+                  "work_life_balance": {
+                    "key": "work_life_balance",
+                    "label": "Work-life balance",
+                    "value": 73.5,
+                    "average": 2.82,
+                    "numerator": 328,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "department": "Research & Development",
+                "employees": 961,
+                "status": "ready",
+                "metrics": {
+                  "job_satisfaction": {
+                    "key": "job_satisfaction",
+                    "label": "Job satisfaction",
+                    "value": 61.9,
+                    "average": 2.73,
+                    "numerator": 595,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  },
+                  "work_life_balance": {
+                    "key": "work_life_balance",
+                    "label": "Work-life balance",
+                    "value": 69.3,
+                    "average": 2.73,
+                    "numerator": 666,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Research & Development is 0.5 percentage points above Sales on job satisfaction; Sales is 4.2 percentage points above Research & Development on work-life balance. These are descriptive differences, not evidence of causes or statistical significance.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "71529cf6de66446fb75677958aae093c",
+            "csv_url": "/api/reports/71529cf6de66446fb75677958aae093c/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 1.73,
+          "execution_mode": "direct"
+        },
+        {
+          "status": "report",
+          "message": "Here is your employee-experience report. All values come from the labeled source.",
+          "options": [],
+          "report": {
+            "title": "Department comparison \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "attrition"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 20.6,
+                    "average": null,
+                    "numerator": 92,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "department": "Research & Development",
+                "employees": 961,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 13.8,
+                    "average": null,
+                    "numerator": 133,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Sales is 6.8 percentage points above Research & Development on observed attrition. These are descriptive differences, not evidence of causes or statistical significance.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "d0cb04bb241a47a6b54dc8a51e0ee9ed",
+            "csv_url": "/api/reports/d0cb04bb241a47a6b54dc8a51e0ee9ed/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "attrition"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 1.36,
+          "execution_mode": "direct"
+        },
+        {
+          "status": "report",
+          "message": "Your displayed aggregate report is ready to download as CSV.",
+          "options": [],
+          "report": {
+            "title": "Department comparison \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "attrition"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 20.6,
+                    "average": null,
+                    "numerator": 92,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "department": "Research & Development",
+                "employees": 961,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 13.8,
+                    "average": null,
+                    "numerator": 133,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Sales is 6.8 percentage points above Research & Development on observed attrition. These are descriptive differences, not evidence of causes or statistical significance.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "d0cb04bb241a47a6b54dc8a51e0ee9ed",
+            "csv_url": "/api/reports/d0cb04bb241a47a6b54dc8a51e0ee9ed/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "attrition"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 0.01,
+          "execution_mode": "direct"
+        },
+        {
+          "status": "unsupported",
+          "message": "Genuine Qualtrics data is not connected. The IBM sample provides job satisfaction and work-life balance proxies, not an official Qualtrics engagement or EX25 score. An administrator can demonstrate the separate synthetic aggregate CSV import.",
+          "options": [],
+          "report": null,
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "attrition"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 0.01,
+          "execution_mode": "direct"
+        }
+      ]
+    },
+    {
+      "mode": "n8n",
+      "scenarios_passed": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "scenario_http_ms": [
+        43.77,
+        68.57,
+        34.91,
+        65.29,
+        27.8
+      ],
+      "responses": [
+        {
+          "status": "report",
+          "message": "Here is your employee-experience report. All values come from the labeled source.",
+          "options": [],
+          "report": {
+            "title": "Sales \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "job_satisfaction": {
+                    "key": "job_satisfaction",
+                    "label": "Job satisfaction",
+                    "value": 61.4,
+                    "average": 2.75,
+                    "numerator": 274,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  },
+                  "work_life_balance": {
+                    "key": "work_life_balance",
+                    "label": "Work-life balance",
+                    "value": 73.5,
+                    "average": 2.82,
+                    "numerator": 328,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Job satisfaction is 61.4% favorable (n=446); Work-life balance is 73.5% favorable (n=446). These descriptive sample results do not establish causes or predict future departures.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "b4b19a94e75341be8ef374d46a780201",
+            "csv_url": "/api/reports/b4b19a94e75341be8ef374d46a780201/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales"
+            ],
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 1.01,
+          "execution_mode": "n8n"
+        },
+        {
+          "status": "report",
+          "message": "Here is your employee-experience report. All values come from the labeled source.",
+          "options": [],
+          "report": {
+            "title": "Department comparison \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "job_satisfaction": {
+                    "key": "job_satisfaction",
+                    "label": "Job satisfaction",
+                    "value": 61.4,
+                    "average": 2.75,
+                    "numerator": 274,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  },
+                  "work_life_balance": {
+                    "key": "work_life_balance",
+                    "label": "Work-life balance",
+                    "value": 73.5,
+                    "average": 2.82,
+                    "numerator": 328,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "department": "Research & Development",
+                "employees": 961,
+                "status": "ready",
+                "metrics": {
+                  "job_satisfaction": {
+                    "key": "job_satisfaction",
+                    "label": "Job satisfaction",
+                    "value": 61.9,
+                    "average": 2.73,
+                    "numerator": 595,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  },
+                  "work_life_balance": {
+                    "key": "work_life_balance",
+                    "label": "Work-life balance",
+                    "value": 69.3,
+                    "average": 2.73,
+                    "numerator": 666,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Count of valid scores \u2265 3 / valid 1\u20134 scores \u00d7 100",
+                    "kind": "favorable",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Research & Development is 0.5 percentage points above Sales on job satisfaction; Sales is 4.2 percentage points above Research & Development on work-life balance. These are descriptive differences, not evidence of causes or statistical significance.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "a1053e5bdae542e992222aa3624bf383",
+            "csv_url": "/api/reports/a1053e5bdae542e992222aa3624bf383/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "job_satisfaction",
+              "work_life_balance"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 1.6,
+          "execution_mode": "n8n"
+        },
+        {
+          "status": "report",
+          "message": "Here is your employee-experience report. All values come from the labeled source.",
+          "options": [],
+          "report": {
+            "title": "Department comparison \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "attrition"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 20.6,
+                    "average": null,
+                    "numerator": 92,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "department": "Research & Development",
+                "employees": 961,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 13.8,
+                    "average": null,
+                    "numerator": 133,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Sales is 6.8 percentage points above Research & Development on observed attrition. These are descriptive differences, not evidence of causes or statistical significance.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "329086a41db04a729bb50e3bd53d34b3",
+            "csv_url": "/api/reports/329086a41db04a729bb50e3bd53d34b3/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "attrition"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 2.16,
+          "execution_mode": "n8n"
+        },
+        {
+          "status": "report",
+          "message": "Your displayed aggregate report is ready to download as CSV.",
+          "options": [],
+          "report": {
+            "title": "Department comparison \u2014 Employee Experience Report",
+            "source": {
+              "id": "ibm",
+              "label": "IBM HR Analytics \u00b7 synthetic sample",
+              "synthetic": true,
+              "rows": 1470,
+              "sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+              "url": "https://raw.githubusercontent.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/38fe9d45a87c0f0683ae46d5e9a1036f71423143/WA_Fn-UseC_-HR-Employee-Attrition.csv",
+              "survey_period": null,
+              "scoring": "Computed IBM sample proxies; not an official Qualtrics EX25 score"
+            },
+            "metrics": [
+              "attrition"
+            ],
+            "departments": [
+              {
+                "department": "Sales",
+                "employees": 446,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 20.6,
+                    "average": null,
+                    "numerator": 92,
+                    "denominator": 446,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "department": "Research & Development",
+                "employees": 961,
+                "status": "ready",
+                "metrics": {
+                  "attrition": {
+                    "key": "attrition",
+                    "label": "Observed attrition",
+                    "value": 13.8,
+                    "average": null,
+                    "numerator": 133,
+                    "denominator": 961,
+                    "missing": 0,
+                    "formula": "Yes / valid Yes-or-No indicators \u00d7 100",
+                    "kind": "observed",
+                    "status": "ready",
+                    "unit": "percent"
+                  }
+                }
+              }
+            ],
+            "summary": "Sales is 6.8 percentage points above Research & Development on observed attrition. These are descriptive differences, not evidence of causes or statistical significance.",
+            "limitations": "Single snapshot; no survey date or historical trend is supplied. Observed attrition is a sample indicator, not a resignation prediction. Minimum group and valid-answer size: 5.",
+            "report_id": "329086a41db04a729bb50e3bd53d34b3",
+            "csv_url": "/api/reports/329086a41db04a729bb50e3bd53d34b3/csv"
+          },
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "attrition"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 0.02,
+          "execution_mode": "n8n"
+        },
+        {
+          "status": "unsupported",
+          "message": "Genuine Qualtrics data is not connected. The IBM sample provides job satisfaction and work-life balance proxies, not an official Qualtrics engagement or EX25 score. An administrator can demonstrate the separate synthetic aggregate CSV import.",
+          "options": [],
+          "report": null,
+          "context": {
+            "departments": [
+              "Sales",
+              "Research & Development"
+            ],
+            "metrics": [
+              "attrition"
+            ],
+            "source": "ibm"
+          },
+          "elapsed_ms": 0.02,
+          "execution_mode": "n8n"
+        }
+      ]
+    }
+  ],
+  "timing": {
+    "direct": {
+      "requests": 20,
+      "method": "sequential localhost HTTP round trips; includes configured relay",
+      "p50_ms": 1.78,
+      "p95_ms": 2.45,
+      "max_ms": 3.0,
+      "samples_ms": [
+        1.79,
+        1.55,
+        1.5,
+        1.77,
+        1.87,
+        1.67,
+        1.71,
+        2.24,
+        2.45,
+        1.94,
+        1.58,
+        2.03,
+        1.47,
+        1.45,
+        1.4,
+        1.45,
+        3.0,
+        2.28,
+        2.05,
+        1.86
+      ]
+    },
+    "n8n": {
+      "requests": 20,
+      "method": "sequential localhost HTTP round trips; includes configured relay",
+      "p50_ms": 50.63,
+      "p95_ms": 72.03,
+      "max_ms": 93.43,
+      "samples_ms": [
+        68.08,
+        34.1,
+        70.74,
+        34.97,
+        93.43,
+        34.4,
+        68.17,
+        32.85,
+        65.5,
+        34.73,
+        66.08,
+        31.47,
+        68.16,
+        36.12,
+        72.03,
+        30.31,
+        69.15,
+        31.48,
+        65.15,
+        30.63
+      ]
+    }
+  },
+  "business_time_saved": "Not measured",
+  "n8n_failure_branch": "passed: backend unauthorized request returned safe workflow error"
+}

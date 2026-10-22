@@ -1,0 +1,221 @@
+source: mock_data/registry.jsonl
+documents:
+- document_id: HR-PTO-US
+  version: '2.1'
+  country: US
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-PTO-US
+  version: '1.0'
+  country: US
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: superseded
+- document_id: HR-PTO-UK
+  version: '1.0'
+  country: UK
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-PARENTAL-US
+  version: '1.0'
+  country: US
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-PARENTAL-UK
+  version: '1.0'
+  country: UK
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-BENEFITS-US
+  version: '1.0'
+  country: US
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-BENEFITS-UK
+  version: '1.0'
+  country: UK
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-PAYROLL
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-ONBOARD
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: public
+  status: approved
+- document_id: HR-OFFBOARD
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-REMOTE-ENG
+  version: '1.0'
+  country: US
+  group: engineering
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-REMOTE-UK
+  version: '1.0'
+  country: UK
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-EXPENSE
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-HANDBOOK
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-RESTRICTED
+  version: '1.0'
+  country: ALL
+  group: hr
+  roles:
+  - hr_admin
+  - admin
+  classification: restricted
+  status: approved
+- document_id: HR-EXPIRED
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-REVOKED
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: revoked
+- document_id: HR-DRAFT
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: draft
+- document_id: HR-MALICIOUS
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-FUTURE
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-MEALS-A
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved
+- document_id: HR-MEALS-B
+  version: '1.0'
+  country: ALL
+  group: all_authenticated
+  roles:
+  - employee
+  - hr_admin
+  - admin
+  classification: internal
+  status: approved

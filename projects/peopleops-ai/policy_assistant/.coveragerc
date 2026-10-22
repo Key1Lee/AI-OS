@@ -1,0 +1,15 @@
+[run]
+branch = True
+source = app,ingestion
+# Preserve the PostgreSQL/Qwen policy API as a separately tested entrypoint.
+# This gate covers the new SQLite runtime and its shared guard/chunking helpers.
+omit =
+    app/api.py
+    app/bootstrap.py
+    app/config.py
+    app/contracts.py
+    app/providers.py
+    app/service.py
+    app/storage.py
+[report]
+show_missing = True

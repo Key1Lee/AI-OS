@@ -1,0 +1,16 @@
+[
+  {
+    "request_id": "REQ-HR-001",
+    "employee_id": "EMP-A",
+    "service": "hr_service",
+    "instruction": "Record a synthetic payroll correction request for June 2026; do not issue a payment.",
+    "payload": { "period": "2026-06", "correction_reference": "SYNTHETIC-CORRECTION-A" }
+  },
+  {
+    "request_id": "REQ-SURVEY-002",
+    "employee_id": "EMP-B",
+    "service": "survey_service",
+    "instruction": "Create one draft Qualtrics-style survey; do not publish it or send invitations.",
+    "payload": { "title": "Synthetic employee experience survey", "status": "draft" }
+  }
+]

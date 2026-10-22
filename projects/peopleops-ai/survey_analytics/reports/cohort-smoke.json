@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "synthetic": true,
+  "checks": [
+    "real n8n collection and visualization",
+    "5,000 distinct employee IDs",
+    "all ten department totals",
+    "independent per-department metric arithmetic",
+    "replay without duplicate rows",
+    "downloaded HTML and CSV",
+    "aggregate-only artifacts"
+  ],
+  "tables": {
+    "bronze_batches": 1,
+    "bronze_responses": 5000,
+    "silver_responses": 5000,
+    "quarantine": 0,
+    "gold_snapshots": 1
+  },
+  "counts": {
+    "completed": 5000,
+    "invited": 5000,
+    "valid_started": 5000
+  },
+  "metrics": {
+    "completion_rate": {
+      "denominator": 5000,
+      "numerator": 5000,
+      "unit": "percent",
+      "value": 100.0
+    },
+    "csat_top_two_box": {
+      "denominator": 4828,
+      "numerator": 3310,
+      "unit": "percent",
+      "value": 68.56
+    },
+    "engagement_favorable": {
+      "denominator": 4865,
+      "numerator": 3118,
+      "unit": "percent",
+      "value": 64.09
+    },
+    "engagement_mean": {
+      "denominator": 4865,
+      "numerator": 18485,
+      "unit": "score_1_to_5",
+      "value": 3.8
+    },
+    "enps": {
+      "denominator": 4879,
+      "detractors": 1315,
+      "numerator": 273,
+      "promoters": 1588,
+      "unit": "points_-100_to_100",
+      "value": 5.6
+    },
+    "experience_score": {
+      "denominator": 4865,
+      "numerator": 369700,
+      "unit": "score_0_to_100",
+      "value": 75.99
+    },
+    "median_completion_seconds": 398.0,
+    "response_rate": {
+      "denominator": 5000,
+      "numerator": 5000,
+      "unit": "percent",
+      "value": 100.0
+    }
+  },
+  "batch_id": "071c8bf86bbf6798fa31c55031a3c5fcac7d8d48239efbde2dd63cf0d4ffe1b2",
+  "workflow_id": "samsaraSurvey5000"
+}

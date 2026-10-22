@@ -1,0 +1,3 @@
+source,department,employees,metric,percentage,valid_observations,numerator,average_1_to_4,status,methodology,survey_period
+IBM HR Analytics · synthetic sample,Sales,446,Observed attrition,20.6,446,92,,ready,Yes / valid Yes-or-No indicators × 100,
+IBM HR Analytics · synthetic sample,Research & Development,961,Observed attrition,13.8,961,133,,ready,Yes / valid Yes-or-No indicators × 100,

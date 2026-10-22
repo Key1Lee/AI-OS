@@ -1,0 +1,5 @@
+direct = '$repository-architecture-investigator explain this repository'
+indirect = 'Help me understand the architecture of this unfamiliar repository'
+incomplete = '$repository-architecture-investigator'
+edge = 'Reconstruct the architecture of this repository with only source access and no executable entry point'
+non_activation = 'Review this pull request for a SQL injection vulnerability'

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository Architecture Investigator"
+  short_description: "Investigate repository architecture with evidence"
+  default_prompt: "Use $repository-architecture-investigator to investigate this repository architecture, test important hypotheses, and explain the evidence and uncertainties."

@@ -1,0 +1,1133 @@
+{
+  "timestamp": "2026-10-21T12:03:17.531535+00:00",
+  "checks": {
+    "corruptedReference": {
+      "dashboard": {
+        "report": null,
+        "validation": {
+          "sourceChecksum": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+          "recordsRetrieved": 495,
+          "validRecordsUsed": 405,
+          "timestamp": "2026-10-21T12:03:17.788Z",
+          "status": "FAIL",
+          "comparisons": [
+            {
+              "field": "schemaVersion",
+              "actual": 1,
+              "expected": 1,
+              "pass": true
+            },
+            {
+              "field": "sourceChecksum",
+              "actual": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "expected": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "pass": true
+            },
+            {
+              "field": "approvedFixtureChecksum",
+              "actual": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "expected": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.score",
+              "actual": 54.379562043795616,
+              "expected": 54.37956204379562,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.validRespondents",
+              "actual": 137,
+              "expected": 137,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.eligibleEmployees",
+              "actual": 180,
+              "expected": 180,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.responseRate",
+              "actual": 76.11111111111111,
+              "expected": 76.11111111111111,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.yoyChange",
+              "actual": null,
+              "expected": null,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.score",
+              "actual": 63.39506172839503,
+              "expected": 63.39506172839506,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.validRespondents",
+              "actual": 135,
+              "expected": 135,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.eligibleEmployees",
+              "actual": 180,
+              "expected": 180,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.responseRate",
+              "actual": 75,
+              "expected": 75,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.yoyChange",
+              "actual": 9.015499684599412,
+              "expected": 9.01549968459944,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.score",
+              "actual": 69.73684210526316,
+              "expected": 69.73684210526316,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.validRespondents",
+              "actual": 133,
+              "expected": 133,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.eligibleEmployees",
+              "actual": 180,
+              "expected": 180,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.responseRate",
+              "actual": 73.88888888888889,
+              "expected": 73.88888888888889,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.yoyChange",
+              "actual": 6.341780376868137,
+              "expected": 6.341780376868101,
+              "pass": true
+            },
+            {
+              "field": "report.trend.fromYear",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.trend.toYear",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.trend.change",
+              "actual": 15.357280061467549,
+              "expected": 15.357280061467542,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.score",
+              "actual": 57.62411347517729,
+              "expected": 57.624113475177296,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.validRespondents",
+              "actual": 47,
+              "expected": 47,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.responseRate",
+              "actual": 78.33333333333333,
+              "expected": 78.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.department",
+              "actual": "Engineering",
+              "expected": "Engineering",
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.score",
+              "actual": 51.893939393939384,
+              "expected": 51.8939393939394,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.validRespondents",
+              "actual": 44,
+              "expected": 44,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.responseRate",
+              "actual": 73.33333333333333,
+              "expected": 73.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.department",
+              "actual": "Sales",
+              "expected": "Sales",
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.score",
+              "actual": 53.44202898550725,
+              "expected": 53.44202898550725,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.validRespondents",
+              "actual": 46,
+              "expected": 46,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.responseRate",
+              "actual": 76.66666666666667,
+              "expected": 76.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.department",
+              "actual": "Customer Support",
+              "expected": "Customer Support",
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.score",
+              "actual": 66.66666666666667,
+              "expected": 66.66666666666666,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.validRespondents",
+              "actual": 43,
+              "expected": 43,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.responseRate",
+              "actual": 71.66666666666667,
+              "expected": 71.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.department",
+              "actual": "Engineering",
+              "expected": "Engineering",
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.score",
+              "actual": 61.851851851851855,
+              "expected": 61.85185185185185,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.validRespondents",
+              "actual": 45,
+              "expected": 45,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.responseRate",
+              "actual": 75,
+              "expected": 75,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.department",
+              "actual": "Sales",
+              "expected": "Sales",
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.score",
+              "actual": 61.87943262411349,
+              "expected": 61.87943262411347,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.validRespondents",
+              "actual": 47,
+              "expected": 47,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.responseRate",
+              "actual": 78.33333333333333,
+              "expected": 78.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.department",
+              "actual": "Customer Support",
+              "expected": "Customer Support",
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.score",
+              "actual": 72.91666666666667,
+              "expected": 72.91666666666666,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.validRespondents",
+              "actual": 44,
+              "expected": 44,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.responseRate",
+              "actual": 73.33333333333333,
+              "expected": 73.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.department",
+              "actual": "Engineering",
+              "expected": "Engineering",
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.score",
+              "actual": 66.66666666666667,
+              "expected": 66.66666666666666,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.validRespondents",
+              "actual": 46,
+              "expected": 46,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.responseRate",
+              "actual": 76.66666666666667,
+              "expected": 76.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.department",
+              "actual": "Sales",
+              "expected": "Sales",
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.score",
+              "actual": 69.76744186046513,
+              "expected": 69.76744186046511,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.validRespondents",
+              "actual": 43,
+              "expected": 43,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.responseRate",
+              "actual": 71.66666666666667,
+              "expected": 71.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.department",
+              "actual": "Customer Support",
+              "expected": "Customer Support",
+              "pass": true
+            },
+            {
+              "field": "report.overall.score",
+              "actual": 62.42798353909462,
+              "expected": 72.42798353909464,
+              "pass": false
+            },
+            {
+              "field": "report.overall.validRespondents",
+              "actual": 405,
+              "expected": 405,
+              "pass": true
+            },
+            {
+              "field": "report.overall.eligibleEmployees",
+              "actual": 540,
+              "expected": 540,
+              "pass": true
+            },
+            {
+              "field": "report.overall.responseRate",
+              "actual": 75,
+              "expected": 75,
+              "pass": true
+            },
+            {
+              "field": "report.quality.retrievedRecords",
+              "actual": 495,
+              "expected": 495,
+              "pass": true
+            },
+            {
+              "field": "report.quality.deduplicatedRecords",
+              "actual": 477,
+              "expected": 477,
+              "pass": true
+            },
+            {
+              "field": "report.quality.duplicatesRemoved",
+              "actual": 18,
+              "expected": 18,
+              "pass": true
+            },
+            {
+              "field": "report.quality.invalidExcluded",
+              "actual": 72,
+              "expected": 72,
+              "pass": true
+            },
+            {
+              "field": "report.quality.validRecordsUsed",
+              "actual": 405,
+              "expected": 405,
+              "pass": true
+            }
+          ],
+          "message": "Reconciliation failed. Numerical findings are withheld."
+        },
+        "plan": {
+          "years": [
+            2024,
+            2025,
+            2026
+          ],
+          "departments": [
+            "Engineering",
+            "Sales",
+            "Customer Support"
+          ],
+          "metric": "engagement"
+        },
+        "source": "Mock Qualtrics Survey Export \u00b7 synthetic data only"
+      },
+      "chat": {
+        "error": "Data Validation: FAIL. Reconciliation failed. Numerical findings are withheld.",
+        "report": null,
+        "validation": {
+          "sourceChecksum": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+          "recordsRetrieved": 495,
+          "validRecordsUsed": 405,
+          "timestamp": "2026-10-21T12:03:17.916Z",
+          "status": "FAIL",
+          "comparisons": [
+            {
+              "field": "schemaVersion",
+              "actual": 1,
+              "expected": 1,
+              "pass": true
+            },
+            {
+              "field": "sourceChecksum",
+              "actual": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "expected": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "pass": true
+            },
+            {
+              "field": "approvedFixtureChecksum",
+              "actual": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "expected": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.score",
+              "actual": 54.379562043795616,
+              "expected": 54.37956204379562,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.validRespondents",
+              "actual": 137,
+              "expected": 137,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.eligibleEmployees",
+              "actual": 180,
+              "expected": 180,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.responseRate",
+              "actual": 76.11111111111111,
+              "expected": 76.11111111111111,
+              "pass": true
+            },
+            {
+              "field": "report.annual.0.yoyChange",
+              "actual": null,
+              "expected": null,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.score",
+              "actual": 63.39506172839503,
+              "expected": 63.39506172839506,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.validRespondents",
+              "actual": 135,
+              "expected": 135,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.eligibleEmployees",
+              "actual": 180,
+              "expected": 180,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.responseRate",
+              "actual": 75,
+              "expected": 75,
+              "pass": true
+            },
+            {
+              "field": "report.annual.1.yoyChange",
+              "actual": 9.015499684599412,
+              "expected": 9.01549968459944,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.score",
+              "actual": 69.73684210526316,
+              "expected": 69.73684210526316,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.validRespondents",
+              "actual": 133,
+              "expected": 133,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.eligibleEmployees",
+              "actual": 180,
+              "expected": 180,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.responseRate",
+              "actual": 73.88888888888889,
+              "expected": 73.88888888888889,
+              "pass": true
+            },
+            {
+              "field": "report.annual.2.yoyChange",
+              "actual": 6.341780376868137,
+              "expected": 6.341780376868101,
+              "pass": true
+            },
+            {
+              "field": "report.trend.fromYear",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.trend.toYear",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.trend.change",
+              "actual": 15.357280061467549,
+              "expected": 15.357280061467542,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.score",
+              "actual": 57.62411347517729,
+              "expected": 57.624113475177296,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.validRespondents",
+              "actual": 47,
+              "expected": 47,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.responseRate",
+              "actual": 78.33333333333333,
+              "expected": 78.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.0.department",
+              "actual": "Engineering",
+              "expected": "Engineering",
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.score",
+              "actual": 51.893939393939384,
+              "expected": 51.8939393939394,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.validRespondents",
+              "actual": 44,
+              "expected": 44,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.responseRate",
+              "actual": 73.33333333333333,
+              "expected": 73.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.1.department",
+              "actual": "Sales",
+              "expected": "Sales",
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.year",
+              "actual": 2024,
+              "expected": 2024,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.score",
+              "actual": 53.44202898550725,
+              "expected": 53.44202898550725,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.validRespondents",
+              "actual": 46,
+              "expected": 46,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.responseRate",
+              "actual": 76.66666666666667,
+              "expected": 76.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.2.department",
+              "actual": "Customer Support",
+              "expected": "Customer Support",
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.score",
+              "actual": 66.66666666666667,
+              "expected": 66.66666666666666,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.validRespondents",
+              "actual": 43,
+              "expected": 43,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.responseRate",
+              "actual": 71.66666666666667,
+              "expected": 71.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.3.department",
+              "actual": "Engineering",
+              "expected": "Engineering",
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.score",
+              "actual": 61.851851851851855,
+              "expected": 61.85185185185185,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.validRespondents",
+              "actual": 45,
+              "expected": 45,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.responseRate",
+              "actual": 75,
+              "expected": 75,
+              "pass": true
+            },
+            {
+              "field": "report.departments.4.department",
+              "actual": "Sales",
+              "expected": "Sales",
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.year",
+              "actual": 2025,
+              "expected": 2025,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.score",
+              "actual": 61.87943262411349,
+              "expected": 61.87943262411347,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.validRespondents",
+              "actual": 47,
+              "expected": 47,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.responseRate",
+              "actual": 78.33333333333333,
+              "expected": 78.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.5.department",
+              "actual": "Customer Support",
+              "expected": "Customer Support",
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.score",
+              "actual": 72.91666666666667,
+              "expected": 72.91666666666666,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.validRespondents",
+              "actual": 44,
+              "expected": 44,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.responseRate",
+              "actual": 73.33333333333333,
+              "expected": 73.33333333333333,
+              "pass": true
+            },
+            {
+              "field": "report.departments.6.department",
+              "actual": "Engineering",
+              "expected": "Engineering",
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.score",
+              "actual": 66.66666666666667,
+              "expected": 66.66666666666666,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.validRespondents",
+              "actual": 46,
+              "expected": 46,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.responseRate",
+              "actual": 76.66666666666667,
+              "expected": 76.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.7.department",
+              "actual": "Sales",
+              "expected": "Sales",
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.year",
+              "actual": 2026,
+              "expected": 2026,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.score",
+              "actual": 69.76744186046513,
+              "expected": 69.76744186046511,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.validRespondents",
+              "actual": 43,
+              "expected": 43,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.eligibleEmployees",
+              "actual": 60,
+              "expected": 60,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.responseRate",
+              "actual": 71.66666666666667,
+              "expected": 71.66666666666667,
+              "pass": true
+            },
+            {
+              "field": "report.departments.8.department",
+              "actual": "Customer Support",
+              "expected": "Customer Support",
+              "pass": true
+            },
+            {
+              "field": "report.overall.score",
+              "actual": 62.42798353909462,
+              "expected": 72.42798353909464,
+              "pass": false
+            },
+            {
+              "field": "report.overall.validRespondents",
+              "actual": 405,
+              "expected": 405,
+              "pass": true
+            },
+            {
+              "field": "report.overall.eligibleEmployees",
+              "actual": 540,
+              "expected": 540,
+              "pass": true
+            },
+            {
+              "field": "report.overall.responseRate",
+              "actual": 75,
+              "expected": 75,
+              "pass": true
+            },
+            {
+              "field": "report.quality.retrievedRecords",
+              "actual": 495,
+              "expected": 495,
+              "pass": true
+            },
+            {
+              "field": "report.quality.deduplicatedRecords",
+              "actual": 477,
+              "expected": 477,
+              "pass": true
+            },
+            {
+              "field": "report.quality.duplicatesRemoved",
+              "actual": 18,
+              "expected": 18,
+              "pass": true
+            },
+            {
+              "field": "report.quality.invalidExcluded",
+              "actual": 72,
+              "expected": 72,
+              "pass": true
+            },
+            {
+              "field": "report.quality.validRecordsUsed",
+              "actual": 405,
+              "expected": 405,
+              "pass": true
+            }
+          ],
+          "message": "Reconciliation failed. Numerical findings are withheld."
+        }
+      }
+    },
+    "missingReference": {
+      "report": null,
+      "validation": {
+        "sourceChecksum": "76259ef730acb947bb6c45dff30813db400ddf3d9fc590372c19ff4e575418f1",
+        "recordsRetrieved": 495,
+        "validRecordsUsed": 405,
+        "timestamp": "2026-10-21T12:03:18.193Z",
+        "status": "NOT VERIFIED",
+        "comparisons": [],
+        "message": "Independent Python reference is unavailable. Numerical findings are withheld."
+      },
+      "plan": {
+        "years": [
+          2024,
+          2025,
+          2026
+        ],
+        "departments": [
+          "Engineering",
+          "Sales",
+          "Customer Support"
+        ],
+        "metric": "engagement"
+      },
+      "source": "Mock Qualtrics Survey Export \u00b7 synthetic data only"
+    },
+    "stoppedN8n": {
+      "error": "n8n is unavailable or timed out. Start Docker Compose and retry. No n8n execution or verified chat answer was completed.",
+      "validation": {
+        "status": "NOT VERIFIED"
+      }
+    },
+    "recovered": {
+      "status": "PASS",
+      "execution": {
+        "mode": "n8n",
+        "executionId": "17",
+        "workflowId": "samsaraSurveyDemo2026"
+      }
+    }
+  },
+  "status": "PASS"
+}

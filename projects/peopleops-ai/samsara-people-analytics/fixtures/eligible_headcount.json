@@ -1,0 +1,77 @@
+[
+  {
+    "SurveyYear": 2024,
+    "Department": "Human Resources",
+    "EligibleEmployees": 250
+  },
+  {
+    "SurveyYear": 2024,
+    "Department": "Marketing",
+    "EligibleEmployees": 500
+  },
+  {
+    "SurveyYear": 2024,
+    "Department": "Engineering & Product",
+    "EligibleEmployees": 2000
+  },
+  {
+    "SurveyYear": 2024,
+    "Department": "Sales",
+    "EligibleEmployees": 1250
+  },
+  {
+    "SurveyYear": 2024,
+    "Department": "Customer Success & Support",
+    "EligibleEmployees": 1000
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Human Resources",
+    "EligibleEmployees": 250
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Marketing",
+    "EligibleEmployees": 500
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Engineering & Product",
+    "EligibleEmployees": 2000
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Sales",
+    "EligibleEmployees": 1250
+  },
+  {
+    "SurveyYear": 2025,
+    "Department": "Customer Success & Support",
+    "EligibleEmployees": 1000
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Human Resources",
+    "EligibleEmployees": 250
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Marketing",
+    "EligibleEmployees": 500
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Engineering & Product",
+    "EligibleEmployees": 2000
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Sales",
+    "EligibleEmployees": 1250
+  },
+  {
+    "SurveyYear": 2026,
+    "Department": "Customer Success & Support",
+    "EligibleEmployees": 1000
+  }
+]

@@ -1,0 +1,390 @@
+{
+  "id": "qualtricsGold01",
+  "name": "Qualtrics TEST \u2192 Bronze \u2192 Silver \u2192 Gold metrics",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Run synthetic survey",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "webhook",
+      "name": "Test application webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1080,
+        220
+      ],
+      "webhookId": "qualtrics-gold-test",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "qualtrics-gold-test",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "start-mock-qualtrics-export",
+      "name": "Start mock Qualtrics export",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -840,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/mock-qualtrics/exports",
+        "options": {
+          "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-TOKEN",
+              "value": "FAKE-QUALTRICS-LOCAL-ONLY-NOT-A-REAL-TOKEN"
+            }
+          ]
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "check-export-ready",
+      "name": "Check export ready",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -600,
+        80
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'http://survey-analytics:8812/mock-qualtrics/exports/' + $json.export_id }}",
+        "options": {
+          "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-TOKEN",
+              "value": "FAKE-QUALTRICS-LOCAL-ONLY-NOT-A-REAL-TOKEN"
+            }
+          ]
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "download-synthetic-responses",
+      "name": "Download synthetic responses",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        80
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'http://survey-analytics:8812/mock-qualtrics/exports/' + $json.export_id + '/file' }}",
+        "options": {
+          "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-TOKEN",
+              "value": "FAKE-QUALTRICS-LOCAL-ONLY-NOT-A-REAL-TOKEN"
+            }
+          ]
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "bronze---preserve-raw-export",
+      "name": "BRONZE - preserve raw export",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/layers/bronze",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "silver---validate-and-deduplicate",
+      "name": "SILVER - validate and deduplicate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        120,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/layers/silver",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({batch_id: $json.batch_id}) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "gold---publish-survey-metrics",
+      "name": "GOLD - publish survey metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/layers/gold",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({batch_id: $json.batch_id}) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "respond",
+      "name": "Return metrics to test application",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        600,
+        80
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "source-note",
+      "name": "source-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1110,
+        -310
+      ],
+      "parameters": {
+        "content": "## 1 \u00b7 QUALTRICS TEST SOURCE\n**Synthetic local account + public FAKE API token. No live Qualtrics.**\nManual run or POST webhook \u2192 start export \u2192 check ready \u2192 download.\nAll three source requests send X-API-TOKEN. Local fixture is immediately ready; real adapter needs bounded polling and export parsing.\n**Closed cohort:** 20 invited; 15 raw deliveries including duplicate, revision and invalid score.",
+        "width": 720,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "bronze-note",
+      "name": "bronze-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -150,
+        -310
+      ],
+      "parameters": {
+        "content": "## 2 \u00b7 BRONZE\nImmutable export + SHA-256 batch key.\n15 deliveries \u2192 **14 unique versions**.\n1 exact duplicate ignored.\nSQLite: bronze_batches + bronze_responses.\nReplay does not create new rows.",
+        "width": 260,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "silver-note",
+      "name": "silver-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        -310
+      ],
+      "parameters": {
+        "content": "## 3 \u00b7 SILVER\nLatest version per response ID, then validate types/ranges.\n**12 accepted \u00b7 1 quarantined \u00b7 1 superseded.**\n10 completed + 2 partial.\nInvalid newest version never revives an older answer.",
+        "width": 260,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "gold-note",
+      "name": "gold-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        390,
+        -310
+      ],
+      "parameters": {
+        "content": "## 4 \u00b7 GOLD\n**7 metrics** with explicit denominators:\nResponse rate \u00b7 completion rate \u00b7 engagement mean \u00b7 favorable % \u00b7 CSAT \u00b7 eNPS \u00b7 median duration.\nVersioned, atomic SQLite aggregate snapshot.\nSmall department/question groups: all department slices withheld to prevent subtraction disclosure.",
+        "width": 500,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "inspect-note",
+      "name": "inspect-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -150,
+        340
+      ],
+      "parameters": {
+        "content": "## INSPECT THE DATA FLOW\nExecute workflow, then click each green HTTP node \u2192 Output \u2192 JSON.\nProduction webhook: POST http://127.0.0.1:5680/webhook/qualtrics-gold-test\nGold viewer: http://127.0.0.1:8812 \u00b7 API: /layers \u00b7 SQLite: survey_analytics/data/survey.sqlite3\nRetries: 3 attempts, 1-second wait, 10-second request timeout. Errors stop publication.\nOnly this synthetic workflow saves node outputs; HR chat execution settings are unchanged.",
+        "width": 1040,
+        "height": 190,
+        "color": 4
+      }
+    }
+  ],
+  "connections": {
+    "Run synthetic survey": {
+      "main": [
+        [
+          {
+            "node": "Start mock Qualtrics export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test application webhook": {
+      "main": [
+        [
+          {
+            "node": "Start mock Qualtrics export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start mock Qualtrics export": {
+      "main": [
+        [
+          {
+            "node": "Check export ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check export ready": {
+      "main": [
+        [
+          {
+            "node": "Download synthetic responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download synthetic responses": {
+      "main": [
+        [
+          {
+            "node": "BRONZE - preserve raw export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BRONZE - preserve raw export": {
+      "main": [
+        [
+          {
+            "node": "SILVER - validate and deduplicate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SILVER - validate and deduplicate": {
+      "main": [
+        [
+          {
+            "node": "GOLD - publish survey metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GOLD - publish survey metrics": {
+      "main": [
+        [
+          {
+            "node": "Return metrics to test application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "executionTimeout": 120,
+    "saveExecutionProgress": false,
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true,
+    "timeSavedMode": "fixed",
+    "timeSavedPerExecution": 10,
+    "availableInMCP": true,
+    "errorWorkflow": "qualtricsGoldError01"
+  },
+  "pinData": {},
+  "tags": []
+}

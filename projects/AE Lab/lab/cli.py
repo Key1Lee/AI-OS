@@ -13,6 +13,7 @@ from .learning import CONNECT, DIAGNOSE, ORIENT, PREDICT, RECALL
 from .store import StateError
 from .telemetry import mermaid
 from .business_catalog import CASES, VERSION
+from .problems import VERSION as LEARNING_VERSION
 
 def summary(record: dict):
     phase = record["phases"].get("rerun") or record["phases"].get("recovery") or record["phases"].get("fault")
@@ -156,7 +157,8 @@ def main(argv=None):
         if args.command == "systems":
             for system, name in PROJECTS.items():
                 path = project_path(system)
-                runtime = path / "node_modules/.bin/tsx" if system == "orchestration" else Path(os.environ.get(f"AE_LAB_{system.upper()}_PYTHON", path / ".venv/bin/python"))
+                default_python = sys.executable if system == "semantic" else path / ".venv/bin/python"
+                runtime = path / "node_modules/.bin/tsx" if system == "orchestration" else Path(os.environ.get(f"AE_LAB_{system.upper()}_PYTHON", default_python))
                 print(f"{system}: {name}\n  {path}\n  runtime: {'available' if runtime.is_file() else 'MISSING'} ({runtime})")
             print(f"Inventory: {ROOT / 'docs/system-inventory.md'}")
             return 0
@@ -169,6 +171,8 @@ def main(argv=None):
             print(mermaid(args.mode, args.asset))
             return 0
         lab = Lab(args.state_dir)
+        if getattr(args,"run_id",None) and args.command!="inspect" and lab.store.get(args.run_id).get("kind")==LEARNING_VERSION:
+            raise StateError("Resume curriculum sessions through lab-learn or the /learn browser page.")
         if getattr(args,"run_id",None) and args.command!="inspect" and lab.store.get(args.run_id).get("kind")==VERSION:
             raise StateError("Resume this business exercise in the browser: uv run lab-web --open. CLI inspect and progress remain available.")
         if args.command in {"run", "learn", "reset"}:

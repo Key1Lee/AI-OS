@@ -1,0 +1,11 @@
+{
+  "canonical": "skills/repository-architecture-investigator",
+  "files": {
+    "SKILL.md": "f1f43b666045cf19b15af93f16faba94baf93125473d8848a219a9d9e926ce06",
+    "agents/openai.yaml": "fdcce433643b3e21cbef1a9d594e46fbcd5b708c8449946ac24a19ff1963d0d4",
+    "references/architecture-documentation.md": "95415490f829c3d2cccd8ba8651894f349711ef94b9371c406ac8fad6cb4a1a1",
+    "references/architecture-visualization.md": "b14ac77b47de63a58eb16ddcfee8a761fc2607d2690bfc8d5ede09e5687d4cbe",
+    "references/engineering-learning.md": "0a41a23c4c4850b24f38ecebbccbb733b6ebe4bc25fb90afb24deb4e909eb544",
+    "references/evaluation.md": "608df99b855fb5870990745fabde31476bb242e4c94e0c9ab4151bf574c09b6b"
+  }
+}

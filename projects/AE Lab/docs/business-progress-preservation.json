@@ -1,0 +1,101 @@
+{
+  "checked_at": "2026-10-15T10:53:07.263376+00:00",
+  "status": "PASS",
+  "tables": {
+    "runs": {
+      "prior_rows": 6,
+      "unchanged_rows": 6,
+      "checks": [
+        {
+          "id": "daac7f4d-bca9-4d49-b6c9-ba6479504944",
+          "before_sha256": "53fac5f03a2fb39fa45757ee2f95204162ee5bf2423a854718da3d8547c1e810",
+          "after_sha256": "53fac5f03a2fb39fa45757ee2f95204162ee5bf2423a854718da3d8547c1e810",
+          "unchanged": true
+        },
+        {
+          "id": "2bced00a-8361-4054-ad38-200a6a935d62",
+          "before_sha256": "fbb3f60fa883f8dbbf0edb1f183c2077bbdbc43fdcdddd31ae5370e81c42d534",
+          "after_sha256": "fbb3f60fa883f8dbbf0edb1f183c2077bbdbc43fdcdddd31ae5370e81c42d534",
+          "unchanged": true
+        },
+        {
+          "id": "d5403244-2ec4-47d6-b502-36340b8ee6fd",
+          "before_sha256": "ba198fca456d0408be5c4ec2200b0bba753e1b4af5548383f345b274bd02e68b",
+          "after_sha256": "ba198fca456d0408be5c4ec2200b0bba753e1b4af5548383f345b274bd02e68b",
+          "unchanged": true
+        },
+        {
+          "id": "007c18ad-fa18-4c29-985d-2865e3023631",
+          "before_sha256": "1e28ae1873a3606f8fae51f4ff7368c8e8844b153f9ddddb2b83d51963c5ba74",
+          "after_sha256": "1e28ae1873a3606f8fae51f4ff7368c8e8844b153f9ddddb2b83d51963c5ba74",
+          "unchanged": true
+        },
+        {
+          "id": "75fc8e9c-824e-4bb2-a24c-9e4ed32a871d",
+          "before_sha256": "27f9d1205cdb076e0a259f49cd9765795dd2a4a4eb6ab635c4f6daf3e5bc9be2",
+          "after_sha256": "27f9d1205cdb076e0a259f49cd9765795dd2a4a4eb6ab635c4f6daf3e5bc9be2",
+          "unchanged": true
+        },
+        {
+          "id": "16372204-29e7-4331-879f-16d58e911c95",
+          "before_sha256": "1cd9fb072446d5e28c4066c6a822a5cb68752d223afb5f1da1f0aaa916caefd4",
+          "after_sha256": "1cd9fb072446d5e28c4066c6a822a5cb68752d223afb5f1da1f0aaa916caefd4",
+          "unchanged": true
+        }
+      ]
+    },
+    "learning_evidence": {
+      "prior_rows": 5,
+      "unchanged_rows": 5,
+      "checks": [
+        {
+          "id": "736a771d-0458-4a1c-9955-bac81e9abc30",
+          "before_sha256": "48f2c8efae9e012eda5378c9e7a280934522d8e32569f21f68e4ac1be52bd49d",
+          "after_sha256": "48f2c8efae9e012eda5378c9e7a280934522d8e32569f21f68e4ac1be52bd49d",
+          "unchanged": true
+        },
+        {
+          "id": "ce7156d5-f9f1-429b-88a6-710c49cac201",
+          "before_sha256": "a56323b1763c5450e150fab9b880734eeea61c5a255a2375486c5c583713607f",
+          "after_sha256": "a56323b1763c5450e150fab9b880734eeea61c5a255a2375486c5c583713607f",
+          "unchanged": true
+        },
+        {
+          "id": "c8498303-fc0c-4c38-9965-50ebbe3c7dd5",
+          "before_sha256": "69e85837e5f8e1c8766b3116c7b2e8eb569b760deea770713fff5383cca3ea11",
+          "after_sha256": "69e85837e5f8e1c8766b3116c7b2e8eb569b760deea770713fff5383cca3ea11",
+          "unchanged": true
+        },
+        {
+          "id": "6b7c84ed-2c41-40db-8d1b-2b081b7488c4",
+          "before_sha256": "266438685e7c57cf581a8ca99a967f4f23dfe66141f06396db17520687021e32",
+          "after_sha256": "266438685e7c57cf581a8ca99a967f4f23dfe66141f06396db17520687021e32",
+          "unchanged": true
+        },
+        {
+          "id": "9d769dff-9e34-47bb-a565-3ea7e6751073",
+          "before_sha256": "d88769545af556125d34dbff3e9aa04ce8f89b31d438638410a27c6c02f63463",
+          "after_sha256": "d88769545af556125d34dbff3e9aa04ce8f89b31d438638410a27c6c02f63463",
+          "unchanged": true
+        }
+      ]
+    }
+  },
+  "sql_definition_fingerprints_unchanged": 120,
+  "original_sql_first_session_unattempted": true,
+  "new_authentic_session": {
+    "problem_id": "REASON-TRANSLATE-001",
+    "run_id": "d86ce711-84ce-42f6-9159-a9b59478626a",
+    "mode": "LEARN",
+    "difficulty": "L3",
+    "fixture_variant": "sample",
+    "url": "http://127.0.0.1:8089/learn?focus=reasoning&session=d86ce711-84ce-42f6-9159-a9b59478626a",
+    "state": "READY",
+    "learner_answers": 0,
+    "attempts": 0,
+    "hints": 0,
+    "solution_revealed": false,
+    "scope": "Authentic first challenge; no answer or assessment prefilled."
+  },
+  "scope": "All baseline run/evidence values retained; tests and QA used isolated profiles. Only introduction evidence added for the unanswered first reasoning case."
+}

@@ -1,0 +1,301 @@
+{
+  "business_date": "2026-10-20",
+  "runtime": "3.12.13",
+  "reliability": {
+    "samples": 40,
+    "p50_ms": 2.724292004131712,
+    "p95_ms": 3.176583006279543,
+    "p99_ms": 3.4164160024374723,
+    "successful": 40,
+    "concurrent_successful": 16,
+    "concurrent_total": 16,
+    "scope": "in-process HTTP, SQLite and synthetic HTTP mock transport on this machine; no production SLA claim"
+  },
+  "optional_llm_judge": {
+    "status": "not_requested",
+    "release_gate": false
+  },
+  "retrieval_experiments": [
+    {
+      "chunk_chars": 120,
+      "ranking": "tfidf",
+      "recall_at_5": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "precision_at_5": {
+        "numerator": 14,
+        "denominator": 23,
+        "value": 0.6086956521739131
+      },
+      "mrr": {
+        "numerator": 14.0,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "coverage": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "unauthorized_exposure_count": 0,
+      "outdated_exposure_count": 0,
+      "returned_chunks": 40,
+      "mean_context_chars": {
+        "numerator": 3433,
+        "denominator": 19,
+        "value": 180.68421052631578
+      }
+    },
+    {
+      "chunk_chars": 600,
+      "ranking": "tfidf",
+      "recall_at_5": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "precision_at_5": {
+        "numerator": 14,
+        "denominator": 23,
+        "value": 0.6086956521739131
+      },
+      "mrr": {
+        "numerator": 14.0,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "coverage": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "unauthorized_exposure_count": 0,
+      "outdated_exposure_count": 0,
+      "returned_chunks": 25,
+      "mean_context_chars": {
+        "numerator": 4064,
+        "denominator": 19,
+        "value": 213.89473684210526
+      }
+    },
+    {
+      "chunk_chars": 120,
+      "ranking": "overlap",
+      "recall_at_5": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "precision_at_5": {
+        "numerator": 14,
+        "denominator": 23,
+        "value": 0.6086956521739131
+      },
+      "mrr": {
+        "numerator": 14.0,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "coverage": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "unauthorized_exposure_count": 0,
+      "outdated_exposure_count": 0,
+      "returned_chunks": 40,
+      "mean_context_chars": {
+        "numerator": 3433,
+        "denominator": 19,
+        "value": 180.68421052631578
+      }
+    },
+    {
+      "chunk_chars": 600,
+      "ranking": "overlap",
+      "recall_at_5": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "precision_at_5": {
+        "numerator": 14,
+        "denominator": 23,
+        "value": 0.6086956521739131
+      },
+      "mrr": {
+        "numerator": 14.0,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "coverage": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1.0
+      },
+      "unauthorized_exposure_count": 0,
+      "outdated_exposure_count": 0,
+      "returned_chunks": 25,
+      "mean_context_chars": {
+        "numerator": 4064,
+        "denominator": 19,
+        "value": 213.89473684210526
+      }
+    }
+  ],
+  "coverage_percent": 92.34234234234235,
+  "test_evidence": {
+    "passed": true,
+    "exit_status": 0,
+    "passed_test_cases": 84,
+    "missing_required_test_functions": [],
+    "source_matches": true
+  },
+  "source_fingerprint": "554774dac6d62d1a317d98a3b885dfa24c3f652f5c90b91722c8399d6409ae1c",
+  "demonstration_targets": {
+    "routing_accuracy": 0.98,
+    "recall_at_5": 0.95,
+    "citation_validity": 1.0,
+    "extractive_support": 0.98,
+    "security_pass_rate": 1.0,
+    "pto_exactness": 1.0,
+    "mock_p95_ms": 750.0,
+    "coverage_percent": 85.0
+  },
+  "release": {
+    "passed": true,
+    "gates": {
+      "routing_accuracy": true,
+      "recall_at_5": true,
+      "citation_validity": true,
+      "extractive_support": true,
+      "pto_exactness": true,
+      "security": true,
+      "zero_exposure": true,
+      "all_answer_cases": true,
+      "mock_p95": true,
+      "concurrent_success": true,
+      "coverage": true,
+      "traceability": true,
+      "current_test_evidence": true
+    },
+    "failed_gates": [],
+    "scope": "fictional local reference only; no production release approval"
+  },
+  "routing": {
+    "passed": 42,
+    "total": 42,
+    "failed_case_ids": [],
+    "accuracy": {
+      "numerator": 42,
+      "denominator": 42,
+      "value": 1.0
+    }
+  },
+  "retrieval": {
+    "passed": 19,
+    "total": 19,
+    "failed_case_ids": [],
+    "recall_at_5": {
+      "numerator": 14,
+      "denominator": 14,
+      "value": 1.0
+    },
+    "precision_at_5": {
+      "numerator": 14,
+      "denominator": 23,
+      "value": 0.6086956521739131
+    },
+    "coverage": {
+      "numerator": 14,
+      "denominator": 14,
+      "value": 1.0
+    },
+    "mrr": {
+      "numerator": 14.0,
+      "denominator": 14,
+      "value": 1.0
+    },
+    "unauthorized_exposure_count": 0,
+    "outdated_exposure_count": 0,
+    "ranking": "tfidf",
+    "chunk_chars": 600,
+    "returned_chunks": 25,
+    "mean_context_chars": {
+      "numerator": 4064,
+      "denominator": 19,
+      "value": 213.89473684210526
+    }
+  },
+  "grounding": {
+    "passed": 26,
+    "total": 26,
+    "failed_case_ids": [],
+    "correctness": {
+      "numerator": 26,
+      "denominator": 26,
+      "value": 1.0
+    },
+    "citation_validity": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "extractive_support": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "unsupported_policy_answers": 0,
+    "pto_exactness": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "appropriate_abstention": {
+      "numerator": 11,
+      "denominator": 11,
+      "value": 1.0
+    },
+    "accepted_fact_coverage": {
+      "numerator": 7,
+      "denominator": 7,
+      "value": 1.0
+    },
+    "evaluator_limit": "Exact source support and labeled facts only; not a comprehensive semantic groundedness or completeness judgment"
+  },
+  "security": {
+    "passed": 18,
+    "total": 18,
+    "failed_case_ids": [],
+    "pass_rate": {
+      "numerator": 18,
+      "denominator": 18,
+      "value": 1.0
+    },
+    "observed_violations": 0
+  },
+  "traceability": {
+    "requirements": 15,
+    "test_functions": 42,
+    "evaluation_cases": 105,
+    "requirements_without_tests": [],
+    "tests_without_requirements": [],
+    "requirements_without_evaluations": [],
+    "missing_primary_tests": [],
+    "unknown_requirement_references": [],
+    "missing_implementation_files": [],
+    "passed": true
+  },
+  "pytest": {
+    "tests": "84",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.594",
+    "timestamp": "2026-10-20T18:27:35.093055+09:00"
+  },
+  "scope": "Executed local fictional reference, 2026-10-20; no production release or GitHub-hosted CI execution"
+}

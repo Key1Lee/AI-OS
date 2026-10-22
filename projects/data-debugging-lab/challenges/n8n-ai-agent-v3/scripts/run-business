@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root=$(cd "$(dirname "$0")/.." && pwd)
+cd "$root"
+scenario=${1:-pair}
+case "$scenario" in pair|single-hr|single-survey) ;; *) printf 'Use pair, single-hr, or single-survey\n'; exit 2 ;; esac
+batch_size=${LAB_BATCH_SIZE:-2}
+if [[ ! "$batch_size" =~ ^[1-9][0-9]*$ ]]; then printf 'LAB_BATCH_SIZE must be a positive integer\n' >&2; exit 2; fi
+name="$(date -u +%Y%m%dT%H%M%SZ)-business-$scenario-$$"
+mkdir -p "$root/evidence/$name/artifacts"
+export LAB_RECORD_DIR="$root/evidence/$name"
+exec "$root/scripts/record" "business-$scenario" docker compose run --rm --no-deps \
+  -e "LAB_SCENARIO=$scenario" -e "LAB_BATCH_SIZE=$batch_size" \
+  -e "LAB_ARTIFACT_DIR=/lab/evidence/$name/artifacts" runtime \
+  pnpm --filter @n8n/n8n-nodes-langchain exec vitest run --config /lab/harness/vite.config.mts

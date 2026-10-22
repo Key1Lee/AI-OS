@@ -1,0 +1,7 @@
+.env
+.venv
+access-tokens.json
+reports
+__pycache__
+**/__pycache__
+.pytest_cache

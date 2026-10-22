@@ -1,0 +1,50 @@
+[
+  {
+    "employee_id": "EMP100",
+    "tenant": "acme",
+    "pto_balance": 12.5,
+    "unit": "days",
+    "as_of_date": "2026-10-20",
+    "source_system": "mock_workday"
+  },
+  {
+    "employee_id": "EMP110",
+    "tenant": "acme",
+    "pto_balance": 8,
+    "unit": "days",
+    "as_of_date": "2026-10-20",
+    "source_system": "mock_workday"
+  },
+  {
+    "employee_id": "EMP200",
+    "tenant": "acme",
+    "pto_balance": 40,
+    "unit": "hours",
+    "as_of_date": "2026-10-20",
+    "source_system": "mock_workday"
+  },
+  {
+    "employee_id": "EMP201",
+    "tenant": "acme",
+    "pto_balance": 6,
+    "unit": "days",
+    "as_of_date": "2026-10-20",
+    "source_system": "mock_workday"
+  },
+  {
+    "employee_id": "EMP300",
+    "tenant": "acme",
+    "pto_balance": 18,
+    "unit": "days",
+    "as_of_date": "2026-10-20",
+    "source_system": "mock_workday"
+  },
+  {
+    "employee_id": "EMP400",
+    "tenant": "other",
+    "pto_balance": 4,
+    "unit": "days",
+    "as_of_date": "2026-10-20",
+    "source_system": "mock_workday"
+  }
+]

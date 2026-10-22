@@ -1,0 +1,2 @@
+# Shared registry validation only; project dependencies remain project-owned.
+PyYAML==6.0.3

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "E01",
+    "phase": 1,
+    "title": "Normalize one employee",
+    "file": "exercises/e01_cleaning.py",
+    "test": "uv run pytest tests/exercises/test_e01_cleaning.py",
+    "problem": "Workday sends Maya's name with extra spaces and an uppercase email. Produce one validated record without mutating the source.",
+    "concepts": "Dictionary access, pure functions, validation, date parsing.",
+    "production_question": "Explain whether an invalid row should reject a batch or enter quarantine."
+  },
+  {
+    "id": "E02",
+    "phase": 1,
+    "title": "Deduplicate recruiting deliveries",
+    "file": "exercises/e02_duplicates.py",
+    "test": "uv run pytest tests/exercises/test_e02_duplicates.py",
+    "problem": "EVT-0001 arrives twice, and the older delivery is last. Keep the newest source version per event ID.",
+    "concepts": "Hash maps, aware timestamps, deterministic tie-breaking.",
+    "production_question": "Explain replay safety and why arrival order is not source version order."
+  },
+  {
+    "id": "E03",
+    "phase": 1,
+    "title": "Write HR metric queries",
+    "file": "exercises/e03_analytics.sql",
+    "test": "uv run pytest tests/exercises/test_e03_analytics.py",
+    "problem": "Start with current headcount per department; then turnover, funnel, and onboarding. Preserve the documented grain across joins.",
+    "concepts": "GROUP BY, conditional aggregation, distinct grains, LEFT JOIN, zero denominators.",
+    "production_question": "Explain which join can multiply the denominator and how to detect it."
+  },
+  {
+    "id": "E04",
+    "phase": 2,
+    "title": "Chunk policy sections",
+    "file": "exercises/e04_chunking.py",
+    "test": "uv run pytest tests/exercises/test_e04_chunking.py",
+    "problem": "A policy has two sections and a version. Split long sections without losing the exact citation location.",
+    "concepts": "Iteration, stable IDs, boundaries, provenance.",
+    "production_question": "Explain why mixing versions or sections creates misleading citations."
+  },
+  {
+    "id": "E05",
+    "phase": 2,
+    "title": "Retrieve authorized evidence",
+    "file": "exercises/e05_retrieval.py",
+    "test": "uv run pytest tests/exercises/test_e05_retrieval.py",
+    "problem": "PTO v1 promises 120 hours; current v2 promises 160. Rank only current, permitted policy chunks in PostgreSQL.",
+    "concepts": "SQLAlchemy joins, cosine distance, filter-before-top-k.",
+    "production_question": "Explain why filtering after retrieval changes both privacy and recall."
+  },
+  {
+    "id": "E06",
+    "phase": 2,
+    "title": "Ground answers and refuse",
+    "file": "exercises/e06_grounding.py",
+    "test": "uv run pytest tests/exercises/test_e06_grounding.py",
+    "problem": "A payroll answer needs an exact section and version. Unsupported or malicious requests must not become invented policy.",
+    "concepts": "Typed output validation, evidence checks, uncertainty, prompt/data boundaries.",
+    "production_question": "Explain a failure that keyword injection detection cannot prevent."
+  },
+  {
+    "id": "E07",
+    "phase": 3,
+    "title": "Authorize one operation",
+    "file": "exercises/e07_authorization.py",
+    "test": "uv run pytest tests/exercises/test_e07_authorization.py",
+    "problem": "Maya can read her own PTO. A manager role alone does not grant access to all employee records.",
+    "concepts": "Deny by default, role scope, resource ownership.",
+    "production_question": "Explain why a client-provided role or owner field cannot be trusted."
+  },
+  {
+    "id": "E08",
+    "phase": 3,
+    "title": "Implement employee and recruiting endpoints",
+    "file": "exercises/e08_endpoints.py",
+    "test": "uv run pytest tests/exercises/test_e08_endpoints.py",
+    "problem": "Expose employee details, job openings, candidate records, and aggregate metrics using the security matrix.",
+    "concepts": "FastAPI dependencies, response models, parameter binding, HTTP errors.",
+    "production_question": "Explain authorization before existence disclosure and response-field minimization."
+  },
+  {
+    "id": "E09",
+    "phase": 4,
+    "title": "Plan a safe tool call",
+    "file": "exercises/e09_planning.py",
+    "test": "uv run pytest tests/exercises/test_e09_planning.py",
+    "problem": "Employee needs help with payroll. Prepare a Payroll ticket plan; ambiguous PTO dates require clarification.",
+    "concepts": "Allowlisted tools, structured arguments, validation, plan versus execution.",
+    "production_question": "Explain why a model's selected tool is not permission to execute it."
+  },
+  {
+    "id": "E10",
+    "phase": 4,
+    "title": "Confirm and execute exactly once locally",
+    "file": "exercises/e10_actions.py",
+    "test": "uv run pytest tests/exercises/test_e10_actions.py",
+    "problem": "A double click must create one request. Bind confirmation to the actor, immutable proposal, expiry, and idempotency key.",
+    "concepts": "Transactions, locks, unique constraints, payload hashing, explicit confirmation.",
+    "production_question": "Explain the crash-after-external-send boundary and why this local guarantee differs."
+  },
+  {
+    "id": "E11",
+    "phase": 5,
+    "title": "Recover paginated source reads",
+    "file": "exercises/e11_reliability.py",
+    "test": "uv run pytest tests/exercises/test_e11_reliability.py",
+    "problem": "Page two times out twice before succeeding. Retry that page without losing or duplicating page one.",
+    "concepts": "Bounded backoff, retry classification, cursor cycles, contract validation.",
+    "production_question": "Explain retry storms, time budgets, and which failures must not be retried."
+  },
+  {
+    "id": "E12",
+    "phase": 5,
+    "title": "Ingest a batch atomically",
+    "file": "exercises/e12_ingestion.py",
+    "test": "uv run pytest tests/exercises/test_e12_ingestion.py",
+    "problem": "An update and a malformed employee arrive together. Preserve prior data when validation or database work fails.",
+    "concepts": "Unit of work, source versions, upserts, rollback boundaries.",
+    "production_question": "Explain recovery after process death and handling partial source snapshots."
+  },
+  {
+    "id": "E13",
+    "phase": 4,
+    "title": "Read prior request status",
+    "file": "exercises/e13_status.py",
+    "test": "uv run pytest tests/exercises/test_e13_status.py",
+    "problem": "Maya asks about TKT-001. Other employees must receive the same response for missing and unauthorized IDs.",
+    "concepts": "Ownership checks, resource types, safe output schemas.",
+    "production_question": "Explain how enumeration leaks information even without returning a record."
+  }
+]

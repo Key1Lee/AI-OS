@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -uo pipefail
+root=$(cd "$(dirname "$0")/.." && pwd)
+label=$1
+shift
+run=${LAB_RECORD_DIR:-"$root/evidence/$(date -u +%Y%m%dT%H%M%SZ)-$label-$$"}
+mkdir -p "$run"
+printf '%q ' "$@" > "$run/command.txt"
+printf '\n' >> "$run/command.txt"
+date -u +%FT%TZ > "$run/started.txt"
+printf 'Evidence: %s\n' "$run"
+"$@" 2>&1 | tee "$run/output.log"
+code=${PIPESTATUS[0]}
+if [[ "$label" == unit ]]; then
+  report="$root/source/n8n/packages/@n8n/nodes-langchain/junit.xml"
+  if [[ -f "$report" && "$report" -nt "$run/started.txt" ]]; then cp "$report" "$run/junit.xml"; fi
+fi
+printf '%s\n' "$code" > "$run/exit-code.txt"
+date -u +%FT%TZ > "$run/finished.txt"
+exit "$code"

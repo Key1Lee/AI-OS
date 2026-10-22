@@ -11,6 +11,39 @@ The Lab owns fixtures, failure injection, its SQLite warehouse, learning state,
 event correlation and evidence exports. Existing systems retain their own logic.
 Sibling source files, service data and learner records are preserved.
 
+The [Step 1 learning framework](docs/learning-framework.md) adds the master
+curriculum, evidence-based local mastery, adaptive selection and seven original
+SQL/modeling/debugging/architecture examples. Open **Curriculum practice** at
+`/learn`; original exercises remain available at `/`. The [Step 2 SQL engine](docs/sql-problem-engine.md)
+extends these with 116 original problems (120 executable SQL/debug problems total),
+15 business domains, Debug/Review/Performance practice and grain-first reasoning.
+SQL practice needs the project-local PostgreSQL fixture service:
+
+The [Step 3 business reasoning extension](docs/business-reasoning.md) adds **60
+original cases**, six in each of ten competency areas, across eight business
+contexts. Open `/learn?focus=reasoning` for ambiguity, grain, metric contracts,
+join traces and stakeholder judgment without writing SQL. It uses the same
+session store and mastery ledger. Objective source facts are deterministic;
+clarification classification and semantic judgment require a named tutor with
+evidence from the saved response. No additional service or API key is needed
+for these reasoning cases. See [validation and limits](docs/business-reasoning-verification.md).
+
+```sh
+uv sync --extra dev
+uv run python scripts/postgres_local.py start
+uv run lab-web --open
+# Visit http://127.0.0.1:8088/learn
+uv run lab-learn recommend
+# Business reasoning does not require PostgreSQL:
+uv run lab-learn recommend --focus reasoning
+```
+
+See the [curriculum map](curriculum/curriculum.json),
+[availability matrix](curriculum/coverage-matrix.json),
+[problem contract](contracts/problem.schema.json) and
+[Step 1 test evidence](docs/learning-framework-verification.md) and
+[SQL bank validation receipts](docs/sql-engine-validation.json).
+
 ## Start
 
 On this Mac, double-click **Start AE Lab.command** on the Desktop. It starts

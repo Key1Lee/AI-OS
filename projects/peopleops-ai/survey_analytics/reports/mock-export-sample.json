@@ -1,0 +1,188 @@
+{
+  "synthetic": true,
+  "survey_id": "SV_SYNTHETIC_PULSE_OCT_2026",
+  "cohort_id": "closed-cohort-2026-10",
+  "invited_count": 20,
+  "responses": [
+    {
+      "responseId": "R_SYNTH_001",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 5,
+        "Q_CSAT": 5,
+        "Q_ENPS": 10,
+        "durationSeconds": 60
+      }
+    },
+    {
+      "responseId": "R_SYNTH_002",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 4,
+        "Q_CSAT": 4,
+        "Q_ENPS": 9,
+        "durationSeconds": 90
+      }
+    },
+    {
+      "responseId": "R_SYNTH_003",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 4,
+        "Q_CSAT": 4,
+        "Q_ENPS": 8,
+        "durationSeconds": 120
+      }
+    },
+    {
+      "responseId": "R_SYNTH_004",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 3,
+        "Q_CSAT": 3,
+        "Q_ENPS": 7,
+        "durationSeconds": 150
+      }
+    },
+    {
+      "responseId": "R_SYNTH_005",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 5,
+        "Q_CSAT": 5,
+        "Q_ENPS": 10,
+        "durationSeconds": 180
+      }
+    },
+    {
+      "responseId": "R_SYNTH_006",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 2,
+        "Q_CSAT": null,
+        "Q_ENPS": 6,
+        "durationSeconds": 210
+      }
+    },
+    {
+      "responseId": "R_SYNTH_007",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "People",
+        "Q_ENGAGEMENT": 4,
+        "Q_CSAT": 4,
+        "Q_ENPS": 9,
+        "durationSeconds": 240
+      }
+    },
+    {
+      "responseId": "R_SYNTH_008",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "People",
+        "Q_ENGAGEMENT": 5,
+        "Q_CSAT": 5,
+        "Q_ENPS": 8,
+        "durationSeconds": 270
+      }
+    },
+    {
+      "responseId": "R_SYNTH_009",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "People",
+        "Q_ENGAGEMENT": 3,
+        "Q_CSAT": 3,
+        "Q_ENPS": 5,
+        "durationSeconds": 300
+      }
+    },
+    {
+      "responseId": "R_SYNTH_010",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "People",
+        "Q_ENGAGEMENT": 4,
+        "Q_CSAT": 4,
+        "Q_ENPS": null,
+        "durationSeconds": 330
+      }
+    },
+    {
+      "responseId": "R_SYNTH_011",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": false,
+        "department": "Sales",
+        "Q_ENGAGEMENT": null,
+        "Q_CSAT": null,
+        "Q_ENPS": null,
+        "durationSeconds": 360
+      }
+    },
+    {
+      "responseId": "R_SYNTH_012",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": false,
+        "department": "Sales",
+        "Q_ENGAGEMENT": null,
+        "Q_CSAT": null,
+        "Q_ENPS": null,
+        "durationSeconds": 390
+      }
+    },
+    {
+      "responseId": "R_SYNTH_001",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 5,
+        "Q_CSAT": 5,
+        "Q_ENPS": 10,
+        "durationSeconds": 60
+      }
+    },
+    {
+      "responseId": "R_SYNTH_002",
+      "values": {
+        "recordedDate": "2026-10-19T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 1,
+        "Q_CSAT": 4,
+        "Q_ENPS": 9,
+        "durationSeconds": 90
+      }
+    },
+    {
+      "responseId": "R_SYNTH_BAD",
+      "values": {
+        "recordedDate": "2026-10-20T09:00:00Z",
+        "finished": true,
+        "department": "Engineering",
+        "Q_ENGAGEMENT": 9,
+        "Q_CSAT": 5,
+        "Q_ENPS": 10,
+        "durationSeconds": 60
+      }
+    }
+  ]
+}

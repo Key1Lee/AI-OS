@@ -23,10 +23,14 @@ from .store import StateError
 from .warehouse import Warehouse
 from .business import BusinessLab, business_view
 from .business_catalog import CASES, VERSION
+from .learning_engine import LearningEngine
+from .problems import VERSION as LEARNING_VERSION, PROBLEMS
 
 ASSETS = Path(__file__).with_name("web_assets")
 
 def resume_step(record: dict) -> int:
+    if record.get("kind") == LEARNING_VERSION:
+        return record["learning_step"]
     if record.get("kind") == VERSION:
         return record["learning_step"]
     step, state = record["learning_step"], record["state"]
@@ -51,6 +55,8 @@ def session_view(record: dict) -> dict:
     """Progressive disclosure: never return fault evidence or answers before observe."""
     if record.get("kind") == VERSION:
         return business_view(record)
+    if record.get("kind") == LEARNING_VERSION:
+        raise StateError("Resume curriculum sessions through /learn.")
     step = resume_step(record)
     result = {key: record[key] for key in ("run_id", "state", "created_at", "scenario_id", "assistance")}
     result["step"] = step
@@ -79,12 +85,15 @@ class Application:
     def __init__(self, state_dir: Path):
         self.lab = Lab(state_dir)
         self.business = BusinessLab(self.lab.store)
+        self.learning = LearningEngine(self.lab.store)
         self.token = secrets.token_urlsafe(32)
         self.lock = threading.Lock()
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="lab-run")
         self.job = None
 
     def action(self, record: dict, action: str, answer: dict):
+        if record.get("kind") == LEARNING_VERSION:
+            return self.learning.view(self.learning.action(record, action, answer))
         if record.get("kind") == VERSION:
             return self.business.action(record, action, answer)
         run_id, step = record["run_id"], resume_step(record)
@@ -161,6 +170,26 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if path == "/api/health":
                 self.send(200, {"app": "ae-lab-browser-v1", "catalog_version": VERSION, "state_dir": str(self.app.lab.store.root)})
+            elif path == "/api/learning/catalog":
+                from urllib.parse import parse_qs
+                mode=parse_qs(urlparse(self.path).query).get("mode",["LEARN"])[0]
+                focus=parse_qs(urlparse(self.path).query).get("focus",["all"])[0]
+                self.send(200, {"problems": self.app.learning.catalog(mode,focus)})
+            elif path == "/api/learning/bootstrap":
+                with self.app.lock:
+                    sessions=[{key:r[key] for key in ("run_id","problem_id","mode","state","created_at")}
+                              for r in self.app.lab.store.records() if r.get("kind")==LEARNING_VERSION]
+                    self.send(200,{"token":self.app.token,"sessions":sessions})
+            elif path == "/api/learning/coverage":
+                self.send(200,self.app.learning.mastery.coverage(PROBLEMS))
+            elif path == "/api/learning/recommend":
+                from urllib.parse import parse_qs
+                mode=parse_qs(urlparse(self.path).query).get("mode",["LEARN"])[0]
+                focus=parse_qs(urlparse(self.path).query).get("focus",["all"])[0]
+                self.send(200,self.app.learning.recommend(mode,focus))
+            elif path.startswith("/api/learning/sessions/"):
+                run_id=path.split("/")[-1];UUID(run_id)
+                self.send(200,self.app.learning.view(self.app.lab.store.get(run_id)))
             elif path == "/api/catalog":
                 self.send(200, {"cases": [{key:item[key] for key in ("id","number","title","sector","concept","priority")}
                                          for item in CASES]})
@@ -168,8 +197,10 @@ class Handler(BaseHTTPRequestHandler):
                 with self.app.lock:
                     sessions = [{"run_id": r["run_id"], "state": r["state"], "created_at": r["created_at"], "scenario_id":r["scenario_id"],
                                  "step": resume_step(r), "demo": r["assistance"]["automated_demo"]}
-                                for r in self.app.lab.store.records()]
+                                for r in self.app.lab.store.records() if r.get("kind")!=LEARNING_VERSION]
                     job = {key: self.app.job[key] for key in ("id", "run_id", "status", "action")} if self.app.job else None
+                    if job and self.app.lab.store.get(job["run_id"]).get("kind")==LEARNING_VERSION:
+                        job=None
                     self.send(200, {"token": self.app.token, "sessions": sessions, "job": job})
             elif path.startswith("/api/sessions/"):
                 run_id = path.split("/")[-1]
@@ -180,8 +211,8 @@ class Handler(BaseHTTPRequestHandler):
                     if not self.app.job or self.app.job["id"] != path.split("/")[-1]:
                         raise StateError("Unknown operation")
                     self.send(200, self.app.job)
-            elif path in {"/", "/index.html", "/app.js", "/business-app.js", "/style.css"}:
-                file = ASSETS / ("index.html" if path == "/" else path[1:])
+            elif path in {"/", "/index.html", "/app.js", "/business-app.js", "/style.css", "/learn", "/learning.js", "/reasoning.js", "/learning.css"}:
+                file = ASSETS / ("index.html" if path == "/" else "learning.html" if path=="/learn" else path[1:])
                 self.send(200, file.read_bytes(), mimetypes.guess_type(file.name)[0] or "text/plain")
             else:
                 self.send(404, {"error": "Page not found"})
@@ -203,6 +234,24 @@ class Handler(BaseHTTPRequestHandler):
             with self.app.lock:
                 if self.app.job and self.app.job["status"] == "running":
                     raise StateError("The Lab is working. Wait for the current operation to finish.")
+                if path == "/api/learning/sessions":
+                    record=self.app.learning.start(body.get("problem_id"),body.get("mode","LEARN"))
+                    self.send(201,self.app.learning.view(record))
+                    return
+                if path == "/api/learning/recall":
+                    record=self.app.learning.start_recall(body.get("problem_id"),body.get("concept"))
+                    self.send(201,self.app.learning.view(record))
+                    return
+                if path == "/api/learning/actions":
+                    record=self.app.lab.store.get(body.get("run_id",""))
+                    if record.get("kind")!=LEARNING_VERSION:
+                        raise StateError("Choose a curriculum session")
+                    if type(body.get("step")) is not int or body["step"]!=record["learning_step"] or body.get("attempt_count")!=len(record["attempts"]):
+                        raise StateError("This page is out of date; reload the current learning session")
+                    answer=body.get("answer",{})
+                    if not isinstance(answer,dict):raise ValueError("Expected a structured answer")
+                    self.send(202,self.app.submit(record,body.get("action"),answer))
+                    return
                 if path == "/api/sessions":
                     scenario_id=body.get("scenario_id")
                     if scenario_id is not None and not isinstance(scenario_id,str):

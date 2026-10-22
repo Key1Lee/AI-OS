@@ -1,0 +1,82 @@
+[
+  {
+    "policy_id": "POL-001",
+    "title": "Payroll & payslips",
+    "category": "payroll",
+    "visibility": "public",
+    "body": "In this fictional company, payroll is paid on the 15th and final business day of each month. Payslips appear in the employee portal after payroll finishes.\n\nFor missing pay, an incorrect payslip, or a direct deposit issue, submit a payroll request to the Payroll team. Never put bank account numbers in an HR ticket.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-002",
+    "title": "Vacation & time off",
+    "category": "leave",
+    "visibility": "public",
+    "body": "Full-time employees in this fictional company receive 20 days of vacation each calendar year. Request vacation in the employee portal and wait for manager approval before booking travel.\n\nFor urgent leave or a balance discrepancy, contact People Operations through an HR request. Individual eligibility must be confirmed by HR.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-003",
+    "title": "Health benefits enrollment",
+    "category": "benefits",
+    "visibility": "public",
+    "body": "New hires have 30 days from their start date to enroll in the fictional company's health benefits through the employee portal.\n\nContact the Benefits team for enrollment errors or questions about eligibility. This sample policy does not provide medical or insurance advice.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-004",
+    "title": "Your first week",
+    "category": "onboarding",
+    "visibility": "public",
+    "body": "New hires receive three onboarding tasks: verify profile details, complete orientation, and confirm equipment delivery. Complete these tasks by the end of your first week.\n\nThe IT team handles equipment and People Operations handles orientation. Onboarding reminders contain request identifiers, never confidential employee details.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-005",
+    "title": "Remote work & equipment",
+    "category": "general",
+    "visibility": "public",
+    "body": "Employees may request remote work through their manager. The fictional company's standard arrangement allows two remote days each week after manager approval.\n\nReport equipment problems to IT and keep company devices secured when working remotely.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-006",
+    "title": "Updating your employee profile",
+    "category": "general",
+    "visibility": "public",
+    "body": "Update your mailing address and emergency contact through the employee portal. People Operations reviews changes to legal name or employment details.\n\nNever send identity documents or bank information through a public Slack channel. Use the approved secure HR process.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-007",
+    "title": "Compensation review procedure",
+    "category": "employee_relations",
+    "visibility": "hr",
+    "body": "HR-only fictional procedure: compensation reviews require approval from the People Partner and Finance. The sample internal review budget is 4 percent.\n\nDo not share internal review budgets or individual compensation decisions with other employees.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  },
+  {
+    "policy_id": "POL-008",
+    "title": "Employee relations case handling",
+    "category": "employee_relations",
+    "visibility": "hr",
+    "body": "HR-only fictional procedure: sensitive employee relations cases go directly to the People Partner team. Limit access to assigned HR staff and keep investigation material outside routine notifications.",
+    "version": 1,
+    "effective_date": "2026-10-01",
+    "available": 1
+  }
+]

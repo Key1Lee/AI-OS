@@ -1,0 +1,148 @@
+criteria:
+- id: AC-001
+  requirement_id: HR-001
+  assertion: No downstream call after failed authentication
+  test_function: test_authentication
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-002
+  requirement_id: HR-002
+  assertion: All authorized fixture balances exact; cross-user access denied
+  test_function: test_self_pto
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-003
+  requirement_id: HR-003
+  assertion: Recall@5 >= 0.95 on labeled applicable policies
+  test_function: test_policy_answer
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-004
+  requirement_id: HR-004
+  assertion: Zero observed unauthorized source or record exposures
+  test_function: test_access_boundaries
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-005
+  requirement_id: HR-005
+  assertion: Routing accuracy >= 0.98 on independent labeled cases
+  test_function: test_intent_routing
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-006
+  requirement_id: HR-006
+  assertion: All citations resolve to current authorized source text
+  test_function: test_exact_citations
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-007
+  requirement_id: HR-007
+  assertion: All unsupported, ambiguous and injected fault cases match expected status
+  test_function: test_safe_failures
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-008
+  requirement_id: HR-008
+  assertion: No altered, unapproved, revoked or malicious source indexed as usable
+  test_function: test_registry_governance
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-009
+  requirement_id: HR-009
+  assertion: Zero fixture secrets or employee identifiers in observed logs/errors
+  test_function: test_redacted_audit
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-010
+  requirement_id: HR-010
+  assertion: Local mock p95 < 750 ms; production SLO remains proposed
+  test_function: test_retry_bounds
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-011
+  requirement_id: HR-011
+  assertion: Zero obsolete, expired, future or stale source answers
+  test_function: test_current_versions
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-012
+  requirement_id: HR-012
+  assertion: All critical tests and deterministic evaluation gates pass
+  test_function: test_evaluation_contract
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-013
+  requirement_id: HR-013
+  assertion: Reprocessing creates no duplicate active versions; changes require new
+    approvals
+  test_function: test_idempotent_pipeline
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-014
+  requirement_id: HR-014
+  assertion: The three core workflows use the expected injected source or no source
+  test_function: test_injected_adapters
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-015
+  requirement_id: HR-015
+  assertion: All curated adversarial cases pass; no absolute-security claim
+  test_function: test_adversarial_boundaries
+  status: planned_until_executed
+  evidence: reports/release.json
+- id: AC-LAB-001
+  requirement_id: HR-009
+  assertion: Each request shows actual stage outcomes/timings and only authorized
+    source metadata
+  test_function: test_inspectors_describe_real_authorized_work
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-002
+  requirement_id: HR-005
+  assertion: Applied rule IDs resolve to executable server-owned YAML, with seven
+    configured intents
+  test_function: test_yaml_routing_is_executable
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-003
+  requirement_id: HR-012
+  assertion: Authenticated dashboard job executes real pytest and publishes isolated
+    actual JUnit/coverage results
+  test_function: test_dashboard_job_runs_real_pytest_process
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-004
+  requirement_id: HR-007
+  assertion: Switchable failures return expected safe statuses without mutating another
+    request
+  test_function: test_request_scoped_failures_are_real_and_isolated
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-005
+  requirement_id: HR-002
+  assertion: PTO values originate from SQLite records; unchanged seed replay preserves
+    stored edits
+  test_function: test_pto_comes_from_sqlite_and_unchanged_seed_preserves_edits
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-006
+  requirement_id: HR-015
+  assertion: Test execution requires an explicit lab grant and rejects commands, paths
+    and unknown suites
+  test_function: test_test_runner_requires_explicit_permission_and_fixed_inputs
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-007
+  requirement_id: HR-010
+  assertion: Jobs serialize, enforce deadlines and isolate reports; slow calls have
+    measured stage latency
+  test_function: test_job_lifecycle_serialization_and_tenant_scope
+  status: requires_current_executed_evidence
+  evidence: reports/release.json
+- id: AC-LAB-008
+  requirement_id: HR-004
+  assertion: Cached receipts cannot restore revoked delegation or removed inventory
+    access
+  test_function: test_receipt_cannot_restore_revoked_delegation
+  status: requires_current_executed_evidence
+  evidence: reports/release.json

@@ -1,0 +1,10 @@
+version: 1
+mock_assumptions: true
+minimum_query_coverage: 0.8
+max_record_age_days: 7
+rules:
+  - {id: BR-PTO-EXACT, description: Return only the exact validated source balance, requirements: [HR-002, HR-006]}
+  - {id: BR-SOURCE-FRESH, description: Reject stale or future-dated source records, requirements: [HR-011]}
+  - {id: BR-POLICY-EVIDENCE, description: Require enough authorized current evidence, requirements: [HR-003, HR-006, HR-007]}
+  - {id: BR-CONFLICT, description: Abstain when current authorized policy facts conflict, requirements: [HR-007, HR-011]}
+  - {id: BR-HANDOFF, description: Escalate personal eligibility and unsupported personal records, requirements: [HR-007, HR-015]}

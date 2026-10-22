@@ -1,0 +1,71 @@
+name: peopleops-training
+x-app: &app
+  image: peopleops-training:local
+  pull_policy: never
+  init: true
+  volumes:
+    - ./exercises:/app/exercises:ro
+    - ./lab:/app/lab:ro
+  environment: &env
+    DATABASE_URL: postgresql+psycopg://peopleops:${POSTGRES_PASSWORD:-peopleops_local_only}@db:5432/peopleops_training
+    MOCK_URL: http://mocks:8801
+    API_URL: http://api:8800
+services:
+  db:
+    image: pgvector/pgvector:pg17@sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d
+    environment:
+      POSTGRES_USER: peopleops
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-peopleops_local_only}
+      POSTGRES_DB: peopleops_training
+    ports: ["127.0.0.1:55432:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peopleops -d peopleops_training"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  seed:
+    <<: *app
+    command: ["python", "-m", "lab.bootstrap"]
+    depends_on:
+      db: {condition: service_healthy}
+  mocks:
+    <<: *app
+    command: ["uvicorn", "lab.mocks:app", "--host", "0.0.0.0", "--port", "8801"]
+    ports: ["127.0.0.1:8801:8801"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8801/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    <<: *app
+    build: .
+    environment:
+      <<: *env
+      LLM_PROVIDER: ${LLM_PROVIDER:-fake}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      ALLOW_EXTERNAL_LLM: ${ALLOW_EXTERNAL_LLM:-false}
+    ports: ["127.0.0.1:8800:8800"]
+    depends_on:
+      seed: {condition: service_completed_successfully}
+      mocks: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8800/ready')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  ui:
+    <<: *app
+    command: ["streamlit", "run", "ui.py", "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true", "--browser.gatherUsageStats=false"]
+    ports: ["127.0.0.1:8501:8501"]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  postgres_data:

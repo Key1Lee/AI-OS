@@ -1,0 +1,40 @@
+version: 1
+mock_assumptions: true
+target_pattern: '\bemp\d+\b'
+rules:
+  - id: RT-PERSONAL
+    description: Explicit employee target or sensitive personal records
+    requirements: [HR-005]
+    intent: EMPLOYEE_DATA_REQUEST
+    any_patterns: ['\bemp\d+\b', '\b(salary|salaries|bank|ssn|medical records?|payslip|paycheck)\b']
+  - id: RT-PTO
+    description: Personal leave balance
+    requirements: [HR-005]
+    intent: PTO_BALANCE
+    all_patterns: ['\b(pto|vacation|holiday|leave)\b', '\b(balance|remaining|left|available)\b|how (many|much).{0,40}(do i have|have i got)']
+  - id: RT-BENEFITS
+    description: General benefits or a private eligibility review
+    requirements: [HR-005]
+    intent: BENEFITS_QUESTION
+    any_patterns: ['\b(benefits?|insurance|enrollment|coverage|deductible)\b']
+    personal_patterns: ['\b(eligible|eligibility|qualify|coverage|cover|covered|my)\b']
+  - id: RT-PAYROLL
+    description: General payroll policy
+    requirements: [HR-005]
+    intent: PAYROLL_POLICY
+    any_patterns: ['\b(payroll|payday|pay schedule|pay policy|paid)\b']
+  - id: RT-POLICY
+    description: Approved general HR topics
+    requirements: [HR-005]
+    intent: POLICY_QUESTION
+    any_patterns: ['\b(parental|maternity|paternity|pto|vacation|holiday|remote|onboarding|offboarding|expense|reimbursement|handbook|triage|travel|sabbatical|relocation|learning)\b']
+  - id: RT-UNSUPPORTED
+    description: Explicit unsupported topics
+    requirements: [HR-005]
+    intent: UNSUPPORTED_REQUEST
+    any_patterns: ['\b(weather|joke|recipe|bitcoin|football|javascript|movie)\b']
+fallback:
+  id: RT-AMBIGUOUS
+  description: Ask for clarification when no rule matches
+  requirements: [HR-005, HR-007]
+  intent: AMBIGUOUS_REQUEST

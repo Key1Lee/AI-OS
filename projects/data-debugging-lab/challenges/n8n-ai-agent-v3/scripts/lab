@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root=$(cd "$(dirname "$0")/.." && pwd)
+cd "$root"
+case "${1:-help}" in
+  image) exec "$root/scripts/record" image docker compose build setup ;;
+  install) exec "$root/scripts/record" install docker compose run --rm --no-deps setup pnpm --filter '@n8n/n8n-nodes-langchain...' --filter n8n-monorepo install --frozen-lockfile --ignore-scripts ;;
+  build) exec "$root/scripts/record" build docker compose run --rm --no-deps runtime bash /lab/scripts/build-packages ;;
+  unit) exec "$root/scripts/record" unit docker compose run --rm --no-deps runtime pnpm --filter @n8n/n8n-nodes-langchain test nodes/agents/Agent/test/ToolsAgent/ToolsAgentV3.test.ts nodes/agents/Agent/agents/ToolsAgent/V3/helpers/tests --maxWorkers=1 ;;
+  versions) exec "$root/scripts/record" versions docker compose run --rm --no-deps runtime sh -c 'node --version && pnpm --version' ;;
+  run) exec "$root/scripts/run-business" "${2:-pair}" ;;
+  setup) "$root/scripts/fetch-source"; "$root/scripts/lab" image; "$root/scripts/lab" install; exec "$root/scripts/lab" build ;;
+  shell) exec docker compose run --rm --no-deps runtime bash ;;
+  *) printf 'Commands: setup image install build unit versions shell run [pair|single-hr|single-survey]\n'; exit 2 ;;
+esac

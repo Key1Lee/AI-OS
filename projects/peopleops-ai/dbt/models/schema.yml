@@ -1,0 +1,60 @@
+version: 2
+models:
+  - name: stg_employees
+    description: Validated employees, with identifying and compensation fields excluded.
+    columns:
+      - name: employee_id
+        data_tests: [unique, not_null]
+      - name: department
+        data_tests: [not_null]
+      - name: hire_date
+        data_tests: [not_null]
+      - name: status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [active, leave, terminated, prehire]
+      - name: manager_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_employees')
+                field: employee_id
+  - name: stg_hr_requests
+    columns:
+      - name: request_id
+        data_tests: [unique, not_null]
+      - name: employee_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_employees')
+                field: employee_id
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [open, in_progress, resolved]
+  - name: stg_onboarding
+    columns:
+      - name: task_id
+        data_tests: [unique, not_null]
+      - name: employee_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_employees')
+                field: employee_id
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [pending, completed]
+  - name: fct_workforce
+    columns:
+      - name: as_of
+        data_tests: [unique, not_null]
+      - name: headcount
+        data_tests: [not_null]

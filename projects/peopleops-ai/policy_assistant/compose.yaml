@@ -1,0 +1,81 @@
+name: peopleops-policy
+x-app: &app
+  image: peopleops-policy:local
+  pull_policy: never
+  init: true
+  env_file: .env
+  environment: &app-env
+    DATABASE_URL: postgresql://peopleops:${POSTGRES_PASSWORD:?Run scripts/configure.py}@db:5432/peopleops_policy
+    N8N_WEBHOOK_URL: http://n8n:5678/webhook/peopleops-policy
+services:
+  db:
+    image: pgvector/pgvector:pg17@sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d
+    environment:
+      POSTGRES_USER: peopleops
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: peopleops_policy
+    ports: ["127.0.0.1:55433:5432"]
+    volumes: ["policy_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peopleops -d peopleops_policy"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  init:
+    <<: *app
+    command: ["python", "-m", "app.bootstrap"]
+    depends_on:
+      db: {condition: service_healthy}
+  api:
+    <<: *app
+    build: .
+    ports: ["127.0.0.1:8810:8810"]
+    depends_on:
+      init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8810/')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  n8n:
+    image: n8nio/n8n:2.43.7@sha256:3db21366be1d3c77c1708963129c051948573019659e8873e0294be035ffc1b2
+    ports: ["127.0.0.1:5680:5678"]
+    environment:
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?Run scripts/configure.py}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      N8N_SECURE_COOKIE: "false"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"
+      EXECUTIONS_DATA_SAVE_ON_SUCCESS: none
+      EXECUTIONS_DATA_SAVE_ON_ERROR: none
+      EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS: "false"
+      EXECUTIONS_DATA_SAVE_ON_PROGRESS: "false"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n:/workflows:ro
+    entrypoint: ["/bin/sh", "/workflows/start.sh"]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5678/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+  test-db:
+    profiles: [test]
+    image: pgvector/pgvector:pg17@sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test-local-only
+      POSTGRES_DB: peopleops_policy_test
+    ports: ["127.0.0.1:55434:5432"]
+    tmpfs: ["/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d peopleops_policy_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+volumes:
+  policy_data:
+  n8n_data:

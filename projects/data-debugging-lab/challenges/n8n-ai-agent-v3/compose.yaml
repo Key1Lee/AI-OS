@@ -1,0 +1,24 @@
+name: data-debugging-lab-agent-v3
+x-runtime: &runtime
+  image: data-debugging-lab-agent-v3:node22.22.0-pnpm10.32.1
+  build: .
+  working_dir: /lab/source/n8n
+  volumes:
+    - .:/lab
+    - pnpm-store:/root/.local/share/pnpm/store
+  environment:
+    CI: "true"
+    DO_NOT_TRACK: "1"
+    TURBO_TELEMETRY_DISABLED: "1"
+    N8N_DIAGNOSTICS_ENABLED: "false"
+    NODE_OPTIONS: --max-old-space-size=3072
+  mem_limit: 4g
+  cpus: 3
+services:
+  setup:
+    <<: *runtime
+  runtime:
+    <<: *runtime
+    network_mode: none
+volumes:
+  pnpm-store:

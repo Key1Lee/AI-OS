@@ -1,0 +1,25 @@
+name: peopleops-survey
+services:
+  survey-analytics:
+    image: peopleops-policy:local
+    pull_policy: never
+    init: true
+    restart: unless-stopped
+    working_dir: /workspace
+    command: ["uvicorn", "survey_analytics.api:app", "--host", "0.0.0.0", "--port", "8812", "--no-access-log"]
+    environment:
+      SURVEY_DB: /workspace/survey_analytics/data/survey.sqlite3
+    ports: ["127.0.0.1:8812:8812"]
+    volumes:
+      - .:/workspace/survey_analytics:ro
+      - ./data:/workspace/survey_analytics/data
+    networks: [policy]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8812/health')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+networks:
+  policy:
+    external: true
+    name: peopleops-policy_default

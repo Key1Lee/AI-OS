@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root=$(cd "$(dirname "$0")/.." && pwd)
+repo="$root/source/n8n"
+revision=50c3d88af56ebb869f76f13a2417c528d90ffd4c
+if [[ -d "$repo/.git" ]]; then
+  actual=$(git -C "$repo" rev-parse HEAD)
+  if [[ "$actual" != "$revision" ]]; then
+    printf 'Existing checkout is %s; expected %s. Preserved without resetting.\n' "$actual" "$revision" >&2
+    exit 1
+  fi
+  printf 'Pinned checkout present: %s\n' "$actual"
+  exit 0
+fi
+if [[ -e "$repo" ]]; then
+  printf 'Existing non-repository directory preserved: %s\n' "$repo" >&2
+  exit 1
+fi
+mkdir -p "$repo"
+git -C "$repo" init
+git -C "$repo" remote add origin https://github.com/n8n-io/n8n.git
+git -C "$repo" fetch --depth=1 origin "$revision"
+git -C "$repo" checkout --detach FETCH_HEAD

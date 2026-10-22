@@ -1,0 +1,11 @@
+{
+  "name": "samsara-people-analytics",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm --prefix web test",
+    "build": "npm --prefix web run build",
+    "lint": "npm --prefix web run lint",
+    "typecheck": "npm --prefix web run typecheck"
+  }
+}

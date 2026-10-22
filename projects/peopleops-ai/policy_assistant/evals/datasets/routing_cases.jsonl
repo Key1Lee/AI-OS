@@ -1,0 +1,42 @@
+{"id": "ROUTE-001", "question": "How many PTO days do I have remaining?", "expected_intent": "PTO_BALANCE", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-002", "question": "What is my PTO balance?", "expected_intent": "PTO_BALANCE", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-003", "question": "How much vacation do I have left?", "expected_intent": "PTO_BALANCE", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-004", "question": "Check my remaining holiday", "expected_intent": "PTO_BALANCE", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-005", "question": "Show available leave", "expected_intent": "PTO_BALANCE", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-006", "question": "What is my leave balance?", "expected_intent": "PTO_BALANCE", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-007", "question": "Show me the PTO balance of EMP200.", "expected_intent": "EMPLOYEE_DATA_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-008", "question": "PTO for EMP110", "expected_intent": "EMPLOYEE_DATA_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-009", "question": "What is Maya's salary?", "expected_intent": "EMPLOYEE_DATA_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-010", "question": "Show employee medical records", "expected_intent": "EMPLOYEE_DATA_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-011", "question": "My paycheck is wrong", "expected_intent": "EMPLOYEE_DATA_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-012", "question": "Show EMP100 data", "expected_intent": "EMPLOYEE_DATA_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-013", "question": "What is the parental leave policy?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-014", "question": "How do I request PTO?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-015", "question": "Explain remote work", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-016", "question": "What is onboarding?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-017", "question": "How does offboarding work?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-018", "question": "Where is the employee handbook?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-019", "question": "How do expense claims work?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-020", "question": "What is confidential case triage?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-021", "question": "What is the sabbatical policy?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-022", "question": "Explain maternity leave", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-023", "question": "How do I request holiday?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-024", "question": "What is the relocation policy?", "expected_intent": "POLICY_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-025", "question": "How does benefits enrollment work?", "expected_intent": "BENEFITS_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-026", "question": "Explain insurance enrollment", "expected_intent": "BENEFITS_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-027", "question": "Am I eligible for benefits?", "expected_intent": "BENEFITS_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-028", "question": "Does insurance cover surgery?", "expected_intent": "BENEFITS_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-029", "question": "What is the deductible?", "expected_intent": "BENEFITS_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-030", "question": "What does plan coverage include?", "expected_intent": "BENEFITS_QUESTION", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-031", "question": "How do I contact payroll?", "expected_intent": "PAYROLL_POLICY", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-032", "question": "Explain the pay policy", "expected_intent": "PAYROLL_POLICY", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-033", "question": "What is the payday procedure?", "expected_intent": "PAYROLL_POLICY", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-034", "question": "Where is the payroll support process?", "expected_intent": "PAYROLL_POLICY", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-035", "question": "Tell me a joke", "expected_intent": "UNSUPPORTED_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-036", "question": "What is the weather?", "expected_intent": "UNSUPPORTED_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-037", "question": "Write javascript", "expected_intent": "UNSUPPORTED_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-038", "question": "Recommend a movie", "expected_intent": "UNSUPPORTED_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-039", "question": "I need help", "expected_intent": "AMBIGUOUS_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-040", "question": "What should I do?", "expected_intent": "AMBIGUOUS_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-041", "question": "Tell me the policy", "expected_intent": "AMBIGUOUS_REQUEST", "requirements": ["HR-005", "HR-012"]}
+{"id": "ROUTE-042", "question": "How do I apply for leave?", "expected_intent": "AMBIGUOUS_REQUEST", "requirements": ["HR-005", "HR-012"]}

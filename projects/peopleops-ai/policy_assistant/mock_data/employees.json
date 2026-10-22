@@ -1,0 +1,179 @@
+[
+  {
+    "label": "Demo US employee",
+    "demo_token": "demo-employee-us",
+    "token_sha256": "72d0eac98f660192c88950ef2f572bd8bbc0b1514674a37ddf0cb72acced0acb",
+    "principal": {
+      "employee_id": "EMP100",
+      "slack_user_id": "U100",
+      "team_id": "T_DEMO",
+      "tenant": "acme",
+      "role": "employee",
+      "country": "US",
+      "groups": [
+        "engineering",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal"
+      ],
+      "record_scope": [],
+      "delegation_purpose": null,
+      "active": true
+    }
+  },
+  {
+    "label": "Demo sales employee",
+    "demo_token": "demo-sales-us",
+    "token_sha256": "30000521cc09f7bc25c081854c4f4c35f58777d8a56829271504d7ec59b5cb74",
+    "principal": {
+      "employee_id": "EMP110",
+      "slack_user_id": "U110",
+      "team_id": "T_DEMO",
+      "tenant": "acme",
+      "role": "employee",
+      "country": "US",
+      "groups": [
+        "sales",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal"
+      ],
+      "record_scope": [],
+      "delegation_purpose": null,
+      "active": true
+    }
+  },
+  {
+    "label": "Demo HR with narrow grant",
+    "demo_token": "demo-hr-scoped",
+    "token_sha256": "709f60dbf56a1177deba6168ca7c57a20561b6b0b89395a2a0043d1e4db15dae",
+    "principal": {
+      "employee_id": "EMP200",
+      "slack_user_id": "U200",
+      "team_id": "T_DEMO",
+      "tenant": "acme",
+      "role": "hr_admin",
+      "country": "US",
+      "groups": [
+        "hr",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal",
+        "policy:read:restricted",
+        "pto:read:delegated"
+      ],
+      "record_scope": [
+        "EMP110"
+      ],
+      "delegation_purpose": "mock-approved-pto-case",
+      "active": true
+    }
+  },
+  {
+    "label": "Demo HR without delegation",
+    "demo_token": "demo-hr-limited",
+    "token_sha256": "19e929c6affbfcca061e7db4cc8a0f6acbdbeb9e665cacc7962354c5a5617f28",
+    "principal": {
+      "employee_id": "EMP201",
+      "slack_user_id": "U201",
+      "team_id": "T_DEMO",
+      "tenant": "acme",
+      "role": "hr_admin",
+      "country": "US",
+      "groups": [
+        "hr",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal",
+        "policy:read:restricted"
+      ],
+      "record_scope": [],
+      "delegation_purpose": null,
+      "active": true
+    }
+  },
+  {
+    "label": "Demo UK employee",
+    "demo_token": "demo-employee-uk",
+    "token_sha256": "04589b2335223eb797f6510021421e0b255d61a8168df29bd461be75eeaf22a5",
+    "principal": {
+      "employee_id": "EMP300",
+      "slack_user_id": "U300",
+      "team_id": "T_DEMO",
+      "tenant": "acme",
+      "role": "employee",
+      "country": "UK",
+      "groups": [
+        "engineering",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal"
+      ],
+      "record_scope": [],
+      "delegation_purpose": null,
+      "active": true
+    }
+  },
+  {
+    "label": "Demo other tenant",
+    "demo_token": "demo-other-tenant",
+    "token_sha256": "ceb23d9acfebf52d9a5c12e42b8f5427df774fc9cadc93d001d9a743f1cb7a8f",
+    "principal": {
+      "employee_id": "EMP400",
+      "slack_user_id": "U400",
+      "team_id": "T_OTHER",
+      "tenant": "other",
+      "role": "employee",
+      "country": "US",
+      "groups": [
+        "engineering",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal"
+      ],
+      "record_scope": [],
+      "delegation_purpose": null,
+      "active": true
+    }
+  },
+  {
+    "label": "Demo policy administrator",
+    "demo_token": "demo-admin",
+    "token_sha256": "cce7a2cf1ae045989cfc914fb95a41526f167a838b3c7d33745143614abace7c",
+    "principal": {
+      "employee_id": "EMP900",
+      "slack_user_id": "U900",
+      "team_id": "T_DEMO",
+      "tenant": "acme",
+      "role": "admin",
+      "country": "US",
+      "groups": [
+        "hr",
+        "all_authenticated"
+      ],
+      "permissions": [
+        "pto:read:self",
+        "policy:read:internal",
+        "policy:read:restricted",
+        "policy:ingest",
+        "audit:read",
+        "lab:run"
+      ],
+      "record_scope": [],
+      "delegation_purpose": null,
+      "active": true
+    }
+  }
+]

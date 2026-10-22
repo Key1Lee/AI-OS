@@ -1,0 +1,100 @@
+{
+  "version": "ae-business-paths-v1",
+  "areas": [
+    {
+      "id": "translate",
+      "title": "Business Problem Translation",
+      "concept": "business.translate.core",
+      "prerequisites": [],
+      "case_count": 6
+    },
+    {
+      "id": "grain",
+      "title": "Grain & Cardinality",
+      "concept": "business.grain.core",
+      "prerequisites": [
+        "business.translate.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "entities",
+      "title": "Entity & Event Reasoning",
+      "concept": "business.entities.core",
+      "prerequisites": [
+        "business.grain.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "metrics",
+      "title": "Metric Definitions",
+      "concept": "business.metrics.core",
+      "prerequisites": [
+        "business.translate.core",
+        "business.entities.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "fanout",
+      "title": "Join Fanout & Aggregation",
+      "concept": "business.fanout.core",
+      "prerequisites": [
+        "business.grain.core",
+        "business.metrics.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "temporal",
+      "title": "Temporal Reasoning",
+      "concept": "business.temporal.core",
+      "prerequisites": [
+        "business.entities.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "integrity",
+      "title": "Data Integrity",
+      "concept": "business.integrity.core",
+      "prerequisites": [
+        "business.entities.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "dimensions",
+      "title": "Business Dimensions",
+      "concept": "business.dimensions.core",
+      "prerequisites": [
+        "business.grain.core",
+        "business.temporal.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "validation",
+      "title": "Analytical Validation",
+      "concept": "business.validation.core",
+      "prerequisites": [
+        "business.metrics.core",
+        "business.integrity.core"
+      ],
+      "case_count": 6
+    },
+    {
+      "id": "communication",
+      "title": "Stakeholder Communication",
+      "concept": "business.communication.core",
+      "prerequisites": [
+        "business.translate.core",
+        "business.validation.core"
+      ],
+      "case_count": 6
+    }
+  ],
+  "initial_level": "L3",
+  "note": "Self-reported professional experience sets initial challenge difficulty only; it grants no mastery evidence."
+}

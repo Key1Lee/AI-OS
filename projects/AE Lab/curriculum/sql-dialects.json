@@ -1,0 +1,22 @@
+{
+  "execution_dialect": "PostgreSQL 17",
+  "scope": "Advanced discussion reference. Only PostgreSQL is executed or certified locally; translate against the selected warehouse documentation before submission.",
+  "dialects": {
+    "PostgreSQL": {
+      "notes": ["Filter window results through a CTE or subquery; PostgreSQL has no QUALIFY clause.", "JSONB objects model nested fields; JSONB_ARRAY_ELEMENTS and UNNEST expand JSON and native arrays respectively.", "Window defaults do not make LAST_VALUE see the full partition. A CTE organizes logic and does not guarantee materialization or faster execution."],
+      "sources": ["https://www.postgresql.org/docs/17/functions-window.html", "https://www.postgresql.org/docs/17/functions-json.html", "https://www.postgresql.org/docs/17/functions-array.html", "https://www.postgresql.org/docs/17/queries-with.html"]
+    },
+    "Snowflake": {
+      "notes": ["QUALIFY can filter computed window results. An equivalent nested query may be appropriate for portability.", "Do not infer warehouse pruning, join strategy or CTE behavior from a PostgreSQL fixture plan."],
+      "sources": ["https://docs.snowflake.com/en/sql-reference/constructs/qualify"]
+    },
+    "BigQuery": {
+      "notes": ["SAFE_CAST supports casting failures to NULL. SAFE. is not interchangeable with SAFE_CAST or a prefix on UNNEST.", "Translate time, nested data and physical partition predicates for the actual source types and warehouse."],
+      "sources": ["https://docs.cloud.google.com/bigquery/docs/reference/standard-sql/functions-reference"]
+    },
+    "Databricks SQL": {
+      "notes": ["TRY_CAST can return NULL for invalid or overflowing casts where supported.", "EXPLODE expands collection data. Confirm the supported invocation syntax for the runtime version."],
+      "sources": ["https://docs.databricks.com/aws/en/sql/language-manual/functions/cast", "https://docs.databricks.com/gcp/en/sql/language-manual/functions/explode"]
+    }
+  }
+}

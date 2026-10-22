@@ -1,0 +1,22 @@
+as_of_date: '2026-10-20'
+demo_mode: true
+lab_enabled: true
+lab_job_timeout_seconds: 120
+chunk_chars: 600
+top_k: 5
+min_relevance: 0.12
+max_record_age_days: 7
+workday_timeout_seconds: 0.1
+workday_attempts: 3
+workday_backoff_seconds: 0.005
+max_requests_per_minute: 120
+receipt_ttl_seconds: 86400
+evaluation_gates:
+  routing_accuracy: 0.98
+  recall_at_5: 0.95
+  citation_validity: 1.0
+  extractive_support: 0.98
+  security_pass_rate: 1.0
+  pto_exactness: 1.0
+  mock_p95_ms: 750
+  coverage_percent: 85

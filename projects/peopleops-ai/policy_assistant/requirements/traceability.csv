@@ -1,0 +1,24 @@
+requirement_id,acceptance_id,implementation,test_function,dataset,metric,release_gate
+HR-001,AC-001,app/auth.py;app/identity.py,test_authentication,routing,authentication_success,No downstream call after failed authentication
+HR-002,AC-002,app/workday_client.py;app/orchestrator.py,test_self_pto,grounding,pto_exactness,All authorized fixture balances exact; cross-user access denied
+HR-003,AC-003,app/rag_search.py;app/response_builder.py,test_policy_answer,retrieval,recall_at_5,Recall@5 >= 0.95 on labeled applicable policies
+HR-004,AC-004,app/permissions.py;app/rag_search.py,test_access_boundaries,security,unauthorized_exposure,Zero observed unauthorized source or record exposures
+HR-005,AC-005,app/intent_router.py;app/orchestrator.py,test_intent_routing,routing,routing_accuracy,Routing accuracy >= 0.98 on independent labeled cases
+HR-006,AC-006,app/response_builder.py,test_exact_citations,grounding,citation_validity,All citations resolve to current authorized source text
+HR-007,AC-007,app/orchestrator.py;app/response_builder.py,test_safe_failures,grounding,appropriate_abstention,"All unsupported, ambiguous and injected fault cases match expected status"
+HR-008,AC-008,ingestion/validate_documents.py;ingestion/classify_documents.py,test_registry_governance,security,unapproved_exposure,"No altered, unapproved, revoked or malicious source indexed as usable"
+HR-009,AC-009,app/audit.py,test_redacted_audit,security,sensitive_leakage,Zero fixture secrets or employee identifiers in observed logs/errors
+HR-010,AC-010,app/workday_client.py;evals/run_evaluations.py,test_retry_bounds,reliability,local_mock_p95_ms,Local mock p95 < 750 ms; production SLO remains proposed
+HR-011,AC-011,ingestion/index_documents.py;app/rag_search.py;app/workday_client.py,test_current_versions,retrieval,outdated_exposure,"Zero obsolete, expired, future or stale source answers"
+HR-012,AC-012,evals/run_evaluations.py;.github/workflows/ci.yaml,test_evaluation_contract,all,required_gates,All critical tests and deterministic evaluation gates pass
+HR-013,AC-013,ingestion/run_pipeline.py;ingestion/index_documents.py,test_idempotent_pipeline,retrieval,duplicate_active_records,Reprocessing creates no duplicate active versions; changes require new approvals
+HR-014,AC-014,app/workday_client.py;app/orchestrator.py;app/models.py,test_injected_adapters,routing,workflow_source_correctness,The three core workflows use the expected injected source or no source
+HR-015,AC-015,app/permissions.py;app/orchestrator.py;ingestion/classify_documents.py,test_adversarial_boundaries,security,critical_security_pass_rate,All curated adversarial cases pass; no absolute-security claim
+HR-009,AC-LAB-001,app/diagnostics.py;app/orchestrator.py;app/main.py,test_inspectors_describe_real_authorized_work,security,redacted_measured_trace,Current mapped regression tests and deterministic release gates pass
+HR-005,AC-LAB-002,app/rules.py;app/intent_router.py;config/routing_rules.yaml,test_yaml_routing_is_executable,routing,configured_routing_accuracy,Current mapped regression tests and deterministic release gates pass
+HR-012,AC-LAB-003,app/test_runner.py;app/lab_worker.py;app/enterprise_static/app.js,test_dashboard_job_runs_real_pytest_process,security,backend_test_execution,Current mapped regression tests and deterministic release gates pass
+HR-007,AC-LAB-004,app/main.py;app/workday_client.py,test_request_scoped_failures_are_real_and_isolated,grounding,fault_isolation,Current mapped regression tests and deterministic release gates pass
+HR-002,AC-LAB-005,app/enterprise_data.py;app/workday_client.py,test_pto_comes_from_sqlite_and_unchanged_seed_preserves_edits,grounding,database_source_correctness,Current mapped regression tests and deterministic release gates pass
+HR-015,AC-LAB-006,app/main.py;app/test_runner.py;config/security_policies.yaml,test_test_runner_requires_explicit_permission_and_fixed_inputs,security,authorized_fixed_test_commands,Current mapped regression tests and deterministic release gates pass
+HR-010,AC-LAB-007,app/test_runner.py;tests/performance/test_testing_performance.py,test_job_lifecycle_serialization_and_tenant_scope,grounding,job_reliability,Current mapped regression tests and deterministic release gates pass
+HR-004,AC-LAB-008,app/main.py;app/identity.py,test_receipt_cannot_restore_revoked_delegation,security,receipt_authority_binding,Current mapped regression tests and deterministic release gates pass

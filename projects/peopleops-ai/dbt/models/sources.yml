@@ -1,0 +1,8 @@
+version: 2
+sources:
+  - name: application
+    schema: app
+    tables:
+      - name: employees
+      - name: hr_requests
+      - name: onboarding_tasks

@@ -1,5 +1,11 @@
 # System inventory — Phase 0
 
+The [2026-10-14 learning framework](learning-framework.md) reuses these native
+boundaries and adds a read-only Semantic contract-reference worker. It explicitly
+reports that the sibling's existing fulfilled-order/single-product contract
+cannot certify the new exercise metrics. PostgreSQL is an AE-owned fixture
+executor; no sibling execution or canonical learner system was copied.
+
 Inspected 2026-10-03 before implementation. All paths below are siblings of AE Lab.
 No existing system was modified. Existing unrelated workspace changes were preserved.
 

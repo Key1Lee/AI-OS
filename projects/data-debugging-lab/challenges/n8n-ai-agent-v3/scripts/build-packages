@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /lab/source/n8n
+pnpm exec turbo run build:unchecked --filter=n8n-core... --filter=@n8n/ai-utilities... --filter=@n8n/json-schema-to-zod... --filter=@n8n/vitest-config --concurrency=2
+# The public node's property descriptions import this package's compiled metadata.
+pnpm --filter n8n-nodes-base exec tsc --build tsconfig.build.cjs.json --noCheck
+pnpm --filter n8n-nodes-base exec tsc-alias -p tsconfig.build.cjs.json

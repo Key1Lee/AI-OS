@@ -1,11 +1,12 @@
 # Paths are relative to the AI-OS root; test commands run from this system path.
 # Dependencies are implemented consumer-owned subprocess adapters, not remote service calls.
 name: analytics-engineering-lab
-purpose: Guided business architecture exercises and an integrated retry-safety scenario over existing local engineering systems.
+purpose: Guided engineering exercises, a reusable curriculum and evidence-based adaptive learning framework over existing local systems.
 owns:
 - scenario fixtures, failure injection, and evidence correlation
 - local warehouse operations and learning session state
 - consumer-owned sibling runtime adapters
+- original problem contracts, local concept evidence, recall, and adaptive selection
 does_not_own:
 - canonical sibling engine logic and Toptal mastery
 - production schedulers, BI, and connectors
@@ -15,21 +16,30 @@ entrypoints:
 - projects/AE Lab/lab/cli.py
 - projects/AE Lab/lab/web.py
 - projects/AE Lab/Start-AE-Lab.command
+- projects/AE Lab/lab/learning_cli.py
+- projects/AE Lab/scripts/postgres_local.py
 public_interfaces:
 - projects/AE Lab/lab/contracts.py
 - projects/AE Lab/lab/adapters/bridge.py
+- projects/AE Lab/lab/learning_engine.py
+- projects/AE Lab/contracts/problem.schema.json
 depends_on:
 - data-modeling-system
 - data-orchestration-system
 - data-quality-system
 - data-observability-system
 - toptal-testing-system
+- semantic-metrics-system
 consumed_by: []
 contracts:
 - projects/AE Lab/lab/contracts.py
+- projects/AE Lab/contracts/problem.schema.json
+- projects/AE Lab/curriculum/policy.json
 state_owned:
 - isolated .lab profiles and state.sqlite
 - per-run warehouses, observability profiles, and evidence exports
+- append-only local learning_evidence table in the existing state.sqlite
+- project-owned PostgreSQL fixture cluster and disposable attempt schemas
 tests:
   unit: []
   smoke: []
@@ -43,4 +53,6 @@ documentation:
 - projects/AE Lab/docs/system-inventory.md
 - projects/AE Lab/docs/browser-ui.md
 - projects/AE Lab/docs/business-exercises.md
+- projects/AE Lab/docs/learning-framework.md
+- projects/AE Lab/curriculum/curriculum.json
 lifecycle: UNKNOWN

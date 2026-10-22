@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -13,6 +14,7 @@ PROJECTS = {
     "quality": "data-quality-contracts-system",
     "observability": "Data Observability System",
     "testing": "Toptal-Testing System",
+    "semantic": "Semantic & Metrics System",
 }
 
 class AdapterError(RuntimeError):
@@ -23,7 +25,8 @@ def project_path(system: str) -> Path:
 
 def invoke(system: str, payload: dict, worker: str | None = None) -> dict:
     project = project_path(system)
-    python = Path(os.environ.get(f"AE_LAB_{system.upper()}_PYTHON", project / ".venv/bin/python"))
+    default_python = sys.executable if system == "semantic" else project / ".venv/bin/python"
+    python = Path(os.environ.get(f"AE_LAB_{system.upper()}_PYTHON", default_python))
     script = ROOT / "lab/adapters/workers" / (worker or f"{system}.py")
     if not python.is_file() or not script.is_file():
         raise AdapterError(f"{system}: native runtime or bridge missing. See README setup and AE_LAB_{system.upper()}_ROOT/PYTHON.")

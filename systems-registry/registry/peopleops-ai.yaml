@@ -1,0 +1,125 @@
+name: peopleops-ai
+purpose: Fictional local HR engineering application and interview learning lab.
+owns:
+- project-local employee ingestion, validation, metrics, and HR request workflows
+- permission-filtered policy retrieval and local mock notifications
+- isolated demo data, credentials, curriculum, tests, and operational evidence
+- Python 3.12 training infrastructure and isolated learner-owned business exercises
+- completed fictional policy assistant with versioned Markdown, pgvector ACL retrieval, and local n8n chat
+- standalone SQLite enterprise mock with signed Slack, scoped synthetic PTO, governed RAG, traceability, evaluations and CI gates
+- interactive engineering dashboard with measured stages, executable rule inspectors, isolated failure simulation and permission-gated test subprocesses
+- synthetic Qualtrics survey collection with local n8n, versioned Bronze/Silver/Gold and a 5,000-person department visualization
+- standalone IBM synthetic employee-experience chatbot with pandas metrics, bounded sessions, scoped aggregate exports and optional n8n relay
+does_not_own:
+- real enterprise integrations, real employee data, or production deployment
+- shared provider runtime, sibling engine state, or canonical learner mastery
+path: projects/peopleops-ai
+entrypoints:
+- projects/peopleops-ai/peopleops/cli.py
+- projects/peopleops-ai/peopleops/app.py
+- projects/peopleops-ai/Start-PeopleOps.command
+- projects/peopleops-ai/Start-Training.command
+- projects/peopleops-ai/training/compose.yaml
+- projects/peopleops-ai/training/lab/api.py
+- projects/peopleops-ai/Start-Policy-Assistant.command
+- projects/peopleops-ai/policy_assistant/compose.yaml
+- projects/peopleops-ai/policy_assistant/app/api.py
+- projects/peopleops-ai/Start-Enterprise-HR.command
+- projects/peopleops-ai/policy_assistant/app/main.py
+- projects/peopleops-ai/policy_assistant/ingestion/run_pipeline.py
+- projects/peopleops-ai/policy_assistant/evals/run_evaluations.py
+- projects/peopleops-ai/survey_analytics/api.py
+- projects/peopleops-ai/survey_analytics/start.sh
+- projects/peopleops-ai/survey_analytics/samsara-5000.json
+- projects/peopleops-ai/people-insights-ai/app/main.py
+- projects/peopleops-ai/people-insights-ai/start.sh
+- projects/peopleops-ai/people-insights-ai/n8n/people_insights_workflow.json
+public_interfaces:
+- projects/peopleops-ai/peopleops/app.py
+- projects/peopleops-ai/training/lab/api.py
+- projects/peopleops-ai/training/lab/mocks.py
+- projects/peopleops-ai/policy_assistant/app/api.py
+- projects/peopleops-ai/policy_assistant/app/main.py
+- projects/peopleops-ai/survey_analytics/api.py
+- projects/peopleops-ai/people-insights-ai/app/main.py
+depends_on:
+- ai-os
+consumed_by: []
+contracts:
+- projects/peopleops-ai/docs/architecture.md
+- projects/peopleops-ai/peopleops/schema.sql
+- projects/peopleops-ai/training/docs/architecture.md
+- projects/peopleops-ai/training/docs/security.md
+- projects/peopleops-ai/training/lab/contracts.py
+- projects/peopleops-ai/policy_assistant/app/contracts.py
+- projects/peopleops-ai/policy_assistant/app/schema.sql
+- projects/peopleops-ai/policy_assistant/app/models.py
+- projects/peopleops-ai/policy_assistant/requirements/business_requirements.yaml
+- projects/peopleops-ai/policy_assistant/requirements/acceptance_criteria.yaml
+- projects/peopleops-ai/policy_assistant/app/rules.py
+- projects/peopleops-ai/policy_assistant/config/business_rules.yaml
+- projects/peopleops-ai/policy_assistant/config/routing_rules.yaml
+- projects/peopleops-ai/policy_assistant/config/security_policies.yaml
+- projects/peopleops-ai/policy_assistant/docs/transition.md
+- projects/peopleops-ai/survey_analytics/cohort.py
+- projects/peopleops-ai/survey_analytics/pipeline.py
+- projects/peopleops-ai/people-insights-ai/app/models.py
+- projects/peopleops-ai/people-insights-ai/app/analytics.py
+state_owned:
+- project-local SQLite application database and analytics snapshot
+- generated demo identities, ingestion lineage, quarantine, audit, and notification state
+- isolated PostgreSQL training volume, synthetic fixtures, and local evaluation reports
+- separate policy PostgreSQL and n8n volumes, immutable documents, embeddings, and ingestion audit
+- isolated enterprise SQLite index, redacted audit, principal-bound receipts, fixture data and reproducible release evidence
+- pinned public IBM CSV, expiring identity-bound conversations and reports, optional synthetic provided survey aggregates
+tests:
+  unit:
+  - uv run pytest
+  - uv run --project training pytest training/tests/foundation
+  - cd policy_assistant && uv run pytest
+  - policy_assistant/.venv/bin/python -m pytest survey_analytics/tests
+  - cd people-insights-ai && .venv/bin/python -m pytest -q
+  smoke:
+  - uv run peopleops quality
+  - cd policy_assistant && uv run python scripts/smoke.py
+  - cd policy_assistant && uv run python -m ingestion.run_pipeline
+  - policy_assistant/.venv/bin/python -m survey_analytics.smoke
+  - policy_assistant/.venv/bin/python -m survey_analytics.cohort_smoke
+  - cd people-insights-ai && .venv/bin/python scripts/smoke.py
+  contract:
+  - uv run peopleops dbt
+  integration:
+  - uv run peopleops evaluate
+  - cd policy_assistant && uv run python -m evals.run_evaluations
+health_check: null
+documentation:
+- projects/peopleops-ai/README.md
+- projects/peopleops-ai/AGENTS.md
+- projects/peopleops-ai/docs/architecture.md
+- projects/peopleops-ai/docs/learning-guide.md
+- projects/peopleops-ai/docs/runbook.md
+- projects/peopleops-ai/docs/verification.md
+- projects/peopleops-ai/PROGRESS.md
+- projects/peopleops-ai/training/README.md
+- projects/peopleops-ai/training/docs/verification.md
+- projects/peopleops-ai/policy_assistant/README.md
+- projects/peopleops-ai/policy_assistant/docs/functions.md
+- projects/peopleops-ai/policy_assistant/docs/verification.md
+- projects/peopleops-ai/policy_assistant/docs/local-qwen.md
+- projects/peopleops-ai/policy_assistant/docs/enterprise-guide.md
+- projects/peopleops-ai/policy_assistant/docs/enterprise-architecture.md
+- projects/peopleops-ai/policy_assistant/docs/enterprise-readiness.md
+- projects/peopleops-ai/policy_assistant/docs/enterprise-verification.md
+- projects/peopleops-ai/policy_assistant/docs/testing-layer-guide.md
+- projects/peopleops-ai/policy_assistant/docs/architecture.md
+- projects/peopleops-ai/policy_assistant/docs/test_plan.md
+- projects/peopleops-ai/policy_assistant/docs/operational_readiness.md
+- projects/peopleops-ai/policy_assistant/docs/testing-layer-verification.md
+- projects/peopleops-ai/survey_analytics/README.md
+- projects/peopleops-ai/survey_analytics/docs/verification.md
+- projects/peopleops-ai/survey_analytics/docs/manager-pack-verification.md
+- projects/peopleops-ai/survey_analytics/docs/manager-pack/BusinessRequirements.docx
+- projects/peopleops-ai/survey_analytics/docs/manager-pack/WorkflowRequirements.docx
+- projects/peopleops-ai/people-insights-ai/README.md
+- projects/peopleops-ai/people-insights-ai/VERIFICATION.md
+lifecycle: UNKNOWN

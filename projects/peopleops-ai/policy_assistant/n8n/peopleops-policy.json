@@ -1,0 +1,38 @@
+{
+  "id": "peopleopsPolicy01",
+  "name": "PeopleOps AI - authenticated policy chat",
+  "active": false,
+  "nodes": [
+    {
+      "id": "request", "name": "Chat webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2.1,
+      "position": [0, 0], "webhookId": "peopleops-policy",
+      "parameters": {"httpMethod": "POST", "path": "peopleops-policy", "responseMode": "responseNode", "options": {}}
+    },
+    {
+      "id": "ask", "name": "Ask FastAPI", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [280, 0],
+      "parameters": {
+        "method": "POST", "url": "http://api:8810/ask",
+        "sendHeaders": true,
+        "headerParameters": {"parameters": [{"name": "Authorization", "value": "={{ $json.headers.authorization || '' }}"}]},
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ question: $json.body.question }) }}",
+        "options": {"timeout": 45000, "response": {"response": {"fullResponse": true, "neverError": true, "responseFormat": "json"}}}
+      }
+    },
+    {
+      "id": "reply", "name": "Return structured answer", "type": "n8n-nodes-base.respondToWebhook", "typeVersion": 1.4,
+      "position": [560, 0],
+      "parameters": {"respondWith": "json", "responseBody": "={{ $json.body }}", "options": {"responseCode": "={{ $json.statusCode }}"}}
+    }
+  ],
+  "connections": {
+    "Chat webhook": {"main": [[{"node": "Ask FastAPI", "type": "main", "index": 0}]]},
+    "Ask FastAPI": {"main": [[{"node": "Return structured answer", "type": "main", "index": 0}]]}
+  },
+  "settings": {
+    "executionOrder": "v1", "saveExecutionProgress": false,
+    "saveDataErrorExecution": "none", "saveDataSuccessExecution": "none", "saveManualExecutions": false
+  },
+  "pinData": {}, "tags": []
+}

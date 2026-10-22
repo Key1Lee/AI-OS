@@ -1,0 +1,27 @@
+[project]
+name = "peopleops-ai"
+version = "0.1.0"
+description = "A fictional, local PeopleOps engineering and interview lab"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "httpx>=0.28,<1",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "dbt-core>=1.10,<1.11", "dbt-sqlite>=1.10,<1.11"]
+
+[project.scripts]
+peopleops = "peopleops.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["peopleops"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

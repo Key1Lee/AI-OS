@@ -1,0 +1,427 @@
+{
+  "id": "samsaraSurvey5000",
+  "name": "Samsara SYNTHETIC 5,000 employees \u2192 department visualization",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Run synthetic survey",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "webhook",
+      "name": "Test application webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1080,
+        220
+      ],
+      "webhookId": "samsara-survey-5000",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "samsara-survey-5000",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "start-mock-qualtrics-export",
+      "name": "Start mock Qualtrics export",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -840,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/mock-qualtrics/exports",
+        "options": {
+          "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-TOKEN",
+              "value": "FAKE-QUALTRICS-LOCAL-ONLY-NOT-A-REAL-TOKEN"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"dataset\":\"employees5000\"}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "check-export-ready",
+      "name": "Check export ready",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -600,
+        80
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'http://survey-analytics:8812/mock-qualtrics/exports/' + $json.export_id }}",
+        "options": {
+          "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-TOKEN",
+              "value": "FAKE-QUALTRICS-LOCAL-ONLY-NOT-A-REAL-TOKEN"
+            }
+          ]
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "download-synthetic-responses",
+      "name": "Download synthetic responses",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        80
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'http://survey-analytics:8812/mock-qualtrics/exports/' + $json.export_id + '/file' }}",
+        "options": {
+          "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-TOKEN",
+              "value": "FAKE-QUALTRICS-LOCAL-ONLY-NOT-A-REAL-TOKEN"
+            }
+          ]
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "bronze---preserve-raw-export",
+      "name": "BRONZE - preserve raw export",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/layers/bronze",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "silver---validate-and-deduplicate",
+      "name": "SILVER - validate and deduplicate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        120,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/layers/silver",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({batch_id: $json.batch_id}) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "gold---publish-survey-metrics",
+      "name": "GOLD - publish survey metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/layers/gold",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({batch_id: $json.batch_id}) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "id": "respond",
+      "name": "Return metrics to test application",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        840,
+        80
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "source-note",
+      "name": "source-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1110,
+        -310
+      ],
+      "parameters": {
+        "content": "## 1 \u00b7 SYNTHETIC SAMSARA COHORT\n5,000 UNIQUE fictional employees \u00b7 10 illustrative departments.\nFake local Qualtrics account and token. All responses are synthetic.\nStart export \u2192 check ready \u2192 download all 5,000 rows.\nSkipped questions retain nulls. No live Samsara data or staffing claim.",
+        "width": 720,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "bronze-note",
+      "name": "bronze-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -150,
+        -310
+      ],
+      "parameters": {
+        "content": "## 2 \u00b7 BRONZE\n5,000 responses, 5,000 unique employee IDs.\nExact source export + immutable content hashes.\nIndependent batch from the 15-row test fixture.\nReplay adds no duplicate rows.",
+        "width": 260,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "silver-note",
+      "name": "silver-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        -310
+      ],
+      "parameters": {
+        "content": "## 3 \u00b7 SILVER\nValidate scores, timestamps and departments.\n5,000 accepted complete responses.\nMissing individual questions excluded per metric.\nDistinct response grain, no employee-level rankings.",
+        "width": 260,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "gold-note",
+      "name": "gold-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        390,
+        -310
+      ],
+      "parameters": {
+        "content": "## 4 \u00b7 GOLD \u2192 VISUALIZATION\nCompany + ten department aggregates.\nExperience 0\u2013100 \u00b7 CSAT favorable % \u00b7 eNPS \u2212100 to +100.\nQuestion-specific denominators; no invented answers.\nBuild portable HTML + CSV from committed Gold.\nOpen http://127.0.0.1:8812/dashboard",
+        "width": 500,
+        "height": 230,
+        "color": 4
+      }
+    },
+    {
+      "id": "inspect-note",
+      "name": "inspect-note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -150,
+        340
+      ],
+      "parameters": {
+        "content": "## INSPECT THIS WORKFLOW\nPOST /webhook/samsara-survey-5000 triggers source \u2192 Bronze \u2192 Silver \u2192 Gold \u2192 visualization.\nDashboard: http://127.0.0.1:8812/dashboard \u00b7 Gold API: /analytics\nAll 5,000 people and the department mix are fictional. No external account or employee data.\nAn identical rerun reuses the committed batch. Downloads contain aggregates only.",
+        "width": 1040,
+        "height": 190,
+        "color": 4
+      }
+    },
+    {
+      "id": "build-department-visualization",
+      "name": "Build department visualization",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        600,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://survey-analytics:8812/analytics/publish",
+        "options": {
+          "timeout": 10000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({batch_id: $json.batch_id}) }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    }
+  ],
+  "connections": {
+    "Run synthetic survey": {
+      "main": [
+        [
+          {
+            "node": "Start mock Qualtrics export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test application webhook": {
+      "main": [
+        [
+          {
+            "node": "Start mock Qualtrics export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start mock Qualtrics export": {
+      "main": [
+        [
+          {
+            "node": "Check export ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check export ready": {
+      "main": [
+        [
+          {
+            "node": "Download synthetic responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download synthetic responses": {
+      "main": [
+        [
+          {
+            "node": "BRONZE - preserve raw export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BRONZE - preserve raw export": {
+      "main": [
+        [
+          {
+            "node": "SILVER - validate and deduplicate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SILVER - validate and deduplicate": {
+      "main": [
+        [
+          {
+            "node": "GOLD - publish survey metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GOLD - publish survey metrics": {
+      "main": [
+        [
+          {
+            "node": "Build department visualization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build department visualization": {
+      "main": [
+        [
+          {
+            "node": "Return metrics to test application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "executionTimeout": 120,
+    "saveExecutionProgress": false,
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true,
+    "timeSavedMode": "fixed",
+    "timeSavedPerExecution": 10,
+    "availableInMCP": true,
+    "errorWorkflow": "qualtricsGoldError01"
+  },
+  "pinData": {},
+  "tags": []
+}

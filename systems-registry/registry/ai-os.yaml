@@ -24,6 +24,7 @@ public_interfaces:
 depends_on: []
 consumed_by:
 - toptal-testing-system
+- peopleops-ai
 contracts: []
 state_owned:
 - shared Skill context/source routes

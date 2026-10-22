@@ -1,0 +1,304 @@
+{
+  "selection": {
+    "kind": "problem",
+    "problem_id": "SQL-CTE-001",
+    "reason": "Build coverage at an appropriate difficulty; prefer less-tested concepts.",
+    "target_level": "L2"
+  },
+  "url": "http://127.0.0.1:8089/learn?session=16372204-29e7-4331-879f-16d58e911c95",
+  "session": {
+    "run_id": "16372204-29e7-4331-879f-16d58e911c95",
+    "problem_id": "SQL-CTE-001",
+    "scenario_id": "SQL-CTE-001",
+    "mode": "LEARN",
+    "created_at": "2026-10-15T09:22:37.389603+00:00",
+    "state": "READY",
+    "learning_step": 0,
+    "hints": [],
+    "revealed": false,
+    "recall": false,
+    "problem": {
+      "problem_id": "SQL-CTE-001",
+      "domain": "saas",
+      "business_context": "SaaS needs account recurring commitment for its operational reporting consumer.",
+      "tables": [
+        {
+          "name": "accounts",
+          "entity": "account",
+          "grain": "one row per account_id",
+          "columns": {
+            "account_id": "text",
+            "name": "text",
+            "started_at": "timestamptz"
+          },
+          "primary_key": [
+            "account_id"
+          ],
+          "natural_key": [
+            "account_id"
+          ],
+          "pattern": "dimension",
+          "foreign_keys": [],
+          "event_time": "started_at",
+          "processing_time": null,
+          "effective_dates": [],
+          "aggregation": "Non-additive attributes; count distinct entities.",
+          "parents": [],
+          "uniqueness": "Primary key unique/non-null; natural key unique at declared grain.",
+          "key_kind": "natural",
+          "valid_join_paths": [],
+          "expected_output_grain": "one row per account_id"
+        },
+        {
+          "name": "subscriptions",
+          "entity": "subscription",
+          "grain": "one row per subscription_id",
+          "columns": {
+            "subscription_id": "text",
+            "account_id": "text",
+            "plan_id": "text",
+            "started_at": "timestamptz"
+          },
+          "primary_key": [
+            "subscription_id"
+          ],
+          "natural_key": [
+            "subscription_id"
+          ],
+          "pattern": "factless_fact",
+          "foreign_keys": [
+            {
+              "columns": [
+                "account_id"
+              ],
+              "table": "accounts",
+              "target": [
+                "account_id"
+              ],
+              "cardinality": "N:1",
+              "temporal": false
+            },
+            {
+              "columns": [
+                "plan_id"
+              ],
+              "table": "plans",
+              "target": [
+                "plan_id"
+              ],
+              "cardinality": "N:1",
+              "temporal": false
+            }
+          ],
+          "event_time": "started_at",
+          "processing_time": null,
+          "effective_dates": [],
+          "aggregation": "Non-additive attributes; count distinct entities.",
+          "parents": [],
+          "uniqueness": "Primary key unique/non-null; natural key unique at declared grain.",
+          "key_kind": "natural",
+          "valid_join_paths": [
+            "subscriptions.account_id \u2192 accounts.account_id (N:1)",
+            "subscriptions.plan_id \u2192 plans.plan_id (N:1)"
+          ],
+          "expected_output_grain": "one row per subscription_id"
+        },
+        {
+          "name": "subscription_versions",
+          "entity": "subscription effective version",
+          "grain": "one row per version_id",
+          "columns": {
+            "version_id": "text",
+            "subscription_id": "text",
+            "monthly_cents": "bigint",
+            "status": "text",
+            "valid_from": "timestamptz",
+            "valid_to": "timestamptz"
+          },
+          "primary_key": [
+            "version_id"
+          ],
+          "natural_key": [
+            "subscription_id",
+            "valid_from"
+          ],
+          "pattern": "scd2",
+          "foreign_keys": [
+            {
+              "columns": [
+                "subscription_id"
+              ],
+              "table": "subscriptions",
+              "target": [
+                "subscription_id"
+              ],
+              "cardinality": "N:1",
+              "temporal": false
+            }
+          ],
+          "event_time": null,
+          "processing_time": null,
+          "effective_dates": [
+            "valid_from",
+            "valid_to"
+          ],
+          "aggregation": "Additive across entities at one instant; never sum the same entity across snapshot dates.",
+          "parents": [],
+          "uniqueness": "Primary key unique/non-null; natural key unique at declared grain.",
+          "key_kind": "surrogate/version key; natural key has different semantics",
+          "valid_join_paths": [
+            "subscription_versions.subscription_id \u2192 subscriptions.subscription_id (N:1)"
+          ],
+          "expected_output_grain": "one row per version_id"
+        }
+      ],
+      "sample_rows": {
+        "accounts": [
+          {
+            "account_id": "A1",
+            "name": "Acme",
+            "started_at": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "account_id": "A2",
+            "name": "Beta",
+            "started_at": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "account_id": "A3",
+            "name": "Quiet",
+            "started_at": "2026-10-01T00:00:00+00:00"
+          }
+        ],
+        "subscriptions": [
+          {
+            "subscription_id": "S1",
+            "account_id": "A1",
+            "plan_id": "P1",
+            "started_at": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "subscription_id": "S2",
+            "account_id": "A1",
+            "plan_id": "P2",
+            "started_at": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "subscription_id": "S3",
+            "account_id": "A2",
+            "plan_id": "P1",
+            "started_at": "2026-10-01T00:00:00+00:00"
+          }
+        ],
+        "subscription_versions": [
+          {
+            "version_id": "V1",
+            "subscription_id": "S1",
+            "monthly_cents": 1000,
+            "status": "active",
+            "valid_from": "2026-10-01T00:00:00+00:00",
+            "valid_to": "2026-10-03T00:00:00+00:00"
+          },
+          {
+            "version_id": "V2",
+            "subscription_id": "S1",
+            "monthly_cents": 1500,
+            "status": "active",
+            "valid_from": "2026-10-03T00:00:00+00:00",
+            "valid_to": null
+          },
+          {
+            "version_id": "V3",
+            "subscription_id": "S2",
+            "monthly_cents": 2000,
+            "status": "active",
+            "valid_from": "2026-10-01T00:00:00+00:00",
+            "valid_to": null
+          },
+          {
+            "version_id": "V4",
+            "subscription_id": "S3",
+            "monthly_cents": 1000,
+            "status": "active",
+            "valid_from": "2026-10-01T00:00:00+00:00",
+            "valid_to": "2026-10-03T00:00:00+00:00"
+          },
+          {
+            "version_id": "V5",
+            "subscription_id": "S3",
+            "monthly_cents": 1000,
+            "status": "active",
+            "valid_from": "2026-10-03T00:00:00+00:00",
+            "valid_to": null
+          }
+        ]
+      },
+      "requirements": [
+        "Include every account at 2026-10-03 00:00 UTC. Match subscription versions valid_from <= instant < valid_to (NULL infinity), sum active monthly_cents. Missing active subscriptions => zero. MRR snapshots must not be summed across time.",
+        "Return exactly these columns: account_id, mrr_cents."
+      ],
+      "expected_output_grain": "one row per account_id",
+      "learner_prompt": {
+        "prediction": "What should one row of your final result represent, and how would you approach the problem?",
+        "requirements": [
+          "What does one input row represent?",
+          "What should one output row represent?",
+          "For each listed join: left table grain, right table grain, relationship (1:1 / 1:M / M:1 / M:M), expected output grain."
+        ],
+        "proposal": "Explain your plan in 2\u20134 sentences before writing SQL.",
+        "answer_fields": [
+          "sql",
+          "inputs",
+          "output_key",
+          "requirements",
+          "proposal"
+        ]
+      },
+      "title": "SaaS: Account recurring commitment",
+      "difficulty": {
+        "level": "L2"
+      },
+      "skills_tested": [
+        "sql.ctes.decomposition",
+        "sql.dates.as_of",
+        "sql.grain.semi_additive",
+        "sql.ctes.scope",
+        "sql.grain.output_keys"
+      ],
+      "artifacts": {
+        "diagram": "flowchart TD\n source[Source rows] --> query[Candidate query]\n query --> quality[Quality checks]\n quality --> consumer[Business consumer]",
+        "dialect": "PostgreSQL 17",
+        "response_type": "sql",
+        "join_pairs": [
+          "accounts:subscriptions",
+          "subscriptions:subscription_versions"
+        ],
+        "window_reasoning": false,
+        "duplicate_reasoning": false,
+        "manual_criteria": [
+          "business_interpretation",
+          "query_clarity",
+          "performance_awareness"
+        ]
+      }
+    },
+    "prepared": {},
+    "attempt_count": 0,
+    "loop": [
+      "SEE",
+      "PREDICT",
+      "REQUIREMENTS",
+      "PROPOSE",
+      "RUN",
+      "OBSERVE",
+      "DIAGNOSE",
+      "FIX",
+      "VERIFY",
+      "RECALL",
+      "CONNECT"
+    ],
+    "hint_limit": 4,
+    "assessment_scope": "Objective SQL/model results are checked. Causal prose and architecture judgment require tutor review; no percentage mastery."
+  },
+  "question": "What should one row of your final result represent, and how would you approach the problem?"
+}

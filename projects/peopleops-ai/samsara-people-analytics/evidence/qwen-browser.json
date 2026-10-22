@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-10-21T16:34:33.984Z",
+  "question": "What was Engineering's Survey Score",
+  "answer": "Samsara Survey — Synthetic Data\nEngineering & Product · 2024, 2025, 2026\n\n• Engineering & Product, 2024: 60.19/100 engagement score; 1,523 valid responses.\n\n• Engineering & Product, 2025: 66.55/100 engagement score; 1,552 valid responses.\n\n• Engineering & Product, 2026 YTD: 71.82/100 engagement score; 1,503 valid responses.\n\n• The custom Demo Company Engagement Score is a fictional metric, not an official Samsara metric. [engagement_score_definition.md]\n2026 is YTD through October 21; no causal or significance claim is implied.\n\nData Validation: PASS · independent Python reference agrees with TypeScript.",
+  "mode": "Local Qwen · n8n #93",
+  "model": "Verified answerQwen3-4B-Q4_K_M · grounded in verified data",
+  "annualTable": "Year\tEngagement\tValid\nrespondents\tEligible\nemployees\tResponse\nrate\tYoY\nchange\tStatus\n2024\t60.19\t1,523\t2,000\t76.15%\t—\t✓ PASS\n2025\t66.55\t1,552\t2,000\t77.60%\t+6.36 pts\t✓ PASS\n2026YTD\t71.82\t1,503\t2,000\t75.15%\t+5.27 pts\t✓ PASS",
+  "consoleErrors": [],
+  "screenshot": "evidence/qwen-assistant.jpg"
+}

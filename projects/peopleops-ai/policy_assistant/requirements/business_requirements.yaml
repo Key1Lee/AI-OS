@@ -1,0 +1,431 @@
+approval: All business decisions are mock proposals
+requirements:
+- id: HR-001
+  approval_status: proposed_mock_requirement
+  objective: Authenticate every assistant request
+  stakeholder: Security
+  user_story: As a fictional employee, I need to authenticate every assistant request
+    so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Identity map and bearer authentication
+  authorized_sources:
+  - Identity map and bearer authentication
+  implementation:
+  - app/auth.py
+  - app/identity.py
+  acceptance_criteria:
+  - AC-001
+  positive_scenario: Authenticate every assistant request
+  negative_scenario: No downstream call after failed authentication
+  tests:
+  - test_authentication
+  evaluation_dataset: routing
+  metrics:
+  - authentication_success
+  proposed_release_gate: No downstream call after failed authentication
+- id: HR-002
+  approval_status: proposed_mock_requirement
+  objective: Return exact authorized synthetic PTO
+  stakeholder: HR Operations
+  user_story: As a fictional employee, I need to return exact authorized synthetic
+    pto so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Mock Workday PTO records
+  authorized_sources:
+  - Mock Workday PTO records
+  implementation:
+  - app/workday_client.py
+  - app/orchestrator.py
+  - app/enterprise_data.py
+  acceptance_criteria:
+  - AC-002
+  - AC-LAB-005
+  positive_scenario: Return exact authorized synthetic PTO
+  negative_scenario: All authorized fixture balances exact; cross-user access denied
+  tests:
+  - test_self_pto
+  - test_pto_comes_from_sqlite_and_unchanged_seed_preserves_edits
+  evaluation_dataset: grounding
+  metrics:
+  - pto_exactness
+  - database_source_correctness
+  proposed_release_gate: All authorized fixture balances exact; cross-user access
+    denied
+- id: HR-003
+  approval_status: proposed_mock_requirement
+  objective: Answer approved policy questions
+  stakeholder: HR Policy Owner
+  user_story: As a fictional employee, I need to answer approved policy questions
+    so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Governed mock document registry
+  authorized_sources:
+  - Governed mock document registry
+  implementation:
+  - app/rag_search.py
+  - app/response_builder.py
+  acceptance_criteria:
+  - AC-003
+  positive_scenario: Answer approved policy questions
+  negative_scenario: Recall@5 >= 0.95 on labeled applicable policies
+  tests:
+  - test_policy_answer
+  evaluation_dataset: retrieval
+  metrics:
+  - recall_at_5
+  proposed_release_gate: Recall@5 >= 0.95 on labeled applicable policies
+- id: HR-004
+  approval_status: proposed_mock_requirement
+  objective: Enforce document and resource permissions
+  stakeholder: Security
+  user_story: As a fictional employee, I need to enforce document and resource permissions
+    so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Server-owned roles, groups, country and explicit scopes
+  authorized_sources:
+  - Server-owned roles, groups, country and explicit scopes
+  implementation:
+  - app/permissions.py
+  - app/rag_search.py
+  - app/main.py
+  - app/identity.py
+  acceptance_criteria:
+  - AC-004
+  - AC-LAB-008
+  positive_scenario: Enforce document and resource permissions
+  negative_scenario: Zero observed unauthorized source or record exposures
+  tests:
+  - test_access_boundaries
+  - test_receipt_cannot_restore_revoked_delegation
+  evaluation_dataset: security
+  metrics:
+  - unauthorized_exposure
+  - receipt_authority_binding
+  proposed_release_gate: Zero observed unauthorized source or record exposures
+- id: HR-005
+  approval_status: proposed_mock_requirement
+  objective: Select the correct workflow and source
+  stakeholder: HR Service Desk
+  user_story: As a fictional employee, I need to select the correct workflow and source
+    so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Deterministic routing rules
+  authorized_sources:
+  - Deterministic routing rules
+  implementation:
+  - app/intent_router.py
+  - app/orchestrator.py
+  - app/rules.py
+  - config/routing_rules.yaml
+  acceptance_criteria:
+  - AC-005
+  - AC-LAB-002
+  positive_scenario: Select the correct workflow and source
+  negative_scenario: Routing accuracy >= 0.98 on independent labeled cases
+  tests:
+  - test_intent_routing
+  - test_yaml_routing_is_executable
+  evaluation_dataset: routing
+  metrics:
+  - routing_accuracy
+  - configured_routing_accuracy
+  proposed_release_gate: Routing accuracy >= 0.98 on independent labeled cases
+- id: HR-006
+  approval_status: proposed_mock_requirement
+  objective: Return checkable evidence
+  stakeholder: HR Policy Owner
+  user_story: As a fictional employee, I need to return checkable evidence so HR support
+    is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Immutable source versions and exact quotes
+  authorized_sources:
+  - Immutable source versions and exact quotes
+  implementation:
+  - app/response_builder.py
+  acceptance_criteria:
+  - AC-006
+  positive_scenario: Return checkable evidence
+  negative_scenario: All citations resolve to current authorized source text
+  tests:
+  - test_exact_citations
+  evaluation_dataset: grounding
+  metrics:
+  - citation_validity
+  proposed_release_gate: All citations resolve to current authorized source text
+- id: HR-007
+  approval_status: proposed_mock_requirement
+  objective: Handle ambiguity, gaps and outages safely
+  stakeholder: HR Service Desk
+  user_story: As a fictional employee, I need to handle ambiguity, gaps and outages
+    safely so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Typed statuses and bounded error responses
+  authorized_sources:
+  - Typed statuses and bounded error responses
+  implementation:
+  - app/orchestrator.py
+  - app/response_builder.py
+  - app/main.py
+  - app/workday_client.py
+  acceptance_criteria:
+  - AC-007
+  - AC-LAB-004
+  positive_scenario: Handle ambiguity, gaps and outages safely
+  negative_scenario: All unsupported, ambiguous and injected fault cases match expected
+    status
+  tests:
+  - test_safe_failures
+  - test_request_scoped_failures_are_real_and_isolated
+  evaluation_dataset: grounding
+  metrics:
+  - appropriate_abstention
+  - fault_isolation
+  proposed_release_gate: All unsupported, ambiguous and injected fault cases match
+    expected status
+- id: HR-008
+  approval_status: proposed_mock_requirement
+  objective: Govern the permissible document inventory
+  stakeholder: HR Policy Owner
+  user_story: As a fictional policy administrator, I need to govern the permissible
+    document inventory so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Independent approval metadata and content digests
+  authorized_sources:
+  - Independent approval metadata and content digests
+  implementation:
+  - ingestion/validate_documents.py
+  - ingestion/classify_documents.py
+  acceptance_criteria:
+  - AC-008
+  positive_scenario: Govern the permissible document inventory
+  negative_scenario: No altered, unapproved, revoked or malicious source indexed as
+    usable
+  tests:
+  - test_registry_governance
+  evaluation_dataset: security
+  metrics:
+  - unapproved_exposure
+  proposed_release_gate: No altered, unapproved, revoked or malicious source indexed
+    as usable
+- id: HR-009
+  approval_status: proposed_mock_requirement
+  objective: Record useful redacted operations evidence
+  stakeholder: Operations
+  user_story: As a fictional operator, I need to record useful redacted operations
+    evidence so HR support is verifiable and controlled.
+  classification: nonfunctional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Allowlisted JSON audit fields and aggregate metrics
+  authorized_sources:
+  - Allowlisted JSON audit fields and aggregate metrics
+  implementation:
+  - app/audit.py
+  - app/diagnostics.py
+  - app/orchestrator.py
+  - app/main.py
+  acceptance_criteria:
+  - AC-009
+  - AC-LAB-001
+  positive_scenario: Record useful redacted operations evidence
+  negative_scenario: Zero fixture secrets or employee identifiers in observed logs/errors
+  tests:
+  - test_redacted_audit
+  - test_inspectors_describe_real_authorized_work
+  evaluation_dataset: security
+  metrics:
+  - sensitive_leakage
+  - redacted_measured_trace
+  proposed_release_gate: Zero fixture secrets or employee identifiers in observed
+    logs/errors
+- id: HR-010
+  approval_status: proposed_mock_requirement
+  objective: Measure bounded local reliability and latency
+  stakeholder: Operations
+  user_story: As a fictional operator, I need to measure bounded local reliability
+    and latency so HR support is verifiable and controlled.
+  classification: nonfunctional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Local machine and bounded read retries
+  authorized_sources:
+  - Local machine and bounded read retries
+  implementation:
+  - app/workday_client.py
+  - evals/run_evaluations.py
+  - app/test_runner.py
+  - tests/performance/test_testing_performance.py
+  acceptance_criteria:
+  - AC-010
+  - AC-LAB-007
+  positive_scenario: Measure bounded local reliability and latency
+  negative_scenario: Local mock p95 < 750 ms; production SLO remains proposed
+  tests:
+  - test_retry_bounds
+  - test_job_lifecycle_serialization_and_tenant_scope
+  evaluation_dataset: reliability
+  metrics:
+  - local_mock_p95_ms
+  - job_reliability
+  proposed_release_gate: Local mock p95 < 750 ms; production SLO remains proposed
+- id: HR-011
+  approval_status: proposed_mock_requirement
+  objective: Enforce source freshness and policy lifecycle
+  stakeholder: HR Policy Owner
+  user_story: As a fictional employee, I need to enforce source freshness and policy
+    lifecycle so HR support is verifiable and controlled.
+  classification: functional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Versioned inventory, effective dates and source timestamps
+  authorized_sources:
+  - Versioned inventory, effective dates and source timestamps
+  implementation:
+  - ingestion/index_documents.py
+  - app/rag_search.py
+  - app/workday_client.py
+  acceptance_criteria:
+  - AC-011
+  positive_scenario: Enforce source freshness and policy lifecycle
+  negative_scenario: Zero obsolete, expired, future or stale source answers
+  tests:
+  - test_current_versions
+  evaluation_dataset: retrieval
+  metrics:
+  - outdated_exposure
+  proposed_release_gate: Zero obsolete, expired, future or stale source answers
+- id: HR-012
+  approval_status: proposed_mock_requirement
+  objective: Reproduce functional and AI evaluation evidence
+  stakeholder: Engineering
+  user_story: As a fictional developer, I need to reproduce functional and ai evaluation
+    evidence so HR support is verifiable and controlled.
+  classification: nonfunctional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - pytest, independent JSONL labels and gated CI
+  authorized_sources:
+  - pytest, independent JSONL labels and gated CI
+  implementation:
+  - evals/run_evaluations.py
+  - .github/workflows/ci.yaml
+  - app/test_runner.py
+  - app/lab_worker.py
+  - app/enterprise_static/app.js
+  acceptance_criteria:
+  - AC-012
+  - AC-LAB-003
+  positive_scenario: Reproduce functional and AI evaluation evidence
+  negative_scenario: All critical tests and deterministic evaluation gates pass
+  tests:
+  - test_evaluation_contract
+  - test_dashboard_job_runs_real_pytest_process
+  evaluation_dataset: all
+  metrics:
+  - required_gates
+  - backend_test_execution
+  proposed_release_gate: All critical tests and deterministic evaluation gates pass
+- id: HR-013
+  approval_status: proposed_mock_requirement
+  objective: Ingest bounded batches idempotently
+  stakeholder: Engineering
+  user_story: As a fictional policy administrator, I need to ingest bounded batches
+    idempotently so HR support is verifiable and controlled.
+  classification: nonfunctional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - SQLite transactions and immutable document version keys
+  authorized_sources:
+  - SQLite transactions and immutable document version keys
+  implementation:
+  - ingestion/run_pipeline.py
+  - ingestion/index_documents.py
+  acceptance_criteria:
+  - AC-013
+  positive_scenario: Ingest bounded batches idempotently
+  negative_scenario: Reprocessing creates no duplicate active versions; changes require
+    new approvals
+  tests:
+  - test_idempotent_pipeline
+  evaluation_dataset: retrieval
+  metrics:
+  - duplicate_active_records
+  proposed_release_gate: Reprocessing creates no duplicate active versions; changes
+    require new approvals
+- id: HR-014
+  approval_status: proposed_mock_requirement
+  objective: Add workflows behind clear adapter contracts
+  stakeholder: Engineering
+  user_story: As a fictional developer, I need to add workflows behind clear adapter
+    contracts so HR support is verifiable and controlled.
+  classification: nonfunctional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Injected Workday, identity and retriever interfaces
+  authorized_sources:
+  - Injected Workday, identity and retriever interfaces
+  implementation:
+  - app/workday_client.py
+  - app/orchestrator.py
+  - app/models.py
+  acceptance_criteria:
+  - AC-014
+  positive_scenario: Add workflows behind clear adapter contracts
+  negative_scenario: The three core workflows use the expected injected source or
+    no source
+  tests:
+  - test_injected_adapters
+  evaluation_dataset: routing
+  metrics:
+  - workflow_source_correctness
+  proposed_release_gate: The three core workflows use the expected injected source
+    or no source
+- id: HR-015
+  approval_status: proposed_mock_requirement
+  objective: Resist prompt injection and data leakage
+  stakeholder: Security
+  user_story: As a fictional employee, I need to resist prompt injection and data
+    leakage so HR support is verifiable and controlled.
+  classification: nonfunctional
+  assumptions_and_dependencies:
+  - Synthetic fixtures only; no stakeholder approval inferred
+  - Hard authorization and untrusted evidence treatment
+  authorized_sources:
+  - Hard authorization and untrusted evidence treatment
+  implementation:
+  - app/permissions.py
+  - app/orchestrator.py
+  - ingestion/classify_documents.py
+  - app/main.py
+  - app/test_runner.py
+  - config/security_policies.yaml
+  acceptance_criteria:
+  - AC-015
+  - AC-LAB-006
+  positive_scenario: Resist prompt injection and data leakage
+  negative_scenario: All curated adversarial cases pass; no absolute-security claim
+  tests:
+  - test_adversarial_boundaries
+  - test_test_runner_requires_explicit_permission_and_fixed_inputs
+  evaluation_dataset: security
+  metrics:
+  - critical_security_pass_rate
+  - authorized_fixed_test_commands
+  proposed_release_gate: All curated adversarial cases pass; no absolute-security
+    claim

@@ -1,0 +1,53 @@
+'use strict';
+// Renderer within the existing learning page. State and actions belong to LearningEngine.
+function reasoningQuestions(){
+ const ledger=(session.clarifications||[]).map(q=>`<article class="inquiry"><p><b>You</b> · ${esc(q.question)}</p>${q.status==='ANSWERED'?`<p><span class="pill">${esc(q.category.replaceAll('_',' '))}</span> ${esc(q.response)}</p><p class="contract">${esc(q.rationale)}</p>`:'<p class="contract">Saved for tutor assessment. Continue with clearly labeled assumptions if the decision can wait.</p>'}</article>`).join('');
+ return `<section class="panel"><p class="eyebrow">STAKEHOLDER CONVERSATION</p><h3>Ask before assuming.</h3>${ledger||'<p class="muted">Your questions will appear here.</p>'}${session.state!=='COMPLETED'?`<form id="ask-form">${field('question','Your next clarification question','Ask one focused question and explain what it changes.')}${submit('Ask the stakeholder')}</form>`:''}<button id="refresh-reasoning">Refresh tutor responses</button></section>`;
+}
+function reasoningEvidence(){
+ const e=session.reasoning_evidence;if(!e)return '';
+ return `<details class="panel" open><summary>Evidence from your ${esc(e.variant)} attempt · ${e.passed}/${e.total} facts match</summary><p class="contract">${esc(e.scope)}</p>${table(e.checks.map(c=>({question:c.prompt,your_answer:Array.isArray(c.actual)?c.actual.join(', '):c.actual,source_result:Array.isArray(c.expected)?c.expected.join(', '):c.expected,check:c.passed?'matches':'revisit'})))}${e.join_trace?`<h3>Trace the joined rows</h3><p class="contract">${esc(e.join_trace.note)}</p>${table(e.join_trace.rows)}`:''}<details><summary>Source tables used in this attempt</summary>${Object.entries(e.source_tables).map(([name,rows])=>`<h4>${esc(name)}</h4>${table(rows)}`).join('')}</details></details>`;
+}
+function reasoningJudgment(){
+ const r=session.judgment_review;if(!r)return '';
+ return `<details class="panel"><summary>Tutor assessment · ${esc(r.reviewer)}</summary><p class="contract">0 absent / incorrect · 1 partial · 2 defensible · 3 validated with alternatives. Each dimension requires at least 2.</p>${Object.entries(r.judgment).map(([criterion,j])=>`<article class="inquiry"><h4>${esc(criterion.replaceAll('_',' '))} · ${j.score}/3</h4><blockquote>${esc(j.evidence)}</blockquote><p>${esc(j.rationale)}</p></article>`).join('')}<p>${esc(r.rationale)}</p></details>`;
+}
+function renderReasoning(){
+ const p=session.problem,step=session.learning_step,w=p.artifacts.workbook;
+ const current=session.reasoning_evidence?.variant===session.fixture_variant;
+ if(step===1){for(const [k,v] of Object.entries(session.prepared?.preparation||{}))draft[k]??=v;}
+ if(step===2&&session.submission&&(!session.reasoning_evidence||current)){
+  const a=session.submission;for(const k of ['reason','decision','diagnosis','repair','policy'])draft[k]??=a[k];
+  for(const [k,v] of Object.entries(a.facts||{}))draft['fact_'+k]??=Array.isArray(v)?v.join(', '):v===null?'null':String(v);
+  for(const [k,v] of Object.entries(a.metric_contract||{}))draft['contract_'+k]??=v;
+  (a.assumptions||[]).slice(0,3).forEach((r,i)=>{for(const [k,v] of Object.entries(r))draft['assumption_'+i+'_'+k]??=v;});
+ }
+ let body='';
+ if(step===0)body=`<p>Read the source rows. Start with the business uncertainty that matters most.</p><form id="reason-observe">${field('prediction',p.learner_prompt.prediction,'One question, and why its answer changes your approach.')}${submit('Save my first question')}</form>`;
+ if(step===1)body=`<p>Define a testable result before calculating it.</p><form id="reason-prepare">${field('requirements','Which decision are you supporting? What remains unresolved?')}${field('input_grain','What does each source row represent?')}${field('output_grain','What should one result row represent?')}${field('proposal','Your short analytical plan')}${submit('Save requirements and grain')}</form>`;
+ if(step>=2&&step!==9){
+  if(current||session.mode==='INTERVIEW')body+=feed(session.feedback);
+  if(session.status==='REVIEW_REQUIRED'&&current)body+='<p class="review-note">The source facts match. Your judgment still needs a tutor to assess the saved reasoning and questions. Matching numbers alone earns no application credit.</p>';
+  if(step===2)body+=`<form id="reason-answer"><h3>Test your reasoning against the source</h3><p class="contract">${esc(w.instructions)}</p>${w.candidate_reasoning?`<p>Proposed implementation to assess:</p><pre>${esc(w.candidate_reasoning)}</pre>`:''}<div class="field"><label for="policy">Labeled definition</label><select id="policy" name="policy">${Object.entries(w.policies).map(([id,label])=>`<option value="${esc(id)}" ${draft.policy===id?'selected':''}>${esc(label)}</option>`).join('')}</select></div>${w.checks.map(c=>input('fact_'+c.field,c.prompt,c.type==='keys'?'Column names, separated by commas':c.type==='number'?'Exact value; ratios to 2 decimals; null when unresolved':'Your answer')).join('')}${field('decision','Your recommendation to the stakeholder','Explain the decision, evidence, uncertainty and next action.')}${w.diagnosis_task?field('diagnosis','Why can the proposed implementation fail?')+field('repair','How would you correct and validate it?'):''}<details open><summary>Your metric and result contract</summary>${w.metric_fields.map(f=>field('contract_'+f,f.replaceAll('_',' '),'State the rule, or explain why it does not apply.')).join('')}</details><details open><summary>Assumption ledger</summary><p class="contract">Record at least one assumption or confirmed requirement. Additional rows are optional.</p>${[0,1,2].map(i=>`<div class="assumption-row"><label for="assumption_${i}_claim">Claim ${i+1}</label><input id="assumption_${i}_claim" name="assumption_${i}_claim" value="${esc(draft['assumption_'+i+'_claim']||'')}" ${i===0?'required':''}><label for="assumption_${i}_status">Status</label><select id="assumption_${i}_status" name="assumption_${i}_status">${['confirmed','documented','pending','blocker'].map(s=>`<option ${draft['assumption_'+i+'_status']===s?'selected':''}>${s}</option>`).join('')}</select><label for="assumption_${i}_impact">What changes if this is wrong?</label><input id="assumption_${i}_impact" name="assumption_${i}_impact" value="${esc(draft['assumption_'+i+'_impact']||'')}" ${i===0?'required':''}></div>`).join('')}</details>${field('reason','What makes your result defensible?','Name an independent check and an observation that would challenge the result.')}${submit('Check source facts and save reasoning')}</form><button data-action="revise">Revise requirements / grain</button>`;
+  if(step===3||session.mode==='INTERVIEW'&&session.attempt_count)body+=`<form id="reason-finish">${field('connection',session.followups?.[0]||'What principle transfers to another context?')}${submit(step===3?'Save the connection':'Finish interview question')}</form>`;
+ }
+ if(step===9)body=feed(session.feedback)+'<p>Your evidence is saved. Continue later in a different business context to test transfer.</p><button id="back" class="primary">Choose the next situation →</button>';
+ const controls=`<div class="row">${session.state!=='COMPLETED'&&session.hints.length<session.hint_limit?'<button data-action="hint">Next hint</button>':''}${session.can_probe&&session.mode!=='INTERVIEW'?'<button data-action="probe">Test with new source evidence →</button>':''}${session.attempt_count&&!session.revealed&&(session.mode!=='INTERVIEW'||step===9)?'<button data-action="reveal">Show reasoning · marks assistance</button>':''}</div>`;
+ const labels=['Ask + observe','Define the result','Check + defend','Connect'];
+ el('content').innerHTML=`<div class="steps">${labels.map((x,i)=>`<span class="step ${i===Math.min(step,3)?'active':i<step?'done':''}">${i+1} · ${x}</span>`).join('')}</div><div class="grid reasoning-grid"><div><section class="panel"><p class="eyebrow">${esc(session.mode)} · ${esc(p.difficulty.level)} · ${esc(session.problem_id)} · ${esc(session.fixture_variant)} EVIDENCE</p><h2>${esc(p.title)}</h2><p class="stakeholder">${esc(p.business_context)}</p>${body}${session.hints.map((h,i)=>`<p class="hint"><b>Hint ${i+1}</b> · ${esc(h)}</p>`).join('')}${controls}${session.solution?`<details open><summary>Reviewed reasoning · assisted exposure</summary><p>${esc(session.solution)}</p></details>`:''}<p class="history">${session.attempt_count} saved attempts · Session ${esc(session.run_id.slice(0,8))}<br>${esc(session.assessment_scope)}</p></section>${reasoningEvidence()}${reasoningJudgment()}${step>0?reasoningQuestions():''}</div><aside class="panel"><p class="eyebrow">VISIBLE SOURCE EXTRACT · SYNTHETIC</p><h3>What does one row represent?</h3><p class="contract">Inspect the tables and producer contracts. A small sample alone cannot guarantee uniqueness.</p>${sourceTables(p)}</aside></div>`;
+ el('reason-observe')?.addEventListener('submit',e=>{e.preventDefault();act('predict',{prediction:el('prediction').value});});
+ el('reason-prepare')?.addEventListener('submit',e=>{e.preventDefault();act('prepare',Object.fromEntries(new FormData(e.target)));});
+ el('ask-form')?.addEventListener('submit',e=>{e.preventDefault();act('ask',{question:el('question').value});});
+ el('reason-answer')?.addEventListener('submit',e=>{
+  e.preventDefault();const a=Object.fromEntries(new FormData(e.target));
+  const facts=Object.fromEntries(w.checks.map(c=>{let v=a['fact_'+c.field];if(c.type==='keys')v=v.split(',').map(x=>x.trim()).filter(Boolean);else if(c.type==='number'&&v.trim().toLowerCase()==='null')v=null;return [c.field,v];}));
+  const assumptions=[0,1,2].filter(i=>a['assumption_'+i+'_claim'].trim()).map(i=>Object.fromEntries(['claim','status','impact'].map(k=>[k,a['assumption_'+i+'_'+k]])));
+  act('submit',{facts,policy:a.policy,decision:a.decision,reason:a.reason,diagnosis:a.diagnosis,repair:a.repair,metric_contract:Object.fromEntries(w.metric_fields.map(k=>[k,a['contract_'+k]])),assumptions});
+ });
+ el('reason-finish')?.addEventListener('submit',e=>{e.preventDefault();act('finish',{connection:el('connection').value});});
+ el('refresh-reasoning')?.addEventListener('click',async()=>{try{session=await api('/api/learning/sessions/'+session.run_id);render();}catch(e){notice(e.message);}});
+ el('back')?.addEventListener('click',()=>library().catch(e=>notice(e.message)));
+ document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>act(b.dataset.action,b.dataset.action==='reveal'?{explicit_request:true}:{}));
+ document.querySelectorAll('form input,form textarea,form select').forEach(n=>n.addEventListener('input',()=>draft[n.name]=n.value));
+ if(busy)document.querySelectorAll('button,input,textarea,select').forEach(n=>n.disabled=true);
+}

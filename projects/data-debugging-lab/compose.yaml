@@ -1,0 +1,37 @@
+name: data-debugging-lab
+services:
+  mysql:
+    image: mysql:8.2@sha256:212fe73edca5df6ff14826d5eb975c914bfb91f82a2e923f9050568f99525da1
+    platform: linux/arm64/v8
+    environment:
+      MYSQL_ROOT_PASSWORD: debezium-rocks
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpw
+      MYSQL_INITDB_SKIP_TZINFO: "1"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./source/debezium/debezium-connector-mysql/src/test/docker/server/my.cnf:/etc/mysql/conf.d/debezium.cnf:ro
+      - ./source/debezium/debezium-connector-mysql/src/test/docker/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_ROOT_PASSWORD" mysql --protocol=tcp -h 127.0.0.1 -uroot -Nse "SELECT 1"']
+      interval: 3s
+      timeout: 3s
+      retries: 40
+      start_period: 20s
+    mem_limit: 1g
+  runner:
+    image: maven:3.9.11-eclipse-temurin-21@sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237
+    platform: linux/arm64/v8
+    working_dir: /workspace/source/debezium
+    entrypoint: ["/bin/bash"]
+    environment:
+      MAVEN_OPTS: -Xmx1400m -XX:ActiveProcessorCount=3
+      JAVA_TOOL_OPTIONS: -XX:ActiveProcessorCount=3
+    volumes:
+      - .:/workspace
+      - maven-cache:/root/.m2
+    mem_limit: 3g
+volumes:
+  mysql-data:
+  maven-cache:

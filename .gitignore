@@ -16,6 +16,11 @@ venv/
 
 # JavaScript dependencies and generated builds
 **/node_modules/
+.pnpm-store/
+.npm/
+*.egg-info/
+.tox/
+.nox/
 dist/
 build/
 coverage/
@@ -36,3 +41,7 @@ test-results/
 !.env.example
 *.pem
 *.key
+*.p12
+*.pfx
+.netrc
+.npmrc.local
